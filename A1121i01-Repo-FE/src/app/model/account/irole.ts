@@ -1,5 +1,5 @@
 export interface IRole {
-  roleId: number;
-  roleName: string;
-  roleFlag: boolean;
+  roleId?: number;
+  roleName?: string;
+  roleFlag?: boolean;
 }

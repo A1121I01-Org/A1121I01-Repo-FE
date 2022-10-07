@@ -1,6 +1,6 @@
 export interface IAccountRole {
-  accountRoleId: number;
-  accountRoleFlag: boolean;
-  accountId: number;
-  roleId: number;
+  accountRoleId?: number;
+  accountRoleFlag?: boolean;
+  accountId?: number;
+  roleId?: number;
 }

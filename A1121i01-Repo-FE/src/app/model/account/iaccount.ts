@@ -1,6 +1,6 @@
 export interface IAccount {
-  accountId: number;
-  username: string;
-  password: string;
-  accountFlag: boolean;
+  accountId?: number;
+  username?: string;
+  password?: string;
+  accountFlag?: boolean;
 }

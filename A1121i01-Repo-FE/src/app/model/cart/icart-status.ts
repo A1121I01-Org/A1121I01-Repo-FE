@@ -1,5 +1,5 @@
 export interface ICartStatus {
-  cartStatusId: number;
-  cartStatusName: string;
-  cartStatusFlag: boolean;
+  cartStatusId?: number;
+  cartStatusName?: string;
+  cartStatusFlag?: boolean;
 }

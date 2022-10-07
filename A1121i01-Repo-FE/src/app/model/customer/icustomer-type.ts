@@ -1,5 +1,5 @@
 export interface ICustomerType {
-  customerTypeId: number;
-  customerTypeName: string;
-  customerTypeFlag: boolean;
+  customerTypeId?: number;
+  customerTypeName?: string;
+  customerTypeFlag?: boolean;
 }

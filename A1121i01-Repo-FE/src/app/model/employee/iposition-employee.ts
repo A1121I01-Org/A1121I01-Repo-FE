@@ -1,5 +1,5 @@
 export interface IPositionEmployee {
-  positionId: number;
-  positionName: string;
-  positionFlag: boolean;
+  positionId?: number;
+  positionName?: string;
+  positionFlag?: boolean;
 }
