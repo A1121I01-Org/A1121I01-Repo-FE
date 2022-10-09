@@ -11,6 +11,9 @@ import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
+import {AngularFireModule} from "@angular/fire";
+import {environment} from "../environments/environment";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -27,7 +30,9 @@ import { ErrorComponent } from './error/error.component';
     CartModule,
     AccountModule,
     SecurityModule,
-    MaterialModule
+    MaterialModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
