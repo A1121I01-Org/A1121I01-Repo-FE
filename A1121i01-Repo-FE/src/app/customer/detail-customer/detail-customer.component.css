@@ -310,6 +310,7 @@ label:hover::before {
 }
 
 a {
+  word-wrap: break-word;
   width: 60%;
   background: linear-gradient(
     to right,
