@@ -8,12 +8,17 @@ import {Observable} from 'rxjs';
 })
 export class EmployeeServiceService {
 
-  readonly API_URL = 'http://localhost:8080/api/employee';
+  readonly API_EMPLOYEE = 'http://localhost:8080/api/employee';
 
   constructor(private http: HttpClient) {
   }
 
   findEmployeeById(id: number): Observable<IEmployee> {
-    return this.http.get<IEmployee>(this.API_URL + '/detail/' + id);
+    return this.http.get<IEmployee>(this.API_EMPLOYEE + '/detail/' + id);
+  }
+
+// AnDVH update employee
+  public updateEmployee(id: number, employee: IEmployee): Observable<void> {
+    return this.http.patch<void>(`${this.API_EMPLOYEE}/update/${id}`, employee);
   }
 }
