@@ -1,1 +1,116 @@
-<p>header works!</p>
+<div className="app-container">
+  <div className="sidebar close">
+    <div className="logo-details">
+      <img src="assets/images/material-infor/logo1.png" className="app-icon">
+      <span className="logo_name">EquipStore</span>
+    </div>
+    <ul className="nav-links">
+      <li>
+        <a href="#">
+          <i className='bx bx-grid-alt'></i>
+          <span className="link_name">Trang chủ</span>
+        </a>
+        <ul className="sub-menu blank">
+          <li><a className="link_name" href="#">Trang chủ</a></li>
+        </ul>
+      </li>
+      <li>
+        <div className="iocn-link">
+          <a>
+            <i [routerLink]="['/material/infor']" class='bx bx-collection'></i>
+            <span class="link_name">Sản phẩm</span>
+          </a>
+          <!--                <i class='bx bxs-chevron-down arrow' ></i>-->
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Sản phẩm</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="#">
+            <i class='bx bx-book-alt'></i>
+            <span class="link_name">Chứng nhận</span>
+          </a>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Chứng nhận</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-line-chart'></i>
+          <span class="link_name">Hoạt động</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Hoạt động</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-building-house'></i>
+          <span class="link_name">Đối tác</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Đối tác</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-phone'></i>
+          <span class="link_name">Liên hệ</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Liên hệ</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="#">
+            <i class='bx bx-plug'></i>
+            <span class="link_name">Hệ thống</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Hệ thống</a></li>
+          <li><a href="#">Tạo tài khoản</a></li>
+          <li><a href="#">Đổi mật khẩu</a></li>
+
+        </ul>
+      </li>
+      <li>
+        <div class="profile-details">
+          <div class="profile-content">
+            <img src="" alt="profileImg">
+          </div>
+          <div class="name-job">
+            <div class="profile_name">A1121i1</div>
+            <div class="job">Web EquipStore</div>
+          </div>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <section class="home-section">
+    <div class="home-content">
+      <i class='bx bx-menu'></i>
+    </div>
+  </section>
+  <script>
+    let arrow = document.querySelectorAll(".arrow");
+    for (var i = 0; i < arrow.length; i++) {
+      arrow[i].addEventListener("click", (e) => {
+        let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+        arrowParent.classList.toggle("showMenu");
+      });
+    }
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".bx-menu");
+    console.log(sidebarBtn);
+    sidebarBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+    });
+  </script>
+</div>

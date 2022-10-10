@@ -10,7 +10,6 @@ import {AccountModule} from './account/account.module';
 import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 import { ErrorComponent } from './error/error.component';
 
 
@@ -18,7 +17,6 @@ import { ErrorComponent } from './error/error.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
     ErrorComponent
   ],
   imports: [
