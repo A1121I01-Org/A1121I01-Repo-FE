@@ -7,13 +7,19 @@ import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ListMaterialComponent } from './list-material/list-material.component';
 import { InforMaterialComponent } from './infor-material/infor-material.component';
+import {HttpClientModule} from "@angular/common/http";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
-  declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
-  imports: [
-    CommonModule,
-    MaterialRoutingModule
-  ]
+    declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
+    exports: [
+        DetailMaterialComponent
+    ],
+    imports: [
+        CommonModule,
+        MaterialRoutingModule,HttpClientModule,
+      RouterModule,
+    ]
 })
 export class MaterialModule { }
