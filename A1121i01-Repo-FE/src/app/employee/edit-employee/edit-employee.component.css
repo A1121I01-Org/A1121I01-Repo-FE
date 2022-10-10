@@ -38,13 +38,15 @@
 }
 
 .fa-paper-plane {
+  width: 125px;
+  height: 125px;
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
   font-size: 26px;
-  padding: 20px;
+  padding: 0.9%;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
