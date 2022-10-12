@@ -16,6 +16,7 @@ import {RouterModule} from '@angular/router';
 import {authInterceptorProviders} from './helpers/auth.interceptor';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {APP_BASE_HREF} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {APP_BASE_HREF} from '@angular/common';
         SecurityModule,
         HttpClientModule,
         MaterialModule,
-        RouterModule
+        RouterModule,
+        ReactiveFormsModule
     ],
     providers: [
         authInterceptorProviders,
