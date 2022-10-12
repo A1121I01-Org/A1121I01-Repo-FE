@@ -11,6 +11,8 @@ import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -27,7 +29,10 @@ import { ErrorComponent } from './error/error.component';
     CartModule,
     AccountModule,
     SecurityModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    FormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
