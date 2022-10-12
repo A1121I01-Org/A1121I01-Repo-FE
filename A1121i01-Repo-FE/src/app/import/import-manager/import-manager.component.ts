@@ -15,9 +15,6 @@ import {IAccount} from '../../model/account/iaccount';
 })
 export class ImportManagerComponent implements OnInit {
   importForm: FormGroup;
-  importForm2: FormGroup;
-  importForm3: FormGroup;
-  checkForm = 1;
   importUpdateForm: FormGroup;
   checkProductForm = 1;
   checkCustomerForm = 1;
@@ -43,14 +40,6 @@ export class ImportManagerComponent implements OnInit {
     importAccountId: {},
     importMaterialId: {}
   };
-  materialCreate: IMaterial = {
-    materialTypeId: {},
-    materialCustomerId: {}
-  };
-  customerCreate: ICustomer = {
-    customerTypeId: {}
-  };
-
 
   totalPageList: number[] = [];
 
@@ -63,7 +52,6 @@ export class ImportManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.onInsertCart();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList();
@@ -76,41 +64,6 @@ export class ImportManagerComponent implements OnInit {
       importAccountId: new FormControl(null, [Validators.required]),
       importMaterialId: new FormControl(null, [Validators.required]),
       materialCustomerId: new FormControl(null, [Validators.required])
-    });
-
-    this.importForm2 = new FormGroup({
-      importCode: new FormControl(null, [Validators.required]),
-      importStartDate: new FormControl(null, [Validators.required]),
-      importQuantity: new FormControl(null, [Validators.required]),
-      importAccountId: new FormControl(null, [Validators.required]),
-      importMaterialId: new FormControl(null, [Validators.required]),
-      materialCode: new FormControl(null, [Validators.required]),
-      materialName: new FormControl(null, [Validators.required]),
-      materialPrice: new FormControl(null, [Validators.required]),
-      materialExpiridate: new FormControl(null, [Validators.required]),
-      materialUnit: new FormControl(null, [Validators.required]),
-      materialTypeId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required])
-    });
-
-    this.importForm3 = new FormGroup({
-      importCode: new FormControl(null, [Validators.required]),
-      importStartDate: new FormControl(null, [Validators.required]),
-      importQuantity: new FormControl(null, [Validators.required]),
-      importAccountId: new FormControl(null, [Validators.required]),
-      importMaterialId: new FormControl(null, [Validators.required]),
-      materialCode: new FormControl(null, [Validators.required]),
-      materialName: new FormControl(null, [Validators.required]),
-      materialPrice: new FormControl(null, [Validators.required]),
-      materialExpiridate: new FormControl(null, [Validators.required]),
-      materialUnit: new FormControl(null, [Validators.required]),
-      materialTypeId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required]),
-      customerName: new FormControl(null, [Validators.required]),
-      customerCode: new FormControl(null, [Validators.required]),
-      customerAddress: new FormControl(null, [Validators.required]),
-      customerPhone: new FormControl(null, [Validators.required]),
-      customerEmail: new FormControl(null, [Validators.required])
     });
 
     this.importUpdateForm = new FormGroup({
@@ -159,78 +112,6 @@ export class ImportManagerComponent implements OnInit {
   showMaterialList(customerId: any) {
     this.customerId = customerId;
     this.getMaterialImportListByCustomerId();
-  }
-
-  // ++++chuyển đổi form và khởi tạo form++++++++++
-  changeProductForm(change: number) {
-    this.checkProductForm = change;
-    if (this.checkProductForm === 1) {
-      this.importForm.reset();
-      this.importForm2.reset();
-      this.importForm3.reset();
-      // this.importForm = new FormGroup({
-      //   importCode: new FormControl(null, [Validators.required]),
-      //   importStartDate: new FormControl(null, [Validators.required]),
-      //   importQuantity: new FormControl(null, [Validators.required]),
-      //   importAccountId: new FormControl(null, [Validators.required]),
-      //   importMaterialId: new FormControl(null, [Validators.required]),
-      //   materialCustomerId: new FormControl(null, [Validators.required])
-      // });
-      this.checkForm = 1;
-      this.checkCustomerForm = 1;
-      this.ngOnInit();
-    }
-    if (this.checkProductForm === 2 && this.checkCustomerForm === 1) {
-      this.importForm.reset();
-      this.importForm2.reset();
-      this.importForm3.reset();
-      this.checkForm = 2;
-      this.ngOnInit();
-      // this.importForm = new FormGroup({
-      //   importCode: new FormControl(null, [Validators.required]),
-      //   importStartDate: new FormControl(null, [Validators.required]),
-      //   importQuantity: new FormControl(null, [Validators.required]),
-      //   importAccountId: new FormControl(null, [Validators.required]),
-      //   importMaterialId: new FormControl(null, [Validators.required]),
-      //   materialCode: new FormControl(null, [Validators.required]),
-      //   materialName: new FormControl(null, [Validators.required]),
-      //   materialPrice: new FormControl(null, [Validators.required]),
-      //   materialExpiridate: new FormControl(null, [Validators.required]),
-      //   materialUnit: new FormControl(null, [Validators.required]),
-      //   materialTypeId: new FormControl(null, [Validators.required]),
-      //   materialCustomerId: new FormControl(null, [Validators.required])
-      // });
-    }
-  }
-
-  changeCustomerForm(change: number) {
-    this.checkCustomerForm = change;
-    if (this.checkCustomerForm === 2 && this.checkProductForm === 2) {
-      this.importForm.reset();
-      this.importForm2.reset();
-      this.importForm3.reset();
-      this.checkForm = 3;
-      // this.importForm = new FormGroup({
-      //   importCode: new FormControl(null, [Validators.required]),
-      //   importStartDate: new FormControl(null, [Validators.required]),
-      //   importQuantity: new FormControl(null, [Validators.required]),
-      //   importAccountId: new FormControl(null, [Validators.required]),
-      //   importMaterialId: new FormControl(null, [Validators.required]),
-      //   materialCode: new FormControl(null, [Validators.required]),
-      //   materialName: new FormControl(null, [Validators.required]),
-      //   materialPrice: new FormControl(null, [Validators.required]),
-      //   materialExpiridate: new FormControl(null, [Validators.required]),
-      //   materialUnit: new FormControl(null, [Validators.required]),
-      //   materialTypeId: new FormControl(null, [Validators.required]),
-      //   materialCustomerId: new FormControl(null, [Validators.required]),
-      //   customerName: new FormControl(null, [Validators.required]),
-      //   customerCode: new FormControl(null, [Validators.required]),
-      //   customerAddress: new FormControl(null, [Validators.required]),
-      //   customerPhone: new FormControl(null, [Validators.required]),
-      //   customerEmail: new FormControl(null, [Validators.required])
-      // });
-      this.ngOnInit();
-    }
   }
 
   // ++++++++++++phân trang+++++++++++
@@ -302,117 +183,28 @@ export class ImportManagerComponent implements OnInit {
   }
 
 // ++++++++++++++++++create+++++++++++++
-  createImport() {
-    // this.onInsertCart();
+  createImport1() {
+    this.importCreate = {
+      importCode: this.importForm.get('importCode').value,
+      importStartDate: this.importForm.get('importStartDate').value,
+      importQuantity: this.importForm.get('importQuantity').value,
+      importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
+      importMaterialId: this.importForm.get('importMaterialId').value
+    };
 
-    if (this.checkCustomerForm === 2 && this.checkProductForm === 2) {
-      this.customerCreate = {
-        customerName: this.importForm.get('customerName').value,
-        customerCode: this.importForm.get('customerCode').value,
-        customerAddress: this.importForm.get('customerAddress').value,
-        customerPhone: this.importForm.get('customerPhone').value,
-        customerEmail: this.importForm.get('customerEmail').value,
-        customerTypeId: {
-          customerTypeId: 3,
-          customerTypeName: 'nhà cung cấp',
-          customerTypeFlag: false
-        }
-      };
-
-      this.materialCreate = {
-        materialCode: this.importForm.get('materialCode').value,
-        materialName: this.importForm.get('materialName').value,
-        materialQuantity: 0,
-        materialPrice: this.importForm.get('materialPrice').value,
-        materialExpiridate: this.importForm.get('materialExpiridate').value,
-        materialUnit: this.importForm.get('materialUnit').value,
-        materialTypeId: this.importForm.get('materialTypeId').value,
-        materialCustomerId: this.customerCreate
-      };
-
-      this.importCreate = {
-        importCode: this.importForm.get('importCode').value,
-        importStartDate: this.importForm.get('importStartDate').value,
-        importQuantity: this.importForm.get('importQuantity').value,
-        importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
-        importMaterialId: this.materialCreate
-      };
-
-
-      this.importService.createImport(this.importCreate).subscribe(
-        () => {
-        },
-        () => {
-        },
-        () => {
-          this.importForm.reset();
-          this.page = 1;
-          this.getImportList();
-          this.getImportListNotPagination();
-          alert('Thêm mới nhà cung cấp, vật tư nhập kho thành công');
-        }
-      );
-    }
-
-    if (this.checkProductForm === 2 && this.checkCustomerForm === 1) {
-      this.materialCreate = {
-        materialCode: this.importForm.get('materialCode').value,
-        materialName: this.importForm.get('materialName').value,
-        materialQuantity: 0,
-        materialPrice: this.importForm.get('materialPrice').value,
-        materialExpiridate: this.importForm.get('materialExpiridate').value,
-        materialUnit: this.importForm.get('materialUnit').value,
-        materialTypeId: this.importForm.get('materialTypeId').value,
-        materialCustomerId: this.importForm.get('materialCustomerId').value
-      };
-
-      this.importCreate = {
-        importCode: this.importForm.get('importCode').value,
-        importStartDate: this.importForm.get('importStartDate').value,
-        importQuantity: this.importForm.get('importQuantity').value,
-        importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
-        importMaterialId: this.materialCreate
-      };
-
-
-      this.importService.createImport(this.importCreate).subscribe(
-        () => {
-        },
-        () => {
-        },
-        () => {
-          this.importForm.reset();
-          this.page = 1;
-          this.getImportList();
-          this.getImportListNotPagination();
-          alert('Thêm mới vật tư nhập kho thành công');
-        }
-      );
-    }
-
-    if (this.checkProductForm === 1 && this.checkCustomerForm === 1) {
-      this.importCreate = {
-        importCode: this.importForm.get('importCode').value,
-        importStartDate: this.importForm.get('importStartDate').value,
-        importQuantity: this.importForm.get('importQuantity').value,
-        importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
-        importMaterialId: this.importForm.get('importMaterialId').value
-      };
-
-      this.importService.createImport(this.importCreate).subscribe(
-        () => {
-        },
-        () => {
-        },
-        () => {
-          this.importForm.reset();
-          this.page = 1;
-          this.getImportList();
-          this.getImportListNotPagination();
-          alert('Thêm mới số lượng vật tư nhập kho thành công');
-        }
-      );
-    }
+    this.importService.createImport(this.importCreate).subscribe(
+      () => {
+      },
+      () => {
+      },
+      () => {
+        this.importForm.reset();
+        this.page = 1;
+        this.getImportList();
+        this.getImportListNotPagination();
+        alert('Thêm mới số lượng vật tư nhập kho thành công');
+      }
+    );
   }
 
   // +++++++++++Edit+++++++++++++
@@ -484,47 +276,35 @@ export class ImportManagerComponent implements OnInit {
   }
 
   // ++++++++++++++PDF++++++++++++
-  onInsertCart() {
-    // this.cartService.insertCart(formCreate.value, this.listPayment).subscribe(
-    //    (data: void) => {
-    //      this.resetForm();
-    //      this.listCartPayment = [];
-    //      this.ngOnInit();
-    //    },
-    //    (error: HttpErrorResponse) => {
-    //      alert(error.message);
-    //    }
-    //  );
-    this.importService.findImportById(1).subscribe((data1) => {
-      this.importService.getPdfImport(data1).subscribe(x => {
-        const blob = new Blob([x], {type: 'application/pdf'});
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(blob);
-          return;
-        }
-        const data = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = 'invoice.pdf';
-        link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
-        // tslint:disable-next-line:only-arrow-functions
-        setTimeout(function () {
-          window.URL.revokeObjectURL(data);
-          link.remove();
-        }, 100);
-      });
-    });
-  }
-
-  createImport1() {
-
-  }
-
-  createImport2() {
-
-  }
-
-  createImport3() {
-
-  }
+  // onInsertCart() {
+  //   // this.cartService.insertCart(formCreate.value, this.listPayment).subscribe(
+  //   //    (data: void) => {
+  //   //      this.resetForm();
+  //   //      this.listCartPayment = [];
+  //   //      this.ngOnInit();
+  //   //    },
+  //   //    (error: HttpErrorResponse) => {
+  //   //      alert(error.message);
+  //   //    }
+  //   //  );
+  //   this.importService.findImportById(1).subscribe((data1) => {
+  //     this.importService.getPdfImport(data1).subscribe(x => {
+  //       const blob = new Blob([x], {type: 'application/pdf'});
+  //       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+  //         window.navigator.msSaveOrOpenBlob(blob);
+  //         return;
+  //       }
+  //       const data = window.URL.createObjectURL(blob);
+  //       const link = document.createElement('a');
+  //       link.href = data;
+  //       link.download = 'invoice.pdf';
+  //       link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
+  //       // tslint:disable-next-line:only-arrow-functions
+  //       setTimeout(function () {
+  //         window.URL.revokeObjectURL(data);
+  //         link.remove();
+  //       }, 100);
+  //     });
+  //   });
+  // }
 }
