@@ -28,7 +28,7 @@ const routes: Routes = [{
     loadChildren: () => import('./material/material.module').then(module => module.MaterialModule)
   },
   {
-    path: 'security',
+    path: 'auth',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
   },
   {

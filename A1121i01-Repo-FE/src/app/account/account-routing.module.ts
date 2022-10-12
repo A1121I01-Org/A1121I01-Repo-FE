@@ -4,6 +4,7 @@ import {CreateAccountComponent} from './create-account/create-account.component'
 import {ChangePasswordComponent} from './change-password/change-password.component';
 
 const routes: Routes = [
+
   {
     path: 'create',
     component: CreateAccountComponent
@@ -15,7 +16,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class AccountRoutingModule { }
+export class AccountRoutingModule {
+}
