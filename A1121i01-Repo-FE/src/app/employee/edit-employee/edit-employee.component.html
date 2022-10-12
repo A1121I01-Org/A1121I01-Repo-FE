@@ -1,5 +1,5 @@
 <div class="container">
-  <form [formGroup]="employeeForm" (ngSubmit)="editEmployee()" class="mb-5">
+  <form [formGroup]="employeeForm" *ngIf="employeeForm" (ngSubmit)="editEmployee()" class="mb-5">
     <div class="ml-2">
       <div>
         <label for="file"><img class="fa-paper-plane" width="20%"
@@ -60,7 +60,7 @@
       </div>
 
       <div class=" button__container d-flex justify-content-between mt-5">
-        <button type="button" class="bt btn__cancel" [routerLink]="['/employee/list']">Quay về</button>
+        <button type="button" class="bt btn__cancel" [routerLink]="['/employee/detail/',id]">Quay về</button>
         <button type="submit" class="bt btn__primary" [disabled]="employeeForm.invalid">Cập nhật</button>
         <button type="button" class="bt btn__delete" routerLink="">Đổi mật khẩu</button>
       </div>
