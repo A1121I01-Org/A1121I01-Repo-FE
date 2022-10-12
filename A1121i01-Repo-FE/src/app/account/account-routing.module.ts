@@ -1,11 +1,22 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {CreateAccountComponent} from './create-account/create-account.component';
+import {ChangePasswordComponent} from './change-password/change-password.component';
 
-
-const routes: Routes = [];
+const routes: Routes = [
+    {
+        path: 'create',
+        component: CreateAccountComponent
+    },
+    {
+        path: 'update/password/:id',
+        component: ChangePasswordComponent
+    }
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
-export class AccountRoutingModule { }
+export class AccountRoutingModule {
+}
