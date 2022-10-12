@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IAccount} from '../../model/account/iaccount';
 import {IEmployeeAccount} from '../../model/account/i-employee-account';
+import {Password} from '../../model/classDTO/password';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class AccountServiceService {
   }
   // NhiVP tao tai khoan cho nhan vien
   createAccount(employeeAccount: IEmployeeAccount): Observable<IEmployeeAccount> {
-    return this.http.post<IEmployeeAccount>(this.API_URL + '/create-Account', employeeAccount);
+    return this.http.post<IEmployeeAccount>(this.API_URL + '/create-Account', employeeAccount);}
+
+  // AnDVH thay đổi mật khẩu
+  public updatePassword(accountId: number, password: Password): Observable<void> {
+    return this.http.patch<void>(`${this.API_URL}/update/password/${accountId}`, password);
   }
 }
