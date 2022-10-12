@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
-const AUTH_API = `${environment.apiUrl}`;
+const AUTH_API = 'http://localhost:8080/auth/login';
 @Injectable({
     providedIn: 'root'
 })
@@ -20,7 +20,7 @@ export class SecurityServiceService {
         };
     }
     login(user: any): Observable<any> {
-        return this.http.post(AUTH_API + '/auth/login', {
+        return this.http.post(AUTH_API, {
             username: user.username,
             password: user.password
         }, this.httpOptions);
