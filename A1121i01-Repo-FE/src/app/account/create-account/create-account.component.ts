@@ -40,7 +40,7 @@ export class CreateAccountComponent implements OnInit {
         employeePositionId: ['', [Validators.required]]
       }),
       account: this.formBuilder.group({
-        username: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(8), Validators.pattern('^[a-z0-9]{8,20}$')]],
+        username: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(5), Validators.pattern('^[a-z]|[0-9]{8,20}$')]],
         password: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$')]],
         confirmPassword: ['', [Validators.required]],
       })

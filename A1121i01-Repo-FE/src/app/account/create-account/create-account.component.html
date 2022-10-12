@@ -10,7 +10,7 @@
           <!-- TÊN TÀI KHOẢN !-->
           <div class="input-group">
             <label for="username">Tên tài khoản<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="username" minlength="8" maxlength="20" formControlName="username"
+            <input type="text" class="form-control" id="username" minlength="5" maxlength="20" formControlName="username"
                    placeholder="Nhập tên tài khoản" (change)="checkUsername($event.target.value)">
           </div>
           <div
@@ -29,7 +29,7 @@
           <div *ngIf="createForm.get('account').get('username')?.invalid && (createForm.get('account').get('username')?.touched||createForm.get('account').get('username')?.dirty)">
             <div [hidden]="!createForm.get('account').get('username').hasError('minlength')">
               <small class="form-text mess">
-                Tên tài khoản chứa tối thiểu 8 kí tự.</small>
+                Tên tài khoản chứa tối thiểu 5 kí tự.</small>
             </div>
           </div>
           <div
