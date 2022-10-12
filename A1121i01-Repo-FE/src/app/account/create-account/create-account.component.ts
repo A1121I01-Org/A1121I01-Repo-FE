@@ -21,9 +21,11 @@ export class CreateAccountComponent implements OnInit {
   errorMessageAccountAndEmployeeExist: string;
   errorMessageEmployeeExist: string;
   usernameAlreadyExist: string;
+  phoneAlreadyExist: string;
   usernameList: string[] = [];
   employeeHasAccountList: string[] = [];
   employeeDontHasAccountList: string[] = [];
+  phoneList: string[] = [];
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
               private formBuilder: FormBuilder, private router: Router) { }
@@ -49,6 +51,7 @@ export class CreateAccountComponent implements OnInit {
     this.getAllUsernames();
     this.getAllEmployeeHasAccount();
     this.getAllEmployeeDontHasAccount();
+    this.getAllPhone();
     // @ts-ignore
     this.createForm.setValidators(this.passValidator(this.createForm.get('account').get('password'), this.createForm.get('account').get('confirmPassword')));
   }
@@ -87,6 +90,11 @@ export class CreateAccountComponent implements OnInit {
   getAllEmployeeDontHasAccount() {
     this.employeeService.getAllEmployeeDontHasAccount().subscribe(data => {
       this.employeeDontHasAccountList = data;
+    });
+  }
+  getAllPhone() {
+    this.employeeService.getAllPhone().subscribe(data => {
+      this.phoneList = data;
     });
   }
   disableButton() {
@@ -163,6 +171,14 @@ export class CreateAccountComponent implements OnInit {
       this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
     } else {
       this.usernameAlreadyExist = '';
+    }
+  }
+
+  checkPhone(phone: string) {
+    if (this.phoneList.indexOf(phone) > -1) {
+      this.phoneAlreadyExist = 'Số điện thoại đã tồn tại.';
+    } else {
+      this.phoneAlreadyExist = '';
     }
   }
 }

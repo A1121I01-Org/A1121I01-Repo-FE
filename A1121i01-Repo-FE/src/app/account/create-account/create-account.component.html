@@ -231,7 +231,7 @@
           <!-- SỐ ĐIỆN THOẠI !-->
           <div class="input-group">
             <label for="phone">Điện thoại<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="phone" maxlength="20" value="" placeholder="Nhập số điện thoại" formControlName="employeePhone">
+            <input type="text" class="form-control" id="phone" maxlength="20" value="" (change)="checkPhone($event.target.value)" placeholder="Nhập số điện thoại" formControlName="employeePhone">
           </div>
           <div *ngIf="createForm.get('employee').get('employeePhone')?.invalid && (createForm.get('employee').get('employeePhone')?.touched||createForm.get('employee').get('employeePhone')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeePhone').errors.required">
@@ -251,11 +251,14 @@
                 Điện thoại chưa đúng định dạng 03x hoặc 05x hoặc 07x hoặc 08x hoặc 09x.</small>
             </div>
           </div>
+          <div>
+            <small class="form-text mess">{{phoneAlreadyExist}}</small>
+          </div>
         </div>
       </div>
     </div>
     <div class="button__container">
-      <button type="button" id="btnAdd" name="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || usernameAlreadyExist !== '' || errorMessageAccountAndEmployeeExist !== ''">Thêm</button>
+      <button type="button" id="btnAdd" name="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || usernameAlreadyExist !== '' || errorMessageAccountAndEmployeeExist !== '' || phoneAlreadyExist != ''">Thêm</button>
       <button class="bt btn__cancel" (click)="backToHome()">Trở về</button>
     </div>
   </form>
