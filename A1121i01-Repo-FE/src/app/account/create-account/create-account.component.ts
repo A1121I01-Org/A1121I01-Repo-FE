@@ -63,6 +63,7 @@ export class CreateAccountComponent implements OnInit {
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
         this.removeDisableInput();
+        this.disableButton();
       });
   }
   backToHome() {
@@ -87,6 +88,10 @@ export class CreateAccountComponent implements OnInit {
     this.employeeService.getAllEmployeeDontHasAccount().subscribe(data => {
       this.employeeDontHasAccountList = data;
     });
+  }
+  disableButton() {
+    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+    button?.setAttribute('disabled', '');
   }
   disableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
@@ -129,20 +134,32 @@ export class CreateAccountComponent implements OnInit {
     this.createForm.get('employee').get('employeeAddress').reset();
     this.createForm.get('employee').get('employeePhone').reset();
   }
+  formIfEmployeeExist() {
+    const username = (document.getElementById('username') as HTMLInputElement).value;
+    const password = (document.getElementById('password')as HTMLInputElement).value;
+    const confirmPass = (document.getElementById('confirmPassword1')as HTMLInputElement).value;
+    const role = (document.getElementById('role')as HTMLInputElement).value;
+    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+    if (username === '' || password === '' || confirmPass === '' || role === '') {
+      button?.setAttribute('disabled', '');
+    } else {
+      button?.removeAttribute('disabled');
+    }
+  }
   checkCode(code: string) {
     if (this.employeeHasAccountList.indexOf(code) > -1) {
       this.errorMessageAccountAndEmployeeExist = 'Mã nhân viên đã tồn tại và đã có tài khoản.';
     } else {
       this.errorMessageAccountAndEmployeeExist = '';
-    }
-    if (this.employeeDontHasAccountList.indexOf(code) > -1) {
-      this.errorMessageEmployeeExist = 'Mã nhân viên đã tồn tại.';
-      this.resetInput();
-      this.getEmployee(code);
-      this.disableInput();
-    } else {
-      this.errorMessageEmployeeExist = '';
-      this.removeDisableInput();
+      if (this.employeeDontHasAccountList.indexOf(code) > -1) {
+        this.errorMessageEmployeeExist = 'Mã nhân viên đã tồn tại.';
+        this.resetInput();
+        this.getEmployee(code);
+        this.disableInput();
+      } else {
+        this.errorMessageEmployeeExist = '';
+        this.removeDisableInput();
+      }
     }
   }
   passValidator(control: AbstractControl, controlTwo: AbstractControl): () => (string | null) {
