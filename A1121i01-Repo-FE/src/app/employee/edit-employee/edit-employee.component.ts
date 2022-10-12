@@ -83,7 +83,7 @@ export class EditEmployeeComponent implements OnInit {
         },
         () => {
           console.log('success');
-          // this.router.navigateByUrl("/employee/employee-detail" + this.id);
+          this.router.navigateByUrl('/employee/detail/' + this.id);
         }
       );
     }
