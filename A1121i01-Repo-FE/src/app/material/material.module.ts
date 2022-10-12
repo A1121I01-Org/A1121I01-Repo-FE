@@ -7,13 +7,15 @@ import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ListMaterialComponent } from './list-material/list-material.component';
 import { InforMaterialComponent } from './infor-material/infor-material.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
   imports: [
     CommonModule,
-    MaterialRoutingModule
+    MaterialRoutingModule,
+    FormsModule
   ]
 })
 export class MaterialModule { }
