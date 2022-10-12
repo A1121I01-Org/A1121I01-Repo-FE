@@ -11,25 +11,37 @@ import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
+import {HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import {authInterceptorProviders} from './helpers/auth.interceptor';
+import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
+import {APP_BASE_HREF} from '@angular/common';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    ErrorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    CustomerModule,
-    EmployeeModule,
-    CartModule,
-    AccountModule,
-    SecurityModule,
-    MaterialModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        ErrorComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        CustomerModule,
+        EmployeeModule,
+        CartModule,
+        AccountModule,
+        SecurityModule,
+        HttpClientModule,
+        MaterialModule,
+        RouterModule
+    ],
+    providers: [
+        authInterceptorProviders,
+        JwtHelperService,
+        {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+        { provide: APP_BASE_HREF, useValue: '/'}
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
