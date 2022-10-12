@@ -134,18 +134,6 @@ export class CreateAccountComponent implements OnInit {
     this.createForm.get('employee').get('employeeAddress').reset();
     this.createForm.get('employee').get('employeePhone').reset();
   }
-  formIfEmployeeExist() {
-    const username = (document.getElementById('username') as HTMLInputElement).value;
-    const password = (document.getElementById('password')as HTMLInputElement).value;
-    const confirmPass = (document.getElementById('confirmPassword1')as HTMLInputElement).value;
-    const role = (document.getElementById('role')as HTMLInputElement).value;
-    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
-    if (username === '' || password === '' || confirmPass === '' || role === '') {
-      button?.setAttribute('disabled', '');
-    } else {
-      button?.removeAttribute('disabled');
-    }
-  }
   checkCode(code: string) {
     if (this.employeeHasAccountList.indexOf(code) > -1) {
       this.errorMessageAccountAndEmployeeExist = 'Mã nhân viên đã tồn tại và đã có tài khoản.';
@@ -172,10 +160,9 @@ export class CreateAccountComponent implements OnInit {
   }
   checkUsername(username: string) {
     if (this.usernameList.indexOf(username) > -1) {
-      this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại';
+      this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
     } else {
       this.usernameAlreadyExist = '';
     }
   }
-
 }
