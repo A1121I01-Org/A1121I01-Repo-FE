@@ -12,6 +12,9 @@ export class DetailMaterialComponent implements OnInit {
   materials: IMaterial = {};
   id: number;
   materials2: IMaterial[] = [];
+  desArray: string[];
+  imageArray:string[];
+
 
 
   constructor(private materialService: MaterialServiceService,
@@ -24,6 +27,11 @@ export class DetailMaterialComponent implements OnInit {
       this.id = Number(paramMap.get('id'));
       this.materialService.findMaterialById(this.id).subscribe(material => {
         this.materials = material;
+        let description = this.materials.materialDescribe;
+        this.desArray = description.split("@");
+
+        let image=this.materials.materialImage;
+        this.imageArray=image.split("@")
       })
     })
 

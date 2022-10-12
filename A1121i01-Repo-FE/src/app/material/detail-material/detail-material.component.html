@@ -51,9 +51,15 @@
             <!--              <li>Info product 2</li>-->
             <!--              <li>Info product 3</li>-->
             <!--            </ul>-->
-            <p class="info-desc">
-              {{materials.materialDescribe}}
-            </p>
+
+
+            <div class="info-desc" >
+            <ul>
+            <li *ngFor="let des of desArray">
+              {{des}}
+            </li>
+            </ul>
+            </div>
           </div>
         </div>
       </div>
