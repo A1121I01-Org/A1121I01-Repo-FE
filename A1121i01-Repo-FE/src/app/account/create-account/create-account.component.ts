@@ -57,7 +57,9 @@ export class CreateAccountComponent implements OnInit {
     this.accountService.createAccount(employeeAccount).subscribe(
       () => {
       }, (error) => {
-        console.log(error);
+        if (error.status === 403) {
+          this.router.navigateByUrl('/auth/access-denied');
+        };
       }, () => {
         alert('Thêm mới thành công.');
         this.router.navigateByUrl('/account/create');
