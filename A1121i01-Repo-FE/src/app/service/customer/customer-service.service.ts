@@ -16,4 +16,16 @@ export class CustomerServiceService {
   findCustomerById(id: number): Observable<ICustomer> {
     return this.http.get<ICustomer>(this.API_URL + '/detail/' + id);
   }
+
+  create(customer: ICustomer): Observable<ICustomer> {
+    return this.http.post<ICustomer>(this.API_URL + '/create', customer);
+  }
+
+  update(customer: ICustomer): Observable<ICustomer> {
+    return this.http.put<ICustomer>(this.API_URL + '/' + customer.customerId, customer);
+  }
+
+  findById(customerId: number): Observable<ICustomer> {
+    return this.http.get<ICustomer>(this.API_URL + '/' + customerId);
+  }
 }
