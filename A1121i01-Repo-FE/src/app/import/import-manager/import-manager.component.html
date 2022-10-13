@@ -64,11 +64,8 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode">
-          <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importCode').invalid && (importForm.get('importCode').touched||importForm.get('importCode').dirty)">
-            Mã hoá đơn không được để trống
-          </small>
+          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+                 placeholder="vd: HDN-123">
         </div>
 
         <div class="col-md-2"></div>
@@ -84,6 +81,25 @@
             <option *ngFor="let customer of customerList"
                     [ngValue]="customer">{{customer.customerName}}</option>
           </select>
+        </div>
+      </div>
+
+      <div class="row ml-3">
+        <div class="col-md-2 input-group" style="align-content: center">
+        </div>
+        <div class="col-md-3 input-group">
+          <small class="text-danger mb-0 pb-0"
+                 *ngIf="importForm.get('importCode').invalid && (importForm.get('importCode').touched||importForm.get('importCode').dirty)">
+            Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
+          </small>
+          <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
+        </div>
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-2 input-group p-0" style="align-content: center">
+        </div>
+        <div class="col-md-3 input-group">
           <small class="text-danger mb-0 pb-0"
                  *ngIf="importForm.get('materialCustomerId').invalid && (importForm.get('materialCustomerId').touched||importForm.get('materialCustomerId').dirty)">
             Nhà cung cấp không được để trống
@@ -136,11 +152,12 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate">
+                         formControlName="importCodeUpdate" (change)="checkImportCodeUpdate($event.target)">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
-                    Mã nhập kho không được để trống
+                    không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
                   </small>
+                  <small class="text-danger mb-0 pb-0">{{importExistUpdate}}</small>
                 </div>
                 <div *ngIf="checkFormEdit == false || importIdTemp != importTable.importId">
                   {{importTable.importCode}}
@@ -181,7 +198,7 @@
                          formControlName="importQuantityUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importQuantityUpdate').invalid && (importUpdateForm.get('importQuantityUpdate').touched||importUpdateForm.get('importQuantityUpdate').dirty)">
-                    Số lượng không được để trống
+                    Số lượng không được để trống và lớn hơn 0
                   </small>
                 </div>
                 <div *ngIf="checkFormEdit == false || importIdTemp != importTable.importId">
@@ -249,21 +266,14 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid">
-                  Update
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== ''">
+                  Chỉnh sửa
+                </button>
+                <button class="btn__cancel" type="submit"
+                        *ngIf="checkFormEdit == true && importIdTemp == importTable.importId" (click)="close(false)">
+                  Huỷ
                 </button>
               </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
             </tr>
             </tbody>
           </table>
@@ -278,9 +288,18 @@
                 <option *ngFor="let material of materialList"
                         [ngValue]="material">{{material.materialName}}</option>
               </select>
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm.get('importMaterialId').invalid && (importForm.get('importMaterialId').touched||importForm.get('importMaterialId').dirty)">
+                Vật tư không được để trống
+              </small>
             </td>
             <td class="px-0" style="width: 15%">
               <input style="width: 80%" type="number" formControlName="importQuantity">
+              <br>
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm.get('importQuantity').invalid && (importForm.get('importQuantity').touched||importForm.get('importQuantity').dirty)">
+                Số lượng không được để trống và lớn hơn 0
+              </small>
             </td>
             <td></td>
             <td></td>
@@ -315,10 +334,13 @@
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm.invalid">Thêm mới</button>
+          <button class="btn__primary" type="submit" [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
+            mới
+          </button>
         </div>
         <div class="col-md-3">
-          <button class="bt btn__delete">In hoá đơn</button>
+          <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In hoá đơn
+          </button>
         </div>
         <div class="col-md-3">
           <button class="bt btn__cancel">Trở về</button>
@@ -355,3 +377,4 @@
     </div>
   </div>
 </div>
+<notifier-container></notifier-container>

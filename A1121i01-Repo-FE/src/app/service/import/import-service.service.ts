@@ -58,6 +58,10 @@ export class ImportServiceService {
     return this.httpClient.get<IMaterialType[]>(this.URI + '/material-type-list');
   }
 
+  findAllImportString(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.URI + '/import-list-string');
+  }
+
   getPdfImport(import1: IImport): Observable<Blob> {
     // @ts-ignore
     return this.httpClient.post<Blob>(this.URI + '/import-pdf', import1, {responseType: 'blob'});
