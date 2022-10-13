@@ -6,6 +6,7 @@ import {EmployeeServiceService} from '../../service/employee/employee-service.se
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 import {IEmployee} from '../../model/employee/iemployee';
 import {checkAge} from '../../validate/customvalidator.validator';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-create-account',
@@ -26,9 +27,12 @@ export class CreateAccountComponent implements OnInit {
   employeeHasAccountList: string[] = [];
   employeeDontHasAccountList: string[] = [];
   phoneList: string[] = [];
+  private readonly notifier: NotifierService;
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
-              private formBuilder: FormBuilder, private router: Router) { }
+              private formBuilder: FormBuilder, private router: Router, notifierService: NotifierService) {
+      this.notifier = notifierService;
+  }
 
   ngOnInit(): void {
     this.createForm = this.formBuilder.group({
@@ -60,9 +64,11 @@ export class CreateAccountComponent implements OnInit {
     this.accountService.createAccount(employeeAccount).subscribe(
       () => {
       }, (error) => {
+        this.notifier.notify('error', 'Thêm mới không thành công!');
         console.log(error);
       }, () => {
-        alert('Thêm mới thành công.');
+        // alert('Thêm mới thành công.');
+        this.notifier.notify('success', 'Thêm mới thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
         this.removeDisableInput();
@@ -101,6 +107,10 @@ export class CreateAccountComponent implements OnInit {
     const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
     button?.setAttribute('disabled', '');
   }
+  removeDisableButton() {
+    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+    button?.removeAttribute('disabled');
+  }
   disableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
     nameInput?.setAttribute('disabled', '');
@@ -112,8 +122,6 @@ export class CreateAccountComponent implements OnInit {
     addressInput?.setAttribute('disabled', '');
     const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
     phoneInput?.setAttribute('disabled', '');
-    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
-    button?.removeAttribute('disabled');
   }
   removeDisableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
@@ -152,6 +160,7 @@ export class CreateAccountComponent implements OnInit {
         this.resetInput();
         this.getEmployee(code);
         this.disableInput();
+        this.removeDisableButton();
       } else {
         this.errorMessageEmployeeExist = '';
         this.removeDisableInput();
