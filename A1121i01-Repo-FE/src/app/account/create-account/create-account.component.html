@@ -138,7 +138,7 @@
           <!-- HỌ VÀ TÊN !-->
           <div class="input-group">
             <label for="name">Họ và tên<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="name" minlength="8" maxlength="50" value="" placeholder="Nhập họ và tên"
+            <input type="text" class="form-control" id="name" minlength="8" maxlength="50" placeholder="Nhập họ và tên"
                    formControlName="employeeName">
           </div>
           <div
@@ -170,7 +170,7 @@
           <!-- NGÀY SINH !-->
           <div class="input-group">
             <label for="birthday">Ngày sinh<span class="text-danger"> (*)</span></label>
-            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth" value="">
+            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth">
           </div>
           <div *ngIf="createForm.get('employee').get('employeeDateOfBirth')?.invalid && (createForm.get('employee').get('employeeDateOfBirth')?.touched||createForm.get('employee').get('employeeDateOfBirth')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeeDateOfBirth').errors.required">
@@ -189,7 +189,7 @@
           <div class="input-group">
             <label for="gender1">Giới tính<span class="text-danger"> (*)</span></label>
             <select id="gender1" class="form-select" aria-label="Default select example"
-                    formControlName="employeeGender" value="">
+                    formControlName="employeeGender">
               <option value="" disabled selected>Giới tính</option>
               <option value="Nam">Nam</option>
               <option value="Nữ">Nữ</option>
@@ -207,7 +207,7 @@
           <!-- ĐỊA CHỈ !-->
           <div class="input-group">
             <label for="address">Địa chỉ<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" value="" formControlName="employeeAddress" maxlength="60">
+            <input type="text" class="form-control" id="address" placeholder="Nhập địa chỉ" formControlName="employeeAddress" maxlength="60">
           </div>
           <div *ngIf="createForm.get('employee').get('employeeAddress')?.invalid && (createForm.get('employee').get('employeeAddress')?.touched||createForm.get('employee').get('employeeAddress')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeeAddress').errors.required">
@@ -231,7 +231,7 @@
           <!-- SỐ ĐIỆN THOẠI !-->
           <div class="input-group">
             <label for="phone">Điện thoại<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="phone" maxlength="20" value="" (change)="checkPhone($event.target.value)" placeholder="Nhập số điện thoại" formControlName="employeePhone">
+            <input type="text" class="form-control" id="phone" maxlength="20" (change)="checkPhone($event.target.value)" placeholder="Nhập số điện thoại" formControlName="employeePhone">
           </div>
           <div *ngIf="createForm.get('employee').get('employeePhone')?.invalid && (createForm.get('employee').get('employeePhone')?.touched||createForm.get('employee').get('employeePhone')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeePhone').errors.required">
@@ -263,3 +263,5 @@
     </div>
   </form>
 </div>
+
+<notifier-container></notifier-container>
