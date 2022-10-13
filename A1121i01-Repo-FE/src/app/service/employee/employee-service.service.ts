@@ -27,4 +27,9 @@ export class EmployeeServiceService {
   getAllEmployeeDontHasAccount(): Observable<string[]> {
     return this.http.get<string[]>(this.API_URL + '/listDontHasAccount');
   }
+
+  // NhiVP lay danh sach so dien thoai
+  getAllPhone(): Observable<string[]> {
+    return this.http.get<string[]>(this.API_URL + '/list-Phone');
+  }
 }

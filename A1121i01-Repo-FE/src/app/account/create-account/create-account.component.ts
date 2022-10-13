@@ -6,6 +6,7 @@ import {EmployeeServiceService} from '../../service/employee/employee-service.se
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 import {IEmployee} from '../../model/employee/iemployee';
 import {checkAge} from '../../validate/customvalidator.validator';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-create-account',
@@ -21,12 +22,17 @@ export class CreateAccountComponent implements OnInit {
   errorMessageAccountAndEmployeeExist: string;
   errorMessageEmployeeExist: string;
   usernameAlreadyExist: string;
+  phoneAlreadyExist: string;
   usernameList: string[] = [];
   employeeHasAccountList: string[] = [];
   employeeDontHasAccountList: string[] = [];
+  phoneList: string[] = [];
+  private readonly notifier: NotifierService;
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
-              private formBuilder: FormBuilder, private router: Router) { }
+              private formBuilder: FormBuilder, private router: Router, notifierService: NotifierService) {
+      this.notifier = notifierService;
+  }
 
   ngOnInit(): void {
     this.createForm = this.formBuilder.group({
@@ -40,7 +46,7 @@ export class CreateAccountComponent implements OnInit {
         employeePositionId: ['', [Validators.required]]
       }),
       account: this.formBuilder.group({
-        username: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(8), Validators.pattern('^[a-z0-9]{8,20}$')]],
+        username: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(5), Validators.pattern('^[a-z]|[0-9]{8,20}$')]],
         password: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$')]],
         confirmPassword: ['', [Validators.required]],
       })
@@ -49,6 +55,7 @@ export class CreateAccountComponent implements OnInit {
     this.getAllUsernames();
     this.getAllEmployeeHasAccount();
     this.getAllEmployeeDontHasAccount();
+    this.getAllPhone();
     // @ts-ignore
     this.createForm.setValidators(this.passValidator(this.createForm.get('account').get('password'), this.createForm.get('account').get('confirmPassword')));
   }
@@ -61,7 +68,8 @@ export class CreateAccountComponent implements OnInit {
           this.router.navigateByUrl('/auth/access-denied');
         };
       }, () => {
-        alert('Thêm mới thành công.');
+        // alert('Thêm mới thành công.');
+        this.notifier.notify('success', 'Thêm mới thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
         this.removeDisableInput();
@@ -91,9 +99,18 @@ export class CreateAccountComponent implements OnInit {
       this.employeeDontHasAccountList = data;
     });
   }
+  getAllPhone() {
+    this.employeeService.getAllPhone().subscribe(data => {
+      this.phoneList = data;
+    });
+  }
   disableButton() {
     const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
     button?.setAttribute('disabled', '');
+  }
+  removeDisableButton() {
+    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+    button?.removeAttribute('disabled');
   }
   disableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
@@ -106,8 +123,6 @@ export class CreateAccountComponent implements OnInit {
     addressInput?.setAttribute('disabled', '');
     const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
     phoneInput?.setAttribute('disabled', '');
-    const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
-    button?.removeAttribute('disabled');
   }
   removeDisableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
@@ -146,6 +161,7 @@ export class CreateAccountComponent implements OnInit {
         this.resetInput();
         this.getEmployee(code);
         this.disableInput();
+        this.removeDisableButton();
       } else {
         this.errorMessageEmployeeExist = '';
         this.removeDisableInput();
@@ -165,6 +181,14 @@ export class CreateAccountComponent implements OnInit {
       this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
     } else {
       this.usernameAlreadyExist = '';
+    }
+  }
+
+  checkPhone(phone: string) {
+    if (this.phoneList.indexOf(phone) > -1) {
+      this.phoneAlreadyExist = 'Số điện thoại đã tồn tại.';
+    } else {
+      this.phoneAlreadyExist = '';
     }
   }
 }
