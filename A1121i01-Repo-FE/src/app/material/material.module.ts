@@ -7,9 +7,10 @@ import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ListMaterialComponent } from './list-material/list-material.component';
 import { InforMaterialComponent } from './infor-material/infor-material.component';
-<<<<<<< HEAD
+
 import {HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -17,22 +18,10 @@ import {RouterModule} from "@angular/router";
     exports: [
         DetailMaterialComponent
     ],
-    imports: [
-        CommonModule,
-        MaterialRoutingModule,HttpClientModule,
-      RouterModule,
-    ]
-=======
-import {FormsModule} from '@angular/forms';
-
-
-@NgModule({
-  declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
   imports: [
     CommonModule,
-    MaterialRoutingModule,
-    FormsModule
-  ]
->>>>>>> origin/material-manager
-})
+    MaterialRoutingModule, HttpClientModule,
+    RouterModule, FormsModule,
+  ]})
+
 export class MaterialModule { }
