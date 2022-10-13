@@ -1,17 +1,17 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {ListCustomerComponent} from './list-customer/list-customer.component';
-import {DetailCustomerComponent} from './detail-customer/detail-customer.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import {CreateCustomerComponent} from './component/create-customer/create-customer.component';
 
 
-const routes: Routes = [
-  {path: 'customer/list', component: ListCustomerComponent},
-  {path: 'customer/detail/:id', component: DetailCustomerComponent},
-];
+const routes: Routes = [ {
+  path: 'customer/create', component: CreateCustomerComponent
+},
+  {
+    path: 'customer/edit/:id', component: CreateCustomerComponent
+  }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CustomerRoutingModule {
-}
+export class CustomerRoutingModule { }
