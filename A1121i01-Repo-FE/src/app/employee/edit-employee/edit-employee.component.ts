@@ -57,7 +57,9 @@ export class EditEmployeeComponent implements OnInit {
             this.employeeForm.patchValue({employeeAvatar: url});
 
             // delete old img from firebase
-            this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+            if (this.oldAvatarLink !== null) {
+              this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+            }
 
             // Update employee
             console.log(this.employeeForm.value);
@@ -68,7 +70,7 @@ export class EditEmployeeComponent implements OnInit {
               },
               () => {
                 console.log('Success!');
-                // this.router.navigateByUrl("/employee/employee-detail" + this.id);
+                this.router.navigateByUrl('/employee/detail/' + this.id);
                 this.uploadedAvatar = null;
               },
             );
