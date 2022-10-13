@@ -8,10 +8,13 @@ import { FinancialStatisticComponent } from './financial-statistic/financial-sta
 
 
 @NgModule({
-  declarations: [MaterialStatisticComponent, CustomerStatisticComponent, FinancialStatisticComponent],
-  imports: [
-    CommonModule,
-    StatisticRoutingModule
-  ]
+    declarations: [MaterialStatisticComponent, CustomerStatisticComponent, FinancialStatisticComponent],
+    exports: [
+        FinancialStatisticComponent
+    ],
+    imports: [
+        CommonModule,
+        StatisticRoutingModule
+    ]
 })
 export class StatisticModule { }

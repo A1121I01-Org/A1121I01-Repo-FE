@@ -8,10 +8,13 @@ import { SellExportComponent } from './sell-export/sell-export.component';
 
 
 @NgModule({
-  declarations: [DetailCartComponent, SellCartComponent, SellExportComponent],
-  imports: [
-    CommonModule,
-    CartRoutingModule
-  ]
+    declarations: [DetailCartComponent, SellCartComponent, SellExportComponent],
+    exports: [
+        SellCartComponent
+    ],
+    imports: [
+        CommonModule,
+        CartRoutingModule
+    ]
 })
 export class CartModule { }
