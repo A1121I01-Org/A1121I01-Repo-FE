@@ -55,26 +55,29 @@ export class LoginComponent implements OnInit {
                 }
                 this.isLoggedIn = true;
                 this.username = this.tokenStorageService.getUser().username;
-                this.role = this.tokenStorageService.getUser().roles[0];
+                this.role = this.tokenStorageService.getUser().roles;
                 console.log('username: ' + this.tokenStorageService.getUser().username);
                 console.log('role: ' + this.tokenStorageService.getUser().roles);
                 console.log('token: ' + this.tokenStorageService.getUser().jwtToken);
 
-                this.loginForm.reset();
-                if (this.role.indexOf('ROLE_ADMIN') !== -1) {
-                    this.router.navigate(['/employee/list']);
-                    this.shareService.sendClickEvent();
-
-                } else {
-                    this.router.navigate(['/customer/list']);
-                    this.shareService.sendClickEvent();
-                }
+                // this.loginForm.reset();
+                // if (this.role.indexOf('ROLE_ADMIN') !== -1) {
+                //     this.router.navigate(['/account/create']);
+                //     this.shareService.sendClickEvent();
+                //
+                // } else {
+                //     this.router.navigate(['/customer/list']);
+                //     this.shareService.sendClickEvent();
+                // }
             }
             , error => {
                 console.log(error);
                 this.isLoggedIn = false;
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
-            });
+            },
+          () => {
+          this.router.navigateByUrl('/account/create');
+          });
     }
     private loadRememberInfo() {
         if (this.tokenStorageService.getUser()) {
