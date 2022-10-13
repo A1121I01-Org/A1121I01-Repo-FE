@@ -18,11 +18,14 @@ import {formatDate} from '@angular/common';
 export class ImportManagerComponent implements OnInit {
   importForm: FormGroup;
   importUpdateForm: FormGroup;
+  checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
   checkFormEdit = false;
   importListString: string[] = [];
   importExistCreate = '';
   importExistUpdate = '';
+  materialListString: string[] = [];
+  materialExistUpdate = '';
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -56,6 +59,7 @@ export class ImportManagerComponent implements OnInit {
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
     this.getAllImportString();
+    this.getAllMaterialString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList();
@@ -75,7 +79,7 @@ export class ImportManagerComponent implements OnInit {
       importStartDateUpdate: new FormControl(null, [Validators.required]),
       importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
       importAccountIdUpdate: new FormControl(null, [Validators.required]),
-      importMaterialCodeUpdate: new FormControl(null, [Validators.required]),
+      importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
       importMaterialNameUpdate: new FormControl(null, [Validators.required]),
       importMaterialUnitUpdate: new FormControl(null, [Validators.required])
     });
@@ -92,6 +96,12 @@ export class ImportManagerComponent implements OnInit {
   getAllImportString() {
     this.importService.findAllImportString().subscribe(data => {
       this.importListString = data;
+    });
+  }
+
+  getAllMaterialString() {
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
     });
   }
 
@@ -257,57 +267,64 @@ export class ImportManagerComponent implements OnInit {
           importStartDateUpdate: new FormControl(data.importStartDate, [Validators.required]),
           importQuantityUpdate: new FormControl(data.importQuantity, [Validators.required, Validators.min(0)]),
           importAccountIdUpdate: new FormControl(data.importAccountId, [Validators.required]),
-          importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required]),
+          importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
           importMaterialNameUpdate: new FormControl(data.importMaterialId.materialName, [Validators.required]),
           importMaterialUnitUpdate: new FormControl(data.importMaterialId.materialUnit, [Validators.required])
         });
         this.importBeforeUpdate = data;
+        this.checkQuantityMaterial = data.importMaterialId.materialQuantity - data.importQuantity;
       }
     );
   }
 
   updateImport() {
-    if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
-      this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
+    // tslint:disable-next-line:radix
+    if ((this.checkQuantityMaterial + parseInt(this.importUpdateForm.get('importQuantityUpdate').value)) >= 0) {
+      if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
+        this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
+      } else {
+        this.accountTempUpdateImport = this.importBeforeUpdate.importAccountId;
+      }
+      this.checkFormEdit = false;
+      this.importUpdate = {
+        importId: this.importBeforeUpdate.importId,
+        importCode: this.importUpdateForm.get('importCodeUpdate').value,
+        importStartDate: this.importUpdateForm.get('importStartDateUpdate').value,
+        importQuantity: this.importUpdateForm.get('importQuantityUpdate').value,
+        importFlag: false,
+        importAccountId: this.accountTempUpdateImport,
+        importMaterialId: {
+          materialId: this.importBeforeUpdate.importMaterialId.materialId,
+          materialCode: this.importUpdateForm.get('importMaterialCodeUpdate').value,
+          materialName: this.importUpdateForm.get('importMaterialNameUpdate').value,
+          materialPrice: this.importBeforeUpdate.importMaterialId.materialPrice,
+          materialQuantity: this.importBeforeUpdate.importMaterialId.materialQuantity,
+          materialExpiridate: this.importBeforeUpdate.importMaterialId.materialExpiridate,
+          materialImage: this.importBeforeUpdate.importMaterialId.materialImage,
+          materialDescribe: this.importBeforeUpdate.importMaterialId.materialDescribe,
+          materialFlag: false,
+          materialUnit: this.importUpdateForm.get('importMaterialUnitUpdate').value,
+          materialTypeId: this.importBeforeUpdate.importMaterialId.materialTypeId,
+          materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
+        }
+      };
+      this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
+        () => {
+        },
+        () => {
+        },
+        () => {
+          this.checkQuantityMaterial = 0;
+          this.importForm.reset();
+          this.importUpdateForm.reset();
+          this.getImportList();
+          this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
+        }
+      );
     } else {
-      this.accountTempUpdateImport = this.importBeforeUpdate.importAccountId;
+      this.notification.notify('error', 'Số lượng vật tư hiện tại nhỏ hơn 0 sau khi cập nhật, vui lòng kiểm tra lại số lượng nhập kho');
+      this.checkFormEdit = false;
     }
-    this.checkFormEdit = false;
-    this.importUpdate = {
-      importId: this.importBeforeUpdate.importId,
-      importCode: this.importUpdateForm.get('importCodeUpdate').value,
-      importStartDate: this.importUpdateForm.get('importStartDateUpdate').value,
-      importQuantity: this.importUpdateForm.get('importQuantityUpdate').value,
-      importFlag: false,
-      importAccountId: this.accountTempUpdateImport,
-      importMaterialId: {
-        materialId: this.importBeforeUpdate.importMaterialId.materialId,
-        materialCode: this.importUpdateForm.get('importMaterialCodeUpdate').value,
-        materialName: this.importUpdateForm.get('importMaterialNameUpdate').value,
-        materialPrice: this.importBeforeUpdate.importMaterialId.materialPrice,
-        materialQuantity: this.importBeforeUpdate.importMaterialId.materialQuantity,
-        materialExpiridate: this.importBeforeUpdate.importMaterialId.materialExpiridate,
-        materialImage: this.importBeforeUpdate.importMaterialId.materialImage,
-        materialDescribe: this.importBeforeUpdate.importMaterialId.materialDescribe,
-        materialFlag: false,
-        materialUnit: this.importUpdateForm.get('importMaterialUnitUpdate').value,
-        materialTypeId: this.importBeforeUpdate.importMaterialId.materialTypeId,
-        materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
-      }
-    };
-    console.log(this.importUpdate);
-    this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
-      () => {
-      },
-      () => {
-      },
-      () => {
-        this.importForm.reset();
-        this.importUpdateForm.reset();
-        this.getImportList();
-        this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
-      }
-    );
   }
 
 
@@ -325,6 +342,14 @@ export class ImportManagerComponent implements OnInit {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
+    }
+  }
+
+  checkMaterialCodeUpdate(materialString: any) {
+    if (this.materialListString.indexOf(materialString.value) > -1 && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+      this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
+    } else {
+      this.materialExistUpdate = '';
     }
   }
 }

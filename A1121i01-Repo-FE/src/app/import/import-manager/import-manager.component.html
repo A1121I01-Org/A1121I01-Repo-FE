@@ -167,11 +167,13 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
+                         (change)="checkMaterialCodeUpdate($event.target)"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
-                    Mã vật tư không được để trống
+                    Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
                   </small>
+                  <small class="text-danger mb-0 pb-0">{{materialExistUpdate}}</small>
                 </div>
                 <div *ngIf="checkFormEdit == false || importIdTemp != importTable.importId">
                   {{importTable.importMaterialId.materialCode}}
@@ -266,7 +268,7 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid || importExistUpdate !== ''">
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''">
                   Chỉnh sửa
                 </button>
                 <button class="btn__cancel" type="submit"

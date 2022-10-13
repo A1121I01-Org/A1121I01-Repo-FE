@@ -18,11 +18,19 @@ import {formatDate} from '@angular/common';
 export class ImportMaterialCustomerFormComponent implements OnInit {
   importForm3: FormGroup;
   importUpdateForm: FormGroup;
+  checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
   checkFormEdit = false;
   importListString: string[] = [];
   importExistCreate = '';
   importExistUpdate = '';
+  materialListString: string[] = [];
+  materialExistCreate = '';
+  materialExistUpdate = '';
+  phoneCustomerListString: string[] = [];
+  phoneCustomerExistCreate = '';
+  customerListString: string[] = [];
+  customerExistCreate = '';
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -62,7 +70,10 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
+    this.getAllPhoneCustomerString();
+    this.getAllMaterialString();
     this.getAllImportString();
+    this.getAllCustomerString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList();
@@ -73,18 +84,17 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
       importStartDate: new FormControl(this.date1, [Validators.required]),
       importQuantity: new FormControl(null, [Validators.required, Validators.min(0)]),
       importAccountId: new FormControl(null, [Validators.required]),
-      materialCode: new FormControl(null, [Validators.required]),
+      materialCode: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
       materialName: new FormControl(null, [Validators.required]),
-      materialPrice: new FormControl(null, [Validators.required]),
+      materialPrice: new FormControl(null, [Validators.required, Validators.min(0)]),
       materialExpiridate: new FormControl(null, [Validators.required]),
       materialUnit: new FormControl(null, [Validators.required]),
       materialTypeId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required]),
       customerName: new FormControl(null, [Validators.required]),
-      customerCode: new FormControl(null, [Validators.required]),
+      customerCode: new FormControl(null, [Validators.required, Validators.pattern('MKH-\\d{3}')]),
       customerAddress: new FormControl(null, [Validators.required]),
-      customerPhone: new FormControl(null, [Validators.required]),
-      customerEmail: new FormControl(null, [Validators.required])
+      customerPhone: new FormControl(null, [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+      customerEmail: new FormControl(null, [Validators.required, Validators.email])
     });
 
     this.importUpdateForm = new FormGroup({
@@ -92,7 +102,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
       importStartDateUpdate: new FormControl(null, [Validators.required]),
       importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
       importAccountIdUpdate: new FormControl(null, [Validators.required]),
-      importMaterialCodeUpdate: new FormControl(null, [Validators.required]),
+      importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
       importMaterialNameUpdate: new FormControl(null, [Validators.required]),
       importMaterialUnitUpdate: new FormControl(null, [Validators.required])
     });
@@ -172,6 +182,26 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
   getAllImportString() {
     this.importService.findAllImportString().subscribe(data => {
       this.importListString = data;
+    });
+  }
+
+  getAllMaterialString() {
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
+    });
+  }
+
+  getAllCustomerString() {
+    this.importService.findAllCustomerString().subscribe(data => {
+      this.customerListString = data;
+      console.log(this.customerListString);
+    });
+  }
+
+  getAllPhoneCustomerString() {
+    this.importService.findAllPhoneCustomerString().subscribe(data => {
+      this.phoneCustomerListString = data;
+      console.log(this.customerListString);
     });
   }
 
@@ -298,57 +328,63 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
           importStartDateUpdate: new FormControl(data.importStartDate, [Validators.required]),
           importQuantityUpdate: new FormControl(data.importQuantity, [Validators.required, Validators.min(0)]),
           importAccountIdUpdate: new FormControl(data.importAccountId, [Validators.required]),
-          importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required]),
+          importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
           importMaterialNameUpdate: new FormControl(data.importMaterialId.materialName, [Validators.required]),
           importMaterialUnitUpdate: new FormControl(data.importMaterialId.materialUnit, [Validators.required])
         });
         this.importBeforeUpdate = data;
+        this.checkQuantityMaterial = data.importMaterialId.materialQuantity - data.importQuantity;
       }
     );
   }
 
   updateImport() {
-    if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
-      this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
+    if ((this.checkQuantityMaterial + parseInt(this.importUpdateForm.get('importQuantityUpdate').value)) >= 0) {
+      if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
+        this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
+      } else {
+        this.accountTempUpdateImport = this.importBeforeUpdate.importAccountId;
+      }
+      this.checkFormEdit = false;
+      this.importUpdate = {
+        importId: this.importBeforeUpdate.importId,
+        importCode: this.importUpdateForm.get('importCodeUpdate').value,
+        importStartDate: this.importUpdateForm.get('importStartDateUpdate').value,
+        importQuantity: this.importUpdateForm.get('importQuantityUpdate').value,
+        importFlag: false,
+        importAccountId: this.accountTempUpdateImport,
+        importMaterialId: {
+          materialId: this.importBeforeUpdate.importMaterialId.materialId,
+          materialCode: this.importUpdateForm.get('importMaterialCodeUpdate').value,
+          materialName: this.importUpdateForm.get('importMaterialNameUpdate').value,
+          materialPrice: this.importBeforeUpdate.importMaterialId.materialPrice,
+          materialQuantity: this.importBeforeUpdate.importMaterialId.materialQuantity,
+          materialExpiridate: this.importBeforeUpdate.importMaterialId.materialExpiridate,
+          materialImage: this.importBeforeUpdate.importMaterialId.materialImage,
+          materialDescribe: this.importBeforeUpdate.importMaterialId.materialDescribe,
+          materialFlag: false,
+          materialUnit: this.importUpdateForm.get('importMaterialUnitUpdate').value,
+          materialTypeId: this.importBeforeUpdate.importMaterialId.materialTypeId,
+          materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
+        }
+      };
+
+      this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
+        () => {
+        },
+        () => {
+        },
+        () => {
+          this.importForm3.reset();
+          this.importUpdateForm.reset();
+          this.getImportList();
+          this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
+        }
+      );
     } else {
-      this.accountTempUpdateImport = this.importBeforeUpdate.importAccountId;
+      this.notification.notify('error', 'Số lượng vật tư hiện tại nhỏ hơn 0 sau khi cập nhật, vui lòng kiểm tra lại số lượng nhập kho');
+      this.checkFormEdit = false;
     }
-    this.checkFormEdit = false;
-    this.importUpdate = {
-      importId: this.importBeforeUpdate.importId,
-      importCode: this.importUpdateForm.get('importCodeUpdate').value,
-      importStartDate: this.importUpdateForm.get('importStartDateUpdate').value,
-      importQuantity: this.importUpdateForm.get('importQuantityUpdate').value,
-      importFlag: false,
-      importAccountId: this.accountTempUpdateImport,
-      importMaterialId: {
-        materialId: this.importBeforeUpdate.importMaterialId.materialId,
-        materialCode: this.importUpdateForm.get('importMaterialCodeUpdate').value,
-        materialName: this.importUpdateForm.get('importMaterialNameUpdate').value,
-        materialPrice: this.importBeforeUpdate.importMaterialId.materialPrice,
-        materialQuantity: this.importBeforeUpdate.importMaterialId.materialQuantity,
-        materialExpiridate: this.importBeforeUpdate.importMaterialId.materialExpiridate,
-        materialImage: this.importBeforeUpdate.importMaterialId.materialImage,
-        materialDescribe: this.importBeforeUpdate.importMaterialId.materialDescribe,
-        materialFlag: false,
-        materialUnit: this.importUpdateForm.get('importMaterialUnitUpdate').value,
-        materialTypeId: this.importBeforeUpdate.importMaterialId.materialTypeId,
-        materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
-      }
-    };
-    console.log(this.importUpdate);
-    this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
-      () => {
-      },
-      () => {
-      },
-      () => {
-        this.importForm3.reset();
-        this.importUpdateForm.reset();
-        this.getImportList();
-        this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
-      }
-    );
   }
 
   // ++check code import tồn tại++
@@ -365,6 +401,39 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
+    }
+  }
+
+  checkMaterialCode(materialString: any) {
+    if (this.materialListString.indexOf(materialString.value) > -1) {
+      this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+    } else {
+      this.materialExistCreate = '';
+    }
+  }
+
+  checkMaterialCodeUpdate(materialString: any) {
+    if (this.materialListString.indexOf(materialString.value) > -1
+      && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+      this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
+    } else {
+      this.materialExistUpdate = '';
+    }
+  }
+
+  checkCustomerCode(customerString: any) {
+    if (this.customerListString.indexOf(customerString.value) > -1) {
+      this.customerExistCreate = 'Mã nhà cung cấp đã tồn tại';
+    } else {
+      this.customerExistCreate = '';
+    }
+  }
+
+  checkPhoneCustomerCode(customerPhoneString: any) {
+    if (this.phoneCustomerListString.indexOf(customerPhoneString.value) > -1) {
+      this.phoneCustomerExistCreate = 'Số điện thoại nhà cung cấp đã tồn tại';
+    } else {
+      this.phoneCustomerExistCreate = '';
     }
   }
 }

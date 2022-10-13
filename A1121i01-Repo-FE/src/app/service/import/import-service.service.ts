@@ -62,6 +62,18 @@ export class ImportServiceService {
     return this.httpClient.get<string[]>(this.URI + '/import-list-string');
   }
 
+  findAllMaterialString(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.URI + '/import-material-list-string');
+  }
+
+  findAllCustomerString(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.URI + '/import-customer-list-string');
+  }
+
+  findAllPhoneCustomerString(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.URI + '/import-phone-customer-list-string');
+  }
+
   getPdfImport(import1: IImport): Observable<Blob> {
     // @ts-ignore
     return this.httpClient.post<Blob>(this.URI + '/import-pdf', import1, {responseType: 'blob'});

@@ -78,7 +78,8 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)" placeholder="vd: HDN-123">
+          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+                 placeholder="vd: HDN-123">
         </div>
 
         <div class="col-md-2"></div>
@@ -158,11 +159,13 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123">
+              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
+                     (change)="checkMaterialCode($event.target)">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm2.get('materialCode').invalid && (importForm2.get('materialCode').touched||importForm2.get('materialCode').dirty)">
-                Mã vật tư không được để trống
+                Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
               </small>
+              <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
             </div>
           </div>
           <div class="row">
@@ -187,7 +190,7 @@
               <input type="number" formControlName="materialPrice">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm2.get('materialPrice').invalid && (importForm2.get('materialPrice').touched||importForm2.get('materialPrice').dirty)">
-                Giá vật tư không được để trống
+                Giá vật tư không được để trống và lớn hơn 0
               </small>
               <span>Đơn vị "VND"</span>
             </div>
@@ -237,7 +240,7 @@
           </div>
         </div>
 
-        <div class="col-md-6" style="border-style: double"></div>
+        <div class="col-md-6"></div>
       </div>
       <br>
       <br>
@@ -280,11 +283,13 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
+                         (change)="checkMaterialCodeUpdate($event.target)"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
-                    Mã vật tư không được để trống
+                    Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
                   </small>
+                  <small class="text-danger mb-0 pb-0">{{materialExistUpdate}}</small>
                 </div>
                 <div *ngIf="checkFormEdit == false || importIdTemp != importTable.importId">
                   {{importTable.importMaterialId.materialCode}}
@@ -379,7 +384,7 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid || importExistUpdate !== ''">
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''">
                   Chỉnh sửa
                 </button>
                 <button class="btn__cancel" type="submit"
@@ -417,7 +422,9 @@
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm2.invalid || importExistCreate !== ''">Thêm mới</button>
+          <button class="btn__primary" type="submit"
+                  [disabled]="importForm2.invalid || importExistCreate !== '' || materialExistCreate !== ''">Thêm mới
+          </button>
         </div>
         <div class="col-md-3">
           <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In hoá đơn
