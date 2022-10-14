@@ -16,6 +16,7 @@ export class FinancialStatisticComponent implements OnInit {
   nhap: number;
   tongthu = 0;
   tongchi = 0;
+  doanhthu = 0;
   constructor(private statisticService: StatisticServiceService) { }
 
   ngOnInit(): void {
@@ -38,6 +39,7 @@ export class FinancialStatisticComponent implements OnInit {
       (res) => {
         this.luong = res;
         this.tongchi = this.tongchi + this.luong;
+        this.doanhthu = this.tongthu - this.tongchi;
       });
     this.statisticService.getNhap().subscribe(
       (res) => {

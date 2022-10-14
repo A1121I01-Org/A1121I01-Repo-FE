@@ -7,9 +7,9 @@ import {Observable} from 'rxjs';
 })
 export class StatisticServiceService {
 
-  private API_URL = 'http://localhost:8080/api/cart';
-  private API_URL_LUONG = 'http://localhost:8080/api/salary';
-  private API_URL_NHAP = 'http://localhost:8080/api/import';
+  readonly API_URL = 'http://localhost:8080/api/cart';
+  readonly API_URL_LUONG = 'http://localhost:8080/api/salary';
+  readonly API_URL_NHAP = 'http://localhost:8080/api/import';
 
   constructor(private http: HttpClient) { }
 
