@@ -1,21 +1,21 @@
-<div className="app-container">
-  <div className="sidebar close">
-    <div className="logo-details">
-      <img src="assets/images/material-infor/logo1.png" className="app-icon">
-      <span className="logo_name">EquipStore</span>
+<div class="sidebar close">
+    <div class="logo-details">
+      <img src="assets/images/infor-material/logo1.png" class="app-icon">
+      <span class="logo_name">EquipStore</span>
     </div>
-    <ul className="nav-links">
-      <li>
+    <ul class="nav-links">
+      <li><div class="iocn-link">
         <a href="#">
-          <i className='bx bx-grid-alt'></i>
-          <span className="link_name">Trang chủ</span>
+          <i class='bx bx-book-alt'></i>
+          <span class="link_name">Trang chủ</span>
         </a>
-        <ul className="sub-menu blank">
-          <li><a className="link_name" href="#">Trang chủ</a></li>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Trang chủ</a></li>
         </ul>
       </li>
       <li>
-        <div className="iocn-link">
+        <div class="iocn-link">
           <a>
             <i [routerLink]="['/material/infor']" class='bx bx-collection'></i>
             <span class="link_name">Sản phẩm</span>
@@ -93,24 +93,25 @@
       </li>
     </ul>
   </div>
-  <section class="home-section">
-    <div class="home-content">
-      <i class='bx bx-menu'></i>
-    </div>
-  </section>
-  <script>
-    let arrow = document.querySelectorAll(".arrow");
-    for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener("click", (e) => {
-        let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-        arrowParent.classList.toggle("showMenu");
+<!--<section class="home-section">-->
+<!--  <div class="home-content">-->
+<!--    <i class='bx bx-menu' ></i>-->
+<!--  </div>-->
+<!--</section>-->
+<script>
+
+  $(document).ready(function () {
+    const arrow = $(".arrow");
+    for (let i = 0; i < arrow.length; i++) {
+      arrow[i].on("click", (e) => {
+        const arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+        arrowParent.toggleClass("showMenu");
       });
     }
-    let sidebar = document.querySelector(".sidebar");
-    let sidebarBtn = document.querySelector(".bx-menu");
-    console.log(sidebarBtn);
-    sidebarBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("close");
-    });
-  </script>
-</div>
+    const sidebar = $(".sidebar");
+    const sidebarBtn = $(".bx-menu");
+    sidebarBtn.on("click", () => {
+      sidebar.toggleClass("close");
+    })
+  });
+</script>

@@ -7,13 +7,28 @@ import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ListMaterialComponent } from './list-material/list-material.component';
 import { InforMaterialComponent } from './infor-material/infor-material.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
+  exports: [
+    InforMaterialComponent
+  ],
   imports: [
     CommonModule,
-    MaterialRoutingModule
+    MaterialRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HttpClientModule,
+    NgbModule,
+
   ]
 })
 export class MaterialModule { }

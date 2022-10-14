@@ -7,17 +7,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="https://kit.fontawesome.com/b0b948f342.js" crossorigin="anonymous"></script>
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-<<<<<<< HEAD
-
 <app-root></app-root>
-
-=======
-  <app-root></app-root>
-
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
->>>>>>> bd09438f03d976e2dfe29a7463265ad5a9d69c8f
+<script>
+  //sidebar
+  // $(document).ready(function () {
+  //   const arrow = $(".arrow");
+  //   for (let i = 0; i < arrow.length; i++) {
+  //     arrow[i].on("click", (e) => {
+  //       const arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+  //       arrowParent.toggleClass("showMenu");
+  //     });
+  //   }
+  //   const sidebar = $(".sidebar");
+  //   const sidebarBtn = $(".bx-menu");
+  //   sidebarBtn.on("click", () => {
+  //     sidebar.toggleClass("close");
+  //   })
+  //
+  // });
+  //grid
+  $(document).ready(function() {
+    $(".grid").click(function() {
+      $(".list").removeClass("active");
+      $(".grid").addClass("active");
+      $(".products-area-wrapper").addClass("gridView");
+      $(".products-area-wrapper").removeClass("tableView");
+    });
+    $(".list").click(function() {
+      $(".list").addClass("active");
+      $(".grid").removeClass("active");
+      $(".products-area-wrapper").removeClass("gridView");
+      $(".products-area-wrapper").addClass("tableView");
+    });
+  });
+  $(document).ready(function() {
+    const $app = $('.app');
+    const $img = $('.app__img');
+    const $pageNav1 = $('.pages__item--1');
+    const $pageNav2 = $('.pages__item--2');
+    let animation = true;
+    let curSlide = 1;
+    let scrolledUp, nextSlide;
+
+    let pagination = function(slide, target) {
+      animation = true;
+      if (target === undefined) {
+        nextSlide = scrolledUp ? slide - 1 : slide + 1;
+      } else {
+        nextSlide = target;
+      }
+
+      $('.pages__item--' + nextSlide).addClass('page__item-active');
+      $('.pages__item--' + slide).removeClass('page__item-active');
+
+      $app.toggleClass('active');
+      setTimeout(function() {
+        animation = false;
+      }, 3000)
+    }
+
+    let navigateDown = function() {
+      if (curSlide > 1) return;
+      scrolledUp = false;
+      pagination(curSlide);
+      curSlide++;
+    }
+
+    let navigateUp = function() {
+      if (curSlide === 1) return;
+      scrolledUp = true;
+      pagination(curSlide);
+      curSlide--;
+    }
+
+    setTimeout(function() {
+      $app.addClass('initial');
+    }, 1500);
+
+    setTimeout(function() {
+      animation = false;
+    }, 4500);
+
+    $(document).on('mousewheel DOMMouseScroll', function(e) {
+      var delta = e.originalEvent.wheelDelta;
+      if (animation) return;
+      if (delta > 0 || e.originalEvent.detail < 0) {
+        navigateUp();
+      } else {
+        navigateDown();
+      }
+    });
+
+    $(document).on("click", ".pages__item:not(.page__item-active)", function() {
+      if (animation) return;
+      let target = +$(this).attr('data-target');
+      pagination(curSlide, target);
+      curSlide = target;
+    });
+  });
+</script>
 </body>
 </html>

@@ -1,6 +1,4 @@
-/* Google Fonts Import Link */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-*{
+/* Google Fonts Import Link */  *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -213,7 +211,7 @@
 }
 .home-section{
   position: relative;
-  background: white;
+  background: #E4E9F7;
   height: 100vh;
   left: 260px;
   width: calc(100% - 260px);
@@ -229,17 +227,9 @@
   align-items: center;
 }
 .home-section .home-content .bx-menu,
-.home-section .home-content .text{
-  color: #11101d;
-  font-size: 35px;
-}
 .home-section .home-content .bx-menu{
   margin: 0 15px;
   cursor: pointer;
-}
-.home-section .home-content .text{
-  font-size: 26px;
-  font-weight: 600;
 }
 @media (max-width: 400px) {
   .sidebar.close .nav-links li .sub-menu{
