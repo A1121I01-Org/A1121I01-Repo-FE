@@ -48,7 +48,7 @@ export class CreateCustomerComponent implements OnInit {
     ],
     customerPhone: [
       {type: 'required', message: 'Số điện thoại không được để trống'},
-      {type: 'checkBirthday', message: 'Số điện thoại không chứa kí tự đặc biệt'}
+      {type: 'checkBirthday', message: 'Số điện thoại không đúng định dạng'}
     ],
     customerEmail: [
       {type: 'required', message: 'Email không được để trống'},
@@ -63,16 +63,16 @@ export class CreateCustomerComponent implements OnInit {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
       customerId: new FormControl(''),
-      customerName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
-      customerCode: new FormControl('', [Validators.required, Validators.pattern('^MKH-\\d{4}$')]),
+      customerName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
+      customerCode: new FormControl('', [Validators.required, Validators.pattern('^MKH-\\d{3}$')]),
       customerAvatar: new FormControl('', Validators.required),
-      customerAddress: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]$')]),
+      customerAddress: new FormControl('', Validators.required),
       customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')]),
       customerEmail: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]),
       customerTypeId: new FormControl('', Validators.required),
     });
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      const customerId = paramMap.get('customerId');
+      const customerId = paramMap.get('id');
       console.log(customerId);
       if (customerId !== null) {
         this.customerId = Number(customerId);

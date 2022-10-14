@@ -20,6 +20,6 @@ export class CustomerServiceService {
   }
 
   findCustomerById(customerId: number): Observable<ICustomer> {
-    return this.http.get<ICustomer>(URL_API + '/' + customerId);
+    return this.http.get<ICustomer>(URL_API + '/customer-findById/' + customerId);
   }
 }
