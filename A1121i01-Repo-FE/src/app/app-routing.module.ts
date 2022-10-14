@@ -34,7 +34,7 @@ const routes: Routes = [{
   {
     path: 'statistic',
     loadChildren: () => import('./statistic/statistic.module').then(module => module.StatisticModule)
-  },
+  }
 ];
 
 @NgModule({

@@ -1,17 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { StatisticRoutingModule } from './statistic-routing.module';
-import { MaterialStatisticComponent } from './material-statistic/material-statistic.component';
-import { CustomerStatisticComponent } from './customer-statistic/customer-statistic.component';
-import { FinancialStatisticComponent } from './financial-statistic/financial-statistic.component';
+import {StatisticRoutingModule} from './statistic-routing.module';
+import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
+import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
+import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
   declarations: [MaterialStatisticComponent, CustomerStatisticComponent, FinancialStatisticComponent],
+  exports: [
+    MaterialStatisticComponent
+  ],
   imports: [
     CommonModule,
-    StatisticRoutingModule
+    StatisticRoutingModule,
+    HttpClientModule
   ]
 })
-export class StatisticModule { }
+export class StatisticModule {
+}
