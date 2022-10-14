@@ -1,22 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {ICustomer} from '../../model/customer/icustomer';
-import {ImportServiceService} from '../../service/import/import-service.service';
-import {IImport} from '../../model/iimport';
-import {IEmployee} from '../../model/employee/iemployee';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IMaterialType} from '../../model/material/imaterial-type';
-import {IMaterial} from '../../model/material/imaterial';
-import {IAccount} from '../../model/account/iaccount';
+import {ICustomer} from '../../../model/customer/icustomer';
+import {IEmployee} from '../../../model/employee/iemployee';
+import {IImport} from '../../../model/iimport';
+import {IMaterialType} from '../../../model/material/imaterial-type';
+import {IMaterial} from '../../../model/material/imaterial';
+import {ImportServiceService} from '../../../service/import/import-service.service';
+import {IAccount} from '../../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
 
 @Component({
-  selector: 'app-import-manager',
-  templateUrl: './import-manager.component.html',
-  styleUrls: ['./import-manager.component.css']
+  selector: 'app-import-material-customer-form',
+  templateUrl: './import-material-customer-form.component.html',
+  styleUrls: ['./import-material-customer-form.component.css']
 })
-export class ImportManagerComponent implements OnInit {
-  importForm: FormGroup;
+export class ImportMaterialCustomerFormComponent implements OnInit {
+  importForm3: FormGroup;
   importUpdateForm: FormGroup;
   checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
@@ -25,7 +25,12 @@ export class ImportManagerComponent implements OnInit {
   importExistCreate = '';
   importExistUpdate = '';
   materialListString: string[] = [];
+  materialExistCreate = '';
   materialExistUpdate = '';
+  phoneCustomerListString: string[] = [];
+  phoneCustomerExistCreate = '';
+  customerListString: string[] = [];
+  customerExistCreate = '';
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -44,34 +49,52 @@ export class ImportManagerComponent implements OnInit {
   accountTempUpdateImport: IAccount = {};
   importIdTemp: number;
   importCreate: IImport = null;
+  materialCreate: IMaterial = {
+    materialTypeId: {},
+    materialCustomerId: {}
+  };
+  customerCreate: ICustomer = {
+    customerTypeId: {}
+  };
+
 
   totalPageList: number[] = [];
 
   page = 1;
   totalPages: number;
 
-  constructor(
-    private importService: ImportServiceService,
-    private notification: NotifierService
-  ) {
+
+  constructor(private importService: ImportServiceService,
+              private notification: NotifierService) {
   }
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
-    this.getAllImportString();
+    this.getAllPhoneCustomerString();
     this.getAllMaterialString();
+    this.getAllImportString();
+    this.getAllCustomerString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList();
     this.getImportListNotPagination();
     this.getMaterialTypeImportList();
-    this.importForm = new FormGroup({
+    this.importForm3 = new FormGroup({
       importCode: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
       importQuantity: new FormControl(null, [Validators.required, Validators.min(0)]),
       importAccountId: new FormControl(null, [Validators.required]),
-      importMaterialId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required])
+      materialCode: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      materialName: new FormControl(null, [Validators.required]),
+      materialPrice: new FormControl(null, [Validators.required, Validators.min(0)]),
+      materialExpiridate: new FormControl(null, [Validators.required]),
+      materialUnit: new FormControl(null, [Validators.required]),
+      materialTypeId: new FormControl(null, [Validators.required]),
+      customerName: new FormControl(null, [Validators.required]),
+      customerCode: new FormControl(null, [Validators.required, Validators.pattern('MKH-\\d{3}')]),
+      customerAddress: new FormControl(null, [Validators.required]),
+      customerPhone: new FormControl(null, [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+      customerEmail: new FormControl(null, [Validators.required, Validators.email])
     });
 
     this.importUpdateForm = new FormGroup({
@@ -85,14 +108,77 @@ export class ImportManagerComponent implements OnInit {
     });
   }
 
-  // +++++++++++++++lấy dữ liệu++++++++++++++++
-  getCustomerList() {
-    this.importService.findAllCustomerImport().subscribe((data: ICustomer[]) => {
-      this.customerList = data;
-      this.customerId = data[0];
+  createImport3() {
+    this.customerCreate = {
+      customerName: this.importForm3.get('customerName').value,
+      customerCode: this.importForm3.get('customerCode').value,
+      customerAddress: this.importForm3.get('customerAddress').value,
+      customerPhone: this.importForm3.get('customerPhone').value,
+      customerEmail: this.importForm3.get('customerEmail').value,
+      customerTypeId: {
+        customerTypeId: 3,
+        customerTypeName: 'nhà cung cấp',
+        customerTypeFlag: false
+      }
+    };
+
+    this.materialCreate = {
+      materialCode: this.importForm3.get('materialCode').value,
+      materialName: this.importForm3.get('materialName').value,
+      materialQuantity: 0,
+      materialPrice: this.importForm3.get('materialPrice').value,
+      materialExpiridate: this.importForm3.get('materialExpiridate').value,
+      materialUnit: this.importForm3.get('materialUnit').value,
+      materialTypeId: this.importForm3.get('materialTypeId').value,
+      materialCustomerId: this.customerCreate
+    };
+
+    this.importCreate = {
+      importCode: this.importForm3.get('importCode').value,
+      importStartDate: this.importForm3.get('importStartDate').value,
+      importQuantity: this.importForm3.get('importQuantity').value,
+      importAccountId: this.importForm3.get('importAccountId').value.employeeAccountId,
+      importMaterialId: this.materialCreate
+    };
+
+
+    this.importService.createImport(this.importCreate).subscribe(
+      () => {
+      },
+      () => {
+      },
+      () => {
+        this.importForm3.reset();
+        this.page = 1;
+        this.getImportList();
+        this.getImportListNotPagination();
+        this.notification.notify('success', 'Thêm mới nhà cung cấp, vật tư nhập kho thành công');
+      }
+    );
+  }
+
+  // ++++++++++++++PDF++++++++++++
+  pdfImport() {
+    this.importService.getPdfImport(this.importCreate).subscribe(x => {
+      const blob = new Blob([x], {type: 'application/pdf'});
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(blob);
+        return;
+      }
+      const data = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = 'invoice.pdf';
+      link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
+      // tslint:disable-next-line:only-arrow-functions
+      setTimeout(() => {
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
     });
   }
 
+  // +++++++++++++++lấy dữ liệu++++++++++++++++
   getAllImportString() {
     this.importService.findAllImportString().subscribe(data => {
       this.importListString = data;
@@ -102,6 +188,27 @@ export class ImportManagerComponent implements OnInit {
   getAllMaterialString() {
     this.importService.findAllMaterialString().subscribe(data => {
       this.materialListString = data;
+    });
+  }
+
+  getAllCustomerString() {
+    this.importService.findAllCustomerString().subscribe(data => {
+      this.customerListString = data;
+      console.log(this.customerListString);
+    });
+  }
+
+  getAllPhoneCustomerString() {
+    this.importService.findAllPhoneCustomerString().subscribe(data => {
+      this.phoneCustomerListString = data;
+      console.log(this.customerListString);
+    });
+  }
+
+  getCustomerList() {
+    this.importService.findAllCustomerImport().subscribe((data: ICustomer[]) => {
+      this.customerList = data;
+      this.customerId = data[0];
     });
   }
 
@@ -202,53 +309,7 @@ export class ImportManagerComponent implements OnInit {
       });
   }
 
-// ++++++++++++++++++create+++++++++++++
-  createImport1() {
-    this.importCreate = {
-      importCode: this.importForm.get('importCode').value,
-      importStartDate: this.importForm.get('importStartDate').value,
-      importQuantity: this.importForm.get('importQuantity').value,
-      importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
-      importMaterialId: this.importForm.get('importMaterialId').value
-    };
-
-    this.importService.createImport(this.importCreate).subscribe(
-      () => {
-      },
-      () => {
-      },
-      () => {
-        this.importForm.reset();
-        this.page = 1;
-        this.getImportList();
-        this.getImportListNotPagination();
-        this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
-      }
-    );
-  }
-
-  // ++++++++++++++PDF++++++++++++
-  pdfImport() {
-    this.importService.getPdfImport(this.importCreate).subscribe(x => {
-      const blob = new Blob([x], {type: 'application/pdf'});
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(blob);
-        return;
-      }
-      const data = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = data;
-      link.download = 'invoice.pdf';
-      link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
-      // tslint:disable-next-line:only-arrow-functions
-      setTimeout(() => {
-        window.URL.revokeObjectURL(data);
-        link.remove();
-      }, 100);
-    });
-  }
-
-  // +++++++++++Edit+++++++++++++
+// +++++++++update++++++++++++
   compareFn(c1: IEmployee, c2: IAccount): boolean {
     return c1.employeeAccountId.accountId === c2.accountId;
   }
@@ -258,7 +319,7 @@ export class ImportManagerComponent implements OnInit {
   }
 
   showFormEdit(checkFormEdit: boolean, importId: number) {
-    this.importForm.reset();
+    this.importForm3.reset();
     this.importIdTemp = importId;
     this.checkFormEdit = checkFormEdit;
     this.importService.findImportById(importId).subscribe((data) => {
@@ -278,7 +339,6 @@ export class ImportManagerComponent implements OnInit {
   }
 
   updateImport() {
-    // tslint:disable-next-line:radix
     if ((this.checkQuantityMaterial + parseInt(this.importUpdateForm.get('importQuantityUpdate').value)) >= 0) {
       if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
         this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
@@ -308,14 +368,14 @@ export class ImportManagerComponent implements OnInit {
           materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
         }
       };
+
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
         () => {
         },
         () => {
-          this.checkQuantityMaterial = 0;
-          this.importForm.reset();
+          this.importForm3.reset();
           this.importUpdateForm.reset();
           this.getImportList();
           this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
@@ -326,7 +386,6 @@ export class ImportManagerComponent implements OnInit {
       this.checkFormEdit = false;
     }
   }
-
 
   // ++check code import tồn tại++
   checkImportCode(importString: any) {
@@ -345,11 +404,36 @@ export class ImportManagerComponent implements OnInit {
     }
   }
 
+  checkMaterialCode(materialString: any) {
+    if (this.materialListString.indexOf(materialString.value) > -1) {
+      this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+    } else {
+      this.materialExistCreate = '';
+    }
+  }
+
   checkMaterialCodeUpdate(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1 && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+    if (this.materialListString.indexOf(materialString.value) > -1
+      && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
       this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistUpdate = '';
+    }
+  }
+
+  checkCustomerCode(customerString: any) {
+    if (this.customerListString.indexOf(customerString.value) > -1) {
+      this.customerExistCreate = 'Mã nhà cung cấp đã tồn tại';
+    } else {
+      this.customerExistCreate = '';
+    }
+  }
+
+  checkPhoneCustomerCode(customerPhoneString: any) {
+    if (this.phoneCustomerListString.indexOf(customerPhoneString.value) > -1) {
+      this.phoneCustomerExistCreate = 'Số điện thoại nhà cung cấp đã tồn tại';
+    } else {
+      this.phoneCustomerExistCreate = '';
     }
   }
 }

@@ -1,31 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {ICustomer} from '../../model/customer/icustomer';
-import {ImportServiceService} from '../../service/import/import-service.service';
-import {IImport} from '../../model/iimport';
-import {IEmployee} from '../../model/employee/iemployee';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {IMaterialType} from '../../model/material/imaterial-type';
-import {IMaterial} from '../../model/material/imaterial';
-import {IAccount} from '../../model/account/iaccount';
+import {ICustomer} from '../../../model/customer/icustomer';
+import {IEmployee} from '../../../model/employee/iemployee';
+import {IImport} from '../../../model/iimport';
+import {IMaterialType} from '../../../model/material/imaterial-type';
+import {IMaterial} from '../../../model/material/imaterial';
+import {IAccount} from '../../../model/account/iaccount';
+import {ImportServiceService} from '../../../service/import/import-service.service';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
 
 @Component({
-  selector: 'app-import-manager',
-  templateUrl: './import-manager.component.html',
-  styleUrls: ['./import-manager.component.css']
+  selector: 'app-import-material-form',
+  templateUrl: './import-material-form.component.html',
+  styleUrls: ['./import-material-form.component.css']
 })
-export class ImportManagerComponent implements OnInit {
-  importForm: FormGroup;
+export class ImportMaterialFormComponent implements OnInit {
+  importForm2: FormGroup;
   importUpdateForm: FormGroup;
   checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
-  checkFormEdit = false;
   importListString: string[] = [];
   importExistCreate = '';
   importExistUpdate = '';
   materialListString: string[] = [];
+  materialExistCreate = '';
   materialExistUpdate = '';
+  checkFormEdit = false;
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -44,33 +45,39 @@ export class ImportManagerComponent implements OnInit {
   accountTempUpdateImport: IAccount = {};
   importIdTemp: number;
   importCreate: IImport = null;
-
+  materialCreate: IMaterial = {
+    materialTypeId: {},
+    materialCustomerId: {}
+  };
   totalPageList: number[] = [];
 
   page = 1;
   totalPages: number;
 
-  constructor(
-    private importService: ImportServiceService,
-    private notification: NotifierService
-  ) {
+  constructor(private importService: ImportServiceService,
+              private notification: NotifierService) {
   }
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
-    this.getAllImportString();
     this.getAllMaterialString();
+    this.getAllImportString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList();
     this.getImportListNotPagination();
     this.getMaterialTypeImportList();
-    this.importForm = new FormGroup({
+    this.importForm2 = new FormGroup({
       importCode: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
       importQuantity: new FormControl(null, [Validators.required, Validators.min(0)]),
       importAccountId: new FormControl(null, [Validators.required]),
-      importMaterialId: new FormControl(null, [Validators.required]),
+      materialCode: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      materialName: new FormControl(null, [Validators.required]),
+      materialPrice: new FormControl(null, [Validators.required, Validators.min(0)]),
+      materialExpiridate: new FormControl(null, [Validators.required]),
+      materialUnit: new FormControl(null, [Validators.required]),
+      materialTypeId: new FormControl(null, [Validators.required]),
       materialCustomerId: new FormControl(null, [Validators.required])
     });
 
@@ -108,6 +115,7 @@ export class ImportManagerComponent implements OnInit {
   getEmployeeList() {
     this.importService.findAllEmployeeImport().subscribe((data: IEmployee[]) => {
       this.employeeList = data;
+      console.log(data);
     });
   }
 
@@ -202,15 +210,27 @@ export class ImportManagerComponent implements OnInit {
       });
   }
 
-// ++++++++++++++++++create+++++++++++++
-  createImport1() {
-    this.importCreate = {
-      importCode: this.importForm.get('importCode').value,
-      importStartDate: this.importForm.get('importStartDate').value,
-      importQuantity: this.importForm.get('importQuantity').value,
-      importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
-      importMaterialId: this.importForm.get('importMaterialId').value
+// +++++++++thêm mới__________
+  createImport2() {
+    this.materialCreate = {
+      materialCode: this.importForm2.get('materialCode').value,
+      materialName: this.importForm2.get('materialName').value,
+      materialQuantity: 0,
+      materialPrice: this.importForm2.get('materialPrice').value,
+      materialExpiridate: this.importForm2.get('materialExpiridate').value,
+      materialUnit: this.importForm2.get('materialUnit').value,
+      materialTypeId: this.importForm2.get('materialTypeId').value,
+      materialCustomerId: this.importForm2.get('materialCustomerId').value
     };
+
+    this.importCreate = {
+      importCode: this.importForm2.get('importCode').value,
+      importStartDate: this.importForm2.get('importStartDate').value,
+      importQuantity: this.importForm2.get('importQuantity').value,
+      importAccountId: this.importForm2.get('importAccountId').value.employeeAccountId,
+      importMaterialId: this.materialCreate
+    };
+
 
     this.importService.createImport(this.importCreate).subscribe(
       () => {
@@ -218,11 +238,11 @@ export class ImportManagerComponent implements OnInit {
       () => {
       },
       () => {
-        this.importForm.reset();
+        this.importForm2.reset();
         this.page = 1;
         this.getImportList();
         this.getImportListNotPagination();
-        this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
+        this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
       }
     );
   }
@@ -258,7 +278,7 @@ export class ImportManagerComponent implements OnInit {
   }
 
   showFormEdit(checkFormEdit: boolean, importId: number) {
-    this.importForm.reset();
+    this.importForm2.reset();
     this.importIdTemp = importId;
     this.checkFormEdit = checkFormEdit;
     this.importService.findImportById(importId).subscribe((data) => {
@@ -278,7 +298,6 @@ export class ImportManagerComponent implements OnInit {
   }
 
   updateImport() {
-    // tslint:disable-next-line:radix
     if ((this.checkQuantityMaterial + parseInt(this.importUpdateForm.get('importQuantityUpdate').value)) >= 0) {
       if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
         this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
@@ -308,14 +327,14 @@ export class ImportManagerComponent implements OnInit {
           materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
         }
       };
+      console.log(this.importUpdate);
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
         () => {
         },
         () => {
-          this.checkQuantityMaterial = 0;
-          this.importForm.reset();
+          this.importForm2.reset();
           this.importUpdateForm.reset();
           this.getImportList();
           this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
@@ -327,8 +346,7 @@ export class ImportManagerComponent implements OnInit {
     }
   }
 
-
-  // ++check code import tồn tại++
+  // +++++++++check code tồn tại+++++++++++
   checkImportCode(importString: any) {
     if (this.importListString.indexOf(importString.value) > -1) {
       this.importExistCreate = 'Mã nhập kho đã tồn tại';
@@ -342,6 +360,14 @@ export class ImportManagerComponent implements OnInit {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
+    }
+  }
+
+  checkMaterialCode(materialString: any) {
+    if (this.materialListString.indexOf(materialString.value) > -1) {
+      this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+    } else {
+      this.materialExistCreate = '';
     }
   }
 

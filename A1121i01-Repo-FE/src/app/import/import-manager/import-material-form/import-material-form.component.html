@@ -1,6 +1,6 @@
 <div class="container mt-3">
   <div style="background-color: white;">
-    <form [formGroup]="importForm" (ngSubmit)="createImport1()" class="p-3">
+    <form [formGroup]="importForm2" (ngSubmit)="createImport2()" class="p-3">
       <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
       <div class="row mt-3 ml-3">
         <div class="col-md-2 input-group" style="align-content: center">
@@ -10,13 +10,13 @@
         <div class="col-md-3 input-group">
           <div class="form-check p-0">
             <input class="form-check-input mt-1" type="radio" name="flexRadioDefault1" id="flexRadioDefault5"
-                   checked routerLink="/import">
+                   routerLink="/import">
             <label routerLink="/import" class="form-check-label" for="flexRadioDefault5">
               Hàng đã nhập
             </label>
           </div>
           <div class="form-check p-0 ml-4">
-            <input routerLink="/import/import-material" class="form-check-input mt-1" type="radio"
+            <input checked routerLink="/import/import-material" class="form-check-input mt-1" type="radio"
                    name="flexRadioDefault1" id="flexRadioDefault6">
             <label routerLink="/import/import-material" class="form-check-label" for="flexRadioDefault6">
               Hàng mới
@@ -37,7 +37,7 @@
                     [ngValue]="employee">{{employee.employeeName}}</option>
           </select>
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importAccountId').invalid && (importForm.get('importAccountId').touched||importForm.get('importAccountId').dirty)">
+                 *ngIf="importForm2.get('importAccountId').invalid && (importForm2.get('importAccountId').touched||importForm2.get('importAccountId').dirty)">
             Người thực hiện không được để trống
           </small>
         </div>
@@ -52,8 +52,22 @@
         <div class="col-md-2"></div>
 
         <div class="col-md-2">
+          <div class="form-check p-0">
+            <input checked class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault7"
+                   routerLink="/import/import-material">
+            <label class="form-check-label ml-3" for="flexRadioDefault7" routerLink="/import/import-material">
+              Nhà cung cấp cũ
+            </label>
+          </div>
         </div>
         <div class="col-md-3">
+          <div class="form-check p-0">
+            <input class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault8"
+                   routerLink="/import/import-material-customer">
+            <label routerLink="/import/import-material-customer" class="form-check-label ml-3" for="flexRadioDefault8">
+              Thêm mới Nhà cung cấp
+            </label>
+          </div>
         </div>
       </div>
 
@@ -89,7 +103,7 @@
         </div>
         <div class="col-md-3 input-group">
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importCode').invalid && (importForm.get('importCode').touched||importForm.get('importCode').dirty)">
+                 *ngIf="importForm2.get('importCode').invalid && (importForm2.get('importCode').touched||importForm2.get('importCode').dirty)">
             Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
           </small>
           <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
@@ -101,7 +115,7 @@
         </div>
         <div class="col-md-3 input-group">
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('materialCustomerId').invalid && (importForm.get('materialCustomerId').touched||importForm.get('materialCustomerId').dirty)">
+                 *ngIf="importForm2.get('materialCustomerId').invalid && (importForm2.get('materialCustomerId').touched||importForm2.get('materialCustomerId').dirty)">
             Nhà cung cấp không được để trống
           </small>
         </div>
@@ -115,17 +129,119 @@
         <div class="col-md-3 input-group">
           <input type="date" formControlName="importStartDate">
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importStartDate').invalid && (importForm.get('importStartDate').touched||importForm.get('importStartDate').dirty)">
+                 *ngIf="importForm2.get('importStartDate').invalid && (importForm2.get('importStartDate').touched||importForm2.get('importStartDate').dirty)">
             Ngày lập không được để trống
           </small>
         </div>
 
         <div class="col-md-2"></div>
 
-        <div class="col-md-2 p-0"></div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2 input-group p-0" style="align-content: center">
+          Số lượng
+          <span style="color: red">(*)</span>
+        </div>
+        <div class="col-md-3 input-group">
+          <input type="number" formControlName="importQuantity">
+          <small class="text-danger mb-0 pb-0"
+                 *ngIf="importForm2.get('importQuantity').invalid && (importForm2.get('importQuantity').touched||importForm2.get('importQuantity').dirty)">
+            Số lượng không được để trống và lớn hơn 0
+          </small>
+        </div>
       </div>
       <br>
+      <br>
+      <div class="row">
+        <div class="col-md-6" style="border-style: double">
+          <h5 class="text-center" style="color: #270082">Thêm mới Vật tư</h5>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Mã VT:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
+                     (change)="checkMaterialCode($event.target)">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialCode').invalid && (importForm2.get('materialCode').touched||importForm2.get('materialCode').dirty)">
+                Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
+              </small>
+              <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Tên:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialName">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialName').invalid && (importForm2.get('materialName').touched||importForm2.get('materialName').dirty)">
+                Tên vật tư không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Giá:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="number" formControlName="materialPrice">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialPrice').invalid && (importForm2.get('materialPrice').touched||importForm2.get('materialPrice').dirty)">
+                Giá vật tư không được để trống và lớn hơn 0
+              </small>
+              <span>Đơn vị "VND"</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Hạn sử dụng:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="date" formControlName="materialExpiridate">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialExpiridate').invalid && (importForm2.get('materialExpiridate').touched||importForm2.get('materialExpiridate').dirty)">
+                Hạn sử dụng không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Đơn vị:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialUnit">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialUnit').invalid && (importForm2.get('materialUnit').touched||importForm2.get('materialUnit').dirty)">
+                Đơn vị không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Loại Vật tư:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <select style="height: 100%;" formControlName="materialTypeId">
+                <option selected disabled value='null'>Chọn</option>
+                <option *ngFor="let materialType of materialTypeList"
+                        [ngValue]="materialType">{{materialType.materialTypeName}}</option>
+              </select>
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm2.get('materialTypeId').invalid && (importForm2.get('materialTypeId').touched||importForm2.get('materialTypeId').dirty)">
+                Loại Vật tư không được để trống
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6"></div>
+      </div>
       <br>
       <br>
       <br>
@@ -262,7 +378,7 @@
                         (click)="showInfoImportDelete(importTable)"
                         class="btn__delete"
                         data-toggle="modal"
-                        data-target="#modalDeleteImport"
+                        data-target="#modalDeleteImport2"
                         *ngIf="checkFormEdit == false || importIdTemp != importTable.importId">
                   Xoá
                 </button>
@@ -280,36 +396,6 @@
             </tbody>
           </table>
         </form>
-        <table class="table table-hover">
-          <tr *ngIf="checkFormEdit == false">
-            <td></td>
-            <td></td>
-            <td style="width: 0">
-              <select style="height: 100%" formControlName="importMaterialId">
-                <option selected disabled value="">Chọn</option>
-                <option *ngFor="let material of materialList"
-                        [ngValue]="material">{{material.materialName}}</option>
-              </select>
-              <small class="text-danger mb-0 pb-0"
-                     *ngIf="importForm.get('importMaterialId').invalid && (importForm.get('importMaterialId').touched||importForm.get('importMaterialId').dirty)">
-                Vật tư không được để trống
-              </small>
-            </td>
-            <td class="px-0" style="width: 15%">
-              <input style="width: 80%" type="number" formControlName="importQuantity">
-              <br>
-              <small class="text-danger mb-0 pb-0"
-                     *ngIf="importForm.get('importQuantity').invalid && (importForm.get('importQuantity').touched||importForm.get('importQuantity').dirty)">
-                Số lượng không được để trống và lớn hơn 0
-              </small>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
       <div>
@@ -336,8 +422,8 @@
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
-            mới
+          <button class="btn__primary" type="submit"
+                  [disabled]="importForm2.invalid || importExistCreate !== '' || materialExistCreate !== ''">Thêm mới
           </button>
         </div>
         <div class="col-md-3">
@@ -355,11 +441,11 @@
 
 <!--+++++++++++++++modal+++++++++++++++++=-->
 <!-- Modal -->
-<div class="modal fade" id="modalDeleteImport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalDeleteImport2" tabindex="-1" aria-labelledby="exampleModalLabel09" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title text-danger" id="exampleModalLabel">Xác nhận xoá</h2>
+        <h2 class="modal-title text-danger" id="exampleModalLabel09">Xác nhận xoá</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
       </div>
       <div class="modal-body">

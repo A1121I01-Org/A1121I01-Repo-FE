@@ -1,6 +1,6 @@
 <div class="container mt-3">
   <div style="background-color: white;">
-    <form [formGroup]="importForm" (ngSubmit)="createImport1()" class="p-3">
+    <form [formGroup]="importForm3" (ngSubmit)="createImport3()" class="p-3">
       <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
       <div class="row mt-3 ml-3">
         <div class="col-md-2 input-group" style="align-content: center">
@@ -10,13 +10,13 @@
         <div class="col-md-3 input-group">
           <div class="form-check p-0">
             <input class="form-check-input mt-1" type="radio" name="flexRadioDefault1" id="flexRadioDefault5"
-                   checked routerLink="/import">
+                   routerLink="/import">
             <label routerLink="/import" class="form-check-label" for="flexRadioDefault5">
               Hàng đã nhập
             </label>
           </div>
           <div class="form-check p-0 ml-4">
-            <input routerLink="/import/import-material" class="form-check-input mt-1" type="radio"
+            <input checked routerLink="/import/import-material" class="form-check-input mt-1" type="radio"
                    name="flexRadioDefault1" id="flexRadioDefault6">
             <label routerLink="/import/import-material" class="form-check-label" for="flexRadioDefault6">
               Hàng mới
@@ -37,7 +37,7 @@
                     [ngValue]="employee">{{employee.employeeName}}</option>
           </select>
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importAccountId').invalid && (importForm.get('importAccountId').touched||importForm.get('importAccountId').dirty)">
+                 *ngIf="importForm3.get('importAccountId').invalid && (importForm3.get('importAccountId').touched||importForm3.get('importAccountId').dirty)">
             Người thực hiện không được để trống
           </small>
         </div>
@@ -52,8 +52,22 @@
         <div class="col-md-2"></div>
 
         <div class="col-md-2">
+          <div class="form-check p-0">
+            <input class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault7"
+                   routerLink="/import/import-material">
+            <label class="form-check-label ml-3" for="flexRadioDefault7" routerLink="/import/import-material">
+              Nhà cung cấp cũ
+            </label>
+          </div>
         </div>
         <div class="col-md-3">
+          <div class="form-check p-0">
+            <input checked class="form-check-input mt-1" type="radio" name="flexRadioDefault" id="flexRadioDefault8"
+                   routerLink="/import/import-material-customer">
+            <label routerLink="/import/import-material-customer" class="form-check-label ml-3" for="flexRadioDefault8">
+              Thêm mới Nhà cung cấp
+            </label>
+          </div>
         </div>
       </div>
 
@@ -64,24 +78,13 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
-                 placeholder="vd: HDN-123">
+          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)" placeholder="vd: HDN-123">
         </div>
 
         <div class="col-md-2"></div>
 
-        <div class="col-md-2 input-group p-0" style="align-content: center">
-          Nhà cung cấp
-          <span style="color: red">(*)</span>
-        </div>
-        <div class="col-md-3 input-group">
-          <select style="height: 100%" formControlName="materialCustomerId"
-                  [(ngModel)]="customerId" (ngModelChange)="showMaterialList($event)">
-            <option selected disabled value="">Chọn</option>
-            <option *ngFor="let customer of customerList"
-                    [ngValue]="customer">{{customer.customerName}}</option>
-          </select>
-        </div>
+        <div class="col-md-2 input-group p-0" style="align-content: center"></div>
+        <div class="col-md-3 input-group"></div>
       </div>
 
       <div class="row ml-3">
@@ -89,21 +92,16 @@
         </div>
         <div class="col-md-3 input-group">
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importCode').invalid && (importForm.get('importCode').touched||importForm.get('importCode').dirty)">
+                 *ngIf="importForm3.get('importCode').invalid && (importForm3.get('importCode').touched||importForm3.get('importCode').dirty)">
             Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
           </small>
           <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
         </div>
 
         <div class="col-md-2"></div>
-
         <div class="col-md-2 input-group p-0" style="align-content: center">
         </div>
         <div class="col-md-3 input-group">
-          <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('materialCustomerId').invalid && (importForm.get('materialCustomerId').touched||importForm.get('materialCustomerId').dirty)">
-            Nhà cung cấp không được để trống
-          </small>
         </div>
       </div>
 
@@ -115,17 +113,188 @@
         <div class="col-md-3 input-group">
           <input type="date" formControlName="importStartDate">
           <small class="text-danger mb-0 pb-0"
-                 *ngIf="importForm.get('importStartDate').invalid && (importForm.get('importStartDate').touched||importForm.get('importStartDate').dirty)">
+                 *ngIf="importForm3.get('importStartDate').invalid && (importForm3.get('importStartDate').touched||importForm3.get('importStartDate').dirty)">
             Ngày lập không được để trống
           </small>
         </div>
 
         <div class="col-md-2"></div>
 
-        <div class="col-md-2 p-0"></div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2 input-group p-0" style="align-content: center">
+          Số lượng
+          <span style="color: red">(*)</span>
+        </div>
+        <div class="col-md-3 input-group">
+          <input type="number" formControlName="importQuantity">
+          <small class="text-danger mb-0 pb-0"
+                 *ngIf="importForm3.get('importQuantity').invalid && (importForm3.get('importQuantity').touched||importForm3.get('importQuantity').dirty)">
+            Số lượng không được để trống và lớn hơn 0
+          </small>
+        </div>
       </div>
       <br>
+      <br>
+      <div class="row">
+        <div class="col-md-6" style="border-style: double">
+          <h5 class="text-center" style="color: #270082">Thêm mới Vật tư</h5>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Mã VT:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123" (change)="checkMaterialCode($event.target)">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialCode').invalid && (importForm3.get('materialCode').touched||importForm3.get('materialCode').dirty)">
+                Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
+              </small>
+              <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Tên:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialName">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialName').invalid && (importForm3.get('materialName').touched||importForm3.get('materialName').dirty)">
+                Tên vật tư không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Giá:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="number" formControlName="materialPrice">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialPrice').invalid && (importForm3.get('materialPrice').touched||importForm3.get('materialPrice').dirty)">
+                Giá vật tư không được để trống và lớn hơn 0
+              </small>
+              <span>Đơn vị "VND"</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Hạn sử dụng:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="date" formControlName="materialExpiridate">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialExpiridate').invalid && (importForm3.get('materialExpiridate').touched||importForm3.get('materialExpiridate').dirty)">
+                Hạn sử dụng không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Đơn vị:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialUnit">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialUnit').invalid && (importForm3.get('materialUnit').touched||importForm3.get('materialUnit').dirty)">
+                Đơn vị không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Loại Vật tư:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <select style="height: 100%;" formControlName="materialTypeId">
+                <option selected disabled value='null'>Chọn</option>
+                <option *ngFor="let materialType of materialTypeList"
+                        [ngValue]="materialType">{{materialType.materialTypeName}}</option>
+              </select>
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('materialTypeId').invalid && (importForm3.get('materialTypeId').touched||importForm3.get('materialTypeId').dirty)">
+                Loại Vật tư không được để trống
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6" style="border-style: double">
+          <h5 class="text-center text" style="color: #270082">
+            Thêm mới Nhà cung cấp</h5>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Mã NCC:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="customerCode" (change)="checkCustomerCode($event.target)" placeholder="vd: MKH-123">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
+                Mã nhà cung cấp không được để trống và đúng định dạng MKH-XXX. ví dụ MKH-001
+              </small>
+              <small class="text-danger mb-0 pb-0">{{customerExistCreate}}</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Tên:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="customerName">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('customerName').invalid && (importForm3.get('customerName').touched||importForm3.get('customerName').dirty)">
+                Tên nhà cung cấp không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Địa chỉ:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="customerAddress">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('customerAddress').invalid && (importForm3.get('customerAddress').touched||importForm3.get('customerAddress').dirty)">
+                Địa chỉ nhà cung cấp không được để trống
+              </small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Số điện thoại:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="customerPhone" (change)="checkPhoneCustomerCode($event.target)">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('customerPhone').invalid && (importForm3.get('customerPhone').touched||importForm3.get('customerPhone').dirty)">
+                Sdt nhà cung cấp không được để trống và phải đúng định dạng 03x 076x 08x 09x..., vd: 0905113113
+              </small>
+              <small class="text-danger mb-0 pb-0">{{phoneCustomerExistCreate}}</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Email:
+              <span style="color: red">(*)</span>
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="customerEmail">
+              <small class="text-danger mb-0 pb-0"
+                     *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
+                Email nhà cung cấp không được để trống và phải đúng định dạng email. vd: thang123@gmail.com
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
       <br>
       <br>
       <br>
@@ -166,8 +335,7 @@
 
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
-                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
-                         (change)="checkMaterialCodeUpdate($event.target)"
+                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}" (change)="checkMaterialCodeUpdate($event.target)"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
@@ -268,8 +436,8 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''">
-                  Chỉnh sửa
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''" >
+                  Update
                 </button>
                 <button class="btn__cancel" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId" (click)="close(false)">
@@ -280,36 +448,6 @@
             </tbody>
           </table>
         </form>
-        <table class="table table-hover">
-          <tr *ngIf="checkFormEdit == false">
-            <td></td>
-            <td></td>
-            <td style="width: 0">
-              <select style="height: 100%" formControlName="importMaterialId">
-                <option selected disabled value="">Chọn</option>
-                <option *ngFor="let material of materialList"
-                        [ngValue]="material">{{material.materialName}}</option>
-              </select>
-              <small class="text-danger mb-0 pb-0"
-                     *ngIf="importForm.get('importMaterialId').invalid && (importForm.get('importMaterialId').touched||importForm.get('importMaterialId').dirty)">
-                Vật tư không được để trống
-              </small>
-            </td>
-            <td class="px-0" style="width: 15%">
-              <input style="width: 80%" type="number" formControlName="importQuantity">
-              <br>
-              <small class="text-danger mb-0 pb-0"
-                     *ngIf="importForm.get('importQuantity').invalid && (importForm.get('importQuantity').touched||importForm.get('importQuantity').dirty)">
-                Số lượng không được để trống và lớn hơn 0
-              </small>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </table>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
       <div>
@@ -336,8 +474,8 @@
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
-            mới
+          <button class="btn__primary" type="submit" [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
+            Thêm mới
           </button>
         </div>
         <div class="col-md-3">
