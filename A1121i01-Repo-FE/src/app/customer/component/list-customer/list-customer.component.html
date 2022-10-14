@@ -4,7 +4,7 @@
     <div class="add-product">
       <div >
         <span class="fa-solid fa-plus"></span>
-        <h6>Thêm mới</h6>
+        <h6 routerLink="/customer/create">Thêm mới</h6>
       </div>
     </div>
     <!--    <div class="info-search">-->
@@ -51,8 +51,8 @@
         <td contenteditable="true">{{c.customerAddress}}</td>
         <td contenteditable="true">{{c.customerPhone}}</td>
         <td id="button-function">
-          <button class="btn btn-primary btn__primary" type="button">Xem</button>
-          <button class="btn btn-primary btn__cancel " type="button">Sua</button>
+          <button class="btn btn-primary btn__primary" [routerLink]="['/customer/detail/',c.customerId]" type="button">Xem</button>
+          <button class="btn btn-primary btn__cancel " [routerLink]="['/customer/edit',c.customerId]" type="button">Sua</button>
           <button class="btn btn-primary btn__delete" data-toggle="modal" data-target="#exampleModal"
                   type="button" (click)="sendCustomerToDelete(c.customerId, c.customerName)">Xoa
           </button>

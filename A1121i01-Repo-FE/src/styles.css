@@ -35,11 +35,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  display: flex;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #71b7e6,#9b59b6);
+
 
 }
 

@@ -19,7 +19,9 @@ export class CreateCustomerComponent implements OnInit {
               private customerTypeService: CustomerTypeService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) { }
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
+  }
+
   customerTypes: ICustomerType[];
   form: FormGroup;
   customerId = 0;
@@ -59,6 +61,7 @@ export class CreateCustomerComponent implements OnInit {
       {type: 'pattern', message: 'Số điện thoại dạng 10-12 số'}
     ],
   };
+
   ngOnInit(): void {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
@@ -83,12 +86,14 @@ export class CreateCustomerComponent implements OnInit {
       }
     });
   }
+
   compare(o1: any, o2: any) {
     if (o1 === null || o2 === null) {
       return false;
     }
     return o1.id === o2.id;
   }
+
   submit() {
     console.log(1);
     if (this.form.valid) {
@@ -103,6 +108,7 @@ export class CreateCustomerComponent implements OnInit {
               this.form.patchValue({customerAvatar: url});
               this.customerService.create(this.form.value).subscribe(
                 next => {
+                  alert('thanh công');
                   this.router.navigateByUrl('/customer');
                 }
               );
@@ -110,8 +116,10 @@ export class CreateCustomerComponent implements OnInit {
           })
         ).subscribe();
       } else {
+        console.log(3);
         this.customerService.update(this.form.value).subscribe(
           next => {
+            console.log(this.form.value);
             this.router.navigateByUrl('/customer');
           }
         );
@@ -122,6 +130,7 @@ export class CreateCustomerComponent implements OnInit {
   showPreview(event: any) {
     this.selectedImage = event.target.files[0];
   }
+
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
   }

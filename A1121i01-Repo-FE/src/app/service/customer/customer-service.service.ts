@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {ICustomer} from '../../model/customer/icustomer';
@@ -39,12 +39,11 @@ export class CustomerServiceService {
     return this.http.get<ICustomer[]>(this.API_URL + `/customer-search?name=${value1}&phone=${value2}`);
   }
 
-  constructor(private http: HttpClient) { }
   create(customer: ICustomer): Observable<ICustomer> {
-    return this.http.post<ICustomer>(URL_API + '/create', customer);
+    return this.http.post<ICustomer>(this.API_URL + '/customer-create', customer);
   }
 
   update(customer: ICustomer): Observable<ICustomer> {
-    return this.http.put<ICustomer>(URL_API + '/' + customer.customerId, customer);
+    return this.http.put<ICustomer>(this.API_URL + '/update/', customer);
   }
 }

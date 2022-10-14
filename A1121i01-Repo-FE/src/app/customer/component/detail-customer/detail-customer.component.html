@@ -38,8 +38,8 @@
         </div>
       </div>
       <div class="row button__container d-flex justify-content-center mt-3">
-        <button class="bt col-md-3 btn__cancel  col-sm-7 mx-4 my-2">Quay về</button>
-        <button class="bt btn__primary col-md-3 col-sm-7 mx-4 my-2">Cập nhật</button>
+        <button class="bt col-md-3 btn__cancel  col-sm-7 mx-4 my-2" routerLink="/customer/list">Quay về</button>
+        <button class="bt btn__primary col-md-3 col-sm-7 mx-4 my-2" [routerLink]="['/customer/edit',customerDetail.customerId]">Cập nhật</button>
         <button class="bt btn__delete col-md-3 col-sm-7 mx-4 my-2">Đổi mật khẩu</button>
       </div>
     </nav>

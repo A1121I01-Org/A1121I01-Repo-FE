@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {AccountRoutingModule} from './account/account-routing.module';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
 
 const routes: Routes = [{
@@ -42,4 +41,5 @@ const routes: Routes = [{
   exports: [RouterModule],
   declarations: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

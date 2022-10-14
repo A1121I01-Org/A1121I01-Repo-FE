@@ -12,8 +12,6 @@ import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {ListCustomerComponent} from './customer/list-customer/list-customer.component';
 
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
