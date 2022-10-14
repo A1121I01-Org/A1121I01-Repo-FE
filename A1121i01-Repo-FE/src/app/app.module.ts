@@ -12,6 +12,12 @@ import {MaterialModule} from './material/material.module';
 import {HeaderComponent} from './header/header.component';
 import {ErrorComponent} from './error/error.component';
 import {HttpClientModule} from '@angular/common/http';
+import {ReactiveFormsModule} from '@angular/forms';
+
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 
 @NgModule({
@@ -21,6 +27,9 @@ import {HttpClientModule} from '@angular/common/http';
     ErrorComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     BrowserModule,
     AppRoutingModule,
     CustomerModule,
@@ -29,7 +38,8 @@ import {HttpClientModule} from '@angular/common/http';
     AccountModule,
     SecurityModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
