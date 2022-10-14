@@ -5,13 +5,18 @@ import { StatisticRoutingModule } from './statistic-routing.module';
 import { MaterialStatisticComponent } from './material-statistic/material-statistic.component';
 import { CustomerStatisticComponent } from './customer-statistic/customer-statistic.component';
 import { FinancialStatisticComponent } from './financial-statistic/financial-statistic.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
   declarations: [MaterialStatisticComponent, CustomerStatisticComponent, FinancialStatisticComponent],
-  imports: [
-    CommonModule,
-    StatisticRoutingModule
-  ]
+  exports: [
+    CustomerStatisticComponent
+  ],
+    imports: [
+        CommonModule,
+        StatisticRoutingModule,
+        FormsModule
+    ]
 })
 export class StatisticModule { }
