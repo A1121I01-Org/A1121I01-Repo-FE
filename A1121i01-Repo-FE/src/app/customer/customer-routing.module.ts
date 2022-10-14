@@ -6,10 +6,17 @@ import {DetailCustomerComponent} from './detail-customer/detail-customer.compone
 const routes: Routes = [
   {path: 'customer/list', component: ListCustomerComponent},
   {path: 'customer/detail/:id', component: DetailCustomerComponent},
+  {
+    path: 'customer/create', component: CreateCustomerComponent
+  },
+  {
+    path: 'customer/edit/:id', component: CreateCustomerComponent
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CustomerRoutingModule { }
+export class CustomerRoutingModule {
+}

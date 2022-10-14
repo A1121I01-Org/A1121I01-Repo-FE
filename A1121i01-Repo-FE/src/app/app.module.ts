@@ -15,6 +15,10 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {ListCustomerComponent} from './customer/list-customer/list-customer.component';
 
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFireStorageModule} from '@angular/fire/storage';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 
 @NgModule({
@@ -24,6 +28,9 @@ import {ListCustomerComponent} from './customer/list-customer/list-customer.comp
     ErrorComponent
   ],
   imports: [
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     BrowserModule,
     AppRoutingModule,
     CustomerModule,
