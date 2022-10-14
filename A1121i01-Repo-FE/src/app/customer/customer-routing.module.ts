@@ -2,10 +2,6 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {ListCustomerComponent} from './list-customer/list-customer.component';
 import {DetailCustomerComponent} from './detail-customer/detail-customer.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {ListCustomerComponent} from './list-customer/list-customer.component';
-
 
 const routes: Routes = [
   {path: 'customer/list', component: ListCustomerComponent},
