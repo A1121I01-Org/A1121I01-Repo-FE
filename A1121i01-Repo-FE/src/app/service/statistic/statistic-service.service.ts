@@ -7,9 +7,7 @@ import {Observable} from 'rxjs';
 })
 export class StatisticServiceService {
 
-  readonly API_URL = 'http://localhost:8080/api/cart';
-  readonly API_URL_LUONG = 'http://localhost:8080/api/salary';
-  readonly API_URL_NHAP = 'http://localhost:8080/api/import';
+  readonly API_URL = 'http://localhost:8080/api/statistic';
 
   constructor(private http: HttpClient) { }
 
@@ -26,10 +24,10 @@ export class StatisticServiceService {
   }
 
   getLuong(): Observable<number> {
-    return this.http.get<number>(`${this.API_URL_LUONG}/luongNV`);
+    return this.http.get<number>(`${this.API_URL}/luongNV`);
   }
 
   getNhap(): Observable<number> {
-    return this.http.get<number>(`${this.API_URL_NHAP}/nhaphang`);
+    return this.http.get<number>(`${this.API_URL}/nhaphang`);
   }
 }
