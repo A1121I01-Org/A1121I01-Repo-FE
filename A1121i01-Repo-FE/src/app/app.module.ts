@@ -11,6 +11,9 @@ import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -27,7 +30,13 @@ import { ErrorComponent } from './error/error.component';
     CartModule,
     AccountModule,
     SecurityModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule,
+    // MatSnackBarModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // NgxPaginationModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,6 +10,9 @@ import { DetailEmployeeComponent } from './detail-employee/detail-employee.compo
 
 @NgModule({
   declarations: [EditEmployeeComponent, ListEmployeeComponent, CreateEmployeeComponent, DetailEmployeeComponent],
+  exports: [
+    ListEmployeeComponent
+  ],
   imports: [
     CommonModule,
     EmployeeRoutingModule
