@@ -1,0 +1,117 @@
+<div class="sidebar close">
+    <div class="logo-details">
+      <img src="assets/images/infor-material/logo1.png" class="app-icon">
+      <span class="logo_name">EquipStore</span>
+    </div>
+    <ul class="nav-links">
+      <li><div class="iocn-link">
+        <a href="#">
+          <i class='bx bx-book-alt'></i>
+          <span class="link_name">Trang chủ</span>
+        </a>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Trang chủ</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a>
+            <i [routerLink]="['/material/infor']" class='bx bx-collection'></i>
+            <span class="link_name">Sản phẩm</span>
+          </a>
+          <!--                <i class='bx bxs-chevron-down arrow' ></i>-->
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Sản phẩm</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="#">
+            <i class='bx bx-book-alt'></i>
+            <span class="link_name">Chứng nhận</span>
+          </a>
+        </div>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Chứng nhận</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-line-chart'></i>
+          <span class="link_name">Hoạt động</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Hoạt động</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-building-house'></i>
+          <span class="link_name">Đối tác</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Đối tác</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-phone'></i>
+          <span class="link_name">Liên hệ</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Liên hệ</a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="iocn-link">
+          <a href="#">
+            <i class='bx bx-plug'></i>
+            <span class="link_name">Hệ thống</span>
+          </a>
+          <i class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li><a class="link_name" href="#">Hệ thống</a></li>
+          <li><a href="#">Tạo tài khoản</a></li>
+          <li><a href="#">Đổi mật khẩu</a></li>
+
+        </ul>
+      </li>
+      <li>
+        <div class="profile-details">
+          <div class="profile-content">
+            <img src="" alt="profileImg">
+          </div>
+          <div class="name-job">
+            <div class="profile_name">A1121i1</div>
+            <div class="job">Web EquipStore</div>
+          </div>
+          <i class='bx bx-log-out'></i>
+        </div>
+      </li>
+    </ul>
+  </div>
+<!--<section class="home-section">-->
+<!--  <div class="home-content">-->
+<!--    <i class='bx bx-menu' ></i>-->
+<!--  </div>-->
+<!--</section>-->
+<script>
+
+  $(document).ready(function () {
+    const arrow = $(".arrow");
+    for (let i = 0; i < arrow.length; i++) {
+      arrow[i].on("click", (e) => {
+        const arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+        arrowParent.toggleClass("showMenu");
+      });
+    }
+    const sidebar = $(".sidebar");
+    const sidebarBtn = $(".bx-menu");
+    sidebarBtn.on("click", () => {
+      sidebar.toggleClass("close");
+    })
+  });
+</script>

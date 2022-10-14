@@ -1,0 +1,127 @@
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Quản lý sản phẩm</h1>
+    <div class="cart-login">
+      <nav>
+
+        <ul class="navbar-right">
+          <li><a href="#" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">3</span></a></li>
+        </ul> <!--end navbar-right -->
+
+    </nav>
+    <button class="app-content-headerButton">LOGIN</button>
+    </div>
+  </div>
+  <div class="app-content-actions">
+  <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
+  <div class="app-content-actions-wrapper">
+    <div><button class="action-button list active" title="List View">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    </button></div>
+    <div><button class="action-button grid" title="Grid View">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    </button></div>
+  </div>
+<!--  <table class="products-area-wrapper tableView">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--      <th scope="col" class="product-cell status-cell">Mã VT</th>-->
+<!--      <th scope="col" class="product-cell image">Ảnh</th>-->
+<!--      <th scope="col" class="product-cell image">Tên vật tư </th>-->
+<!--      <th scope="col" class="product-cell category">Mô tả</th>-->
+<!--      <th scope="col" class="product-cell status-cell">Đơn vị</th>-->
+<!--      <th scope="col" class="product-cell stock">Ngày hết hạn</th>-->
+<!--      <th scope="col" class="product-cell price">Giá</th>-->
+<!--      <th scope="col"></th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr *ngFor="let material of materialList">-->
+<!--      <td scope="col" >{{material?.materialCode}}</td>-->
+<!--      <td scope="col"><img src="assets/images/infor-material/gangtay.png"></td>-->
+<!--      <td scope="col">{{material?.materialName}}</td>-->
+<!--      <td scope="col">{{material?.materialDescribe}}</td>-->
+<!--      <td scope="col">{{material?.materialUnit}}</td>-->
+<!--      <td scope="col">{{material?.materialExpiridate | date: "dd-MM-yyyy"}}</td>-->
+<!--      <td scope="col">{{material?.materialPrice | currency: "VND"}}</td>-->
+<!--      <td>-->
+<!--        <button class="fa fa-shopping-cart" [routerLink]="[material?.materialCode]"></button>-->
+<!--      </td>-->
+<!--    </tr>-->
+
+<!--    </tbody>-->
+<!--  </table>-->
+<!--  <div>-->
+<!--    <button [disabled]="indexPage == 0" (click)="previousPage()">Previous</button>-->
+<!--    {{indexPage+1}}/{{totalPages}}-->
+<!--    <button [disabled]="indexPage + 1 == totalPages" (click)="nextPage()">Next</button>-->
+<!--  </div>-->
+    </div>
+<div class="products-area-wrapper tableView">
+  <table>
+    <thead>
+    <tr class="products-header">
+      <th class="product-cell status-cell">Mã VT<button class="sort-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+      </button></th>
+      <th class="product-cell image">
+        Sản phẩm
+        <button class="sort-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+        </button>
+      </th>
+      <th class="product-cell category">Mô tả<button class="sort-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+      </button></th>
+      <th class="product-cell status-cell">Đơn vị<button class="sort-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+      </button></th>
+      <th class="product-cell sales">Ngày hết hạn<button class="sort-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+      </button></th>
+      <th class="product-cell stock">Giá<button class="sort-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512"><path fill="currentColor" d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z"/></svg>
+      </button></th>
+      <th class="product-cell price"></th>
+    </tr>
+    </thead>
+    <div >
+
+      <tr *ngFor="let material of materialList" class="products-row">
+      <button class="cell-more-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+      </button>
+      <th class="product-cell sales">{{material?.materialCode}}</th>
+      <th class="product-cell image">
+        <img src="assets/images/infor-material/gangtay.png">
+        <span>{{material?.materialName}}</span>
+      </th>
+        <th class="product-cell category"><span class="cell-label">Mô tả:</span>{{material?.materialDescribe}}</th>
+      <th class="product-cell status-cell">
+        <span class="cell-label">Đơn vị</span><span>{{material.materialUnit}}</span>
+      </th>
+      <th class="product-cell sales"><span class="cell-label">Ngày hết hạn</span>{{material?.materialExpiridate | date : 'dd/MM/yyyy'}}</th>
+      <th class="product-cell stock"><span class="cell-label">Giá</span>{{material?.materialPrice | currency : 'VND' : 'symbol'}}</th>
+      <th> <button class="app-content-headerButton">+</button></th>
+      </tr>
+  </div>
+  </table>
+  <div>
+    <ngb-pagination [(page)] = "thePageNumber"
+                    [pageSize] = "thePageSize"
+                    [collectionSize] = "theTotalElements"
+                    (pageChange) = "getListMaterial2()"
+                    [boundaryLinks]="true"
+                    [maxSize]="3"
+                    [rotate]="true"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+
+
+
+
+
+
+
