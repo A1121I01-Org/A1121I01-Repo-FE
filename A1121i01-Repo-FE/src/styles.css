@@ -1,5 +1,5 @@
 @import "~bootstrap/dist/css/bootstrap.css";
-
+@import '~angular-notifier/styles';
 * {
   box-sizing: border-box;
 }
@@ -47,4 +47,9 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 2000px;
   margin: 0 auto;
+}
+.btn-cart-detail{
+  outline: none;
+  border:none;
+  background-color: transparent;
 }
