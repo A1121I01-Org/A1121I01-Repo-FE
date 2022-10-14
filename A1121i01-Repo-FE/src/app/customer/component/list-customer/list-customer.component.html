@@ -1,0 +1,97 @@
+<div class="all ">
+  <div class="info-search " style="margin-top:10px ; color: #0f57b3 ;">
+    <h3> Thông Tin Khách Hàng</h3>
+    <div class="add-product">
+      <div >
+        <span class="fa-solid fa-plus"></span>
+        <h6 routerLink="/customer/create">Thêm mới</h6>
+      </div>
+    </div>
+    <!--    <div class="info-search">-->
+    <!--        <form style="background:#270082; color: white" action="" id="search-box">-->
+    <!--            <input style="color: white"  name="name"-->
+    <!--                   type="text" id="search-text" required>-->
+    <!--            <button style="background:#270082; color: white" id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>-->
+    <!--        </form>-->
+    <form [formGroup]="searchNameAndPhoneForm" (ngSubmit)="send()">
+      <div class="input-group info-search"
+           style="margin: 8px 8px 8px 6%; text-align: center; ">
+          <div class="form-outline " style="margin-right: 5px" >
+            <input formControlName="name" name="name" type="search" id="form1" class="form-control" placeholder="Tên"/>
+          </div>
+          <div class="form-outline ">
+            <input formControlName="phone" name="phone" type="search" id="form2" class="form-control" placeholder="Số điện thoại"/>
+          </div>
+          <button style="height: 40px; background: #0f57b3" type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+          </button>
+      </div>
+    </form>
+  </div>
+
+  <div style="margin-bottom: 16px" class="container table-wrapper-scroll-y my-custom-scrollbar">
+    <table class="table table-striped  ">
+      <thead>
+      <tr style="background: #0f57b3; color: white" class="header-fixed">
+        <th><input type="checkbox" id="selectAll" class="checkbox1" name="check[]"></th>
+        <th scope="col">STT</th>
+        <th scope="col">Mã khách hàng</th>
+        <th scope="col">Tên khách hàng</th>
+        <th scope="col">Địa chỉ</th>
+        <th scope="col">Số điện thoại</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let c of listCustomer; let i = index">
+        <th><input type="checkbox" class="checkbox1" name="check[]"></th>
+        <td scope="row">{{i+1}}</td>
+        <td scope="row">{{c.customerCode}}</td>
+        <td contenteditable="true">{{c.customerName}}</td>
+        <td contenteditable="true">{{c.customerAddress}}</td>
+        <td contenteditable="true">{{c.customerPhone}}</td>
+        <td id="button-function">
+          <button class="btn btn-primary btn__primary" [routerLink]="['/customer/detail/',c.customerId]" type="button">Xem</button>
+          <button class="btn btn-primary btn__cancel " [routerLink]="['/customer/edit',c.customerId]" type="button">Sua</button>
+          <button class="btn btn-primary btn__delete" data-toggle="modal" data-target="#exampleModal"
+                  type="button" (click)="sendCustomerToDelete(c.customerId, c.customerName)">Xoa
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container" style="margin-bottom: 10px">
+    <div class="pagination">
+      <a href="#" (click)="previous($event)">&laquo;</a>
+      <div *ngFor="let p of totalPagination; let i = index">
+        <a class="active"  href="" (click)="setPage(i,$event)" [ngClass]="{'active':i*5 == page}">{{i+1}}</a>
+      </div>
+      <a href="#" (click)="next($event)">&raquo;</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung này không hoàn tác</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>Bạn có muốn xóa khách hàng <span style="color: #0f57b3; font-weight: bolder">{{name}}</span>  không ?</span>
+      </div>
+      <div class="modal-footer">
+        <button style="background:white; color:#0f57b3 " type="button" class="btn btn-secondary"
+                data-dismiss="modal">Quay lại
+        </button>
+        <button style="background:#0f57b3; color: white" type="button" class="btn btn-primary"data-dismiss="modal" (click)="deleteCustomerById(id)">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
