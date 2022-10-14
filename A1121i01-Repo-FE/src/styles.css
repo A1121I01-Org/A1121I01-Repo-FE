@@ -1,5 +1,7 @@
 
 @import "~bootstrap/dist/css/bootstrap.css";
+
+
 * {
   box-sizing: border-box;
 }
@@ -29,7 +31,6 @@ body, html {
 }
 
 body {
-  /*overflow: hidden;*/
   font-family: "Segoe UI", sans-serif;
   background-color: var(--app-bg);
   -webkit-font-smoothing: antialiased;

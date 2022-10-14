@@ -16,6 +16,8 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -36,7 +38,10 @@ import { HomeComponent } from './home/home.component';
     MaterialModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    FormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
