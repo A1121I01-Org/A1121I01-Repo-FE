@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {CustomerServiceService} from '../../../service/customer/customer-service.service';
-import {CustomerTypeService} from '../../../service/customer/customer-type.service';
+import {CustomerServiceService} from '../../service/customer/customer-service.service';
+import {CustomerTypeService} from '../../service/customer/customer-type.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ICustomerType} from '../../../model/customer/icustomer-type';
+import {ICustomerType} from '../../model/customer/icustomer-type';
 import {formatDate} from '@angular/common';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';

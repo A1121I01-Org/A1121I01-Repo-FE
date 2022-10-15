@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ICustomer} from '../../../model/customer/icustomer';
-import {CustomerServiceService} from '../../../service/customer/customer-service.service';
+import {ICustomer} from '../../model/customer/icustomer';
+import {CustomerServiceService} from '../../service/customer/customer-service.service';
 
 @Component({
   selector: 'app-list-customer',
