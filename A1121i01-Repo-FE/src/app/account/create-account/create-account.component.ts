@@ -64,11 +64,12 @@ export class CreateAccountComponent implements OnInit {
     this.accountService.createAccount(employeeAccount).subscribe(
       () => {
       }, (error) => {
-        this.notifier.notify('error', 'Thêm mới không thành công!');
-        console.log(error);
+        if (error.status === 403) {
+          this.router.navigateByUrl('/auth/access-denied');
+        };
       }, () => {
         // alert('Thêm mới thành công.');
-        this.notifier.notify('success', 'Thêm mới thành công!');
+        this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
         this.removeDisableInput();

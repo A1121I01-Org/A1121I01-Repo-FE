@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~9.0.7",
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
+    "@auth0/angular-jwt": "^5.0.2",
+    "angular-notifier": "^7.0.0",
     "bootstrap": "^4.6.2",
     "jquery": "^3.6.1",
     "rxjs": "~6.5.4",

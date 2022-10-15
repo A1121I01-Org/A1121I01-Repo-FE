@@ -22,12 +22,12 @@ export class AuthGuard implements CanActivate {
         if (user !== null) {
             const role = user.roles[0];
             if (!this.tokenStorageService.isAuthenticated() || route.data.expectedRole.indexOf(role) === -1) {
-                this.router.navigate(['/security/access-denied']);
+                this.router.navigate(['/auth/access-denied']);
                 return false;
             }
             return true;
         }
-        this.router.navigate(['/security/access-denied']);
+        this.router.navigate(['/auth/access-denied']);
         return false;
 
     }
