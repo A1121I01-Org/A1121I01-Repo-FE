@@ -178,7 +178,7 @@
                 Ngày sinh không được để trống.</small>
             </div>
           </div>
-          <div *ngIf="createForm.get('employee').get('employeeDateOfBirth')?.invalid && (createForm.get('employee').get('employeeDateOfBirth')?.touched||createForm.get('employee').get('employeeDateOfBirth')?.dirty)">
+          <div *ngIf="createForm.get('employee').get('employeeDateOfBirth')?.invalid && createForm.get('employee').get('employeeDateOfBirth')?.dirty">
             <div [hidden]="!createForm.get('employee').get('employeeDateOfBirth').hasError('invalidAge')">
               <small class="form-text mess">
                 Tuổi phải lớn hơn 18.</small>
@@ -258,7 +258,7 @@
       </div>
     </div>
     <div class="button__container">
-      <button type="button" id="btnAdd" name="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || usernameAlreadyExist !== '' || errorMessageAccountAndEmployeeExist !== '' || phoneAlreadyExist != ''">Thêm</button>
+      <button type="button" id="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || usernameAlreadyExist !== '' || errorMessageAccountAndEmployeeExist !== '' || phoneAlreadyExist != ''">Thêm</button>
       <button class="bt btn__cancel" (click)="backToHome()">Trở về</button>
     </div>
   </form>

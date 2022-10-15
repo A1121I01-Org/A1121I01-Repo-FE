@@ -68,7 +68,7 @@ export class CreateAccountComponent implements OnInit {
         console.log(error);
       }, () => {
         // alert('Thêm mới thành công.');
-        this.notifier.notify('success', 'Thêm mới thành công!');
+        this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
         this.removeDisableInput();
