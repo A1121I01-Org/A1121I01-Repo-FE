@@ -43,14 +43,14 @@
         <td><input type="checkbox" class="checkbox1" name="check[]"></td>
         <td scope="row">{{i+1}}</td>
         <td scope="row">{{c.customerCode}}</td>
-        <td class="name"  contenteditable="true">
+        <td class="name"  >
           <div class="user">
             <img src="https://i.pinimg.com/474x/71/d8/9b/71d89b86c1d7f58f526e9001b9b96d0e.jpg" >
             <span>{{c.customerName}}</span>
           </div>
         </td>
-        <td contenteditable="true" >{{c.customerAddress}}</td>
-        <td contenteditable="true">{{c.customerPhone}}</td>
+        <td >{{c.customerAddress}}</td>
+        <td>{{c.customerPhone}}</td>
         <td id="button-function">
           <button class="btn btn-primary btn__primary" type="button">Xem</button>
           <button class="btn btn-primary btn__cancel " type="button">Sua</button>
@@ -62,11 +62,17 @@
       </tbody>
     </table>
   </div>
-  <div class="container" style="margin: 18px 30% 18px">
+  <div class="container" style="margin: 18px 30% 18px; border-radius: 10px">
     <div class="pagination" >
       <a href="#" (click)="previous($event)">&laquo;</a>
-      <div *ngFor="let p of totalPagination; let i = index">
-        <a class="active"  href="" (click)="setPage(i,$event)" [ngClass]="{'active':i*5 == page}">{{i+1}}</a>
+<!--      <a  *ngIf="page >= 15"  href="" (click)="setPage(0,$event)" >1</a>-->
+<!--      <a  *ngIf="page >= 15"  href="" (click)="setPage(0,$event)" >...</a>-->
+      <div  *ngFor="let p of totalPagination; let i = index">
+
+        <a class="active" *ngIf="page <= 25 && i <= 5"  href="" (click)="setPage(i,$event)" [ngClass]="{'active':i*5 == page}">{{i+1}}</a>
+        <a class="active" *ngIf="i > 5 && page > 25"  href="" (click)="setPage(i,$event)" [ngClass]="{'active':i*5 == page}">{{i+1}}</a>
+
+
       </div>
       <a href="#" (click)="next($event)">&raquo;</a>
     </div>
