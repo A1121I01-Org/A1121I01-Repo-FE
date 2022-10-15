@@ -48,7 +48,7 @@ export class CreateCustomerComponent implements OnInit {
     ],
     customerPhone: [
       {type: 'required', message: 'Số điện thoại không được để trống'},
-      {type: 'checkBirthday', message: 'Số điện thoại không chứa kí tự đặc biệt'}
+      {type: 'checkBirthday', message: 'Số điện thoại không đúng định dạng'}
     ],
     customerEmail: [
       {type: 'required', message: 'Email không được để trống'},
@@ -63,16 +63,28 @@ export class CreateCustomerComponent implements OnInit {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
       customerId: new FormControl(''),
-      customerName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
-      customerCode: new FormControl('', [Validators.required, Validators.pattern('^MKH-\\d{4}$')]),
-      customerAvatar: new FormControl('', Validators.required),
-      customerAddress: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]$')]),
-      customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')]),
-      customerEmail: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]),
-      customerTypeId: new FormControl('', Validators.required),
+      // , Validators.required
+      customerName: new FormControl(''),
+      // , Validators.required
+      // [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]
+      customerCode: new FormControl(''),
+      // /, Validators.required
+      // , [Validators.required, Validators.pattern('^MKH-\\d{3}$')]
+      customerAvatar: new FormControl(''),
+      // , Validators.required
+      customerAddress: new FormControl(''),
+      // , Validators.required
+      customerPhone: new FormControl(''),
+      // , Validators.required
+      customerEmail: new FormControl(''),
+      // , Validators.required
+      // , [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]
+      customerTypeId: new FormControl(''),
+      // , Validators.required
     });
+    // [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')])
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
-      const customerId = paramMap.get('customerId');
+      const customerId = paramMap.get('id');
       console.log(customerId);
       if (customerId !== null) {
         this.customerId = Number(customerId);
@@ -83,11 +95,16 @@ export class CreateCustomerComponent implements OnInit {
       }
     });
   }
+
   compare(o1: any, o2: any) {
     if (o1 === null || o2 === null) {
       return false;
     }
     return o1.id === o2.id;
+  }
+
+  showPreview(event: any) {
+    this.selectedImage = event.target.files[0];
   }
   submit() {
     console.log(1);
@@ -95,33 +112,41 @@ export class CreateCustomerComponent implements OnInit {
       console.log(2);
       if (this.customerId === 0) {
         console.log(3);
-        const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-        const fileRef = this.storage.ref(nameImg);
-        this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe((url) => {
-              this.form.patchValue({customerAvatar: url});
-              this.customerService.create(this.form.value).subscribe(
-                next => {
-                  this.router.navigateByUrl('/customer');
-                }
+        // const nameImg = this.getCurrentDateTime() + this.selectedImage;
+        // console.log(nameImg);
+        // const fileRef = this.storage.ref(nameImg);
+        // this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        //   finalize(() => {
+        //     fileRef.getDownloadURL().subscribe((url) => {
+        //       this.form.patchValue({customerAvatar: url});
+        this.customerService.create(this.form.value).subscribe(
+          () => {
+          },
+          () => {
+          },
+          () => {
+            alert('thêm mới khách hàng');
+          }
               );
-            });
-          })
-        ).subscribe();
+        //
+        //     });
+        //   })
+        // ).subscribe();
       } else {
         this.customerService.update(this.form.value).subscribe(
-          next => {
-            this.router.navigateByUrl('/customer');
+          () => {
+          },
+          () => {
+          },
+          () => {
+            alert('update khách hàng');
           }
         );
       }
     }
   }
 
-  showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
-  }
+
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
   }

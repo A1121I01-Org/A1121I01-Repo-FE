@@ -12,14 +12,14 @@ export class CustomerServiceService {
 
   constructor(private http: HttpClient) { }
   create(customer: ICustomer): Observable<ICustomer> {
-    return this.http.post<ICustomer>(URL_API + '/create', customer);
+    return this.http.post<ICustomer>(URL_API + '/customer-create', customer);
   }
 
   update(customer: ICustomer): Observable<ICustomer> {
-    return this.http.put<ICustomer>(URL_API + '/' + customer.customerId, customer);
+    return this.http.patch<ICustomer>(URL_API + '/update', customer);
   }
 
   findCustomerById(customerId: number): Observable<ICustomer> {
-    return this.http.get<ICustomer>(URL_API + '/' + customerId);
+    return this.http.get<ICustomer>(URL_API + '/customer-findById/' + customerId);
   }
 }
