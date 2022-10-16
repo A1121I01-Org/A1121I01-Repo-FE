@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StatisticServiceService} from '../../service/statistic/statistic-service.service';
 import {ICart} from '../../model/cart/icart';
-import {applySourceSpanToExpressionIfNeeded} from "@angular/compiler/src/output/output_ast";
+import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-financial-statistic',
@@ -51,7 +51,7 @@ export class FinancialStatisticComponent implements OnInit {
   // }
   exportPDF(): void {
     console.log(this.search1);
-    this.statisticService.getPdf(this.search1).subscribe(x => {
+    this.statisticService.getPdf2(this.search1).subscribe(x => {
       const blob = new Blob([x], {type: 'application/pdf'});
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(blob);
