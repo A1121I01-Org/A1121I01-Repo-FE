@@ -13,6 +13,8 @@ export class DetailMaterialComponent implements OnInit {
   id: number;
   materials2: IMaterial[] = [];
   desArray: string[];
+  desArray1: string[];
+  desArray2: string[];
   imageArray:string[];
 
 
@@ -27,11 +29,22 @@ export class DetailMaterialComponent implements OnInit {
       this.id = Number(paramMap.get('id'));
       this.materialService.findMaterialById(this.id).subscribe(material => {
         this.materials = material;
-        let description = this.materials.materialDescribe;
-        this.desArray = description.split("@");
 
-        let image=this.materials.materialImage;
-        this.imageArray=image.split("@")
+        //Cat chuoi thong tin chi tiet
+
+        //
+        let description = this.materials.materialDescribe;
+
+        this.desArray = description.split("@",(4));
+
+        // let image=this.materials.materialImage;
+        // this.imageArray=image.split("@")
+        let description1 = this.materials.materialDescribe;
+
+        this.desArray1 = description1.split("@");
+        this.desArray2=this.desArray1.slice(3,4)
+        console.log(this.desArray2);
+
       })
     })
 
