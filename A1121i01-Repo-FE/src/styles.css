@@ -29,13 +29,11 @@ body, html {
 }
 
 body {
+  /*overflow: hidden;*/
   font-family: "Segoe UI", sans-serif;
   /*background-color: var(--app-bg);*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-
-
 }
 
 .app-container {
@@ -45,7 +43,7 @@ body {
   max-height: 100%;
   max-width: 1280px;
   display: flex;
-  overflow: hidden;
+  /*overflow: hidden;*/
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   max-width: 2000px;
   margin: 0 auto;

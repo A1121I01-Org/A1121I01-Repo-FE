@@ -19,6 +19,10 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {HeaderComponent} from './header/header.component';
+import {ErrorComponent} from './error/error.component';
+import {StatisticModule} from './statistic/statistic.module';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
@@ -41,6 +45,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
     MaterialModule,
     HttpClientModule,
     ReactiveFormsModule
+    MaterialModule,
+    StatisticModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -68,7 +68,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "A1121i01-Repo-FE:build:production"
+              "browserTarget": "A1121i01-Repo-FE:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             }
           }
         },
