@@ -1,11 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {CustomerServiceService} from '../../../service/customer/customer-service.service';
-import {CustomerTypeService} from '../../../service/customer/customer-type.service';
+import {CustomerServiceService} from '../../service/customer/customer-service.service';
+import {CustomerTypeService} from '../../service/customer/customer-type.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ICustomerType} from '../../../model/customer/icustomer-type';
+import {FormControl, FormGroup} from '@angular/forms';
+import {ICustomerType} from '../../model/customer/icustomer-type';
 import {formatDate} from '@angular/common';
-import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 
 @Component({
@@ -19,7 +18,9 @@ export class CreateCustomerComponent implements OnInit {
               private customerTypeService: CustomerTypeService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) { }
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
+  }
+
   customerTypes: ICustomerType[];
   form: FormGroup;
   customerId = 0;
@@ -59,6 +60,7 @@ export class CreateCustomerComponent implements OnInit {
       {type: 'pattern', message: 'Số điện thoại dạng 10-12 số'}
     ],
   };
+
   ngOnInit(): void {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
@@ -106,6 +108,7 @@ export class CreateCustomerComponent implements OnInit {
   showPreview(event: any) {
     this.selectedImage = event.target.files[0];
   }
+
   submit() {
     console.log(1);
     if (this.form.valid) {
@@ -128,7 +131,7 @@ export class CreateCustomerComponent implements OnInit {
             alert('thêm mới khách hàng');
             this.router.navigateByUrl('customer/list');
           }
-              );
+        );
         //
         //     });
         //   })

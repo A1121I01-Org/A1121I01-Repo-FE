@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import {Router} from '@angular/router';
-<<<<<<< HEAD:A1121i01-Repo-FE/src/app/customer/list-customer/list-customer.component.ts
-import {ICustomer} from '../../model/customer/icustomer';
-=======
->>>>>>> 358cb8ad7ea897a5277e0889a16ba940852f43a0:A1121i01-Repo-FE/src/app/customer/component/list-customer/list-customer.component.ts
 import {FormControl, FormGroup} from '@angular/forms';
-import {ICustomer} from '../../../model/customer/icustomer';
-import {CustomerServiceService} from '../../../service/customer/customer-service.service';
+import {ICustomer} from '../../model/customer/icustomer';
+import {CustomerServiceService} from '../../service/customer/customer-service.service';
 
 @Component({
   selector: 'app-list-customer',
