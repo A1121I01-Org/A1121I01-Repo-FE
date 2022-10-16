@@ -11,15 +11,18 @@ import {SecurityModule} from './security/security.module';
 import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import { HttpClientModule} from "@angular/common/http";
+import {environment} from "../environments/environment";
+import {AngularFireModule} from "@angular/fire";
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ErrorComponent
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,10 +34,12 @@ import {FormsModule} from '@angular/forms';
     SecurityModule,
     MaterialModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
+  ],
+  providers: [
 
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
