@@ -11,10 +11,12 @@ import {CustomerServiceService} from '../../service/customer/customer-service.se
   styleUrls: ['./list-customer.component.css']
 })
 export class ListCustomerComponent implements OnInit {
-  listCustomer: ICustomer[];
-  listCustomerNotPagination: ICustomer[];
-  totalPagination: Array<number>;
+  listCustomer: ICustomer[] = [];
+  listCustomerNotPagination: ICustomer[] = [];
+  totalPagination: Array<any>;
   page = 0;
+  pageCurrent: any;
+  indexCurrent: any;
   name: any;
   id: any;
   searchNameAndPhoneForm: FormGroup;
@@ -25,6 +27,7 @@ export class ListCustomerComponent implements OnInit {
   setPage(i, event: any) {
     event.preventDefault();
     this.page = i * 5;
+
     this.getAllCustomerWithPagination();
   }
   ngOnInit(): void {
@@ -41,11 +44,10 @@ export class ListCustomerComponent implements OnInit {
       (data) => {
         this.listCustomerNotPagination = data;
         console.log(Math.round(this.listCustomerNotPagination.length / 5));
+        this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         if ((this.listCustomerNotPagination.length % 5) !== 0) {
-              this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5)) + 1 );
-            }
-        // this.totalPagination = new Array(data.length);
-        console.log(data.length);
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1 )  );
+        }
       });
   }
   // HieuNT get list customer with pagination
@@ -53,8 +55,6 @@ export class ListCustomerComponent implements OnInit {
     this.customerService.getAllCustomerWithPagination(this.page).subscribe(
       (data) => {
         this.listCustomer = data;
-        // this.totalPagination = new Array(data.length);
-        console.log(data.length);
       });
   }
 
@@ -66,26 +66,30 @@ export class ListCustomerComponent implements OnInit {
       this.getAllCustomerWithPagination();
     } else {
       this.page = this.page - 5;
-      this.customerService.getAllCustomerWithPagination(this.page).subscribe((data: ICustomer[]) => {
-        this.listCustomer = data;
-      });
-    }
-  }
-
-  next(event: any) {
-    event.preventDefault();
-    this.page = this.page + 5;
-    console.log(Math.round(this.totalPagination.length) * 5);
-    if (this.page >= Math.round(this.totalPagination.length) * 5) {
-      this.page = this.page - 5;
     }
     this.customerService.getAllCustomerWithPagination(this.page).subscribe((data: ICustomer[]) => {
       this.listCustomer = data;
     });
   }
+
+  next(event: any) {
+    event.preventDefault();
+    this.page = this.page + 5;
+    if (this.page >= this.totalPagination.length * 5) {
+      this.page = this.totalPagination.length * 5 - 5;
+      console.log(this.page);
+      this.getAllCustomerWithPagination();
+    }
+    this.getAllCustomerWithPagination();
+    // this.customerService.getAllCustomerWithPagination(this.page).subscribe((data: ICustomer[]) => {
+    //   this.listCustomer = data;
+    // });
+  }
   deleteCustomerById(id: number) {
     this.customerService.deleteCustomerById(id).subscribe(
-      () => {},
+      () => {
+        this.getAllCustomer();
+      },
       () => {},
       () => {
         this.getAllCustomerWithPagination();
@@ -102,15 +106,20 @@ export class ListCustomerComponent implements OnInit {
     if (this.searchNameAndPhoneForm.get('name').value == '' && this.searchNameAndPhoneForm.get('phone').value == ''){
       this.page = 0;
       this.getAllCustomerWithPagination();
+      this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
     } else {
       this.customerService.searchCustomerByNameAndPhone(this.searchNameAndPhoneForm.get('name').value,
         this.searchNameAndPhoneForm.get('phone').value ).subscribe(
         (data) => {
           this.listCustomer = data;
-      },
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / this.listCustomerNotPagination.length)  )  );
+          console.log(this.totalPagination.length);
+        },
         () => {},
         () => {
         });
     }
   }
+
+
 }
