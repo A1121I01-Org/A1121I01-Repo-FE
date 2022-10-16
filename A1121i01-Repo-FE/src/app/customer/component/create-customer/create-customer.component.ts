@@ -19,9 +19,7 @@ export class CreateCustomerComponent implements OnInit {
               private customerTypeService: CustomerTypeService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
-  }
-
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) { }
   customerTypes: ICustomerType[];
   form: FormGroup;
   customerId = 0;
@@ -61,19 +59,30 @@ export class CreateCustomerComponent implements OnInit {
       {type: 'pattern', message: 'Số điện thoại dạng 10-12 số'}
     ],
   };
-
   ngOnInit(): void {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
       customerId: new FormControl(''),
-      customerName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
-      customerCode: new FormControl('', [Validators.required, Validators.pattern('^MKH-\\d{3}$')]),
-      customerAvatar: new FormControl('', Validators.required),
-      customerAddress: new FormControl('', Validators.required),
-      customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')]),
-      customerEmail: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]),
-      customerTypeId: new FormControl('', Validators.required),
+      // , Validators.required
+      customerName: new FormControl(''),
+      // , Validators.required
+      // [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]
+      customerCode: new FormControl(''),
+      // /, Validators.required
+      // , [Validators.required, Validators.pattern('^MKH-\\d{3}$')]
+      customerAvatar: new FormControl(''),
+      // , Validators.required
+      customerAddress: new FormControl(''),
+      // , Validators.required
+      customerPhone: new FormControl(''),
+      // , Validators.required
+      customerEmail: new FormControl(''),
+      // , Validators.required
+      // , [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]
+      customerTypeId: new FormControl(''),
+      // , Validators.required
     });
+    // [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')])
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       const customerId = paramMap.get('id');
       console.log(customerId);
@@ -94,42 +103,49 @@ export class CreateCustomerComponent implements OnInit {
     return o1.id === o2.id;
   }
 
+  showPreview(event: any) {
+    this.selectedImage = event.target.files[0];
+  }
   submit() {
     console.log(1);
     if (this.form.valid) {
       console.log(2);
       if (this.customerId === 0) {
         console.log(3);
-        const nameImg = this.getCurrentDateTime() + this.selectedImage.name;
-        const fileRef = this.storage.ref(nameImg);
-        this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe((url) => {
-              this.form.patchValue({customerAvatar: url});
-              this.customerService.create(this.form.value).subscribe(
-                next => {
-                  alert('thanh công');
-                  this.router.navigateByUrl('/customer');
-                }
+        // const nameImg = this.getCurrentDateTime() + this.selectedImage;
+        // console.log(nameImg);
+        // const fileRef = this.storage.ref(nameImg);
+        // this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+        //   finalize(() => {
+        //     fileRef.getDownloadURL().subscribe((url) => {
+        //       this.form.patchValue({customerAvatar: url});
+        this.customerService.create(this.form.value).subscribe(
+          () => {
+          },
+          () => {
+          },
+          () => {
+            alert('thêm mới khách hàng');
+          }
               );
-            });
-          })
-        ).subscribe();
+        //
+        //     });
+        //   })
+        // ).subscribe();
       } else {
-        console.log(3);
         this.customerService.update(this.form.value).subscribe(
-          next => {
-            console.log(this.form.value);
-            this.router.navigateByUrl('/customer');
+          () => {
+          },
+          () => {
+          },
+          () => {
+            alert('update khách hàng');
           }
         );
       }
     }
   }
 
-  showPreview(event: any) {
-    this.selectedImage = event.target.files[0];
-  }
 
   getCurrentDateTime(): string {
     return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
