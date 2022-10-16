@@ -126,6 +126,7 @@ export class CreateCustomerComponent implements OnInit {
           },
           () => {
             alert('thêm mới khách hàng');
+            this.router.navigateByUrl('customer/list');
           }
               );
         //
@@ -140,6 +141,7 @@ export class CreateCustomerComponent implements OnInit {
           },
           () => {
             alert('update khách hàng');
+            this.router.navigateByUrl('customer/list');
           }
         );
       }
