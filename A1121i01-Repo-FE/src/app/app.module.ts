@@ -12,10 +12,7 @@ import {MaterialModule} from './material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
 import {ReactiveFormsModule} from '@angular/forms';
-<<<<<<< HEAD
 
-=======
->>>>>>> 358cb8ad7ea897a5277e0889a16ba940852f43a0
 
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
