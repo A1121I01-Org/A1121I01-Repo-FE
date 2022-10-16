@@ -7,6 +7,7 @@ import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ListMaterialComponent } from './list-material/list-material.component';
 import { InforMaterialComponent } from './infor-material/infor-material.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 import {HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
@@ -16,12 +17,13 @@ import {FormsModule} from "@angular/forms";
 @NgModule({
     declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
     exports: [
+
         DetailMaterialComponent
     ],
   imports: [
     CommonModule,
     MaterialRoutingModule, HttpClientModule,
-    RouterModule, FormsModule,
+    RouterModule, FormsModule, ReactiveFormsModule,
   ]})
 
 export class MaterialModule { }
