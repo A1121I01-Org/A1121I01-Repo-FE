@@ -31,5 +31,9 @@ export class EmployeeServiceService {
     return this.http.get<IEmployee>(`${this.API_URL}/${code}`);
   }
 
+  searchEmployeeByName(value: string): Observable<IEmployee[]> {
+    return this.http.get<IEmployee[]>(this.API_URL + `/customer-search?name=${value}}`);
+  }
+
 
 }

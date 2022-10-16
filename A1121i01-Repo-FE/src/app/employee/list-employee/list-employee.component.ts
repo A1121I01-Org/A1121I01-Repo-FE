@@ -3,6 +3,7 @@ import {IEmployee} from '../../model/employee/iemployee';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 import {Router} from '@angular/router';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
+import {FormControl, FormGroup} from '@angular/forms';
 
 
 
@@ -13,15 +14,19 @@ import {EmployeeServiceService} from '../../service/employee/employee-service.se
 })
 export class ListEmployeeComponent implements OnInit {
 
-  employees: IEmployee[];
-  employee: IEmployee;
+  // employees: IEmployee[];
+  // employee: IEmployee;
   positionEmployees: IPositionEmployee[];
   positionEmployee: IPositionEmployee;
-  totalPagination: Array<number>;
+  totalPagination: Array<any>;
   page = 0;
+  pageCurrent: any;
+  indexCurrent: any;
   name: any;
   id: any;
-  listEmployeeNotPagination: IEmployee[];
+  listEmployeeNotPagination: IEmployee[] = [];
+  listEmployee: IEmployee[] = [];
+  searchNameForm: FormGroup;
 
 
   constructor(private router: Router,
@@ -30,12 +35,15 @@ export class ListEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEmployeeWithPagination();
     this.getAllEmployee();
+    this.searchNameForm = new FormGroup({
+      name: new FormControl('')
+    });
   }
 
   getAllEmployeeWithPagination() {
     this.employeeService.getAllEmployeeWithPagination(this.page).subscribe(
       (data) => {
-        this.employees = data;
+        this.listEmployee = data;
         console.log(data.length);
       });
   }
@@ -49,7 +57,7 @@ export class ListEmployeeComponent implements OnInit {
     } else {
       this.page = this.page - 5;
       this.employeeService.getAllEmployeeWithPagination(this.page).subscribe((data: IEmployee[]) => {
-        this.employees = data;
+        this.listEmployee = data;
       });
     }
   }
@@ -57,13 +65,11 @@ export class ListEmployeeComponent implements OnInit {
   next(event: any) {
     event.preventDefault();
     this.page = this.page + 5;
-    console.log(Math.round(this.totalPagination.length) * 5);
-    if (this.page >= Math.round(this.totalPagination.length) * 5) {
-      this.page = this.page - 5;
+    if (this.page >= this.totalPagination.length * 5) {
+      this.page = this.totalPagination.length * 5 - 5;
+      this.getAllEmployeeWithPagination();
     }
-    this.employeeService.getAllEmployeeWithPagination(this.page).subscribe((data: IEmployee[]) => {
-      this.employees = data;
-    });
+    this.getAllEmployeeWithPagination();
   }
 
   setPage(i, event: any) {
@@ -72,14 +78,15 @@ export class ListEmployeeComponent implements OnInit {
     this.getAllEmployeeWithPagination();
   }
 
-  sendEmployeeToDelete(employeeId: number, employeeName: string) {
+  sendEmployeeToDelete(employeeCode: string, employeeName: string) {
     this.name = employeeName;
-    this.id = employeeId;
+    this.id = employeeCode;
   }
 
   deleteEmployeeById(id: number) {
     this.employeeService.deleteEmployeeById(id).subscribe(
-      () => {},
+      () => { this.getAllEmployee();
+      },
       () => {},
       () => {
         this.getAllEmployeeWithPagination();
@@ -96,5 +103,23 @@ export class ListEmployeeComponent implements OnInit {
         }
         console.log(data.length);
       });
+  }
+
+  send() {
+    if (this.searchNameForm.get('name').value === '') {
+      this.page = 0;
+      this.getAllEmployeeWithPagination();
+      this.totalPagination = new Array((Math.round(this.listEmployeeNotPagination.length / 5) )  );
+    } else {
+      this.employeeService.searchEmployeeByName(this.searchNameForm.get('name').value).subscribe(
+        (data) => {
+          this.listEmployee = data;
+          this.totalPagination = new Array((Math.round(this.listEmployeeNotPagination.length / this.listEmployeeNotPagination.length)  )  );
+          console.log(this.totalPagination.length);
+        },
+        () => {},
+        () => {
+        });
+    }
   }
 }
