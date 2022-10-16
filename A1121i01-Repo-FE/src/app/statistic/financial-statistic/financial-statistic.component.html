@@ -30,10 +30,6 @@
           <td>Trả hàng</td>
           <td>{{tra}}</td>
         </tr>
-        <tr>
-          <td>Lương nhân viên</td>
-          <td>{{luong}}</td>
-        </tr>
         </tbody>
       </table>
     </div>
@@ -41,35 +37,34 @@
       <div class="mt-1">
         <span style="margin-right: 30px">Tháng:</span>
         <span class="select">
-        <select>
+        <select (change) = "search($event.target)">
           <option selected disabled>Chọn tháng</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="3">4</option>
-          <option value="3">5</option>
-          <option value="3">6</option>
-          <option value="3">7</option>
-          <option value="3">8</option>
-          <option value="3">9</option>
-          <option value="3">10</option>
-          <option value="3">11</option>
-          <option value="3">12</option>
+          <option >1</option>
+          <option >2</option>
+          <option >3</option>
+          <option >4</option>
+          <option >5</option>
+          <option >6</option>
+          <option >7</option>
+          <option >8</option>
+          <option >9</option>
+          <option >10</option>
+          <option >11</option>
+          <option >12</option>
         </select>
       </span>
       </div>
       <div class="mt-4">
         <span style="margin-right: 30px">Năm:</span>
         <span class="select">
-        <select>
-<!--          <option selected>Open this select menu</option>-->
-            <option selected disabled>Chọn năm</option>
-          <option value="1">2010</option>
-          <option value="2">2011</option>
-          <option value="3">2012</option>
-          <option value="3">2013</option>
-          <option value="3">2014</option>
-          <option value="3">2015</option>
+        <select (change) = "search($event.target)">
+          <option selected disabled>Chọn năm</option>
+          <option >2021</option>
+          <option >2022</option>
+<!--          <option >2012</option>-->
+<!--          <option >2013</option>-->
+<!--          <option >2014</option>-->
+<!--          <option >2015</option>-->
         </select>
       </span>
       </div>
@@ -101,7 +96,7 @@
     </div>
   </div>
   <div class="container" style="margin: 50px 50px 50px 400px">
-    <button class="btn-print p-1 border" style="margin-right: 50px">In</button>
+    <button class="btn-print p-1 border" style="margin-right: 50px" (click)="exportPDF()">In</button>
     <button class="btn-back p-1 border">Trở về</button>
   </div>
 </div>
