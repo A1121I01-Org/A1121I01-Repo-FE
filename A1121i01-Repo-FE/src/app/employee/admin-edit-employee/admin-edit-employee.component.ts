@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IEmployee} from '../../model/employee/iemployee';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 
@@ -23,7 +23,7 @@ export class AdminEditEmployeeComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(private activatedRoute: ActivatedRoute,
               private employeeServiceService: EmployeeServiceService,
-              private formBuilder: FormBuilder,) {
+              private formBuilder: FormBuilder, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -89,6 +89,11 @@ export class AdminEditEmployeeComponent implements OnInit {
       this.employeeServiceService.adminUpdateEmployee(this.formEdit.value).subscribe(
         () => {
           alert('chỉnh sửa thành công');
+        },
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         }
       );
     }

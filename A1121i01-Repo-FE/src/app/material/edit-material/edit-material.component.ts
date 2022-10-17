@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {IMaterial} from '../../model/material/imaterial';
 import {IMaterialType} from '../../model/material/imaterial-type';
@@ -23,6 +23,7 @@ export class EditMaterialComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private materialService: MaterialServiceService,
     private formBuilder: FormBuilder,
+    private router: Router
   ) {
   }
 
@@ -65,18 +66,19 @@ export class EditMaterialComponent implements OnInit {
           });
       });
   }
+
   initForm(data?: any) {
     this.formEdit = this.formBuilder.group({
       materialId: new FormControl(data ? data.materialId : [], [Validators.required]),
       materialCode: new FormControl(data ? data.materialCode : [], [Validators.required, Validators.pattern('MVT-\\d{3}')]),
       materialName: new FormControl(data ? data.materialName : [], [Validators.required]),
-      materialPrice: new FormControl (data ? data.materialPrice : [], [Validators.required, Validators.min(1)]),
+      materialPrice: new FormControl(data ? data.materialPrice : [], [Validators.required, Validators.min(1)]),
       materialQuantity: new FormControl(data ? data.materialQuantity : [], [Validators.required, Validators.min(1)]),
       materialExpiridate: new FormControl(data ? data.materialExpiridate : [], [Validators.required]),
       materialUnit: new FormControl(data ? data.materialUnit : [], [Validators.required]),
       materialImage: new FormControl(data ? data.materialImage : [], [Validators.required]),
-      materialDescribe:  new FormControl(data ? data.materialDescribe : [], [Validators.required]),
-      materialFlag:  new FormControl(data ? data.materialFlag : [], [Validators.required]),
+      materialDescribe: new FormControl(data ? data.materialDescribe : [], [Validators.required]),
+      materialFlag: new FormControl(data ? data.materialFlag : [], [Validators.required]),
       materialTypeId: new FormControl(data?.materialTypeId, [Validators.required]),
       materialCustomerId: new FormControl(data ? data.materialCustomerId : [], [Validators.required]),
     });
@@ -100,16 +102,23 @@ export class EditMaterialComponent implements OnInit {
   compareFn(c1: IMaterialType, c2: IMaterialType): boolean {
     return c1 && c2 ? c1.materialTypeId === c2.materialTypeId : c1 === c2;
   }
+
   compareFn1(c1: ICustomer, c2: ICustomer): boolean {
     return c1 && c2 ? c1.customerId === c2.customerId : c1 === c2;
   }
+
   onSubmit() {
     if (this.formEdit.valid) {
       this.materialService.update(this.formEdit.value).subscribe(
         () => {
           alert('chỉnh sửa thành công');
+        },
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         }
-      );
+        );
     }
   }
 }

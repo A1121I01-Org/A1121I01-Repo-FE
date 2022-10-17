@@ -9,6 +9,7 @@ import {IMaterial} from '../../model/material/imaterial';
 import {IAccount} from '../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-import-manager',
@@ -52,7 +53,8 @@ export class ImportManagerComponent implements OnInit {
 
   constructor(
     private importService: ImportServiceService,
-    private notification: NotifierService
+    private notification: NotifierService,
+    private router: Router
   ) {
   }
 
@@ -215,7 +217,10 @@ export class ImportManagerComponent implements OnInit {
     this.importService.createImport(this.importCreate).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.importForm.reset();
@@ -311,7 +316,10 @@ export class ImportManagerComponent implements OnInit {
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           this.checkQuantityMaterial = 0;

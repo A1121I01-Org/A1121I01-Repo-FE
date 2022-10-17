@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IMaterial} from "../../model/material/imaterial";
 import {Router} from "@angular/router";
@@ -13,21 +13,23 @@ import {ICustomer} from "../../model/customer/icustomer";
 })
 export class CreateMaterialComponent implements OnInit {
   materialForm: FormGroup;
-  listDataCus:ICustomer[] =[];
-  listDataType: IMaterialType[] =[];
+  listDataCus: ICustomer[] = [];
+  listDataType: IMaterialType[] = [];
+
   constructor(
     private materialService: MaterialServiceService,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getListCus();
     this.getListType();
     this.materialForm = new FormGroup({
-      materialCode: new FormControl('',[Validators.required,Validators.pattern('MVT-\\d{3}')]),
-      materialName: new FormControl('', [Validators.required,Validators.minLength(5),Validators.maxLength(25)]),
-      materialPrice: new FormControl('', [Validators.required,Validators.min(1)]),
-      materialQuantity: new FormControl('', [Validators.required,Validators.min(1)]),
+      materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      materialName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
+      materialPrice: new FormControl('', [Validators.required, Validators.min(1)]),
+      materialQuantity: new FormControl('', [Validators.required, Validators.min(1)]),
       materialExpiridate: new FormControl('', [Validators.required]),
       materialDescribe: new FormControl('', [Validators.required]),
       materialUnit: new FormControl('', [Validators.required]),
@@ -36,34 +38,37 @@ export class CreateMaterialComponent implements OnInit {
     });
   }
 
-  getListType(){
-    this.materialService.getListTypeMaterial().subscribe((res: IMaterialType[])=> {
+  getListType() {
+    this.materialService.getListTypeMaterial().subscribe((res: IMaterialType[]) => {
       console.log(res)
       this.listDataType = res;
     })
   }
 
-  getListCus(){
-    this.materialService.getListCustomer().subscribe((response: ICustomer[]) =>{
+  getListCus() {
+    this.materialService.getListCustomer().subscribe((response: ICustomer[]) => {
       this.listDataCus = response;
-        console.log(this.listDataCus);
+      console.log(this.listDataCus);
 
     })
   }
 
 
-createMaterial() {
-  console.log(this.materialForm.value)
-  this.materialService.create(this.materialForm.value).subscribe(
-    () => {
-    },
-    () => {
-    },
-    () => {
-      alert("thêm mới vật tư")
-    }
-  );
-}
+  createMaterial() {
+    console.log(this.materialForm.value)
+    this.materialService.create(this.materialForm.value).subscribe(
+      () => {
+      },
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
+      }
+      , () => {
+        alert("thêm mới vật tư");
+      }
+    );
+  }
 
   // showPreview(event: any) {
   //   this.upLoadImage = event.target.files[0];

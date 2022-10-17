@@ -7,6 +7,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ProvinceCity} from '../../model/cart/provinceCity';
 import {Wards} from '../../model/cart/wards';
 import {NotifierService} from 'angular-notifier';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -32,7 +33,7 @@ export class DetailCartComponent implements OnInit {
   textSpecificAddress = '';
   customerErr: ICustomer;
   checkValidate = false;
-  constructor(private cartService: CartServiceService, private fb: FormBuilder, private notifier: NotifierService) { }
+  constructor(private cartService: CartServiceService, private fb: FormBuilder, private notifier: NotifierService, private router: Router) { }
 
   ngOnInit(): void {
     this.getListCart();
@@ -139,9 +140,14 @@ export class DetailCartComponent implements OnInit {
          this.listCartPayment = [];
          this.ngOnInit();
        },
-       (error: HttpErrorResponse) => {
-         this.customerErr = error.error;
-       }
+       // (error: HttpErrorResponse) => {
+       //   this.customerErr = error.error;
+       // }
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
+      }
      );
   }
 

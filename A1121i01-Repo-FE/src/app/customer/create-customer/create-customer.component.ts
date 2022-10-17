@@ -125,7 +125,10 @@ export class CreateCustomerComponent implements OnInit {
         this.customerService.create(this.form.value).subscribe(
           () => {
           },
-          () => {
+          (error) => {
+            if (error.status === 500) {
+              this.router.navigateByUrl('/auth/access-denied');
+            }
           },
           () => {
             alert('thêm mới khách hàng');
@@ -140,7 +143,10 @@ export class CreateCustomerComponent implements OnInit {
         this.customerService.update(this.form.value).subscribe(
           () => {
           },
-          () => {
+          (error) => {
+            if (error.status === 500) {
+              this.router.navigateByUrl('/auth/access-denied');
+            }
           },
           () => {
             alert('update khách hàng');

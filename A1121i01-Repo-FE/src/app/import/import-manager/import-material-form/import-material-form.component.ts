@@ -9,6 +9,7 @@ import {IAccount} from '../../../model/account/iaccount';
 import {ImportServiceService} from '../../../service/import/import-service.service';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-import-material-form',
@@ -55,7 +56,8 @@ export class ImportMaterialFormComponent implements OnInit {
   totalPages: number;
 
   constructor(private importService: ImportServiceService,
-              private notification: NotifierService) {
+              private notification: NotifierService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -235,7 +237,10 @@ export class ImportMaterialFormComponent implements OnInit {
     this.importService.createImport(this.importCreate).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.importForm2.reset();
@@ -331,7 +336,10 @@ export class ImportMaterialFormComponent implements OnInit {
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           this.importForm2.reset();

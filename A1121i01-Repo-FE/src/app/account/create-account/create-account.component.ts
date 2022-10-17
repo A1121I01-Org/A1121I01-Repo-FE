@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccountServiceService} from '../../service/account/account-service.service';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -6,7 +6,7 @@ import {EmployeeServiceService} from '../../service/employee/employee-service.se
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 import {IEmployee} from '../../model/employee/iemployee';
 import {checkAge} from '../../validate/customvalidator.validator';
-import { NotifierService } from 'angular-notifier';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-create-account',
@@ -31,7 +31,7 @@ export class CreateAccountComponent implements OnInit {
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
               private formBuilder: FormBuilder, private router: Router, notifierService: NotifierService) {
-      this.notifier = notifierService;
+    this.notifier = notifierService;
   }
 
   ngOnInit(): void {
@@ -59,14 +59,15 @@ export class CreateAccountComponent implements OnInit {
     // @ts-ignore
     this.createForm.setValidators(this.passValidator(this.createForm.get('account').get('password'), this.createForm.get('account').get('confirmPassword')));
   }
+
   submit() {
     const employeeAccount = this.createForm.value;
     this.accountService.createAccount(employeeAccount).subscribe(
       () => {
       }, (error) => {
-        if (error.status === 403) {
+        if (error.status === 403 || error.status === 500) {
           this.router.navigateByUrl('/auth/access-denied');
-        };
+        }
       }, () => {
         // alert('Thêm mới thành công.');
         this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
@@ -76,42 +77,51 @@ export class CreateAccountComponent implements OnInit {
         this.disableButton();
       });
   }
+
   backToHome() {
     this.router.navigate(['']);
   }
+
   getPositionNotManager() {
     this.employeeService.getPositionNotManager().subscribe(data => {
       this.positionList = data;
     });
   }
+
   getAllUsernames() {
     this.accountService.getAllUsername().subscribe(data => {
       this.usernameList = data;
     });
   }
+
   getAllEmployeeHasAccount() {
     this.employeeService.getAllEmployeeHasAccount().subscribe(data => {
       this.employeeHasAccountList = data;
     });
   }
+
   getAllEmployeeDontHasAccount() {
     this.employeeService.getAllEmployeeDontHasAccount().subscribe(data => {
       this.employeeDontHasAccountList = data;
     });
   }
+
   getAllPhone() {
     this.employeeService.getAllPhone().subscribe(data => {
       this.phoneList = data;
     });
   }
+
   disableButton() {
     const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
     button?.setAttribute('disabled', '');
   }
+
   removeDisableButton() {
     const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
     button?.removeAttribute('disabled');
   }
+
   disableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
     nameInput?.setAttribute('disabled', '');
@@ -124,6 +134,7 @@ export class CreateAccountComponent implements OnInit {
     const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
     phoneInput?.setAttribute('disabled', '');
   }
+
   removeDisableInput() {
     const nameInput = document.getElementById('name') as HTMLInputElement | null;
     nameInput?.removeAttribute('disabled');
@@ -136,6 +147,7 @@ export class CreateAccountComponent implements OnInit {
     const phoneInput = document.getElementById('phone') as HTMLInputElement | null;
     phoneInput?.removeAttribute('disabled');
   }
+
   getEmployee(code: string) {
     this.employeeService.getEmployeeByCode(code).subscribe(employee => {
       document.getElementById('name').setAttribute('value', employee.employeeName);
@@ -144,6 +156,7 @@ export class CreateAccountComponent implements OnInit {
       document.getElementById('phone').setAttribute('value', employee.employeePhone);
     });
   }
+
   resetInput() {
     this.createForm.get('employee').get('employeeName').reset();
     this.createForm.get('employee').get('employeeDateOfBirth').reset();
@@ -151,6 +164,7 @@ export class CreateAccountComponent implements OnInit {
     this.createForm.get('employee').get('employeeAddress').reset();
     this.createForm.get('employee').get('employeePhone').reset();
   }
+
   checkCode(code: string) {
     if (this.employeeHasAccountList.indexOf(code) > -1) {
       this.errorMessageAccountAndEmployeeExist = 'Mã nhân viên đã tồn tại và đã có tài khoản.';
@@ -168,6 +182,7 @@ export class CreateAccountComponent implements OnInit {
       }
     }
   }
+
   passValidator(control: AbstractControl, controlTwo: AbstractControl): () => (string | null) {
     return () => {
       if (control.value !== controlTwo.value) {
@@ -176,6 +191,7 @@ export class CreateAccountComponent implements OnInit {
       return this.confirmPassCheck = '';
     };
   }
+
   checkUsername(username: string) {
     if (this.usernameList.indexOf(username) > -1) {
       this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
