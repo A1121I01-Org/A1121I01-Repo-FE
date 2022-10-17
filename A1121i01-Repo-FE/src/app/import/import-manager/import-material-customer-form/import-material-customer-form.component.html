@@ -78,7 +78,8 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)" placeholder="vd: HDN-123">
+          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+                 placeholder="vd: HDN-123">
         </div>
 
         <div class="col-md-2"></div>
@@ -143,7 +144,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123" (change)="checkMaterialCode($event.target)">
+              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
+                     (change)="checkMaterialCode($event.target)">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('materialCode').invalid && (importForm3.get('materialCode').touched||importForm3.get('materialCode').dirty)">
                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
@@ -232,7 +234,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerCode" (change)="checkCustomerCode($event.target)" placeholder="vd: MKH-123">
+              <input type="text" formControlName="customerCode" (change)="checkCustomerCode($event.target)"
+                     placeholder="vd: MKH-123">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
                 Mã nhà cung cấp không được để trống và đúng định dạng MKH-XXX. ví dụ MKH-001
@@ -286,11 +289,12 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerEmail">
+              <input type="text" formControlName="customerEmail" (change)="checkEmailCustomer($event.target)">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
                 Email nhà cung cấp không được để trống và phải đúng định dạng email. vd: thang123@gmail.com
               </small>
+              <small class="text-danger mb-0 pb-0">{{emailCustomerExistCreate}}</small>
             </div>
           </div>
         </div>
@@ -317,7 +321,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let importTable of importList" (dblclick)="showFormEdit(true, importTable.importId)">
+            <tr
+              *ngFor="let importTable of importList| paginate: {itemsPerPage: size, currentPage: page, totalItems: totalPages}"
+              (dblclick)="showFormEdit(true, importTable.importId)">
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
@@ -335,7 +341,8 @@
 
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
-                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}" (change)="checkMaterialCodeUpdate($event.target)"
+                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
+                         (change)="checkMaterialCodeUpdate($event.target)"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
@@ -436,7 +443,7 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''" >
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''">
                   Update
                 </button>
                 <button class="btn__cancel" type="submit"
@@ -451,30 +458,14 @@
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
       <div>
-        <nav aria-label="..." *ngIf="totalPages > 1">
-          <ul class="pagination">
-            <li class="page-item" *ngIf="page > 1">
-              <a class="page-link"
-                 (click)="getPreviousPage()">Previous</a>
-            </li>
-
-            <li *ngFor="let pageNumber of totalPageList"
-                [ngClass]="'page-item ' + (pageNumber==page ? 'active':'')">
-              <a class="page-link" (click)="getNumberPage(pageNumber)">{{pageNumber}}</a>
-            </li>
-
-            <li class="page-item" *ngIf="page < totalPages - 1">
-              <a class="page-link"
-                 (click)="getNextPage()">Next</a>
-            </li>
-          </ul>
-        </nav>
+        <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
       <br>
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
+          <button class="btn__primary" type="submit"
+                  [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
             Thêm mới
           </button>
         </div>

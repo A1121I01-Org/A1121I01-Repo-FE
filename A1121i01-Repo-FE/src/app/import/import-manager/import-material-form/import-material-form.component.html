@@ -264,7 +264,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let importTable of importList" (dblclick)="showFormEdit(true, importTable.importId)">
+            <tr
+              *ngFor="let importTable of importList | paginate: {itemsPerPage: size, currentPage: page, totalItems: totalPages}"
+              (dblclick)="showFormEdit(true, importTable.importId)">
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
@@ -399,24 +401,7 @@
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
       <div>
-        <nav aria-label="..." *ngIf="totalPages > 1">
-          <ul class="pagination">
-            <li class="page-item" *ngIf="page > 1">
-              <a class="page-link"
-                 (click)="getPreviousPage()">Previous</a>
-            </li>
-
-            <li *ngFor="let pageNumber of totalPageList"
-                [ngClass]="'page-item ' + (pageNumber==page ? 'active':'')">
-              <a class="page-link" (click)="getNumberPage(pageNumber)">{{pageNumber}}</a>
-            </li>
-
-            <li class="page-item" *ngIf="page < totalPages - 1">
-              <a class="page-link"
-                 (click)="getNextPage()">Next</a>
-            </li>
-          </ul>
-        </nav>
+        <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
       <br>
       <div class="row button__container text-center">

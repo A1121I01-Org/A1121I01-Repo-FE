@@ -49,9 +49,9 @@ export class ImportMaterialFormComponent implements OnInit {
     materialTypeId: {},
     materialCustomerId: {}
   };
-  totalPageList: number[] = [];
 
   page = 1;
+  size: number;
   totalPages: number;
 
   constructor(private importService: ImportServiceService,
@@ -64,31 +64,30 @@ export class ImportMaterialFormComponent implements OnInit {
     this.getAllImportString();
     this.getCustomerList();
     this.getEmployeeList();
-    this.getImportList();
-    this.getImportListNotPagination();
+    this.getImportList(this.page);
     this.getMaterialTypeImportList();
     this.importForm2 = new FormGroup({
-      importCode: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+      importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
-      importQuantity: new FormControl(null, [Validators.required, Validators.min(0)]),
-      importAccountId: new FormControl(null, [Validators.required]),
-      materialCode: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-      materialName: new FormControl(null, [Validators.required]),
-      materialPrice: new FormControl(null, [Validators.required, Validators.min(0)]),
-      materialExpiridate: new FormControl(null, [Validators.required]),
-      materialUnit: new FormControl(null, [Validators.required]),
-      materialTypeId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required])
+      importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
+      importAccountId: new FormControl('', [Validators.required]),
+      materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      materialName: new FormControl('', [Validators.required]),
+      materialPrice: new FormControl('', [Validators.required, Validators.min(0)]),
+      materialExpiridate: new FormControl('', [Validators.required]),
+      materialUnit: new FormControl('', [Validators.required]),
+      materialTypeId: new FormControl('', [Validators.required]),
+      materialCustomerId: new FormControl('', [Validators.required])
     });
 
     this.importUpdateForm = new FormGroup({
-      importCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-      importStartDateUpdate: new FormControl(null, [Validators.required]),
-      importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
-      importAccountIdUpdate: new FormControl(null, [Validators.required]),
-      importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-      importMaterialNameUpdate: new FormControl(null, [Validators.required]),
-      importMaterialUnitUpdate: new FormControl(null, [Validators.required])
+      importCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+      importStartDateUpdate: new FormControl('', [Validators.required]),
+      importQuantityUpdate: new FormControl('', [Validators.required, Validators.min(0)]),
+      importAccountIdUpdate: new FormControl('', [Validators.required]),
+      importMaterialCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      importMaterialNameUpdate: new FormControl('', [Validators.required]),
+      importMaterialUnitUpdate: new FormControl('', [Validators.required])
     });
   }
 
@@ -119,10 +118,18 @@ export class ImportMaterialFormComponent implements OnInit {
     });
   }
 
-  getImportList() {
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
+  getImportList(page: number) {
+    this.page = page;
+    this.importService.findAllImport(this.page - 1).subscribe((data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalPages = data.totalElements;
+      },
+      () => {
+        this.page--;
+        this.getImportList(this.page);
+      }
+    );
   }
 
   getMaterialTypeImportList() {
@@ -142,56 +149,6 @@ export class ImportMaterialFormComponent implements OnInit {
     this.getMaterialImportListByCustomerId();
   }
 
-  // ++++++++++++phân trang+++++++++++
-  getImportListNotPagination() {
-    this.importService.findAllImportNotPagination().subscribe((data: IImport[]) => {
-        this.totalPages = (Math.ceil(data.length / 5) + 1);
-
-        this.totalPageList = [];
-        for (let i = 1; i < this.totalPages; i++) {
-          this.totalPageList.push(i);
-        }
-      }, () => {
-      },
-      () => {
-        if (this.page >= this.totalPages) {
-          this.page--;
-        }
-        this.getImportList();
-      });
-  }
-
-
-  getPreviousPage() {
-    this.page--;
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
-  getNextPage() {
-    this.page++;
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
-  getNumberPage(pageNumber: number) {
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.page = pageNumber;
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
   // +++++++++++++xoá++++++++++++++
   showInfoImportDelete(importTable: IImport) {
     this.importDelete = importTable;
@@ -204,8 +161,7 @@ export class ImportMaterialFormComponent implements OnInit {
       () => {
       },
       () => {
-        this.getImportList();
-        this.getImportListNotPagination();
+        this.getImportList(this.page);
         this.notification.notify('success', 'Xoá lịch sử nhập kho thành công');
       });
   }
@@ -240,8 +196,7 @@ export class ImportMaterialFormComponent implements OnInit {
       () => {
         this.importForm2.reset();
         this.page = 1;
-        this.getImportList();
-        this.getImportListNotPagination();
+        this.getImportList(this.page);
         this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
       }
     );
@@ -336,7 +291,7 @@ export class ImportMaterialFormComponent implements OnInit {
         () => {
           this.importForm2.reset();
           this.importUpdateForm.reset();
-          this.getImportList();
+          this.getImportList(this.page);
           this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
         }
       );
@@ -372,7 +327,8 @@ export class ImportMaterialFormComponent implements OnInit {
   }
 
   checkMaterialCodeUpdate(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1 && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+    if (this.materialListString.indexOf(materialString.value) > -1
+      && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
       this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistUpdate = '';

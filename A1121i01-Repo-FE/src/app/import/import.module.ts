@@ -8,6 +8,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ImportMaterialFormComponent} from './import-manager/import-material-form/import-material-form.component';
 import {ImportMaterialCustomerFormComponent} from './import-manager/import-material-customer-form/import-material-customer-form.component';
 import {NotifierModule} from 'angular-notifier';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {NotifierModule} from 'angular-notifier';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NotifierModule
+    NotifierModule,
+    NgxPaginationModule
   ]
 })
 export class ImportModule {
