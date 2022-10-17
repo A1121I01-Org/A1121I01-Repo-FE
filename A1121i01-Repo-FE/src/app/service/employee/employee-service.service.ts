@@ -53,7 +53,7 @@ export class EmployeeServiceService {
   }
 
   adminUpdateEmployee(employee: IEmployee): Observable<IEmployee> {
-    return this.http.patch<IEmployee>(this.API_EMPLOYEE + '/update', employee);
+    return this.http.patch<IEmployee>(this.API_EMPLOYEE + '/update/' + employee.employeeId, employee);
   }
 }
 
