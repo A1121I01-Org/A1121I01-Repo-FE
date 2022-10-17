@@ -23,17 +23,17 @@ export class EmployeeServiceService {
   }
 
   getAllEmployee(): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>(this.API_URL);
+    return this.http.get<IEmployee[]>(this.API_EMPLOYEE);
   }
 
   getAllEmployeeWithPagination(page: number): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>(this.API_URL + '/employee-pagination/' + page);
+    return this.http.get<IEmployee[]>(this.API_EMPLOYEE + '/employee-pagination/' + page);
   }
 
 
   deleteEmployeeById(id: number): Observable<IEmployee> {
     console.log('ID de xoa: ' + id);
-    return this.http.delete<IEmployee>(this.API_URL + '/employee-delete/' + id);
+    return this.http.delete<IEmployee>(this.API_EMPLOYEE + '/employee-delete/' + id);
   }
 
   // findEmployeeById(code: string): Observable<IEmployee> {
@@ -41,8 +41,6 @@ export class EmployeeServiceService {
   // }
 
   searchEmployeeByName(value: string): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>(this.API_URL + `/customer-search?name=${value}}`);
+    return this.http.get<IEmployee[]>(this.API_EMPLOYEE + `/customer-search?name=${value}}`);
   }
-
-
 }

@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-12">
-      <h2 style="margin-top: 20px;margin-left: 20px;text-align: center">Danh sách thông tin nhân viên</h2>
+      <h2 style="margin-top: 20px;margin-left: 20px;text-align: center; color: #270082">Danh sách thông tin nhân viên</h2>
       <hr>
     </div>
   </div>
@@ -67,7 +67,7 @@
           <td>{{emp.employeePhone}}</td>
           <td>{{emp.employeeSalary}}</td>
           <!--          <td>{{emp.employeeFlag}}</td>-->
-          <td>{{emp.employeeAccountId}}</td>
+          <td>{{emp.employeeAccountId.username}}</td>
           <td>{{emp.employeePositionId.positionName}}</td>
           <td>
             <a class="btn btn-primary btn__delete" [routerLink]="['/employee/detail',emp.employeeId]"
