@@ -17,6 +17,14 @@ import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {StatisticModule} from './statistic/statistic.module';
 import { HeaderComponent } from './header/header.component';
 import { ErrorComponent } from './error/error.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './home/home.component';
+import {FormsModule} from '@angular/forms';
+import { HttpClientModule} from "@angular/common/http";
+
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {authInterceptorProviders} from './helpers/auth.interceptor';
@@ -30,7 +38,8 @@ import {NotifierModule} from 'angular-notifier';
   declarations: [
     AppComponent,
     HeaderComponent,
-    ErrorComponent
+    ErrorComponent,
+    HomeComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -43,6 +52,10 @@ import {NotifierModule} from 'angular-notifier';
     CartModule,
     AccountModule,
     SecurityModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgbModule
     MaterialModule,
     StatisticModule,
     HttpClientModule,
