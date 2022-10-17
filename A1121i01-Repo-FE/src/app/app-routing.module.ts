@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {HomeComponent} from './home/home.component';
+import {HeaderComponent} from './header/header.component';
 
 const routes: Routes = [{
   path: 'customer',
@@ -34,8 +35,9 @@ const routes: Routes = [{
     path: 'statistic',
     loadChildren: () => import('./statistic/statistic.module').then(module => module.StatisticModule)
   },
-
-
+  {
+    path: '', component: HomeComponent,
+  }
 ];
 
 @NgModule({

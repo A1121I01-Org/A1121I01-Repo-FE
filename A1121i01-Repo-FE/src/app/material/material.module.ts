@@ -14,21 +14,21 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 
-
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
   exports: [
-    InforMaterialComponent,
-    DetailMaterialComponent
+    InforMaterialComponent
   ],
   imports: [
     CommonModule,
     MaterialRoutingModule,
-    RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
     HttpClientModule,
     NgbModule,
+
   ]
 })
 export class MaterialModule { }

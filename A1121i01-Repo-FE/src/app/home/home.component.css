@@ -16,7 +16,7 @@ html {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to left bottom, #fff 0%, #0099CC 100%);
+  background-image: linear-gradient(to left bottom, #fff 0%, var(--action-color-hover) 100%);
   overflow: hidden;
 }
 
