@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MaterialServiceService} from '../../service/material/material-service.service';
 import {IMaterial} from '../../model/material/imaterial';
+import {ActivatedRoute} from '@angular/router';
 
 
 
@@ -12,16 +13,24 @@ import {IMaterial} from '../../model/material/imaterial';
 })
 export class InforMaterialComponent implements OnInit {
   materialList: IMaterial[] = [];
+  materials: IMaterial = {};
+  id: number;
   thePageNumber = 1;
   thePageSize = 6;
   theTotalElements: number;
   itemPerPage = 1;
   keywordSearch: undefined;
-  constructor(private materialService: MaterialServiceService) {
+  constructor(private materialService: MaterialServiceService, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.getListMaterial1();
+    this.activatedRoute.paramMap.subscribe(paramMap => {
+      this.id = Number(paramMap.get('id'));
+      this.materialService.findMaterialById(this.id).subscribe(material => {
+        this.materials = material;
+      });
+    });
   }
 
   getListMaterial1() {

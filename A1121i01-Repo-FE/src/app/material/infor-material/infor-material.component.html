@@ -13,7 +13,7 @@
 
     <div class="card" *ngFor="let material of materialList">
       <div class="card__image-holder">
-        <img class="card__image" src="assets/images/infor-material/giuong.png" alt="wave" />
+        <img class="card__image" src="{{material.materialImage}}" alt="wave" />
       </div>
       <div class="card-title">
         <a href="#" class="toggle-info btn">
@@ -33,6 +33,10 @@
           <div class="card-actions">
             <a href="#" class="btn">Mua ngay</a>
           </div>
+          <div class="card-actions">
+            <a [routerLink]="['/detail',material?.materialId]"  class="btn">Chi tiết</a>
+          </div>
+
         </div>
       </div>
     </div>

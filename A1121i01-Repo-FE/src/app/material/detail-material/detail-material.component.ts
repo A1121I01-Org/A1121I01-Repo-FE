@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {IMaterial} from "../../model/material/imaterial";
-import {MaterialServiceService} from "../../service/material/material-service.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {IMaterial} from '../../model/material/imaterial';
+import {MaterialServiceService} from '../../service/material/material-service.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-detail-material',
@@ -15,7 +15,7 @@ export class DetailMaterialComponent implements OnInit {
   desArray: string[];
   desArray1: string[];
   desArray2: string[];
-  imageArray:string[];
+  imageArray: string[];
 
 
 
@@ -30,23 +30,23 @@ export class DetailMaterialComponent implements OnInit {
       this.materialService.findMaterialById(this.id).subscribe(material => {
         this.materials = material;
 
-        //Cat chuoi thong tin chi tiet
+        // Cat chuoi thong tin chi tiet
 
         //
-        let description = this.materials.materialDescribe;
+        const description = this.materials.materialDescribe;
 
-        this.desArray = description.split("@",(4));
+        this.desArray = description.split('@', (4));
 
         // let image=this.materials.materialImage;
         // this.imageArray=image.split("@")
-        let description1 = this.materials.materialDescribe;
+        const description1 = this.materials.materialDescribe;
 
-        this.desArray1 = description1.split("@");
-        this.desArray2=this.desArray1.slice(3,4)
+        this.desArray1 = description1.split('@');
+        this.desArray2 = this.desArray1.slice(3, 4);
         console.log(this.desArray2);
 
-      })
-    })
+      });
+    });
 
     this.getTopMaterial();
 
@@ -55,7 +55,7 @@ export class DetailMaterialComponent implements OnInit {
   getTopMaterial() {
     this.materialService.getTopNewMaterial().subscribe(data => {
       this.materials2 = data;
-    })
+    });
   }
 
 
