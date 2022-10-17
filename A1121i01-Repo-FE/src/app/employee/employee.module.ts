@@ -9,7 +9,6 @@ import {DetailEmployeeComponent} from './detail-employee/detail-employee.compone
 import {AdminEditEmployeeComponent} from './admin-edit-employee/admin-edit-employee.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
 import {AccountModule} from '../account/account.module';
 
 
@@ -19,6 +18,9 @@ import {AccountModule} from '../account/account.module';
   exports: [
     DetailEmployeeComponent,
     ListEmployeeComponent,
+    CreateEmployeeComponent,
+    AdminEditEmployeeComponent,
+    EditEmployeeComponent
   ],
   imports: [
     CommonModule,

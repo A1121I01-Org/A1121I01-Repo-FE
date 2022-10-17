@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-// @ts-ignore
-import {AngularFireStorage} from '@angular/fire/storage';
+import {ActivatedRoute} from '@angular/router';
 import {IEmployee} from '../../model/employee/iemployee';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 
@@ -21,19 +19,20 @@ export class AdminEditEmployeeComponent implements OnInit {
   employees: IEmployee[] = [];
   positions: IPositionEmployee[] = [];
   formEdit = new FormGroup({});
+
   // tslint:disable-next-line:max-line-length
   constructor(private activatedRoute: ActivatedRoute,
               private employeeServiceService: EmployeeServiceService,
-              private formBuilder: FormBuilder, ) {
+              private formBuilder: FormBuilder,) {
   }
 
   ngOnInit(): void {
-   this.initForm();
-   this.getListPosition();
-   this.activatedRoute.paramMap.subscribe(
+    this.initForm();
+    this.getListPosition();
+    this.activatedRoute.paramMap.subscribe(
       (param) => {
-        const id = param.get('id');
-        this.employeeServiceService.findById(id).subscribe(
+        const id = +param.get('id');
+        this.employeeServiceService.findEmployeeById(id).subscribe(
           data => {
             this.employee = data;
             console.log(data);
@@ -42,6 +41,7 @@ export class AdminEditEmployeeComponent implements OnInit {
           });
       });
   }
+
   private findAllPosition() {
 
   }
@@ -79,14 +79,16 @@ export class AdminEditEmployeeComponent implements OnInit {
       this.positions = res;
     });
   }
+
   compareFn(c1: IPositionEmployee, c2: IPositionEmployee): boolean {
     return c1 && c2 ? c1.positionId === c2.positionId : c1 === c2;
   }
+
   onSubmit() {
     if (this.formEdit.valid) {
       this.employeeServiceService.adminUpdateEmployee(this.formEdit.value).subscribe(
         () => {
-          alert ( 'chỉnh sửa thành công');
+          alert('chỉnh sửa thành công');
         }
       );
     }

@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {IEmployee} from '../../model/employee/iemployee';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
-// @ts-ignore
-import {PositionServiceService} from '../../service/position/position-service.service';
-// @ts-ignore
 import {AngularFireStorage} from '@angular/fire/storage';
+
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -18,7 +15,7 @@ export class CreateEmployeeComponent implements OnInit {
   positions: IPositionEmployee[] = [];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private employeeService: EmployeeServiceService, private positionService: PositionServiceService, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage) {
+  constructor(private employeeService: EmployeeServiceService,  private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
@@ -39,6 +36,7 @@ export class CreateEmployeeComponent implements OnInit {
       employeePositionId: new FormControl()
     });
   }
+
   checkAge(control: AbstractControl): ValidationErrors | null {
     const employeeDateOfBirth = control.value;
     const birthday = new Date(employeeDateOfBirth);
