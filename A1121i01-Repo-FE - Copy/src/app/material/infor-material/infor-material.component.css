@@ -1,5 +1,4 @@
 
-
 .search-bar {
   margin-top: 50px;
   background-color: var(--app-content-secondary-color);
@@ -72,9 +71,6 @@
   background: #729ef9;
 }
 body {
-  background-image: url(src/assets/images/infor-material/bg-01.png);
-  background-position: center;
-  background-size: cover;
   color: #4f585e;
   font-family: 'Segoe UI', sans-serif;
   text-rendering: optimizeLegibility;

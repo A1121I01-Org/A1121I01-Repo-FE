@@ -1,14 +1,13 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-
+<div class="thuan">
 <nav>
 
           <li><a href="#" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge"></span></a></li>
 
-
 </nav>
 
   <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
-
+<br>
 
   <div class="cards">
 
@@ -17,7 +16,7 @@
         <img class="card__image" src="assets/images/infor-material/giuong.png" alt="wave" />
       </div>
       <div class="card-title">
-        <a href="" class="toggle-info btn">
+        <a href="#" class="toggle-info btn">
           <span class="left"></span>
           <span class="right"></span>
         </a>
@@ -45,6 +44,7 @@
                     [boundaryLinks]="true"
                     [maxSize]="3"
                     [rotate]="true"
+
     >
     </ngb-pagination>
 
@@ -52,7 +52,7 @@
   </div>
 
 
-
+</div>
 
 
 
