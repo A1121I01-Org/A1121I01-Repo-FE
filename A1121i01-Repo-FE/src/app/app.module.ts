@@ -40,10 +40,9 @@ import {StatisticModule} from './statistic/statistic.module';
     AccountModule,
     SecurityModule,
     MaterialModule,
+    StatisticModule,
     HttpClientModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    StatisticModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
