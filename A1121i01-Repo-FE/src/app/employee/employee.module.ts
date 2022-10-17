@@ -6,13 +6,21 @@ import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
 import { ListEmployeeComponent } from './list-employee/list-employee.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { DetailEmployeeComponent } from './detail-employee/detail-employee.component';
-
+import { AdminEditEmployeeComponent } from './admin-edit-employee/admin-edit-employee.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
-  declarations: [EditEmployeeComponent, ListEmployeeComponent, CreateEmployeeComponent, DetailEmployeeComponent],
+  // tslint:disable-next-line:max-line-length
+  declarations: [EditEmployeeComponent, ListEmployeeComponent, CreateEmployeeComponent, DetailEmployeeComponent, AdminEditEmployeeComponent],
+  exports: [
+    ListEmployeeComponent
+  ],
   imports: [
     CommonModule,
-    EmployeeRoutingModule
+    EmployeeRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class EmployeeModule { }
