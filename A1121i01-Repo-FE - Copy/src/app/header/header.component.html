@@ -1,117 +1,69 @@
-<div class="sidebar close">
-    <div class="logo-details">
-      <img src="assets/images/infor-material/logo1.png" class="app-icon">
-      <span class="logo_name">EquipStore</span>
+
+<!--/versin 2-->
+<!-- nav -->
+<nav class="sidebar">
+  <div class="nav-header">
+    <div class="logo-wrap">
+      <a class="logo-icon"><img alt="logo-icon" src="/assets/images/infor-material/logo1.png" width="60"></a>
+      <a class="logo-text">EquipStore</a>
     </div>
-    <ul class="nav-links">
-      <li><div class="iocn-link">
-        <a href="#">
-          <i class='bx bx-book-alt'></i>
-          <span class="link_name">Trang chủ</span>
-        </a>
-        </div>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Trang chủ</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a>
-            <i [routerLink]="['/material/infor']" class='bx bx-collection'></i>
-            <span class="link_name">Sản phẩm</span>
-          </a>
-          <!--                <i class='bx bxs-chevron-down arrow' ></i>-->
-        </div>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Sản phẩm</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-book-alt'></i>
-            <span class="link_name">Chứng nhận</span>
-          </a>
-        </div>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Chứng nhận</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-line-chart'></i>
-          <span class="link_name">Hoạt động</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Hoạt động</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-building-house'></i>
-          <span class="link_name">Đối tác</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Đối tác</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">
-          <i class='bx bx-phone'></i>
-          <span class="link_name">Liên hệ</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">Liên hệ</a></li>
-        </ul>
-      </li>
-      <li>
-        <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-plug'></i>
-            <span class="link_name">Hệ thống</span>
-          </a>
-          <i class='bx bxs-chevron-down arrow'></i>
-        </div>
-        <ul class="sub-menu">
-          <li><a class="link_name" href="#">Hệ thống</a></li>
-          <li><a href="#">Tạo tài khoản</a></li>
-          <li><a href="#">Đổi mật khẩu</a></li>
 
-        </ul>
-      </li>
-      <li>
-        <div class="profile-details">
-          <div class="profile-content">
-            <img src="" alt="profileImg">
-          </div>
-          <div class="name-job">
-            <div class="profile_name">A1121i1</div>
-            <div class="job">Web EquipStore</div>
-          </div>
-          <i class='bx bx-log-out'></i>
-        </div>
-      </li>
-    </ul>
   </div>
-<!--<section class="home-section">-->
-<!--  <div class="home-content">-->
-<!--    <i class='bx bx-menu' ></i>-->
-<!--  </div>-->
-<!--</section>-->
-<script>
+  <ul class="nav-categories ul-base">
+    <li><a routerLink="">Trang chủ</a></li>
+    <li><a routerLink="/material/infor">Sản phẩm</a></li>
+    <li><a>Chứng nhận</a></li>
+    <li><a>Hoạt động</a></li>
+    <li><a>Đối tác</a></li>
+    <li><a>Liên hệ</a></li>
+  </ul>
+  <ul class="social ul-base">
+    <li><a class="twitter" target="_blank"><i class="fa fa-instagram"></i></a></li>
+    <li><a class="facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+    <li><a class="google-plus" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+    <li><a class="rss" target="_blank"><i class="fa-solid fa-cart-plus"></i></a></li>
+  </ul>
+  <div class="copyright">
+    <span>&copy; 2022 <a class="link">codegymA1121i1.com</a> Made in Vietnam</span>
+    <span>Designed by A1121i1 <a target="_blank">Sprint1</a></span>
+  </div>
+</nav><!-- @end nav -->
 
-  $(document).ready(function () {
-    const arrow = $(".arrow");
-    for (let i = 0; i < arrow.length; i++) {
-      arrow[i].on("click", (e) => {
-        const arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-        arrowParent.toggleClass("showMenu");
-      });
-    }
-    const sidebar = $(".sidebar");
-    const sidebarBtn = $(".bx-menu");
-    sidebarBtn.on("click", () => {
-      sidebar.toggleClass("close");
-    })
-  });
-</script>
+<!-- header -->
+<header>
+  <div class="header-inner clearfix">
+    <div class="nav-btn nav-slider">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+    <div class="header-logo">
+      <a><img alt="logo" src="assets/images/infor-material/logo1.png" width="30px" height="30px"></a>
+    </div>
+    <div class="header-categories">
+      <ul class="ul-base">
+        <li class="dropdown">
+          <a class="dropdown-toggle" href="#"><span>Hệ thống</span> <i class="material-icons"></i></a>
+          <ul class="dropdown-menu ul-base">
+            <li><a>Tạo tài khoản</a></li>
+            <li><a>Thay đổi mật khẩu</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="header-menu">
+      <ul class="ul-base">
+        <li><a class="rss" target="_blank"><i class="fa-solid fa-cart-plus"></i></a></li>
+        <li><a></a></li>
+        <li><a></a></li>
+        <li><a>Login</a></li>
+      </ul>
+    </div>
+  </div>
+</header><!-- @end header -->
+
+<!-- Main content -->
+<main role="main"></main><!-- @end main -->
+
+<!-- Footer -->
+
+
+<div class="overlay"></div>

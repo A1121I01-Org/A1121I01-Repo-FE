@@ -13,7 +13,7 @@ import {IMaterial} from '../../model/material/imaterial';
 export class InforMaterialComponent implements OnInit {
   materialList: IMaterial[] = [];
   thePageNumber = 1;
-  thePageSize = 9;
+  thePageSize = 6;
   theTotalElements: number;
   itemPerPage = 1;
   keywordSearch: undefined;
