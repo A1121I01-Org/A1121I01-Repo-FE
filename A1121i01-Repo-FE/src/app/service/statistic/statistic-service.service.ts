@@ -7,6 +7,8 @@ import {Observable} from 'rxjs';
 })
 export class StatisticServiceService {
 
+  // KimPBH-Thong ke tai chinh
+
   readonly API_URL = 'http://localhost:8080/api/statistic';
 
   constructor(private http: HttpClient) { }
