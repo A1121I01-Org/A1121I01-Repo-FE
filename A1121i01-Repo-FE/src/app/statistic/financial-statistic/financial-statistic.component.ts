@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StatisticServiceService} from '../../service/statistic/statistic-service.service';
 import {ICart} from '../../model/cart/icart';
-import {applySourceSpanToExpressionIfNeeded} from "@angular/compiler/src/output/output_ast";
+import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-financial-statistic',

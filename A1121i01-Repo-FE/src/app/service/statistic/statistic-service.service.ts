@@ -36,6 +36,6 @@ export class StatisticServiceService {
   }
   getPdf(search: string[]): Observable<Blob> {
     // @ts-ignore
-    return this.httpClient.post<Blob>(`${this.API_URL}/pdf2`, search, {responseType: 'blob'} );
+    return this.http.post<Blob>(`${this.API_URL}/pdf2`, search, {responseType: 'blob'} );
   }
 }
