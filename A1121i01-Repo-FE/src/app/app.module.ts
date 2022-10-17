@@ -16,6 +16,9 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
+import {FormsModule} from '@angular/forms';
+import { HttpClientModule} from "@angular/common/http";
+
 
 
 @NgModule({

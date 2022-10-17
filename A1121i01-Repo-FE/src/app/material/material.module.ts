@@ -12,23 +12,26 @@ import {RouterModule} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
+import {HttpClientModule} from "@angular/common/http";
+import {RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
   exports: [
-    InforMaterialComponent
+    InforMaterialComponent,
+    DetailMaterialComponent
   ],
   imports: [
     CommonModule,
-    MaterialRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    HttpClientModule,
     NgbModule,
+    MaterialRoutingModule, HttpClientModule,
+    RouterModule, FormsModule, ReactiveFormsModule,
+  ]})
 
-  ]
-})
 export class MaterialModule { }
