@@ -25,7 +25,7 @@
       <div class="input-box form-field">
         <select formControlName="customerTypeId" [compareWith]="compare" style="z-index: 100" id="type" class="form-input">
           <option [selected]="true" value="null" disabled>Chọn Loại Khách Hàng</option>
-          <option *ngFor="let customerType of customerTypes" [ngValue]="customerType.customerTypeId">{{customerType.customerTypeName}}</option>
+          <option *ngFor="let customerType of customerTypes" [ngValue]="customerType">{{customerType.customerTypeName}}</option>
         </select>
         <label for="type" class="form-label">Loại khách <span style="color: red">(*)</span></label>
       </div>
@@ -70,23 +70,34 @@
         </div>
       </div>
 
-      <div class="container1" >
-        <div class="wrapper">
-          <div class="image">
-            <img [src]="url"  alt="">
+      <div class="input-box form-field" style="margin-top: 8px">
+        <input name="avatar" id="avatar" type="text" class="form-input" placeholder=" " formControlName="customerAvatar">
+        <label for="avatar" class="form-label">Avatar <span style="color: red">(*)</span></label>
+        <div *ngFor="let validation of validationMessages.customerAvatar">
+          <div *ngIf="this.form.get('customerAvatar').hasError(validation.type) && (this.form.get('customerAvatar').touched || f.submitted)"
+               class="text-danger">{{validation.message}}
           </div>
-          <div class="content">
-            <div class="text">No file choosen, yet!</div>
-          </div>
-          <div class="file-name">File name here</div>
         </div>
-        <input  (change)="onSelectFile($event)" type="file" id="default-btn" style="margin-left: 240px; margin-top: 90px" #fileInput>
-        <!--        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>-->
       </div>
+
+
+<!--      <div class="container1" >-->
+<!--        <div class="wrapper">-->
+<!--          <div class="image">-->
+<!--            <img [src]="url"  alt="">-->
+<!--          </div>-->
+<!--          <div class="content">-->
+<!--            <div class="text">No file choosen, yet!</div>-->
+<!--          </div>-->
+<!--          <div class="file-name">File name here</div>-->
+<!--        </div>-->
+<!--        <input  (change)="onSelectFile($event)" type="file" id="default-btn" style="margin-left: 240px; margin-top: 90px" #fileInput>-->
+<!--        &lt;!&ndash;        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>&ndash;&gt;-->
+<!--      </div>-->
 
     </div>
     <div class="button" style="margin-left: 230px; margin-top: 60px" >
-      <input class="btn__primary"  type="submit" [disabled]="!form.valid"  value="Lưu">
+      <input class="btn__primary"  type="submit"  value="Lưu">
       <input class="btn__cancel" type="button" value="Hủy" routerLink="/customer">
     </div>
   </form>
