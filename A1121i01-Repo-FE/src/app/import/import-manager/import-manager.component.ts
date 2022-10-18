@@ -17,9 +17,6 @@ import {formatDate} from '@angular/common';
 })
 export class ImportManagerComponent implements OnInit {
   importSearchForm: FormGroup;
-  codeSearch = '';
-  startDateSearch = '';
-  endDateSearch = '';
   importForm: FormGroup;
   importUpdateForm: FormGroup;
   checkQuantityMaterial = 0;
@@ -51,7 +48,7 @@ export class ImportManagerComponent implements OnInit {
 
   page = 1;
   size: number;
-  totalPages: number;
+  totalItems: number;
 
   constructor(
     private importService: ImportServiceService,
@@ -124,7 +121,8 @@ export class ImportManagerComponent implements OnInit {
     this.importService.findAllImport(this.page - 1).subscribe((data: any) => {
         this.importList = data.content;
         this.size = data.size;
-        this.totalPages = data.totalElements;
+        this.totalItems = data.totalElements;
+        console.log(data);
       },
       () => {
         this.page--;
@@ -318,5 +316,21 @@ export class ImportManagerComponent implements OnInit {
     } else {
       this.materialExistUpdate = '';
     }
+  }
+
+  searchImport() {
+    this.importService.searchImport(
+      this.importSearchForm.get('codeSearch').value,
+      this.importSearchForm.get('startDateSearch').value,
+      this.importSearchForm.get('endDateSearch').value,
+      0
+    ).subscribe(
+      (data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalItems = data.totalElements;
+        this.page = 1;
+      }
+    );
   }
 }

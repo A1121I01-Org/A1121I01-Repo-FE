@@ -18,6 +18,7 @@ import {formatDate} from '@angular/common';
 export class ImportMaterialCustomerFormComponent implements OnInit {
   importForm3: FormGroup;
   importUpdateForm: FormGroup;
+  importSearchForm: FormGroup;
   checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
   checkFormEdit = false;
@@ -62,7 +63,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
 
   page = 1;
   size: number;
-  totalPages: number;
+  totalItems: number;
 
 
   constructor(private importService: ImportServiceService,
@@ -80,6 +81,12 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     this.getEmployeeList();
     this.getImportList(this.page);
     this.getMaterialTypeImportList();
+    this.importSearchForm = new FormGroup({
+      codeSearch: new FormControl(''),
+      startDateSearch: new FormControl(''),
+      endDateSearch: new FormControl('')
+    });
+
     this.importForm3 = new FormGroup({
       importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
@@ -228,7 +235,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     this.importService.findAllImport(this.page - 1).subscribe((data: any) => {
         this.importList = data.content;
         this.size = data.size;
-        this.totalPages = data.totalElements;
+        this.totalItems = data.totalElements;
       },
       () => {
         this.page--;
@@ -401,5 +408,22 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     } else {
       this.emailCustomerExistCreate = '';
     }
+  }
+
+  // +++++++++search++++++
+  searchImport() {
+    this.importService.searchImport(
+      this.importSearchForm.get('codeSearch').value,
+      this.importSearchForm.get('startDateSearch').value,
+      this.importSearchForm.get('endDateSearch').value,
+      0
+    ).subscribe(
+      (data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalItems = data.totalElements;
+        this.page = 1;
+      }
+    );
   }
 }

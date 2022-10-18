@@ -18,6 +18,7 @@ import {formatDate} from '@angular/common';
 export class ImportMaterialFormComponent implements OnInit {
   importForm2: FormGroup;
   importUpdateForm: FormGroup;
+  importSearchForm: FormGroup;
   checkQuantityMaterial = 0;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
   importListString: string[] = [];
@@ -52,7 +53,7 @@ export class ImportMaterialFormComponent implements OnInit {
 
   page = 1;
   size: number;
-  totalPages: number;
+  totalItems: number;
 
   constructor(private importService: ImportServiceService,
               private notification: NotifierService) {
@@ -66,6 +67,12 @@ export class ImportMaterialFormComponent implements OnInit {
     this.getEmployeeList();
     this.getImportList(this.page);
     this.getMaterialTypeImportList();
+    this.importSearchForm = new FormGroup({
+      codeSearch: new FormControl(''),
+      startDateSearch: new FormControl(''),
+      endDateSearch: new FormControl('')
+    });
+
     this.importForm2 = new FormGroup({
       importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
@@ -114,7 +121,6 @@ export class ImportMaterialFormComponent implements OnInit {
   getEmployeeList() {
     this.importService.findAllEmployeeImport().subscribe((data: IEmployee[]) => {
       this.employeeList = data;
-      console.log(data);
     });
   }
 
@@ -123,7 +129,7 @@ export class ImportMaterialFormComponent implements OnInit {
     this.importService.findAllImport(this.page - 1).subscribe((data: any) => {
         this.importList = data.content;
         this.size = data.size;
-        this.totalPages = data.totalElements;
+        this.totalItems = data.totalElements;
       },
       () => {
         this.page--;
@@ -282,7 +288,7 @@ export class ImportMaterialFormComponent implements OnInit {
           materialCustomerId: this.importBeforeUpdate.importMaterialId.materialCustomerId
         }
       };
-      console.log(this.importUpdate);
+
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
@@ -333,5 +339,21 @@ export class ImportMaterialFormComponent implements OnInit {
     } else {
       this.materialExistUpdate = '';
     }
+  }
+
+  searchImport() {
+    this.importService.searchImport(
+      this.importSearchForm.get('codeSearch').value,
+      this.importSearchForm.get('startDateSearch').value,
+      this.importSearchForm.get('endDateSearch').value,
+      0
+    ).subscribe(
+      (data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalItems = data.totalElements;
+        this.page = 1;
+      }
+    );
   }
 }
