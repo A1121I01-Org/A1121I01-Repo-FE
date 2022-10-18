@@ -78,7 +78,8 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+          <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
+                 (ngModelChange)="checkImportCode()"
                  placeholder="vd: HDN-123">
         </div>
 
@@ -160,7 +161,7 @@
             </div>
             <div class="col-md-8 input-group">
               <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
-                     (change)="checkMaterialCode($event.target)">
+                     [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm2.get('materialCode').invalid && (importForm2.get('materialCode').touched||importForm2.get('materialCode').dirty)">
                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
@@ -292,7 +293,7 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate" (change)="checkImportCodeUpdate($event.target)">
+                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch" (ngModelChange)="checkImportCodeUpdate()">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
                     không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
@@ -307,7 +308,7 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
-                         (change)="checkMaterialCodeUpdate($event.target)"
+                         [(ngModel)]="materialExistUpdateSearch" (ngModelChange)="checkMaterialCodeUpdate()"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">

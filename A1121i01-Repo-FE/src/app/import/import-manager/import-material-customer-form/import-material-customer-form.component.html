@@ -78,7 +78,8 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+          <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
+                 (ngModelChange)="checkImportCode()"
                  placeholder="vd: HDN-123">
         </div>
 
@@ -145,7 +146,7 @@
             </div>
             <div class="col-md-8 input-group">
               <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
-                     (change)="checkMaterialCode($event.target)">
+                     [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('materialCode').invalid && (importForm3.get('materialCode').touched||importForm3.get('materialCode').dirty)">
                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
@@ -234,7 +235,7 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerCode" (change)="checkCustomerCode($event.target)"
+              <input type="text" formControlName="customerCode" [(ngModel)]="customerCodeExistCreateSearch" (ngModelChange)="checkCustomerCode()"
                      placeholder="vd: MKH-123">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
@@ -275,7 +276,7 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerPhone" (change)="checkPhoneCustomerCode($event.target)">
+              <input type="text" formControlName="customerPhone" [(ngModel)]="phoneCustomerExistCreateSearch" (ngModelChange)="checkPhoneCustomerCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerPhone').invalid && (importForm3.get('customerPhone').touched||importForm3.get('customerPhone').dirty)">
                 Sdt nhà cung cấp không được để trống và phải đúng định dạng 03x 076x 08x 09x..., vd: 0905113113
@@ -289,7 +290,7 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerEmail" (change)="checkEmailCustomer($event.target)">
+              <input type="text" formControlName="customerEmail" [(ngModel)]="emailCustomerExistCreateSearch" (ngModelChange)="checkEmailCustomer()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
                 Email nhà cung cấp không được để trống và phải đúng định dạng email. vd: thang123@gmail.com
@@ -349,7 +350,7 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate" (change)="checkImportCodeUpdate($event.target)">
+                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch" (ngModelChange)="checkImportCodeUpdate()">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
                     không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
@@ -364,7 +365,7 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
-                         (change)="checkMaterialCodeUpdate($event.target)"
+                         [(ngModel)]="materialExistUpdateSearch" (ngModelChange)="checkMaterialCodeUpdate()"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">

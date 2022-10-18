@@ -9,6 +9,7 @@ import {ImportServiceService} from '../../../service/import/import-service.servi
 import {IAccount} from '../../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-import-material-customer-form',
@@ -27,11 +28,22 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
   importExistUpdate = '';
   materialListString: string[] = [];
   materialExistCreate = '';
+  materialExistCreateSearch = '';
+
+  importExistCreateSearch = '';
+  importExistUpdateSearch = '';
+  materialExistUpdateSearch = '';
+
   materialExistUpdate = '';
   phoneCustomerListString: string[] = [];
   phoneCustomerExistCreate = '';
   emailCustomerListString: string[] = [];
   emailCustomerExistCreate = '';
+
+  customerCodeExistCreateSearch = '';
+  phoneCustomerExistCreateSearch = '';
+  emailCustomerExistCreateSearch = '';
+
   customerListString: string[] = [];
   customerExistCreate = '';
   customerList: ICustomer[] = [];
@@ -67,7 +79,8 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
 
 
   constructor(private importService: ImportServiceService,
-              private notification: NotifierService) {
+              private notification: NotifierService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -101,6 +114,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
       customerName: new FormControl('', [Validators.required]),
       customerCode: new FormControl('', [Validators.required, Validators.pattern('MKH-\\d{3}')]),
       customerAddress: new FormControl('', [Validators.required]),
+      // tslint:disable-next-line:max-line-length
       customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
       customerEmail: new FormControl('', [Validators.required, Validators.email])
     });
@@ -154,7 +168,10 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     this.importService.createImport(this.importCreate).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.importForm3.reset();
@@ -183,6 +200,10 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
         window.URL.revokeObjectURL(data);
         link.remove();
       }, 100);
+    }, (error) => {
+      if (error.status === 500) {
+        this.router.navigateByUrl('/auth/access-denied');
+      }
     });
   }
 
@@ -250,12 +271,6 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     });
   }
 
-  getMaterialImportListByCustomerId() {
-    this.importService.findAllMaterialImport(this.customerId.customerId).subscribe((data: IMaterial[]) => {
-      this.materialList = data;
-    });
-  }
-
   // +++++++++++++xoá++++++++++++++
   showInfoImportDelete(importTable: IImport) {
     this.importDelete = importTable;
@@ -265,7 +280,10 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     this.importService.deleteImport(importId).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.getImportList(this.page);
@@ -292,6 +310,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
           importStartDateUpdate: new FormControl(data.importStartDate, [Validators.required]),
           importQuantityUpdate: new FormControl(data.importQuantity, [Validators.required, Validators.min(0)]),
           importAccountIdUpdate: new FormControl(data.importAccountId, [Validators.required]),
+          // tslint:disable-next-line:max-line-length
           importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
           importMaterialNameUpdate: new FormControl(data.importMaterialId.materialName, [Validators.required]),
           importMaterialUnitUpdate: new FormControl(data.importMaterialId.materialUnit, [Validators.required])
@@ -337,7 +356,10 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           this.importForm3.reset();
@@ -353,57 +375,58 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
   }
 
   // ++check code import tồn tại++
-  checkImportCode(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1) {
+  checkImportCode() {
+    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
       this.importExistCreate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistCreate = '';
     }
   }
 
-  checkImportCodeUpdate(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1 && importString.value !== this.importBeforeUpdate.importCode) {
+  checkImportCodeUpdate() {
+    // tslint:disable-next-line:max-line-length
+    if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
     }
   }
 
-  checkMaterialCode(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1) {
+  checkMaterialCode() {
+    if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
       this.materialExistCreate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistCreate = '';
     }
   }
 
-  checkMaterialCodeUpdate(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1
-      && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+  checkMaterialCodeUpdate() {
+    // tslint:disable-next-line:max-line-length
+    if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
       this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistUpdate = '';
     }
   }
 
-  checkCustomerCode(customerString: any) {
-    if (this.customerListString.indexOf(customerString.value) > -1) {
+  checkCustomerCode() {
+    if (this.customerListString.indexOf(this.customerCodeExistCreateSearch) > -1) {
       this.customerExistCreate = 'Mã nhà cung cấp đã tồn tại';
     } else {
       this.customerExistCreate = '';
     }
   }
 
-  checkPhoneCustomerCode(customerPhoneString: any) {
-    if (this.phoneCustomerListString.indexOf(customerPhoneString.value) > -1) {
+  checkPhoneCustomerCode() {
+    if (this.phoneCustomerListString.indexOf(this.phoneCustomerExistCreateSearch) > -1) {
       this.phoneCustomerExistCreate = 'Số điện thoại nhà cung cấp đã tồn tại';
     } else {
       this.phoneCustomerExistCreate = '';
     }
   }
 
-  checkEmailCustomer(customerEmailString: any) {
-    if (this.emailCustomerListString.indexOf(customerEmailString.value) > -1) {
+  checkEmailCustomer() {
+    if (this.emailCustomerListString.indexOf(this.emailCustomerExistCreateSearch) > -1) {
       this.emailCustomerExistCreate = 'Email nhà cung cấp đã tồn tại';
     } else {
       this.emailCustomerExistCreate = '';

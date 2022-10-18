@@ -9,6 +9,7 @@ import {IMaterial} from '../../model/material/imaterial';
 import {IAccount} from '../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-import-manager',
@@ -24,9 +25,13 @@ export class ImportManagerComponent implements OnInit {
   checkFormEdit = false;
   importListString: string[] = [];
   importExistCreate = '';
+  importExistCreateSearch = '';
   importExistUpdate = '';
+  importExistUpdateSearch = '';
   materialListString: string[] = [];
   materialExistUpdate = '';
+  materialExistUpdateSearch = '';
+
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -52,7 +57,8 @@ export class ImportManagerComponent implements OnInit {
 
   constructor(
     private importService: ImportServiceService,
-    private notification: NotifierService
+    private notification: NotifierService,
+    private router: Router
   ) {
   }
 
@@ -122,7 +128,6 @@ export class ImportManagerComponent implements OnInit {
         this.importList = data.content;
         this.size = data.size;
         this.totalItems = data.totalElements;
-        console.log(data);
       },
       () => {
         this.page--;
@@ -157,7 +162,10 @@ export class ImportManagerComponent implements OnInit {
     this.importService.deleteImport(importId).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.getImportList(this.page);
@@ -179,7 +187,10 @@ export class ImportManagerComponent implements OnInit {
     this.importService.createImport(this.importCreate).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.importForm.reset();
@@ -275,7 +286,10 @@ export class ImportManagerComponent implements OnInit {
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           this.checkQuantityMaterial = 0;
@@ -293,31 +307,33 @@ export class ImportManagerComponent implements OnInit {
 
 
   // ++check code import tồn tại++
-  checkImportCode(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1) {
+  checkImportCode() {
+    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
       this.importExistCreate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistCreate = '';
     }
   }
 
-  checkImportCodeUpdate(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1 && importString.value !== this.importBeforeUpdate.importCode) {
+  checkImportCodeUpdate() {
+    // tslint:disable-next-line:max-line-length
+    if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
     }
   }
 
-  checkMaterialCodeUpdate(materialString: any) {
+  checkMaterialCodeUpdate() {
     // tslint:disable-next-line:max-line-length
-    if (this.materialListString.indexOf(materialString.value) > -1 && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+    if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
       this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistUpdate = '';
     }
   }
 
+// +++search+++++
   searchImport() {
     this.importService.searchImport(
       this.importSearchForm.get('codeSearch').value,
@@ -330,6 +346,10 @@ export class ImportManagerComponent implements OnInit {
         this.size = data.size;
         this.totalItems = data.totalElements;
         this.page = 1;
+      }, (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       }
     );
   }

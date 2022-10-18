@@ -9,6 +9,7 @@ import {IAccount} from '../../../model/account/iaccount';
 import {ImportServiceService} from '../../../service/import/import-service.service';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-import-material-form',
@@ -26,7 +27,13 @@ export class ImportMaterialFormComponent implements OnInit {
   importExistUpdate = '';
   materialListString: string[] = [];
   materialExistCreate = '';
+  materialExistCreateSearch = '';
+
+  importExistCreateSearch = '';
   materialExistUpdate = '';
+  importExistUpdateSearch = '';
+  materialExistUpdateSearch = '';
+
   checkFormEdit = false;
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
@@ -56,7 +63,8 @@ export class ImportMaterialFormComponent implements OnInit {
   totalItems: number;
 
   constructor(private importService: ImportServiceService,
-              private notification: NotifierService) {
+              private notification: NotifierService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -164,7 +172,10 @@ export class ImportMaterialFormComponent implements OnInit {
     this.importService.deleteImport(importId).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.getImportList(this.page);
@@ -197,7 +208,10 @@ export class ImportMaterialFormComponent implements OnInit {
     this.importService.createImport(this.importCreate).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         this.importForm2.reset();
@@ -226,6 +240,10 @@ export class ImportMaterialFormComponent implements OnInit {
         window.URL.revokeObjectURL(data);
         link.remove();
       }, 100);
+    }, (error) => {
+      if (error.status === 500) {
+        this.router.navigateByUrl('/auth/access-denied');
+      }
     });
   }
 
@@ -248,6 +266,7 @@ export class ImportMaterialFormComponent implements OnInit {
           importStartDateUpdate: new FormControl(data.importStartDate, [Validators.required]),
           importQuantityUpdate: new FormControl(data.importQuantity, [Validators.required, Validators.min(0)]),
           importAccountIdUpdate: new FormControl(data.importAccountId, [Validators.required]),
+          // tslint:disable-next-line:max-line-length
           importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
           importMaterialNameUpdate: new FormControl(data.importMaterialId.materialName, [Validators.required]),
           importMaterialUnitUpdate: new FormControl(data.importMaterialId.materialUnit, [Validators.required])
@@ -259,6 +278,7 @@ export class ImportMaterialFormComponent implements OnInit {
   }
 
   updateImport() {
+    // tslint:disable-next-line:radix
     if ((this.checkQuantityMaterial + parseInt(this.importUpdateForm.get('importQuantityUpdate').value)) >= 0) {
       if (this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId !== undefined) {
         this.accountTempUpdateImport = this.importUpdateForm.get('importAccountIdUpdate').value.employeeAccountId;
@@ -292,7 +312,10 @@ export class ImportMaterialFormComponent implements OnInit {
       this.importService.updateImport(this.importUpdate.importId, this.importUpdate).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           this.importForm2.reset();
@@ -308,39 +331,41 @@ export class ImportMaterialFormComponent implements OnInit {
   }
 
   // +++++++++check code tồn tại+++++++++++
-  checkImportCode(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1) {
+  checkImportCode() {
+    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
       this.importExistCreate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistCreate = '';
     }
   }
 
-  checkImportCodeUpdate(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1 && importString.value !== this.importBeforeUpdate.importCode) {
+  checkImportCodeUpdate() {
+    // tslint:disable-next-line:max-line-length
+    if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
       this.importExistUpdate = 'Mã nhập kho đã tồn tại';
     } else {
       this.importExistUpdate = '';
     }
   }
 
-  checkMaterialCode(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1) {
+  checkMaterialCode() {
+    if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
       this.materialExistCreate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistCreate = '';
     }
   }
 
-  checkMaterialCodeUpdate(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1
-      && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
+  checkMaterialCodeUpdate() {
+    // tslint:disable-next-line:max-line-length
+    if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
       this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
     } else {
       this.materialExistUpdate = '';
     }
   }
 
+  // +++search+++++
   searchImport() {
     this.importService.searchImport(
       this.importSearchForm.get('codeSearch').value,
@@ -353,7 +378,12 @@ export class ImportMaterialFormComponent implements OnInit {
         this.size = data.size;
         this.totalItems = data.totalElements;
         this.page = 1;
-      }
+      },
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
+      },
     );
   }
 }
