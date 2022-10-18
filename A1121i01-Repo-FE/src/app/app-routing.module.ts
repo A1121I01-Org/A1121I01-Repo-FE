@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {AccountRoutingModule} from './account/account-routing.module';
-
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [{
   path: 'customer',
@@ -35,6 +34,9 @@ const routes: Routes = [{
     path: 'statistic',
     loadChildren: () => import('./statistic/statistic.module').then(module => module.StatisticModule)
   },
+  {
+    path: '', component: HomeComponent,
+  }
 ];
 
 @NgModule({

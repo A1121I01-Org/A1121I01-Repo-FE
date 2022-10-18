@@ -18,6 +18,19 @@ body {
   justify-content: center;
 }
 
+.col__container{
+  padding: 20px;
+}
+/*::placeholder{*/
+/*  padding-left: 10px;*/
+/*  padding-right: 10px;*/
+/*}*/
+
+input, select{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
 .icon {
   margin-left: 50%;
   margin-bottom: 10px;
