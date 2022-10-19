@@ -64,7 +64,7 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)"
+          <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch" (ngModelChange)="checkImportCode()"
                  placeholder="vd: HDN-123">
         </div>
 
@@ -131,6 +131,30 @@
       <br>
       <h3 class="text-center font-weight-bolder" style="color:#270082;">Thông tin nhập vật tư</h3>
       <br>
+
+      <form [formGroup]="importSearchForm" (ngSubmit)="searchImport()" class="mb-3">
+        <div class="row">
+          <div class="input-group col-md-2 pr-0">
+            <span class="input-group-text ml-1">code</span>
+            <input type="text" class="form-control" formControlName="codeSearch">
+          </div>
+
+          <div class="input-group col-md-4">
+            <span class="input-group-text">ngày bắt đầu</span>
+            <input type="date" class="form-control" formControlName="startDateSearch">
+          </div>
+
+          <div class="input-group col-md-4">
+            <span class="input-group-text">ngày kết thúc</span>
+            <input type="date" class="form-control" formControlName="endDateSearch">
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn__delete mt-2" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+
       <div style="width:100%; height:250px; overflow:auto;" class="table-responsive">
         <form [formGroup]="importUpdateForm" (ngSubmit)="updateImport()">
           <table class="table table-hover">
@@ -148,11 +172,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let importTable of importList" (dblclick)="showFormEdit(true, importTable.importId)">
+            <tr
+              *ngFor="let importTable of importList | paginate: {itemsPerPage: size, currentPage: page, totalItems: totalItems}"
+              (dblclick)="showFormEdit(true, importTable.importId)">
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate" (change)="checkImportCodeUpdate($event.target)">
+                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch" (ngModelChange)="checkImportCodeUpdate()">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
                     không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
@@ -167,7 +193,7 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
-                         (change)="checkMaterialCodeUpdate($event.target)"
+                         [(ngModel)]="materialExistUpdateSearch" (ngModelChange)="checkMaterialCodeUpdate()"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
@@ -312,25 +338,8 @@
         </table>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
-      <div>
-        <nav aria-label="..." *ngIf="totalPages > 1">
-          <ul class="pagination">
-            <li class="page-item" *ngIf="page > 1">
-              <a class="page-link"
-                 (click)="getPreviousPage()">Previous</a>
-            </li>
-
-            <li *ngFor="let pageNumber of totalPageList"
-                [ngClass]="'page-item ' + (pageNumber==page ? 'active':'')">
-              <a class="page-link" (click)="getNumberPage(pageNumber)">{{pageNumber}}</a>
-            </li>
-
-            <li class="page-item" *ngIf="page < totalPages - 1">
-              <a class="page-link"
-                 (click)="getNextPage()">Next</a>
-            </li>
-          </ul>
-        </nav>
+      <div *ngIf="totalItems > 5">
+        <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
       <br>
       <div class="row button__container text-center">
