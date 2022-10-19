@@ -5,6 +5,8 @@ import {IMaterialType} from '../../model/material/imaterial-type';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MaterialServiceService} from '../../service/material/material-service.service';
 import {ICustomer} from '../../model/customer/icustomer';
+import {AngularFireStorage} from "@angular/fire/storage";
+import {finalize} from "rxjs/operators";
 
 
 @Component({
