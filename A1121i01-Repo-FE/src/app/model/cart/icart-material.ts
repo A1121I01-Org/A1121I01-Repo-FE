@@ -7,4 +7,5 @@ export interface ICartMaterial {
   cartMaterialFlag?: boolean;
   materialId?: IMaterial;
   cartMaterialReason?: string;
+  checked?: boolean;
 }

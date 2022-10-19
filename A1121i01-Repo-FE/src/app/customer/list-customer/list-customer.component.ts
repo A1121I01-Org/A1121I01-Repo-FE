@@ -22,7 +22,7 @@ export class ListCustomerComponent implements OnInit {
   searchNameAndPhoneForm: FormGroup;
 
   constructor(private customerService: CustomerServiceService,
-              private route: Router) { }
+              private router: Router) { }
     // HieuNT setPage for pagination
   setPage(i, event: any) {
     event.preventDefault();
@@ -115,7 +115,11 @@ export class ListCustomerComponent implements OnInit {
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / this.listCustomerNotPagination.length)  )  );
           console.log(this.totalPagination.length);
         },
-        () => {},
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
+        },
         () => {
         });
     }
