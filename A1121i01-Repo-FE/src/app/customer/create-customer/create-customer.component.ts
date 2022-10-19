@@ -1,12 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {CustomerServiceService} from '../../../service/customer/customer-service.service';
-import {CustomerTypeService} from '../../../service/customer/customer-type.service';
+import {CustomerServiceService} from '../../service/customer/customer-service.service';
+import {CustomerTypeService} from '../../service/customer/customer-type.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ICustomerType} from '../../../model/customer/icustomer-type';
+import {ICustomerType} from '../../model/customer/icustomer-type';
 import {formatDate} from '@angular/common';
-import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
+import {finalize} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-customer',
@@ -19,11 +19,17 @@ export class CreateCustomerComponent implements OnInit {
               private customerTypeService: CustomerTypeService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              @Inject(AngularFireStorage) private storage: AngularFireStorage) { }
+              @Inject(AngularFireStorage) private storage: AngularFireStorage) {
+  }
+
   customerTypes: ICustomerType[];
   form: FormGroup;
   customerId = 0;
+  setAvatar = 0;
   selectedImage: any;
+  // url: any;
+  upLoadImage = null;
+  oldAvatarLink: string;
   url: any;
   validationMessages = {
     customerName: [
@@ -31,7 +37,7 @@ export class CreateCustomerComponent implements OnInit {
       {type: 'pattern', message: 'Tên không đúng định dạng'}
     ],
     customerCode: [
-      {type: 'required', message: 'Code không được để trống'},
+      {type: 'required', message: 'Mã khách hàng không được để trống'},
       {type: 'pattern', message: 'Mã khách hàng không đúng định dạng'}
     ],
     customerAvatar: [
@@ -48,7 +54,7 @@ export class CreateCustomerComponent implements OnInit {
     ],
     customerPhone: [
       {type: 'required', message: 'Số điện thoại không được để trống'},
-      {type: 'checkBirthday', message: 'Số điện thoại không đúng định dạng'}
+      {type: 'pattern', message: 'Số điện thoại không đúng định dạng'}
     ],
     customerEmail: [
       {type: 'required', message: 'Email không được để trống'},
@@ -59,27 +65,29 @@ export class CreateCustomerComponent implements OnInit {
       {type: 'pattern', message: 'Số điện thoại dạng 10-12 số'}
     ],
   };
+
   ngOnInit(): void {
     this.customerTypeService.getAll().subscribe(customerTypes => this.customerTypes = customerTypes);
     this.form = new FormGroup({
       customerId: new FormControl(''),
       // , Validators.required
-      customerName: new FormControl(''),
+      customerName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]),
       // , Validators.required
       // [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]
-      customerCode: new FormControl(''),
+      customerCode: new FormControl('', [Validators.required, Validators.pattern('^MKH-\\d{3}$')]),
       // /, Validators.required
       // , [Validators.required, Validators.pattern('^MKH-\\d{3}$')]
+      // customerAvatar: new FormControl('', Validators.required),
       customerAvatar: new FormControl(''),
       // , Validators.required
-      customerAddress: new FormControl(''),
+      customerAddress: new FormControl('', Validators.required),
       // , Validators.required
-      customerPhone: new FormControl(''),
+      customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')]),
       // , Validators.required
-      customerEmail: new FormControl(''),
+      customerEmail: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]),
       // , Validators.required
       // , [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]
-      customerTypeId: new FormControl(''),
+      customerTypeId: new FormControl('', Validators.required),
       // , Validators.required
     });
     // [Validators.required, Validators.pattern('^(03|05|07|09)\\d{8,10}$')])
@@ -106,12 +114,41 @@ export class CreateCustomerComponent implements OnInit {
   showPreview(event: any) {
     this.selectedImage = event.target.files[0];
   }
+
   submit() {
     console.log(1);
     if (this.form.valid) {
       console.log(2);
       if (this.customerId === 0) {
         console.log(3);
+        const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
+        const fileRef = this.storage.ref(avatarName);
+        this.storage.upload(avatarName, this.upLoadImage).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              this.form.patchValue({customerAvatar: url});
+
+              // //delete old img from firebase
+              // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+
+              // Update employee
+              console.log(this.form.value);
+              this.customerService.create(this.form.value).subscribe(
+                () => {
+                },
+                (error) => {
+                  if (error.status === 500) {
+                    this.router.navigateByUrl('/auth/access-denied');
+                  }
+                },
+                () => {
+                  alert('thêm mới khách hàng');
+                  this.upLoadImage = null;
+                },
+              );
+            });
+          })
+        ).subscribe();
         // const nameImg = this.getCurrentDateTime() + this.selectedImage;
         // console.log(nameImg);
         // const fileRef = this.storage.ref(nameImg);
@@ -119,29 +156,66 @@ export class CreateCustomerComponent implements OnInit {
         //   finalize(() => {
         //     fileRef.getDownloadURL().subscribe((url) => {
         //       this.form.patchValue({customerAvatar: url});
-        this.customerService.create(this.form.value).subscribe(
-          () => {
-          },
-          () => {
-          },
-          () => {
-            alert('thêm mới khách hàng');
-          }
-              );
+        // this.customerService.create(this.form.value).subscribe(
+        //   () => {
+        //   },
+        //   (error) => {
+        //     if (error.status === 500) {
+        //       this.router.navigateByUrl('/auth/access-denied');
+        //     }
+        //   },
+        //   () => {
+        //     alert('thêm mới khách hàng');
+        //     this.router.navigateByUrl('customer/list');
+        //   }
+        // );
         //
         //     });
         //   })
         // ).subscribe();
       } else {
-        this.customerService.update(this.form.value).subscribe(
-          () => {
-          },
-          () => {
-          },
-          () => {
-            alert('update khách hàng');
-          }
-        );
+        const avatarNameUpdate = this.getCurrentDateTime() + this.upLoadImage.name;
+        const fileRef = this.storage.ref(avatarNameUpdate);
+        this.storage.upload(avatarNameUpdate, this.upLoadImage).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              this.form.patchValue({customerAvatar: url});
+
+              // //delete old img from firebase
+              // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+
+              // Update employee
+              console.log(this.form.value);
+              this.customerService.update(this.form.value).subscribe(
+                () => {
+                },
+                (error) => {
+                  if (error.status === 500) {
+                    this.router.navigateByUrl('/auth/access-denied');
+                  }
+                },
+                () => {
+                  alert('thêm mới khách hàng');
+                  this.upLoadImage = null;
+                },
+              );
+            });
+          })
+        ).subscribe();
+        //   this.customerService.update(this.form.value).subscribe(
+        //     () => {
+        //     },
+        //     (error) => {
+        //       if (error.status === 500) {
+        //         this.router.navigateByUrl('/auth/access-denied');
+        //       }
+        //     },
+        //     () => {
+        //       alert('update khách hàng');
+        //       this.router.navigateByUrl('customer/list');
+        //     }
+        //   );
+        // }
       }
     }
   }
@@ -152,11 +226,14 @@ export class CreateCustomerComponent implements OnInit {
   }
 
   onSelectFile(e) {
+    this.setAvatar =  1;
+    this.upLoadImage = e.target.files[0];
     if (e.target.files) {
       const reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       reader.onload = (event: any) => {
         this.url = event.target.result;
+        // this.form.controls.customerAvatar = event.target.result;
       };
     }
     console.log(this.url);
