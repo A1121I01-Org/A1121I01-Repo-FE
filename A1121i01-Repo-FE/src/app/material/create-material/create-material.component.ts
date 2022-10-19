@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {IMaterial} from "../../model/material/imaterial";
 import {Router} from "@angular/router";
@@ -30,10 +30,10 @@ export class CreateMaterialComponent implements OnInit {
     this.getListCus();
     this.getListType();
     this.materialForm = new FormGroup({
-      materialCode: new FormControl('',[Validators.required,Validators.pattern('MVT-\\d{3}')]),
-      materialName: new FormControl('', [Validators.required,Validators.minLength(5),Validators.maxLength(25)]),
-      materialPrice: new FormControl('', [Validators.required,Validators.min(1)]),
-      materialQuantity: new FormControl('', [Validators.required,Validators.min(1)]),
+      materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      materialName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
+      materialPrice: new FormControl('', [Validators.required, Validators.min(1)]),
+      materialQuantity: new FormControl('', [Validators.required, Validators.min(1)]),
       materialExpiridate: new FormControl('', [Validators.required]),
       materialDescribe: new FormControl('', [Validators.required]),
       materialUnit: new FormControl('', [Validators.required]),
@@ -76,7 +76,10 @@ createMaterial() {
           this.materialService.create(this.materialForm.value).subscribe(
             () => {
             },
-            () => {
+            (error) => {
+              if (error.status === 500) {
+                this.router.navigateByUrl('/auth/access-denied');
+              }
             },
             () => {
               alert("thêm mới vật tư")
@@ -91,7 +94,10 @@ createMaterial() {
     this.materialService.create(this.materialForm.value).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         alert("thêm mới vật tư")
@@ -114,5 +120,8 @@ createMaterial() {
     }
   }
 
-  }
-
+  // showPreview(event: any) {
+  //   this.upLoadImage = event.target.files[0];
+  //
+  // }
+}

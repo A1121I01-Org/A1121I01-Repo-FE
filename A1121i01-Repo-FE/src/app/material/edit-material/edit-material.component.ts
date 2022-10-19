@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {IMaterial} from "../../model/material/imaterial";
-import {IMaterialType} from "../../model/material/imaterial-type";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MaterialServiceService} from "../../service/material/material-service.service";
-import {ICustomer} from "../../model/customer/icustomer";
-import {finalize} from "rxjs/operators";
-import {AngularFireStorage} from "@angular/fire/storage";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {IMaterial} from '../../model/material/imaterial';
+import {IMaterialType} from '../../model/material/imaterial-type';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MaterialServiceService} from '../../service/material/material-service.service';
+import {ICustomer} from '../../model/customer/icustomer';
 
 
 @Component({
@@ -28,6 +26,7 @@ export class EditMaterialComponent implements OnInit {
     private materialService: MaterialServiceService,
     private formBuilder: FormBuilder,
     private storage: AngularFireStorage,
+    private router: Router
   ) {
   }
 
@@ -64,8 +63,8 @@ export class EditMaterialComponent implements OnInit {
         this.materialService.findById(id).subscribe(
           data => {
             this.material = data;
-            console.log(data)
-            console.log(this.material.materialTypeId)
+            console.log(data);
+            console.log(this.material.materialTypeId);
             this.initForm(data);
           });
       });
@@ -134,7 +133,12 @@ export class EditMaterialComponent implements OnInit {
     } else {
       this.materialService.update(this.formEdit.value).subscribe(
         () => {
-          alert("chỉnh sửa thành công")
+          alert('chỉnh sửa thành công');
+        },
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         }
       );
     }
