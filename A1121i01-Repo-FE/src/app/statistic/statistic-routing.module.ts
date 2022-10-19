@@ -7,13 +7,13 @@ import {CustomerStatisticComponent} from './customer-statistic/customer-statisti
 
 const routes: Routes = [
   {
-    path: 'material', component: MaterialStatisticComponent
+    path: 'statistic/material', component: MaterialStatisticComponent
   },
   {
-    path: 'financial', component: FinancialStatisticComponent
+    path: 'statistic/financial', component: FinancialStatisticComponent
   },
   {
-    path: 'customer', component: CustomerStatisticComponent
+    path: 'statistic/customer', component: CustomerStatisticComponent
   }
 ];
 
