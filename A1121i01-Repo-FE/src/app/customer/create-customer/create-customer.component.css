@@ -5,6 +5,7 @@
   font-family: MONTSERAT , "Segoe UI";
 }
 body{
+  margin-top: 100px;
   display: flex;
   height: 100vh;
   justify-content: center;

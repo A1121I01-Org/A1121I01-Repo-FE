@@ -15,7 +15,7 @@ export class CreateEmployeeComponent implements OnInit {
   positions: IPositionEmployee[] = [];
 
   // tslint:disable-next-line:max-line-length
-  constructor(private employeeService: EmployeeServiceService,  private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage) {
+  constructor(private employeeService: EmployeeServiceService, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
@@ -54,7 +54,10 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeService.saveEmployee(this.employeeForm.value).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
         alert('thêm mới nhân viên');

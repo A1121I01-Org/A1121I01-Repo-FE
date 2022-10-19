@@ -66,11 +66,14 @@ export class EditEmployeeComponent implements OnInit {
             this.employeeService.updateEmployee(this.id, this.employeeForm.value).subscribe(
               () => {
               },
-              () => {
+              (error) => {
+                if (error.status === 500) {
+                  this.router.navigateByUrl('/auth/access-denied');
+                }
               },
               () => {
                 console.log('Success!');
-                this.router.navigateByUrl('/employee/detail/' + this.id);
+                this.router.navigateByUrl('/employee/list');
                 this.uploadedAvatar = null;
               },
             );
@@ -81,11 +84,14 @@ export class EditEmployeeComponent implements OnInit {
       this.employeeService.updateEmployee(this.id, this.employeeForm.value).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           console.log('success');
-          this.router.navigateByUrl('/employee/detail/' + this.id);
+          this.router.navigateByUrl('/employee/list');
         }
       );
     }

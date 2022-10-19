@@ -23,7 +23,7 @@ export class AdminEditEmployeeComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(private activatedRoute: ActivatedRoute,
               private employeeServiceService: EmployeeServiceService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -85,17 +85,17 @@ export class AdminEditEmployeeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formEdit.value);
-    console.log(1);
-    this.employeeServiceService.adminUpdateEmployee(this.formEdit.value).subscribe(
-      () => {
-      },
-      () => {
-      },
-      () => {
-        alert('Cập nhật thành công');
-      }
-    );
-
+    if (this.formEdit.valid) {
+      this.employeeServiceService.adminUpdateEmployee(this.formEdit.value).subscribe(
+        () => {
+          alert('chỉnh sửa thành công');
+        },
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
+        }
+      );
+    }
   }
 }

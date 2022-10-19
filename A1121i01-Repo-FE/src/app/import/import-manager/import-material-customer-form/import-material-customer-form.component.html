@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container" style="height: 100px">
   <div style="background-color: white;">
     <form [formGroup]="importForm3" (ngSubmit)="createImport3()" class="p-3">
       <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
@@ -78,7 +78,9 @@
           <span style="color: red">(*)</span>
         </div>
         <div class="col-md-3 input-group">
-          <input type="text" formControlName="importCode" (change)="checkImportCode($event.target)" placeholder="vd: HDN-123">
+          <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
+                 (ngModelChange)="checkImportCode()"
+                 placeholder="vd: HDN-123">
         </div>
 
         <div class="col-md-2"></div>
@@ -143,7 +145,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123" (change)="checkMaterialCode($event.target)">
+              <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
+                     [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('materialCode').invalid && (importForm3.get('materialCode').touched||importForm3.get('materialCode').dirty)">
                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
@@ -232,7 +235,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerCode" (change)="checkCustomerCode($event.target)" placeholder="vd: MKH-123">
+              <input type="text" formControlName="customerCode" [(ngModel)]="customerCodeExistCreateSearch" (ngModelChange)="checkCustomerCode()"
+                     placeholder="vd: MKH-123">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
                 Mã nhà cung cấp không được để trống và đúng định dạng MKH-XXX. ví dụ MKH-001
@@ -272,7 +276,7 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerPhone" (change)="checkPhoneCustomerCode($event.target)">
+              <input type="text" formControlName="customerPhone" [(ngModel)]="phoneCustomerExistCreateSearch" (ngModelChange)="checkPhoneCustomerCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerPhone').invalid && (importForm3.get('customerPhone').touched||importForm3.get('customerPhone').dirty)">
                 Sdt nhà cung cấp không được để trống và phải đúng định dạng 03x 076x 08x 09x..., vd: 0905113113
@@ -286,11 +290,12 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerEmail">
+              <input type="text" formControlName="customerEmail" [(ngModel)]="emailCustomerExistCreateSearch" (ngModelChange)="checkEmailCustomer()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
                 Email nhà cung cấp không được để trống và phải đúng định dạng email. vd: thang123@gmail.com
               </small>
+              <small class="text-danger mb-0 pb-0">{{emailCustomerExistCreate}}</small>
             </div>
           </div>
         </div>
@@ -300,6 +305,28 @@
       <br>
       <h3 class="text-center font-weight-bolder" style="color:#270082;">Thông tin nhập vật tư</h3>
       <br>
+      <form [formGroup]="importSearchForm" (ngSubmit)="searchImport()" class="mb-3">
+        <div class="row">
+          <div class="input-group col-md-2 pr-0">
+            <span class="input-group-text ml-1">code</span>
+            <input type="text" class="form-control" formControlName="codeSearch">
+          </div>
+
+          <div class="input-group col-md-4">
+            <span class="input-group-text">ngày bắt đầu</span>
+            <input type="date" class="form-control" formControlName="startDateSearch">
+          </div>
+
+          <div class="input-group col-md-4">
+            <span class="input-group-text">ngày kết thúc</span>
+            <input type="date" class="form-control" formControlName="endDateSearch">
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn__delete mt-2" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
       <div style="width:100%; height:250px; overflow:auto;" class="table-responsive">
         <form [formGroup]="importUpdateForm" (ngSubmit)="updateImport()">
           <table class="table table-hover">
@@ -317,11 +344,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let importTable of importList" (dblclick)="showFormEdit(true, importTable.importId)">
+            <tr
+              *ngFor="let importTable of importList| paginate: {itemsPerPage: size, currentPage: page, totalItems: totalItems}"
+              (dblclick)="showFormEdit(true, importTable.importId)">
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate" (change)="checkImportCodeUpdate($event.target)">
+                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch" (ngModelChange)="checkImportCodeUpdate()">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
                     không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
@@ -335,7 +364,8 @@
 
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
-                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}" (change)="checkMaterialCodeUpdate($event.target)"
+                  <input style="width: 90%" type="text" value="{{importTable.importMaterialId.materialCode}}"
+                         [(ngModel)]="materialExistUpdateSearch" (ngModelChange)="checkMaterialCodeUpdate()"
                          formControlName="importMaterialCodeUpdate">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importMaterialCodeUpdate').invalid && (importUpdateForm.get('importMaterialCodeUpdate').touched||importUpdateForm.get('importMaterialCodeUpdate').dirty)">
@@ -436,7 +466,7 @@
                 </button>
                 <button class="btn__primary" type="submit"
                         *ngIf="checkFormEdit == true && importIdTemp == importTable.importId"
-                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''" >
+                        [disabled]="importUpdateForm.invalid || importExistUpdate !== '' || materialExistUpdate !== ''">
                   Update
                 </button>
                 <button class="btn__cancel" type="submit"
@@ -450,31 +480,16 @@
         </form>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
-      <div>
-        <nav aria-label="..." *ngIf="totalPages > 1">
-          <ul class="pagination">
-            <li class="page-item" *ngIf="page > 1">
-              <a class="page-link"
-                 (click)="getPreviousPage()">Previous</a>
-            </li>
-
-            <li *ngFor="let pageNumber of totalPageList"
-                [ngClass]="'page-item ' + (pageNumber==page ? 'active':'')">
-              <a class="page-link" (click)="getNumberPage(pageNumber)">{{pageNumber}}</a>
-            </li>
-
-            <li class="page-item" *ngIf="page < totalPages - 1">
-              <a class="page-link"
-                 (click)="getNextPage()">Next</a>
-            </li>
-          </ul>
-        </nav>
+      <br>
+      <div *ngIf="totalItems > 5">
+        <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
       <br>
       <div class="row button__container text-center">
         <div class="col-md-1"></div>
         <div class="col-md-3">
-          <button class="btn__primary" type="submit" [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
+          <button class="btn__primary" type="submit"
+                  [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
             Thêm mới
           </button>
         </div>
@@ -483,7 +498,7 @@
           </button>
         </div>
         <div class="col-md-3">
-          <button class="bt btn__cancel">Trở về</button>
+          <button class="bt btn__cancel" routerLink="">Trở về</button>
         </div>
         <div class="col-md-2"></div>
       </div>

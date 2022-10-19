@@ -117,7 +117,11 @@ export class ListEmployeeComponent implements OnInit {
           this.totalPagination = new Array((Math.round(this.listEmployeeNotPagination.length / this.listEmployeeNotPagination.length)  )  );
           console.log(this.totalPagination.length);
         },
-        () => {},
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
+        },
         () => {
         });
     }

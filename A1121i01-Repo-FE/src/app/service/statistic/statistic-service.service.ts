@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {IMaterial} from '../../model/material/imaterial';
-import {ICustomer} from '../../model/customer/icustomer';
-
 
 
 @Injectable({
@@ -63,8 +60,14 @@ export class StatisticServiceService {
     return this.httpClient.get<string[]>(this.API + '/list/customer');
   }
 
-  // getFindForPotentialCustomers(cartDateCreate: any): Observable<any> {
-  //   return this.http.get<any>(this.url + '/search/customer?cartDateCreate=' + cartDateCreate);
-  // }
+  getPDF(): Observable<Blob> {
+    // @ts-ignore
+    return this.httpClient.get<Blob>(`${this.API}/pdf-huyen`, {responseType: 'blob'});
+  }
+
+  searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
+    console.log(fromMonth);
+    return this.httpClient.get<string[]>(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
+  }
 }
 
