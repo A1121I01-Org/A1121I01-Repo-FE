@@ -27,6 +27,9 @@ export class CreateAccountComponent implements OnInit {
   employeeHasAccountList: string[] = [];
   employeeDontHasAccountList: string[] = [];
   phoneList: string[] = [];
+  existCode: string;
+  existUsername: string;
+  existPhone: string;
   private readonly notifier: NotifierService;
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
@@ -167,15 +170,15 @@ export class CreateAccountComponent implements OnInit {
     this.createForm.get('employee').get('employeePhone').reset();
   }
 
-  checkCode(code: string) {
-    if (this.employeeHasAccountList.indexOf(code) > -1) {
+  checkCode() {
+    if (this.employeeHasAccountList.indexOf(this.existCode) > -1) {
       this.errorMessageAccountAndEmployeeExist = 'Mã nhân viên đã tồn tại và đã có tài khoản.';
     } else {
       this.errorMessageAccountAndEmployeeExist = '';
-      if (this.employeeDontHasAccountList.indexOf(code) > -1) {
+      if (this.employeeDontHasAccountList.indexOf(this.existCode) > -1) {
         this.errorMessageEmployeeExist = 'Mã nhân viên đã tồn tại.';
         this.resetInput();
-        this.getEmployee(code);
+        this.getEmployee(this.existCode);
         this.disableInput();
         this.removeDisableButton();
       } else {
@@ -194,16 +197,16 @@ export class CreateAccountComponent implements OnInit {
     };
   }
 
-  checkUsername(username: string) {
-    if (this.usernameList.indexOf(username) > -1) {
+  checkUsername() {
+    if (this.usernameList.indexOf(this.existUsername) > -1) {
       this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
     } else {
       this.usernameAlreadyExist = '';
     }
   }
 
-  checkPhone(phone: string) {
-    if (this.phoneList.indexOf(phone) > -1) {
+  checkPhone() {
+    if (this.phoneList.indexOf(this.existPhone) > -1) {
       this.phoneAlreadyExist = 'Số điện thoại đã tồn tại.';
     } else {
       this.phoneAlreadyExist = '';
