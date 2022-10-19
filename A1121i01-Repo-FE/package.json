@@ -24,6 +24,8 @@
     "@auth0/angular-jwt": "^5.0.2",
     "angular-notifier": "^7.0.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
+    "@ngx-loading-bar/core": "^5.1.2",
+    "@ngx-loading-bar/router": "^5.1.2",
     "bootstrap": "^4.6.2",
     "firebase": "^8.6.7",
     "jquery": "^3.6.1",

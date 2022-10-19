@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MaterialServiceService} from '../../service/material/material-service.service';
 import {IMaterial} from '../../model/material/imaterial';
 import {ActivatedRoute} from '@angular/router';
+import {CartServiceService} from '../../service/cart/cart-service.service';
+import {ICartMaterial} from '../../model/cart/icart-material';
+import {NotifierService} from 'angular-notifier';
 
 
 
@@ -12,6 +15,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./infor-material.component.css']
 })
 export class InforMaterialComponent implements OnInit {
+  cartList: ICartMaterial[] = [];
   materialList: IMaterial[] = [];
   materials: IMaterial = {};
   id: number;
@@ -20,10 +24,12 @@ export class InforMaterialComponent implements OnInit {
   theTotalElements: number;
   itemPerPage = 1;
   keywordSearch: undefined;
-  constructor(private materialService: MaterialServiceService, private activatedRoute: ActivatedRoute) {
+  // tslint:disable-next-line:max-line-length
+  constructor(private materialService: MaterialServiceService, private notifier: NotifierService, private activatedRoute: ActivatedRoute, private cartService: CartServiceService) {
   }
 
   ngOnInit(): void {
+    this.getListCart();
     this.getListMaterial1();
     this.activatedRoute.paramMap.subscribe(paramMap => {
       this.id = Number(paramMap.get('id'));
@@ -32,7 +38,11 @@ export class InforMaterialComponent implements OnInit {
       });
     });
   }
-
+  getListCart() {
+    this.cartService.getAllCart().subscribe(data => {
+      this.cartList = data;
+    });
+  }
   getListMaterial1() {
     if (this.keywordSearch !== undefined) {
       this.search(this.keywordSearch);
@@ -64,5 +74,12 @@ export class InforMaterialComponent implements OnInit {
   search(value: string) {
     console.log(value);
     this.materialService.getAllMaterialSearch(this.thePageNumber - 1, this.thePageSize, value).subscribe(this.processResult());
+  }
+
+  addMaterialCart(iMaterial: IMaterial): void {
+    this.cartService.addMaterialCart(iMaterial).subscribe(data => {
+      this.notifier.notify('success', 'Thêm mới thành công');
+      this.ngOnInit();
+    });
   }
 }

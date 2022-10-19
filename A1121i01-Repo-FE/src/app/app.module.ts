@@ -26,6 +26,7 @@ import {authInterceptorProviders} from './helpers/auth.interceptor';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {APP_BASE_HREF} from '@angular/common';
 import {NotifierModule} from 'angular-notifier';
+import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import {NotifierModule} from 'angular-notifier';
     StatisticModule,
     HttpClientModule,
     RouterModule,
-    NotifierModule
+    NotifierModule,
+    LoadingBarRouterModule
   ],
   providers: [ authInterceptorProviders,
     JwtHelperService,

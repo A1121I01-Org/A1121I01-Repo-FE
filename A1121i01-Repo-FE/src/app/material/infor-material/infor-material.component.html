@@ -13,7 +13,7 @@
       <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
     </div><br><br>
     <div class="navbar-right">
-      <div></div><a href="#" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">3</span></a></div>
+      <div></div><a routerLink="/cart/detail" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">{{cartList.length}}</span></a></div>
   </div> <!--end navbar-right --><br>
 </nav>
 
@@ -34,7 +34,7 @@
       <div class="card__buy" style="background-color: var(--action-color-hover)">
         <div [routerLink]="['/detail',material?.materialId]">Chi tiết</div>
       </div>
-      <div class="card__buy">
+      <div class="card__buy" (click)="addMaterialCart(material)">
         Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
       </div>
     </div>
