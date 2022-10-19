@@ -110,12 +110,17 @@
 .container{
   border: 1px solid #2869ff;
   border-radius: 8px;
+  overflow: auto;
 }
 .content-image{
-  width: 85%;
-  height: 80%;
+  width: 350px;
+  height: 450px;
   /*border: 1px solid #1a2131;*/
 }
 .text-danger{
   margin-left: 185px;
+}
+
+.cl-red{
+  color: red;
 }

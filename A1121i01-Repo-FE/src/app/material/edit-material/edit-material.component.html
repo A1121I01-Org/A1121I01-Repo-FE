@@ -4,14 +4,16 @@
   <h1 class="font-text-footer" style="text-align: -webkit-center;">Edit Material</h1>
   <form [formGroup]="formEdit" (ngSubmit)="onSubmit()">
   <div class="content-create">
-    <div class="content-left">
-      <img src="" alt="" class="content-image">
+    <div class="content-left content-group">
+      <!--      image-->
+      <img [src]="formEdit.controls.materialImage.value"   class="content-image"> <br>
+      <input id="img-material" type="file" class="form-control-file" (change)="showPreview($event)">
     </div>
     <div class="content-right">
 <!--      <form [formGroup]="formEdit" (ngSubmit)="onSubmit()">-->
         <div>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Code</span>
+          <span class="input-group-text">Material Code <span class="cl-red">*</span> </span>
           <input type="text" class="form-control me-2" placeholder="materialCode" formControlName="materialCode">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -19,7 +21,7 @@
            Material code malformed !! Must have format is "MVT-XXX"
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Name</span>
+          <span class="input-group-text">Material Name<span class="cl-red">*</span></span>
           <input type="text" class="form-control me-2" placeholder="materialName" formControlName="materialName">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -27,7 +29,7 @@
           Material Name can't required and length from 5 to 25 characters!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Price</span>
+          <span class="input-group-text">Material Price<span class="cl-red">*</span></span>
           <input type="number" class="form-control me-2" placeholder="materialPrice" formControlName="materialPrice">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -35,7 +37,7 @@
           Material Price can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Quantity</span>
+          <span class="input-group-text">Material Quantity<span class="cl-red">*</span></span>
           <input type="number" class="form-control me-2" placeholder="materialQuantity" formControlName="materialQuantity">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -43,7 +45,7 @@
           Material Quantity can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Expiridate</span>
+          <span class="input-group-text">Material Expiridate<span class="cl-red">*</span></span>
           <input type="date" class="form-control me-2" placeholder="materialExpiridate" formControlName="materialExpiridate">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -51,7 +53,7 @@
           Material Expiridate can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Describe</span>
+          <span class="input-group-text">Material Describe<span class="cl-red">*</span></span>
           <input type="text" class="form-control me-2" placeholder="materialDescribe" formControlName="materialDescribe">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -59,7 +61,7 @@
           Material Describe can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Unit</span>
+          <span class="input-group-text">Material Unit<span class="cl-red">*</span></span>
           <input type="text" class="form-control me-2" placeholder="materialUnit" formControlName="materialUnit">
         </div>
         <span class="text-danger mb-0 pb-0"
@@ -67,7 +69,7 @@
           Material Unit can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Material Type</span>
+          <span class="input-group-text">Material Type<span class="cl-red">*</span></span>
           <select class="me-2" [compareWith]="compareFn" formControlName="materialTypeId" >
             <option selected disabled value="">Chọn</option>
             <option *ngFor="let data of listDataType" [ngValue]="data">{{data?.materialTypeName}}
@@ -79,7 +81,7 @@
           Material Type can't required!
         </span>
         <div class="input-group mb-3">
-          <span class="input-group-text">Customer Material</span>
+          <span class="input-group-text">Customer Material<span class="cl-red">*</span></span>
           <select class="me-2" [compareWith]="compareFn1" formControlName="materialCustomerId" >
             <option selected disabled value="">Chọn</option>
             <option *ngFor="let data of listDataCus" [ngValue]="data">{{data?.customerName}}</option>

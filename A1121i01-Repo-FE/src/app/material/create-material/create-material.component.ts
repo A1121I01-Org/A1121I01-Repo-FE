@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {MaterialServiceService} from "../../service/material/material-service.service";
 import {IMaterialType} from "../../model/material/imaterial-type";
 import {ICustomer} from "../../model/customer/icustomer";
+import {finalize} from "rxjs/operators";
+import {AngularFireStorage} from "@angular/fire/storage";
 
 @Component({
   selector: 'app-create-material',
@@ -15,9 +17,13 @@ export class CreateMaterialComponent implements OnInit {
   materialForm: FormGroup;
   listDataCus:ICustomer[] =[];
   listDataType: IMaterialType[] =[];
+  upLoadImage= null;
+  oldAvatarLink: string;
+  url:any;
   constructor(
     private materialService: MaterialServiceService,
-    private router: Router
+    private router: Router,
+    private storage: AngularFireStorage
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +39,7 @@ export class CreateMaterialComponent implements OnInit {
       materialUnit: new FormControl('', [Validators.required]),
       materialTypeId: new FormControl('', [Validators.required]),
       materialCustomerId: new FormControl('', [Validators.required]),
+      materialImage:  new FormControl('', [Validators.required])
     });
   }
 
@@ -53,20 +60,59 @@ export class CreateMaterialComponent implements OnInit {
 
 
 createMaterial() {
-  console.log(this.materialForm.value)
-  this.materialService.create(this.materialForm.value).subscribe(
-    () => {
-    },
-    () => {
-    },
-    () => {
-      alert("thêm mới vật tư")
-    }
-  );
-}
+  if(this.upLoadImage !== null){
+    const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
+    const fileRef = this.storage.ref(avatarName);
+    this.storage.upload(avatarName, this.upLoadImage).snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe(url => {
+          this.materialForm.patchValue({materialImage: url});
 
-  // showPreview(event: any) {
-  //   this.upLoadImage = event.target.files[0];
-  //
-  // }
+          // //delete old img from firebase
+          // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+
+          //Update employee
+          console.log(this.materialForm.value);
+          this.materialService.create(this.materialForm.value).subscribe(
+            () => {
+            },
+            () => {
+            },
+            () => {
+              alert("thêm mới vật tư")
+              this.upLoadImage = null;
+            },
+          )
+        })
+      })
+    ).subscribe();
+  } else{
+    console.log(this.materialForm.value)
+    this.materialService.create(this.materialForm.value).subscribe(
+      () => {
+      },
+      () => {
+      },
+      () => {
+        alert("thêm mới vật tư")
+      }
+    );
+  }
 }
+  private getCurrentDateTime() {
+    return new Date().getTime();
+  }
+
+  showPreview(e) {
+    this.upLoadImage = e.target.files[0];
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.upLoadImage);
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+      };
+    }
+  }
+
+  }
+

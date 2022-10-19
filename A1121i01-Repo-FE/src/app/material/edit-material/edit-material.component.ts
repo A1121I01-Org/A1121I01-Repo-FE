@@ -5,6 +5,8 @@ import {IMaterialType} from "../../model/material/imaterial-type";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MaterialServiceService} from "../../service/material/material-service.service";
 import {ICustomer} from "../../model/customer/icustomer";
+import {finalize} from "rxjs/operators";
+import {AngularFireStorage} from "@angular/fire/storage";
 
 
 @Component({
@@ -18,11 +20,14 @@ export class EditMaterialComponent implements OnInit {
   listDataCus:ICustomer[] =[];
   listDataType: IMaterialType[] =[];
   materialType: IMaterialType[];
-
+  upLoadImage= null;
+  oldAvatarLink: string;
+  url: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private materialService: MaterialServiceService,
     private formBuilder: FormBuilder,
+    private storage: AngularFireStorage,
   ) {
   }
 
@@ -74,7 +79,7 @@ export class EditMaterialComponent implements OnInit {
       materialQuantity: new FormControl(data?data.materialQuantity:[],[Validators.required,Validators.min(1)]),
       materialExpiridate: new FormControl(data?data.materialExpiridate:[],[Validators.required]),
       materialUnit: new FormControl(data?data.materialUnit:[],[Validators.required]),
-      materialImage: new FormControl(data?data.materialImage:[],[Validators.required]),
+      materialImage: new FormControl(data?data.materialImage:['']),
       materialDescribe:  new FormControl(data?data.materialDescribe:[],[Validators.required]),
       materialFlag:  new FormControl(data?data.materialFlag:[],[Validators.required]),
       materialTypeId: new FormControl(data?.materialTypeId,[Validators.required]),
@@ -104,12 +109,50 @@ export class EditMaterialComponent implements OnInit {
     return c1 && c2 ? c1.customerId === c2.customerId : c1 === c2;
   }
   onSubmit() {
-    if (this.formEdit.valid){
+    if (this.upLoadImage !== null) {
+      const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
+      const fileRef = this.storage.ref(avatarName);
+      this.storage.upload(avatarName, this.upLoadImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe(url => {
+            this.formEdit.patchValue({materialImage: url});
+
+            // //delete old img from firebase
+            // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+
+            //Update employee
+            console.log(this.formEdit.value);
+            this.materialService.update(this.formEdit.value).subscribe(
+              () => {
+                alert("chỉnh sửa thành công")
+                this.upLoadImage = null;
+              }
+            );
+          })
+        })
+      ).subscribe();
+    } else {
       this.materialService.update(this.formEdit.value).subscribe(
         () => {
           alert("chỉnh sửa thành công")
         }
       );
+    }
+  }
+  private getCurrentDateTime() {
+    return new Date().getTime();
+  }
+
+  showPreview(e) {
+    this.upLoadImage = e.target.files[0];
+
+
+    if (e.target.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.upLoadImage);
+      reader.onload = (event: any) => {
+        this.url = event.target.result;
+      };
     }
   }
 }
