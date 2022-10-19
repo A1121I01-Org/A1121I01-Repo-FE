@@ -15,21 +15,57 @@ header h1 {
 }
 
 .combobox1 {
-  width: 10%;
-  margin-left: 30%;
+  width: 15%;
+  margin-left: 25%;
   float:left;
+}
+
+.combobox1 span {
+  float: left;
+  margin-top: 6px;
+}
+
+.select1 {
+  float: left;
+  margin-left: 10px;
 }
 
 .combobox2 {
   float: left;
-  width: 10%;
-  margin-left: 50px;
+  width: 15%;
+  margin-left: 12px;
+}
+
+.combobox2 span {
+  float: left;
+  margin-top: 6px;
+}
+
+.select2 {
+  float: left;
+  margin-left: 10px;
 }
 
 .combobox3 {
   float: left;
-  width: 10%;
-  margin-left: 50px;
+  width: 15%;
+  margin-left: 12px;
+}
+
+.combobox3 span {
+  float: left;
+  margin-top: 6px;
+}
+
+.select3 {
+  float: left;
+  margin-left: 10px;
+}
+
+table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .btn__delete {
@@ -80,7 +116,7 @@ footer {
 
 footer .page {
   float: left;
-  margin-left: 650px;
+  margin-left: 230px;
 }
 
 footer .button {

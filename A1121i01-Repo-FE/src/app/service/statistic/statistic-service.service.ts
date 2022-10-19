@@ -17,7 +17,13 @@ export class StatisticServiceService {
     return this.http.get<string[]>(this.url + '/list/customer');
   }
 
-  // getFindForPotentialCustomers(cartDateCreate: any): Observable<any> {
-  //   return this.http.get<any>(this.url + '/search/customer?cartDateCreate=' + cartDateCreate);
-  // }
+  getPDF(): Observable<Blob> {
+    // @ts-ignore
+    return this.http.get<Blob>(`${this.url}/pdf`, {responseType: 'blob'});
+  }
+
+  searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
+    console.log(fromMonth);
+    return this.http.get<string[]>(`${this.url}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
+  }
 }
