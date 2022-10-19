@@ -62,7 +62,7 @@ export class StatisticServiceService {
 
   getPDF(): Observable<Blob> {
     // @ts-ignore
-    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
+    return this.httpClient.get<Blob>(`${this.API}/pdf-huyen`, {responseType: 'blob'});
   }
 
   searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
