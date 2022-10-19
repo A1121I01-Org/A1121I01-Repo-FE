@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container" style="margin-top: 100px">
   <div style="background-color: white;">
     <form [formGroup]="importForm2" (ngSubmit)="createImport2()" class="p-3">
       <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
@@ -423,6 +423,7 @@
         </form>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
+      <br>
       <div *ngIf="totalItems > 5">
         <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
