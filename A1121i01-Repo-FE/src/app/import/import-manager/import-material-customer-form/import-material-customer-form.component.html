@@ -480,6 +480,7 @@
         </form>
       </div>
       <!--      +++++++++++++phân trang++++++++++++++++-->
+      <br>
       <div *ngIf="totalItems > 5">
         <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
       </div>
