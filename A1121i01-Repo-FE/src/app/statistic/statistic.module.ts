@@ -1,6 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
+import {StatisticRoutingModule} from './statistic-routing.module';
+import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
+import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
+import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgxPaginationModule} from 'ngx-pagination';
 import {StatisticRoutingModule} from './statistic-routing.module';
 import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
 import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
@@ -19,8 +25,11 @@ import {FormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     StatisticRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule,
     HttpClientModule,
-    FormsModule
   ]
 })
-export class StatisticModule { }
+export class StatisticModule {
+}
