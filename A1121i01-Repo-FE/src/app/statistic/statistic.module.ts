@@ -7,12 +7,7 @@ import {CustomerStatisticComponent} from './customer-statistic/customer-statisti
 import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxPaginationModule} from 'ngx-pagination';
-import {StatisticRoutingModule} from './statistic-routing.module';
-import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
-import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
-import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
 
 
 @NgModule({

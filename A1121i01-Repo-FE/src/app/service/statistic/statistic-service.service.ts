@@ -1,9 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {IMaterial} from '../../model/material/imaterial';
-import {ICustomer} from '../../model/customer/icustomer';
-
 
 
 @Injectable({
@@ -65,12 +62,12 @@ export class StatisticServiceService {
 
   getPDF(): Observable<Blob> {
     // @ts-ignore
-    return this.http.get<Blob>(`${this.url}/pdf`, {responseType: 'blob'});
+    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
   }
 
   searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
     console.log(fromMonth);
-    return this.http.get<string[]>(`${this.url}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
+    return this.httpClient.get<string[]>(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
   }
 }
 
