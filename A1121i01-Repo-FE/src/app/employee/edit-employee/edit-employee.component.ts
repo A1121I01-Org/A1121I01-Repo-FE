@@ -70,6 +70,10 @@ export class EditEmployeeComponent implements OnInit {
                 if (error.status === 500) {
                   this.router.navigateByUrl('/auth/access-denied');
                 }
+                console.log(error);
+                if (error.status === 400) {
+                  window.confirm('Vui lòng kiểm tra lại thông tin');
+                }
               },
               () => {
                 console.log('Success!');
@@ -88,6 +92,9 @@ export class EditEmployeeComponent implements OnInit {
           if (error.status === 500) {
             this.router.navigateByUrl('/auth/access-denied');
           }
+          if (error.status === 400) {
+            window.alert('Vui lòng kiểm tra lại thông tin');
+          }
         },
         () => {
           console.log('success');
@@ -103,6 +110,13 @@ export class EditEmployeeComponent implements OnInit {
 
   getAvatar(event: any) {
     this.uploadedAvatar = event.target.files[0];
+    if (this.uploadedAvatar) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.uploadedAvatar);
+      reader.onload = (e: any) => {
+        this.oldAvatarLink = e.target.result;
+      };
+    }
   }
 
   private getCurrentDateTime() {
