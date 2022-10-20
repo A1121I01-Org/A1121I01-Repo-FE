@@ -23,7 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    HttpClientModule,
+    HttpClientModule
   ]
 })
 export class StatisticModule {
