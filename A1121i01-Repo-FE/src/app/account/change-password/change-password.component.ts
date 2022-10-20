@@ -47,6 +47,7 @@ export class ChangePasswordComponent implements OnInit {
           }
           if (error.status === 400) {
             this.error = true;
+            window.alert("Vui lòng kiểm tra lại thông tin");
           }
         },
         () => {
