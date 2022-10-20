@@ -67,6 +67,8 @@ export class CreateAccountComponent implements OnInit {
       }, (error) => {
         if (error.status === 403 || error.status === 500) {
           this.router.navigateByUrl('/auth/access-denied');
+        } else {
+          this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
         }
       }, () => {
         // alert('Thêm mới thành công.');
