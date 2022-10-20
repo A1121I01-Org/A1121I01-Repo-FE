@@ -10,8 +10,8 @@ import {Password} from '../../model/classDTO/password';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-  // AnDVH thay đổi mật khẩu
 
+  // AnDVH thay đổi mật khẩu
   passwordForm: FormGroup;
   accountId: number;
   updatePassword: Password = {};
@@ -45,7 +45,7 @@ export class ChangePasswordComponent implements OnInit {
           if (error.status === 500) {
             this.router.navigateByUrl('/auth/access-denied');
           }
-          if (error.status === 412) {
+          if (error.status === 400) {
             this.error = true;
           }
         },
