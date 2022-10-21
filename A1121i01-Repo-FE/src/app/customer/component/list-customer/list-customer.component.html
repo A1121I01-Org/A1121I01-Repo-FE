@@ -38,7 +38,7 @@
         <th></th>
       </tr>
       </thead>
-      <tbody>
+      <tbody >
       <tr *ngFor="let c of listCustomer; let i = index">
         <td><input type="checkbox" class="checkbox1" name="check[]"></td>
         <td scope="row">{{i+1}}</td>
@@ -87,13 +87,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung này không hoàn tác</h5>
+        <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500">Xác nhận xóa khách hàng</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <span>Bạn có muốn xóa khách hàng <span style="color: #0f57b3; font-weight: bolder">{{name}}</span>  không ?</span>
+      <div class="modal-body" style="margin-top: 5px">
+        <span>Bạn có muốn xóa khách hàng <span style="color: crimson; font-weight: bolder">{{name}}</span>  không ?</span>
+        <p><b>Lưu ý: Nội dung này không hoàn tác </b></p>
       </div>
       <div class="modal-footer">
         <button style="background:white; color:#0f57b3 " type="button" class="btn__cancel"

@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import {Router} from '@angular/router';
-<<<<<<< HEAD:A1121i01-Repo-FE/src/app/customer/list-customer/list-customer.component.ts
-import {ICustomer} from '../../model/customer/icustomer';
-=======
->>>>>>> 358cb8ad7ea897a5277e0889a16ba940852f43a0:A1121i01-Repo-FE/src/app/customer/component/list-customer/list-customer.component.ts
 import {FormControl, FormGroup} from '@angular/forms';
 import {ICustomer} from '../../../model/customer/icustomer';
 import {CustomerServiceService} from '../../../service/customer/customer-service.service';
@@ -24,6 +19,8 @@ export class ListCustomerComponent implements OnInit {
   name: any;
   id: any;
   searchNameAndPhoneForm: FormGroup;
+  hidden = 1;
+  message: any;
 
   constructor(private customerService: CustomerServiceService,
               private route: Router) { }
@@ -51,6 +48,8 @@ export class ListCustomerComponent implements OnInit {
         this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         if ((this.listCustomerNotPagination.length % 5) !== 0) {
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1 )  );
+        } else {
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         }
       });
   }
@@ -107,7 +106,7 @@ export class ListCustomerComponent implements OnInit {
   }
 
   send() {
-    if (this.searchNameAndPhoneForm.get('name').value == '' && this.searchNameAndPhoneForm.get('phone').value == ''){
+    if (this.searchNameAndPhoneForm.get('name').value == '' && this.searchNameAndPhoneForm.get('phone').value == '') {
       this.page = 0;
       this.getAllCustomerWithPagination();
       this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
