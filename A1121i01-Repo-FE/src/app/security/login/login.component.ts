@@ -5,6 +5,7 @@ import {TokenStorageService} from '../../service/security/token-storage.service'
 import {SecurityServiceService} from '../../service/security/security-service.service';
 import {Router} from '@angular/router';
 import {ShareService} from '../../service/security/share.service';
+import {HeaderComponent} from '../../header/header.component';
 
 @Component({
     selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
                 private tokenStorageService: TokenStorageService,
                 private securityService: SecurityServiceService,
                 private router: Router,
-                private shareService: ShareService) {
+                private shareService: ShareService,
+                private headerComponent: HeaderComponent) {
     }
 
     ngOnInit(): void {
@@ -33,10 +35,12 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required],
             remember_me: false
         });
+
+
         if (this.tokenStorageService.getUser()) {
             this.securityService.isLoggedIn = true;
-            this.role = this.tokenStorageService.getUser().roles[0];
-            this.username = this.tokenStorageService.getUser().username;
+            this.role = this.tokenStorageService.getUser().roles[0].roleName;
+            this.username = this.tokenStorageService.getUser().account.username;
             this.router.navigate(['']);
 
         }
@@ -54,10 +58,10 @@ export class LoginComponent implements OnInit {
                     // this.username = this.loginFrom.controls.username.value;
                 }
                 this.isLoggedIn = true;
-                this.username = this.tokenStorageService.getUser().username;
-                this.role = this.tokenStorageService.getUser().roles;
-                console.log('username: ' + this.tokenStorageService.getUser().username);
-                console.log('role: ' + this.tokenStorageService.getUser().roles);
+                this.username = this.tokenStorageService.getUser().account.username;
+                this.role = this.tokenStorageService.getUser().account.roles.roleName;
+                console.log('username: ' + this.tokenStorageService.getUser().account.username);
+                console.log('role: ' + this.tokenStorageService.getUser().account.roles[0].roleName);
                 console.log('token: ' + this.tokenStorageService.getUser().jwtToken);
 
                 // this.loginForm.reset();
@@ -76,14 +80,15 @@ export class LoginComponent implements OnInit {
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
           () => {
+          this.headerComponent.ngOnInit();
           this.router.navigateByUrl('');
           });
     }
     private loadRememberInfo() {
         if (this.tokenStorageService.getUser()) {
-            this.role = this.tokenStorageService.getUser().roles[0];
+            this.role = this.tokenStorageService.getUser().account.roles[0];
             console.log(this.role);
-            this.username = this.tokenStorageService.getUser().username;
+            this.username = this.tokenStorageService.getUser().account.username;
             console.log(this.username);
             this.urlImg = this.tokenStorageService.getUser().urlImg;
         } else {
