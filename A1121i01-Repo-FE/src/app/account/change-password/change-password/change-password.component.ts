@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {AccountServiceService} from '../../service/account/account-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Password} from '../../model/classDTO/password';
+import {Password} from '../../../model/classDTO/password';
+import {AccountServiceService} from '../../../service/account/account-service.service';
 
 @Component({
   selector: 'app-change-password',
