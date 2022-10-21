@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 100px">
   <div class="row">
     <div class="col-lg-12">
       <h2 style="margin-top: 20px;margin-left: 20px;text-align: center; color: #270082">Danh sách thông tin nhân viên</h2>
@@ -10,7 +10,7 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-lg-6">
-          <button class="btn__create" routerLink="/product/create">
+          <button class="btn__create" routerLink="/employee/create">
             Thêm mới nhân viên
           </button>
         </div>
@@ -75,7 +75,7 @@
                style=" cursor: pointer">Chi tiết</a>
           </td>
           <td>
-            <a class="btn btn-primary btn__edit" [routerLink]="['/product/edit',emp.employeeId]"
+            <a class="btn btn-primary btn__edit" [routerLink]="['/employee/edit',emp.employeeId]"
                style=" cursor: pointer">Chỉnh sửa</a>
           </td>
           <td>

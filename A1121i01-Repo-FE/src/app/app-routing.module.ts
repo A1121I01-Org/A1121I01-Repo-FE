@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {HomeComponent} from './home/home.component';
+import {ActivitiesComponent} from "./activities/activities.component";
 
 const routes: Routes = [{
   path: 'customer',
@@ -36,6 +37,9 @@ const routes: Routes = [{
   },
   {
     path: '', component: HomeComponent,
+  },
+  {
+    path: 'activities', component: ActivitiesComponent,
   }
 ];
 
@@ -44,4 +48,5 @@ const routes: Routes = [{
   exports: [RouterModule],
   declarations: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -26,6 +26,8 @@ import {authInterceptorProviders} from './helpers/auth.interceptor';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {APP_BASE_HREF} from '@angular/common';
 import {NotifierModule} from 'angular-notifier';
+import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
+import { ActivitiesComponent } from './activities/activities.component';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import {NotifierModule} from 'angular-notifier';
     AppComponent,
     HeaderComponent,
     ErrorComponent,
-    HomeComponent
+    HomeComponent,
+    ActivitiesComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebaseConfig),
@@ -53,7 +56,8 @@ import {NotifierModule} from 'angular-notifier';
     StatisticModule,
     HttpClientModule,
     RouterModule,
-    NotifierModule
+    NotifierModule,
+    LoadingBarRouterModule
   ],
   providers: [ authInterceptorProviders,
     JwtHelperService,
