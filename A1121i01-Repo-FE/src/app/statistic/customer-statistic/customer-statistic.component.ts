@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ICustomer} from '../../model/customer/icustomer';
 import {StatisticServiceService} from '../../service/statistic/statistic-service.service';
 import {ICart} from '../../model/cart/icart';
@@ -12,35 +12,33 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class CustomerStatisticComponent implements OnInit {
   customers: string[] = [];
-  customers1: any[] = [];
-  temp: string[] = [];
+  // temp: string[] = [];
   formSearch: FormGroup;
-  // page = 1;
-  // size: number;
-  // totalItems: number;
+  page = 1;
+  size: number;
+  totalItems: number;
 
-  constructor(private statisticService: StatisticServiceService) { }
+  constructor(private statisticService: StatisticServiceService) {
+  }
 
   ngOnInit(): void {
     this.formSearch = new FormGroup({
-      fromMonth : new FormControl(''),
-      toMonth : new FormControl(''),
-      year : new FormControl('')
+      fromMonth: new FormControl(''),
+      toMonth: new FormControl(''),
+      year: new FormControl('')
     });
-    this.getAllCustomer();
+    this.getAllCustomer(this.page);
   }
 
-  getAllCustomer() {
-//    this.page = page;
-    this.statisticService.getAllCustomer().subscribe((data: string[]) => {
-      // console.log(data);
-      // this.size = data.size;
-      // this.totalItems = data.totalElements;
-      // this.customers = data.content;
-      for (let i = 0; i <= data.length; i++) {
-        this.temp = data[i].split(',');
-        this.customers1.push(this.temp);
-      }
+  getAllCustomer(page: number) {
+    this.page = page;
+    this.statisticService.getAllCustomer(this.page - 1).subscribe((data: any) => {
+      this.size = data.size;
+      this.totalItems = data.totalElements;
+      this.customers = data.content;
+      console.log(this.page);
+      console.log(this.customers);
+      console.log( this.totalItems);
     });
   }
 
@@ -56,7 +54,7 @@ export class CustomerStatisticComponent implements OnInit {
       const link = document.createElement('a');
       link.href = data;
       link.download = 'statistic-material.pdf';
-      link.dispatchEvent(new MouseEvent('click' , {bubbles: true, cancelable: true, view: window}));
+      link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
       // tslint:disable-next-line:only-arrow-functions
       setTimeout(function() {
         window.URL.revokeObjectURL(data);
@@ -73,12 +71,7 @@ export class CustomerStatisticComponent implements OnInit {
     ).subscribe(
       (data) => {
         this.customers = [];
-        this.customers1 = [];
         this.customers = data;
-        for (let i = 0; i <= data.length; i++) {
-          this.temp = data[i].split(',');
-          this.customers1.push(this.temp);
-        }
         console.log(this.customers);
         this.ngOnInit();
       }

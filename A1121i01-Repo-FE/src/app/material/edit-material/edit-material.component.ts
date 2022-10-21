@@ -158,6 +158,7 @@ export class EditMaterialComponent implements OnInit {
       reader.readAsDataURL(this.upLoadImage);
       reader.onload = (event: any) => {
         this.url = event.target.result;
+        this.formEdit.controls.materialImage.setValue(reader.result as String);
       };
     }
   }

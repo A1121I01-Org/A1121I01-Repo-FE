@@ -5,9 +5,9 @@
   font-family: 'segoe ui', sans-serif;
 }
 
-body {
-  overflow-y: scroll;
-}
+/*body {*/
+/*  overflow-y: scroll;*/
+/*}*/
 
 .useful-links {
   position: absolute;
@@ -181,7 +181,6 @@ img:hover {
   padding: 2% 1%;
   position: relative;
 }
-
 .input-group label {
   flex-basis: 40%;
   font-weight: bold;

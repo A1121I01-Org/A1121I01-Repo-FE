@@ -56,8 +56,8 @@ export class StatisticServiceService {
   }
 
 
-  getAllCustomer(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/customer');
+  getAllCustomer(page: number): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.API + '/list/customer?page=' + page);
   }
 
   getPDF(): Observable<Blob> {
