@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-
+import {NgModule} from '@angular/core';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [{
   path: 'customer',
@@ -27,13 +27,16 @@ const routes: Routes = [{
     loadChildren: () => import('./material/material.module').then(module => module.MaterialModule)
   },
   {
-    path: 'security',
+    path: 'auth',
     loadChildren: () => import('./security/security.module').then(module => module.SecurityModule)
   },
   {
     path: 'statistic',
     loadChildren: () => import('./statistic/statistic.module').then(module => module.StatisticModule)
   },
+  {
+    path: '', component: HomeComponent,
+  }
 ];
 
 @NgModule({
@@ -41,5 +44,4 @@ const routes: Routes = [{
   exports: [RouterModule],
   declarations: []
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }
