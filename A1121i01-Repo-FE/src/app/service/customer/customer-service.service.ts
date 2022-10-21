@@ -37,7 +37,7 @@ export class CustomerServiceService {
   }
 
   searchCustomerByNameAndPhone(value1: string, value2: string): Observable<ICustomer[]> {
-    return this.http.get<ICustomer[]>(this.API_URL + `/customer-search?name=${value1}&phone=${value2}`);
+    return this.http.get<ICustomer[]>(this.API_URL + `/search-customer?name=${value1}&phone=${value2}`);
   }
 
   create(customer: ICustomer): Observable<ICustomer> {

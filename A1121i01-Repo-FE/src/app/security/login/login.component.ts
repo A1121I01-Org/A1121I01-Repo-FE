@@ -35,8 +35,6 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required],
             remember_me: false
         });
-
-
         if (this.tokenStorageService.getUser()) {
             this.securityService.isLoggedIn = true;
             this.role = this.tokenStorageService.getUser().roles[0].roleName;
@@ -80,7 +78,7 @@ export class LoginComponent implements OnInit {
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
           () => {
-          this.headerComponent.ngOnInit();
+         window.location.assign('');
           this.router.navigateByUrl('');
           });
     }

@@ -39,41 +39,51 @@
             <a [routerLink]=" " ><img alt="logo"  src="assets/images/infor-material/logo1.png" width="30px" height="30px"></a>
         </div>
         <div class="header-categories">
+            <ul class="ul-base" *ngIf="!isLoggedIn">
+
+            </ul>
             <ul class="ul-base" *ngIf="isLoggedIn">
-                <li class="dropdown" *ngIf="showAdminBoard">
-                    <a class="dropdown-toggle"><span>Hệ thống</span> <i class="material-icons"></i></a>
-                    <ul class="dropdown-menu ul-base" >
-                        <li><a routerLink="/account/create" >Tạo tài khoản</a></li>
-                        <!--            <li><a >Thay đổi mật khẩu</a></li>-->
-                    </ul>
-                    <a class="dropdown-toggle" href="#"><span>Quản lí</span> <i class="material-icons"></i></a>
+                <li class="dropdown" *ngIf="showAdminBoard || showAccountantBoard">
+                    <a class="dropdown-toggle" ><span>Quản lí kho</span> <i class="material-icons"></i></a>
                     <ul class="dropdown-menu ul-base">
-                        <li><a routerLink="/material/list">Quản lí sản phẩm</a></li>
-                        <li><a>Quản lí nhân viên</a></li>
+                        <li><a routerLink="/import">Nhập kho</a></li>
+                        <li><a>Xuất kho</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" *ngIf="showSellBoard">
+<!--                    <a class="dropdown-toggle" ><span>Quản lí kho</span> <i class="material-icons"></i></a>-->
+<!--                    <ul class="dropdown-menu ul-base">-->
+<!--                        <li><a routerLink="/import">Nhập kho</a></li>-->
+<!--                        <li><a>Xuất kho</a></li>-->
+<!--                    </ul>-->
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle"><span>Quản lí thông tin</span> <i class="material-icons"></i></a>
+                    <ul class="dropdown-menu ul-base">
+                        <li><a routerLink="/employee/list">Thông tin nhân viên</a></li>
+                        <li><a routerLink="/customer/list">Thông tin khách hàng</a></li>
+                        <li><a routerLink="/material/list">Thông tin vật tư</a></li>
+
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" *ngIf="showAccountantBoard || showSellBoard"><span>Quản lí</span> <i class="material-icons"></i></a>
+                    <a class="dropdown-toggle" *ngIf="showAdminBoard || showAccountantBoard"><span>Quản lí tài chính</span> <i class="material-icons"></i></a>
                     <ul class="dropdown-menu ul-base">
-                        <li><a routerLink="/material/list">Quản lí sản phẩm</a></li>
-                        <li><a>Quản lí nhân viên</a></li>
+                        <li><a  routerLink="statistic/financial">Thống kê tài chính</a></li>
+                        <li><a  routerLink="statistic/material">Thống kê vật tư</a></li>
+                        <li><a  routerLink="statistic/customer">Thống kê khách hàng</a></li>
+
                     </ul>
                 </li>
             </ul>
-            <ul class="ul-base" *ngIf="!isLoggedIn">
 
-            </ul>
+
         </div>
         <div class="header-menu">
             <ul class="ul-base" *ngIf="!isLoggedIn">
-                <li><a class="rss" target="_blank"><i class="fa-solid fa-cart-plus"></i></a></li>
-                <li><a></a></li>
-                <li><a></a></li>
-                <li><a routerLink="/login">Login</a></li>
+                <li><a routerLink="/login">Sign in</a></li>
             </ul>
-
             <ul class="ul-base" *ngIf="isLoggedIn">
-                <li><a class="rss" target="_blank"><i class="fa-solid fa-cart-plus"></i></a></li>
                 <li><a>{{userName}}</a></li>
                 <li><a (click)="logout()">Logout</a></li>
             </ul>

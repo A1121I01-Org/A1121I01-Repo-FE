@@ -73,7 +73,7 @@ export class EditEmployeeComponent implements OnInit {
               },
               () => {
                 console.log('Success!');
-                this.router.navigateByUrl('/employee/detail/' + this.id);
+                this.router.navigateByUrl('/employee/list');
                 this.uploadedAvatar = null;
               },
             );
@@ -91,7 +91,7 @@ export class EditEmployeeComponent implements OnInit {
         },
         () => {
           console.log('success');
-          this.router.navigateByUrl('/employee/detail/' + this.id);
+          this.router.navigateByUrl('/employee/list');
         }
       );
     }

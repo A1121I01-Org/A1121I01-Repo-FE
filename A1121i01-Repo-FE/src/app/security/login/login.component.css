@@ -110,8 +110,11 @@
   margin-top: 20px;
 }
 
-.line {
-  padding-left: 50px;
+.text__error {
+  padding-left: 120px;
+}
+.checkbox__line{
+    padding-left: 50px;
 }
 
 .my-checkbox {

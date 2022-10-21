@@ -1,64 +1,61 @@
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<div class="thuan">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<body style="margin-top: 20px">
+<h1>Danh sách vật tư</h1>
 <nav>
-
-          <li><a href="#" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge"></span></a></li>
-
+  <div class="container">
+    <div class="navbar-left">
+      <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
+    </div><br><br>
+    <div class="navbar-right">
+      <div></div><a routerLink="/cart/detail" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">{{cartList.length}}</span></a></div>
+  </div> <!--end navbar-right --><br>
 </nav>
 
-  <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
-<br>
 
-  <div class="cards">
+<div class="cards" >
 
-    <div class="card" *ngFor="let material of materialList">
-      <div class="card__image-holder">
-        <img class="card__image" src="{{material.materialImage}}" alt="wave" />
-      </div>
-      <div class="card-title">
-        <a class="toggle-info btn">
-          <span class="left"></span>
-          <span class="right"></span>
-        </a>
-        <h2>
-          {{material?.materialName}}
-          <small>{{material?.materialCode}}</small>
-        </h2>
-      </div>
-      <div class="card-flap flap1">
-        <div class="card-description">
-          {{material?.materialPrice | currency : 'VND' : 'symbol'}}
-        </div>
-        <div class="card-flap flap2">
-          <div class="card-actions">
-            <a [routerLink]="['/detail',material?.materialId]"  class="btn">Chi tiết</a>
-          </div>
-
-          <div class="card-actions">
-            <a href="#" class="btn">Mua ngay</a>
-          </div>
-
-        </div>
+  <div class="card" *ngFor="let material of materialList">
+    <div class="card__img"></div>
+    <div class="card__body">
+      <h3 class="card__title"><img class="card__image" src="{{material.materialImage}}" alt="wave" /></h3>
+      <p class="card__desc">{{material?.materialName}}</p>
+      <div class="card__price">
+        {{material?.materialPrice | currency : 'VND' : 'symbol'}}
       </div>
     </div>
+    <div class="card__footer">
 
-    <ngb-pagination [(page)] = "thePageNumber"
-                    [pageSize] = "thePageSize"
-                    [collectionSize] = "theTotalElements"
-                    (pageChange) = "getListMaterial2()"
-                    [boundaryLinks]="true"
-                    [maxSize]="3"
-                    [rotate]="true"
-
-    >
-    </ngb-pagination>
-
-
+      <div class="card__buy" style="background-color: var(--action-color-hover)">
+        <div [routerLink]="['/detail',material?.materialId]">Chi tiết</div>
+      </div>
+      <div class="card__buy" (click)="addMaterialCart(material)">
+        Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
+      </div>
+    </div>
   </div>
 
 
+
+
+
 </div>
+<ngb-pagination [(page)] = "thePageNumber"
+                [pageSize] = "thePageSize"
+                [collectionSize] = "theTotalElements"
+                (pageChange) = "getListMaterial2()"
+                [boundaryLinks]="true"
+                [maxSize]="3"
+                [rotate]="true"
+                style="margin-left: 10px"
+>
+</ngb-pagination>
+</body>
 
-
-
-
+</body>
+</html>
