@@ -5,9 +5,9 @@
   font-family: 'segoe ui', sans-serif;
 }
 
-body {
-  overflow-y: scroll;
-}
+/*body {*/
+/*  overflow-y: scroll;*/
+/*}*/
 
 .useful-links {
   position: absolute;
@@ -162,8 +162,9 @@ body {
 }
 
 .container nav {
-  border: solid 7px rgba(98,145,253,0.8);
+  border: double  10px rgba(98,145,253,0.7);
 }
+
 
 img:hover {
   box-shadow: 0 0 30px 3px #0f57b3;
