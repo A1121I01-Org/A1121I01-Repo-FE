@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {IEmployee} from '../../model/employee/iemployee';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 
 @Injectable({
@@ -71,11 +70,11 @@ export class EmployeeServiceService {
   }
 
   saveEmployee(employee: IEmployee): Observable<void> {
-    return this.http.post<void>(this.API_EMPLOYEE + '/create', employee);
+    return this.http.post<void>(this.API_URL + '/create', employee);
   }
 
   getListPosition(): Observable<any> {
-    return this.http.get(this.API_EMPLOYEE + '/position/list');
+    return this.http.get(this.API_URL + '/position/list');
   }
 
   adminUpdateEmployee(employee: IEmployee): Observable<IEmployee> {
