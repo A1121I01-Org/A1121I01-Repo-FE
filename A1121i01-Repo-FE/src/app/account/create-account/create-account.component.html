@@ -170,7 +170,7 @@
           <!-- NGÀY SINH !-->
           <div class="input-group">
             <label for="birthday">Ngày sinh<span class="text-danger"> (*)</span></label>
-            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth">
+            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth" [(ngModel)]="date">
           </div>
           <div *ngIf="createForm.get('employee').get('employeeDateOfBirth')?.invalid && (createForm.get('employee').get('employeeDateOfBirth')?.touched||createForm.get('employee').get('employeeDateOfBirth')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeeDateOfBirth').errors.required">
@@ -184,6 +184,9 @@
                 Tuổi phải lớn hơn 18.</small>
             </div>
           </div>
+<!--          <div>-->
+<!--            <small class="form-text mess">{{checkBirth}}</small>-->
+<!--          </div>-->
 
           <!-- GIỚI TÍNH !-->
           <div class="input-group">

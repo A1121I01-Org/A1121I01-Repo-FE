@@ -30,6 +30,8 @@ export class CreateAccountComponent implements OnInit {
   existCode: string;
   existUsername: string;
   existPhone: string;
+  date: string;
+  checkBirth: string;
   private readonly notifier: NotifierService;
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
@@ -61,6 +63,7 @@ export class CreateAccountComponent implements OnInit {
     this.getAllPhone();
     // @ts-ignore
     this.createForm.setValidators(this.passValidator(this.createForm.get('account').get('password'), this.createForm.get('account').get('confirmPassword')));
+    this.focusInput();
   }
 
   submit() {
@@ -78,11 +81,16 @@ export class CreateAccountComponent implements OnInit {
         this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
+        this.focusInput();
         this.removeDisableInput();
         this.disableButton();
       });
   }
-
+  focusInput() {
+    const usernameInput = document.getElementById('username') as HTMLInputElement;
+    usernameInput.focus();
+    usernameInput.select();
+  }
   backToHome() {
     this.router.navigate(['']);
   }
@@ -191,7 +199,13 @@ export class CreateAccountComponent implements OnInit {
       }
     }
   }
-
+  // isFutureDate(idate) {
+  //   const today = new Date().getTime();
+  //   idate = idate.split('-');
+  //
+  //   idate = new Date(idate[0], idate[1] - 1, idate[2]).getTime();
+  //   return (today - idate) < 0 ? true : false;
+  // }
   passValidator(control: AbstractControl, controlTwo: AbstractControl): () => (string | null) {
     return () => {
       if (control.value !== controlTwo.value) {
