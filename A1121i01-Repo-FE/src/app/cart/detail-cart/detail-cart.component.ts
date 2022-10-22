@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CartServiceService} from '../../service/cart/cart-service.service';
 import {ICartMaterial} from '../../model/cart/icart-material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -7,8 +7,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ProvinceCity} from '../../model/cart/provinceCity';
 import {Wards} from '../../model/cart/wards';
 import {NotifierService} from 'angular-notifier';
-import {Router} from "@angular/router";
-
+import {Router} from '@angular/router';
+import {IMaterial} from '../../model/material/imaterial';
+import {LoadingBarService} from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-detail-cart',
@@ -16,6 +17,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./detail-cart.component.css']
 })
 export class DetailCartComponent implements OnInit {
+  @ViewChild('closeBtn') closeBtn: ElementRef;
   cartList: ICartMaterial[] = [];
   totalMoney = 0;
   listDelete: number[] = [];
@@ -33,7 +35,8 @@ export class DetailCartComponent implements OnInit {
   textSpecificAddress = '';
   customerErr: ICustomer;
   checkValidate = false;
-  constructor(private cartService: CartServiceService, private fb: FormBuilder, private notifier: NotifierService, private router: Router) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private cartService: CartServiceService, private fb: FormBuilder, private notifier: NotifierService, private router: Router, private loadingBar: LoadingBarService) { }
 
   ngOnInit(): void {
     this.getListCart();
@@ -47,6 +50,16 @@ export class DetailCartComponent implements OnInit {
         customerAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255)]],
       }
     );
+    this.getAllProvinceCity();
+  }
+  getListCart() {
+    this.totalMoney = 0;
+    this.cartService.getAllCart().subscribe(data => {
+      this.cartList = data;
+      console.log(data);
+    });
+  }
+  getAllProvinceCity(): void {
     this.cartService.getAllProvinceCity().subscribe(
       data => {
         this.apiListProvinceCity = data;
@@ -55,13 +68,6 @@ export class DetailCartComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-  getListCart() {
-    this.totalMoney = 0;
-    this.cartService.getAllCart().subscribe(data => {
-      this.cartList = data;
-      console.log(data);
-    });
   }
   subtraction(cart: ICartMaterial) {
     if (cart.cartId.cartQuantity === 1) {
@@ -115,9 +121,11 @@ export class DetailCartComponent implements OnInit {
   }
 
   onInsertCart(formCreate: FormGroup): void {
+    this.startLoading();
     this.checkValidate = false;
     this.cartService.insertCart(formCreate.value, this.listPayment).subscribe(
        (data: void) => {
+         this.stopLoading();
          this.cartService.getPdf(this.listPayment).subscribe(x => {
            const blob = new Blob([x], {type: 'application/pdf'});
            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -135,15 +143,21 @@ export class DetailCartComponent implements OnInit {
              link.remove();
            }, 100);
          });
+         this.closeModal();
          this.notifier.notify('success', 'Thanh toán thành công');
          this.resetForm();
          this.listCartPayment = [];
+         this.provinceCity = null;
+         this.wards = null;
          this.ngOnInit();
        },
        // (error: HttpErrorResponse) => {
        //   this.customerErr = error.error;
        // }
       (error) => {
+        if (error.status === 400) {
+          this.customerErr = error.error;
+        }
         if (error.status === 500) {
           this.router.navigateByUrl('/auth/access-denied');
         }
@@ -152,15 +166,17 @@ export class DetailCartComponent implements OnInit {
   }
 
   resetForm() {
-    this.checkValidate = true;
     this.formCreate = this.fb.group(
       {
-        customerName: [''],
-        customerPhone: [],
-        customerEmail: [],
-        customerAddress: [],
+        // tslint:disable-next-line:max-line-length
+        customerName: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]],
+        customerPhone: ['', [ Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]],
+        customerEmail: ['', [Validators.email, Validators.required, Validators.minLength(6), Validators.maxLength(50)]],
+        customerAddress: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(255)]],
       }
     );
+    this.checkValidate = true;
+    this.getAllProvinceCity();
   }
   addTextProvinceCity(value: any) {
     if (value !== '0') {
@@ -297,5 +313,18 @@ export class DetailCartComponent implements OnInit {
       this.listCartPayment = [];
       this.ngOnInit();
     }
+  }
+  private closeModal(): void {
+    this.closeBtn.nativeElement.click();
+  }
+
+
+
+  startLoading() {
+    this.loadingBar.start();
+  }
+
+  stopLoading() {
+    this.loadingBar.complete();
   }
 }

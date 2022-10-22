@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Morvin - Responsive Bootstrap 5 Admin Dashboard | Docs</title>
+  <title>Cart</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
   <meta content="Themesdesign" name="author" />
@@ -80,9 +80,9 @@
 </style>
 
 <body data-sidebar="dark" style="background-color: #F5F5FA">
-<notifier-container style="margin-left: -200px"></notifier-container>
+<notifier-container></notifier-container>
 <div class="main-content" id="main-container">
-<div style="background-color: #1A94FF;height: 100px"></div>
+  <ngx-loading-bar [color]="'black'" [height]="'10px'"></ngx-loading-bar>
 <div class="main-content" style="margin: 0 125px 0 125px">
   <div style="height: 31px;margin: 20px 0 20px 0" class="align-items-center">
     <h4>GIỎ HÀNG</h4>
@@ -238,7 +238,7 @@
     <div class="modal-content">
       <div class="modal-header" >
         <h4 class="modal-title" id="addCustomerModalLabel">Thanh Toán</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeBtn>
           <span aria-hidden="true" (click)="resetForm()">&times;</span>
         </button>
       </div>
@@ -270,39 +270,41 @@
             <label for="inputAddress2" class="form-label" >Địa chỉ</label>
             <div class="wrapper">
               <input type="text" class="form-control" value={{text+textSpecificAddress}} (keyup)= "resetText($event.target.value)" id="inputAddress211" placeholder="Địa chỉ" formControlName="customerAddress" [ngClass]="{'is-invalid':((formCreate.controls.customerAddress.dirty || formCreate.controls.customerAddress.touched) && formCreate.controls.customerAddress.errors?.required) ||((formCreate.controls.customerAddress.dirty || formCreate.controls.customerAddress.touched) && (formCreate.controls.customerAddress.errors?.minlength || formCreate.controls.customerAddress.errors?.maxlength))}">
-              <small *ngIf="(formCreate.controls.customerAddress.dirty || formCreate.controls.customerAddress.touched) && formCreate.controls.customerAddress.errors?.required" style="color: red">Địa chỉ cụ thể không được để trống</small>
+              <small *ngIf="(formCreate.controls.customerAddress.dirty || formCreate.controls.customerAddress.touched) && formCreate.controls.customerAddress.errors?.required" style="color: red">Địa chỉ không được để trống</small>
               <small *ngIf="(formCreate.controls.customerAddress.dirty || formCreate.controls.customerAddress.touched) && (formCreate.controls.customerAddress.errors?.minlength || formCreate.controls.customerAddress.errors?.maxlength)" style="color: red">Độ dài kí tự từ 6-50</small>
               <span class="close1 active"><i class="fa-solid fa-xmark"></i></span>
-              <div class="address-box active" style="border: 2px solid #ced4da;border-radius: 3px;margin-top: 15px">
-                <div class="row">
-                  <div class="col-4">
-                    <select  style="border: white"  class="form-control form-select-md p-2"  (change)= "addTextProvinceCity($event.target.value)">
+              <div class="address-box active" style="border: none;border-radius: 3px;margin-top: 10px">
+                <div class="row" style="margin-top: 5px">
+                  <div class="col-6">
+                    <select   class="form-control form-select-md p-2"  (change)= "addTextProvinceCity($event.target.value)">
                       <option style="width: 100%" value="0">Tỉnh</option>
                       <option style="width: 100%" *ngFor="let api of apiListProvinceCity" value={{api.code}}> {{api.name}} </option>
                     </select>
                   </div>
-                  <div class="col-4">
-                    <select  style="border: white" class="form-control form-select-md p-2" (change) = "addTextDistrict($event.target.value)" >
+                  <div class="col-6">
+                    <select  class="form-control form-select-md p-2" (change) = "addTextDistrict($event.target.value)" >
                       <option value="0">Quận</option>
                       <option   *ngFor="let api1 of provinceCity" value={{api1.code}}  >{{api1.name}}</option>
                     </select>
                   </div>
-                  <div class="col-4" >
-                    <select style="border: white" class="form-control form-select-md p-2" (change) = "addTextWards($event.target.value)" >
+                  <div class="col-3"></div>
+                  <div class="col-6" style="margin-top: 10px">
+                    <select  class="form-control form-select-md p-2" (change) = "addTextWards($event.target.value)" >
                       <option value="0">Xã</option>
                       <option   *ngFor="let api2 of wards" value={{api2.code}} > {{api2.name}} </option>
                     </select>
                   </div>
+                  <div class="col-3"></div>
                 </div>
                 <br>
               </div>
             </div>
           </div>
-          <br><br><br><br>
+          <br><br><br><br><br>
           <div class="modal-footer">
 <!--            [disabled]="formCreate.invalid"-->
             <button type="button" id="edit-customer-form1"  class="btn" style="background-color: #5A6268;color: white" data-dismiss="modal">Đóng</button>
-            <button  type="submit"  class="btn btn-primary" style="background-color: #2869ff" >Xác nhận</button>
+            <button  type="submit"  class="btn btn-primary" style="background-color: #2869ff" [disabled]="formCreate.invalid">Xác nhận</button>
           </div>
         </form>
       </div>
