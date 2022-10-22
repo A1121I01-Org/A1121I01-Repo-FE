@@ -10,11 +10,12 @@ import {AccountServiceService} from '../../../service/account/account-service.se
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-  // AnDVH thay đổi mật khẩu
 
+  // AnDVH thay đổi mật khẩu
   passwordForm: FormGroup;
   accountId: number;
   updatePassword: Password = {};
+  error = false;
 
   constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute) {
   }
@@ -42,6 +43,10 @@ export class ChangePasswordComponent implements OnInit {
         (error) => {
           if (error.status === 500) {
             this.router.navigateByUrl('/auth/access-denied');
+          }
+          if (error.status === 400) {
+            this.error = true;
+            window.alert("Vui lòng kiểm tra lại thông tin");
           }
         },
         () => {
