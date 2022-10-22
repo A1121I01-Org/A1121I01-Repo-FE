@@ -28,7 +28,6 @@ export class ChangePasswordComponent implements OnInit {
       }, {validator: this.comparePassword}),
     });
   }
-
   changePassword() {
     const formValue = this.passwordForm.value;
     this.updatePassword.oldPassword = formValue.oldPassword;
