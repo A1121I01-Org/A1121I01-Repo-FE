@@ -12,6 +12,8 @@ import {MaterialModule} from './material/material.module';
 import {HeaderComponent} from './header/header.component';
 import {ErrorComponent} from './error/error.component';
 import {HttpClientModule} from '@angular/common/http';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import {HttpClientModule} from '@angular/common/http';
     AccountModule,
     SecurityModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

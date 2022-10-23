@@ -64,8 +64,6 @@ export class ImportManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
-    this.getAllImportString();
-    this.getAllMaterialString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList(this.page);
@@ -101,18 +99,6 @@ export class ImportManagerComponent implements OnInit {
     this.importService.findAllCustomerImport().subscribe((data: ICustomer[]) => {
       this.customerList = data;
       this.customerId = data[0];
-    });
-  }
-
-  getAllImportString() {
-    this.importService.findAllImportString().subscribe(data => {
-      this.importListString = data;
-    });
-  }
-
-  getAllMaterialString() {
-    this.importService.findAllMaterialString().subscribe(data => {
-      this.materialListString = data;
     });
   }
 
@@ -300,37 +286,66 @@ export class ImportManagerComponent implements OnInit {
         }
       );
     } else {
+      // tslint:disable-next-line:max-line-length
       this.notification.notify('error', 'Số lượng vật tư hiện tại nhỏ hơn 0 sau khi cập nhật, vui lòng kiểm tra lại số lượng nhập kho');
       this.checkFormEdit = false;
     }
   }
 
-
   // ++check code import tồn tại++
   checkImportCode() {
-    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
-      this.importExistCreate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistCreate = '';
-    }
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importForm.get('importCode').valid) {
+          if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+            this.importExistCreate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistCreate = '';
+          }
+        } else {
+          this.importExistCreate = '';
+        }
+      });
   }
 
   checkImportCodeUpdate() {
-    // tslint:disable-next-line:max-line-length
-    if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
-      this.importExistUpdate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistUpdate = '';
-    }
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importUpdateForm.get('importCodeUpdate').valid) {
+          // tslint:disable-next-line:max-line-length
+          if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
+            this.importExistUpdate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistUpdate = '';
+          }
+        } else {
+          this.importExistUpdate = '';
+        }
+      });
   }
 
   checkMaterialCodeUpdate() {
-    // tslint:disable-next-line:max-line-length
-    if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
-      this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
-    } else {
-      this.materialExistUpdate = '';
-    }
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
+    }, () => {
+    }, () => {
+      if (this.importUpdateForm.get('importMaterialCodeUpdate').valid) {
+        // tslint:disable-next-line:max-line-length
+        if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
+          this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
+        } else {
+          this.materialExistUpdate = '';
+        }
+      } else {
+        this.materialExistUpdate = '';
+      }
+    });
   }
 
 // +++search+++++
