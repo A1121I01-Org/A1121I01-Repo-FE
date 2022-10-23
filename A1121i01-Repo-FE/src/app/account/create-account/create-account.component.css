@@ -14,10 +14,22 @@ body {
 .container {
   width: 100%;
   height: 100vh;
-  background: #f6f6f9;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.col__container{
+  padding: 20px;
+}
+/*::placeholder{*/
+/*  padding-left: 10px;*/
+/*  padding-right: 10px;*/
+/*}*/
+
+input, select{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 
 .icon {
@@ -194,4 +206,10 @@ button[disabled] {
   cursor: pointer;
   pointer-events: none;
 }
-
+@media (max-width: 1000px) {
+  .form {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
