@@ -7,12 +7,12 @@
         </div>
         <div class="input-group">
             <label>Tài khoản</label>
-            <input type="text" placeholder="Tài khoản" formControlName="username" name="username" id="username" maxlength="40">
+            <input type="text" placeholder="Tài khoản" formControlName="username" name="username" id="username" maxlength="40" autofocus>
         </div>
         <small class="fs-6 text__error"
            style="color: red"
            *ngIf="loginForm.get('username').errors?.required && (loginForm.get('username').dirty ||loginForm.get('username').touched)">
-            Tài khoản không được để trống
+            Tài khoản không được để trống.
         </small>
         <div class="input-group">
             <label>Mật khẩu</label>
@@ -20,7 +20,7 @@
         </div>
         <small class="fs-6 text__error" style="color: red"
            *ngIf="loginForm.get('password').errors?.required && (loginForm.get('password').dirty ||loginForm.get('password').touched)">
-            Mật khẩu không được để trống
+            Mật khẩu không được để trống.
 
         </small>
         <div class="checkbox__line">
