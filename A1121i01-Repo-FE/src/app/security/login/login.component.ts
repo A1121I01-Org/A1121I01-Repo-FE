@@ -15,8 +15,13 @@ import {HeaderComponent} from '../../header/header.component';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     username: string;
+    password: string;
     roles: string[] = [];
     errorMessage = '';
+
+    checkUserName = false;
+
+    checkPassWord = false;
     isLoggedIn: boolean;
     urlImg: string;
     role: string;
@@ -45,6 +50,7 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
+        console.log(this.loginForm.value.username);
         this.securityService.login(this.loginForm.value).subscribe(data => {
                 console.log(data);
                 if (this.loginForm.value.remember_me === true) {
@@ -73,13 +79,21 @@ export class LoginComponent implements OnInit {
                 // }
             }
             , error => {
+                if (this.loginForm.value.username === '') {
+                    // this.errorMessage1 = 'Tài khoản không được để trống';
+                    this.checkUserName = true;
+                }
+                if (this.loginForm.value.password === '') {
+                    // this.errorMessage1 = 'Tài khoản không được để trống';
+                    this.checkPassWord = true;
+                }
                 console.log(error);
                 this.isLoggedIn = false;
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
           () => {
          window.location.assign('');
-          this.router.navigateByUrl('');
+         this.router.navigateByUrl('');
           });
     }
     private loadRememberInfo() {
