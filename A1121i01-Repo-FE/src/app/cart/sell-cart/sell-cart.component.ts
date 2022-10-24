@@ -11,5 +11,4 @@ export class SellCartComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

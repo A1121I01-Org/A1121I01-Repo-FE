@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {ICustomer} from '../../model/customer/icustomer';
 import {Observable} from 'rxjs';
 
+const URL_API = `${environment.apiUrl}` + 'customer';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,14 +37,15 @@ export class CustomerServiceService {
   }
 
   searchCustomerByNameAndPhone(value1: string, value2: string): Observable<ICustomer[]> {
-    return this.http.get<ICustomer[]>(this.API_URL + `/customer-search?name=${value1}&phone=${value2}`);
+    return this.http.get<ICustomer[]>(this.API_URL + `/search-customer?name=${value1}&phone=${value2}`);
   }
 
   create(customer: ICustomer): Observable<ICustomer> {
-    return this.http.post<ICustomer>(this.API_URL + '/customer-create', customer);
+    return this.http.post<ICustomer>(URL_API + '/customer-create', customer);
   }
 
   update(customer: ICustomer): Observable<ICustomer> {
-    return this.http.put<ICustomer>(this.API_URL + '/update/', customer);
+    return this.http.patch<ICustomer>(URL_API + '/update', customer);
   }
+
 }
