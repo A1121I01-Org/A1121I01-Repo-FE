@@ -88,6 +88,7 @@ export class MaterialStatisticComponent implements OnInit {
     this.statisticService.cryptoData().then((res) => {
         this.result = res;
         this.chartMaterial1 = [];
+        console.log(this.result);
 
         for (let i = 0; i < this.result.length; i++) {
           this.tam2 = this.result[i].split(',');

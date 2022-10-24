@@ -18,7 +18,7 @@ export class StatisticServiceService {
 
   getPdf(): Observable<Blob> {
     // @ts-ignore
-    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'} );
+    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
   }
 
   searchStatisticMaterial(fromDate: string, toDate: string): Observable<string[]> {
@@ -35,7 +35,6 @@ export class StatisticServiceService {
       return data;
     });
   }
-}
 
   // getBan(): Observable<number> {
   //   return this.http.get<number>(`${this.API_URL}/banhang`);
@@ -81,4 +80,3 @@ export class StatisticServiceService {
     return this.httpClient.get<string[]>(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
   }
 }
-
