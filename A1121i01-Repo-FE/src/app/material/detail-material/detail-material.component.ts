@@ -45,7 +45,13 @@ export class DetailMaterialComponent implements OnInit {
         this.desArray2 = this.desArray1.slice(3, 4);
         console.log(this.desArray2);
 
-      });
+      }
+        ,
+        (error) => {
+          if (error.status === 404) {
+            this.router.navigateByUrl('/error404');
+          }
+          });
     });
 
     this.getTopMaterial();
