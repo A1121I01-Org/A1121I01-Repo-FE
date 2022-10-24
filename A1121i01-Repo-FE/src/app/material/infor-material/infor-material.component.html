@@ -13,7 +13,7 @@
       <input type="text"  #input  name="search" [(ngModel)]="keywordSearch" (keyup)=(search(input.value)) id="searchName" class="search-bar" placeholder="Tìm kiếm...">
     </div><br><br>
     <div class="navbar-right">
-      <div></div><a routerLink="/cart/detail" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">{{cartList.length}}</span></a></div>
+      <div></div><a routerLink="/cart/detail" id="cart"><i class="fa fa-shopping-cart"></i> Cart <span class="badge">{{quantityCart}}</span></a></div>
   </div> <!--end navbar-right --><br>
 </nav>
 
@@ -23,7 +23,7 @@
   <div class="card" *ngFor="let material of materialList">
     <div class="card__img"></div>
     <div class="card__body">
-      <h3 class="card__title"><img class="card__image" src="{{material.materialImage}}" alt="wave" /></h3>
+      <h3 class="card__title"><img class="card__image" src="{{material.materialImage}}" alt="wave" style="width: 250px; height: 200px;"/></h3>
       <p class="card__desc">{{material?.materialName}}</p>
       <div class="card__price">
         {{material?.materialPrice | currency : 'VND' : 'symbol'}}

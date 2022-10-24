@@ -5,13 +5,13 @@
     </div>
     <div class="row d-flex">
       <!-- Column 1 !-->
-      <div class="col-6">
+      <div class="col-6 col__container">
         <div formGroupName="account">
           <!-- TÊN TÀI KHOẢN !-->
           <div class="input-group">
             <label for="username">Tên tài khoản<span class="text-danger"> (*)</span></label>
             <input type="text" class="form-control" id="username" minlength="5" maxlength="20" formControlName="username"
-                   placeholder="Nhập tên tài khoản" (change)="checkUsername($event.target.value)">
+                   placeholder="Nhập tên tài khoản" [(ngModel)]="existUsername" (ngModelChange)="checkUsername()" >
           </div>
           <div
             *ngIf="createForm.get('account').get('username')?.invalid && (createForm.get('account').get('username')?.touched||createForm.get('account').get('username')?.dirty)">
@@ -105,12 +105,12 @@
       </div>
 
       <!-- Column 2 !-->
-      <div class="col-6">
+      <div class="col-6 col__container">
         <div formGroupName="employee">
           <!-- MÃ NHÂN VIÊN !-->
           <div class="input-group">
             <label for="code">Mã nhân viên<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="code" maxlength="20" placeholder="Nhập mã nhân viên" (change)="checkCode($event.target.value)" formControlName="employeeCode">
+            <input type="text" class="form-control" id="code" maxlength="20" placeholder="Nhập mã nhân viên" [(ngModel)]="existCode" (ngModelChange)="checkCode()" formControlName="employeeCode">
           </div>
           <div *ngIf="createForm.get('employee').get('employeeCode')?.invalid && (createForm.get('employee').get('employeeCode')?.touched||createForm.get('employee').get('employeeCode')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeeCode').errors.required">
@@ -170,7 +170,7 @@
           <!-- NGÀY SINH !-->
           <div class="input-group">
             <label for="birthday">Ngày sinh<span class="text-danger"> (*)</span></label>
-            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth">
+            <input type="date" class="form-control" id="birthday" formControlName="employeeDateOfBirth" [(ngModel)]="date">
           </div>
           <div *ngIf="createForm.get('employee').get('employeeDateOfBirth')?.invalid && (createForm.get('employee').get('employeeDateOfBirth')?.touched||createForm.get('employee').get('employeeDateOfBirth')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeeDateOfBirth').errors.required">
@@ -184,6 +184,9 @@
                 Tuổi phải lớn hơn 18.</small>
             </div>
           </div>
+<!--          <div>-->
+<!--            <small class="form-text mess">{{checkBirth}}</small>-->
+<!--          </div>-->
 
           <!-- GIỚI TÍNH !-->
           <div class="input-group">
@@ -231,7 +234,7 @@
           <!-- SỐ ĐIỆN THOẠI !-->
           <div class="input-group">
             <label for="phone">Điện thoại<span class="text-danger"> (*)</span></label>
-            <input type="text" class="form-control" id="phone" maxlength="20" (change)="checkPhone($event.target.value)" placeholder="Nhập số điện thoại" formControlName="employeePhone">
+            <input type="text" class="form-control" id="phone" maxlength="20" [(ngModel)]="existPhone" (ngModelChange)="checkPhone()" placeholder="Nhập số điện thoại" formControlName="employeePhone">
           </div>
           <div *ngIf="createForm.get('employee').get('employeePhone')?.invalid && (createForm.get('employee').get('employeePhone')?.touched||createForm.get('employee').get('employeePhone')?.dirty)">
             <div [hidden]="!createForm.get('employee').get('employeePhone').errors.required">
