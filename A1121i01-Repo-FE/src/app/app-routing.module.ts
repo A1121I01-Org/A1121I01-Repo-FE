@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {HomeComponent} from './home/home.component';
+import {ErrorComponent} from "./error/error.component";
 import {ActivitiesComponent} from "./activities/activities.component";
 
 const routes: Routes = [{
@@ -37,6 +38,9 @@ const routes: Routes = [{
   },
   {
     path: '', component: HomeComponent,
+  },
+  {
+    path: 'error404', component: ErrorComponent
   },
   {
     path: 'activities', component: ActivitiesComponent,
