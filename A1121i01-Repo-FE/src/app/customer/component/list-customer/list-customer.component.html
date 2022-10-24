@@ -23,7 +23,9 @@
           <i class="fas fa-search"></i>
         </button>
       </div>
+      <p *ngIf="message != '' " style="text-align: center; color: crimson; font-size: 17px">{{message}}</p>
     </form>
+
   </div>
   <div class="table-sticky table-wrapper-scroll-y my-custom-scrollbar">
     <table >

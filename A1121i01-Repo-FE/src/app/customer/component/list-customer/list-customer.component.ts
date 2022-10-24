@@ -20,7 +20,7 @@ export class ListCustomerComponent implements OnInit {
   id: any;
   searchNameAndPhoneForm: FormGroup;
   hidden = 1;
-  message: any;
+  message = '';
 
   constructor(private customerService: CustomerServiceService,
               private route: Router) { }
@@ -95,6 +95,7 @@ export class ListCustomerComponent implements OnInit {
       },
       () => {},
       () => {
+        alert('Xóa khách hàng ' + this.name + ' thành công');
         this.getAllCustomerWithPagination();
       }
     );
@@ -115,11 +116,18 @@ export class ListCustomerComponent implements OnInit {
         this.searchNameAndPhoneForm.get('phone').value ).subscribe(
         (data) => {
           this.listCustomer = data;
+          this.message = '';
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / this.listCustomerNotPagination.length)  )  );
           console.log(this.totalPagination.length);
         },
         () => {},
         () => {
+          if (this.listCustomer.length == 0) {
+            this.page = 0;
+            this.message = 'Khách hàng đã xóa hoặc không tồn tại';
+            this.getAllCustomer();
+            this.getAllCustomerWithPagination();
+          }
         });
     }
   }
