@@ -5,6 +5,7 @@ import {TokenStorageService} from '../../service/security/token-storage.service'
 import {SecurityServiceService} from '../../service/security/security-service.service';
 import {Router} from '@angular/router';
 import {ShareService} from '../../service/security/share.service';
+import {HeaderComponent} from '../../header/header.component';
 
 @Component({
     selector: 'app-login',
@@ -14,8 +15,13 @@ import {ShareService} from '../../service/security/share.service';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     username: string;
+    password: string;
     roles: string[] = [];
     errorMessage = '';
+
+    checkUserName = false;
+
+    checkPassWord = false;
     isLoggedIn: boolean;
     urlImg: string;
     role: string;
@@ -24,7 +30,8 @@ export class LoginComponent implements OnInit {
                 private tokenStorageService: TokenStorageService,
                 private securityService: SecurityServiceService,
                 private router: Router,
-                private shareService: ShareService) {
+                private shareService: ShareService,
+                private headerComponent: HeaderComponent) {
     }
 
     ngOnInit(): void {
@@ -35,14 +42,15 @@ export class LoginComponent implements OnInit {
         });
         if (this.tokenStorageService.getUser()) {
             this.securityService.isLoggedIn = true;
-            this.role = this.tokenStorageService.getUser().roles[0];
-            this.username = this.tokenStorageService.getUser().username;
+            this.role = this.tokenStorageService.getUser().roles[0].roleName;
+            this.username = this.tokenStorageService.getUser().account.username;
             this.router.navigate(['']);
 
         }
     }
 
     login() {
+        console.log(this.loginForm.value.username);
         this.securityService.login(this.loginForm.value).subscribe(data => {
                 console.log(data);
                 if (this.loginForm.value.remember_me === true) {
@@ -53,11 +61,12 @@ export class LoginComponent implements OnInit {
                     this.tokenStorageService.saveTokenSession(data.jwtToken);
                     // this.username = this.loginFrom.controls.username.value;
                 }
+
                 this.isLoggedIn = true;
-                this.username = this.tokenStorageService.getUser().username;
-                this.role = this.tokenStorageService.getUser().roles;
-                console.log('username: ' + this.tokenStorageService.getUser().username);
-                console.log('role: ' + this.tokenStorageService.getUser().roles);
+                this.username = this.tokenStorageService.getUser().account.username;
+                this.role = this.tokenStorageService.getUser().account.roles.roleName;
+                console.log('username: ' + this.tokenStorageService.getUser().account.username);
+                console.log('role: ' + this.tokenStorageService.getUser().account.roles[0].roleName);
                 console.log('token: ' + this.tokenStorageService.getUser().jwtToken);
 
                 // this.loginForm.reset();
@@ -71,19 +80,28 @@ export class LoginComponent implements OnInit {
                 // }
             }
             , error => {
+                if (this.loginForm.value.username === '') {
+                    // this.errorMessage1 = 'Tài khoản không được để trống';
+                    this.checkUserName = true;
+                }
+                if (this.loginForm.value.password === '') {
+                    // this.errorMessage1 = 'Tài khoản không được để trống';
+                    this.checkPassWord = true;
+                }
                 console.log(error);
                 this.isLoggedIn = false;
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
-          () => {
-          this.router.navigateByUrl('');
-          });
+            () => {
+                window.location.assign('');
+                this.router.navigateByUrl('');
+            });
     }
     private loadRememberInfo() {
         if (this.tokenStorageService.getUser()) {
-            this.role = this.tokenStorageService.getUser().roles[0];
+            this.role = this.tokenStorageService.getUser().account.roles[0];
             console.log(this.role);
-            this.username = this.tokenStorageService.getUser().username;
+            this.username = this.tokenStorageService.getUser().account.username;
             console.log(this.username);
             this.urlImg = this.tokenStorageService.getUser().urlImg;
         } else {

@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
 import {IMaterial} from '../../model/material/imaterial';
-import {ICustomer} from '../../model/customer/icustomer';
-
-
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +13,7 @@ export class StatisticServiceService {
   }
 
   getAll(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/material');
+    return this.httpClient.get<string[]>(`${this.API}/list/material1`);
   }
 
   getPdf(): Observable<Blob> {
@@ -24,10 +21,20 @@ export class StatisticServiceService {
     return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
   }
 
+  searchStatisticMaterial(fromDate: string, toDate: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate);
+  }
+
   // searchStatisticMaterial(): Observable<string[]> {
   //   return this.httpClient.get
   // }
 
+  // test chart material
+  cryptoData() {
+    return this.httpClient.get(`${this.API}/chart`).toPromise().then((data) => {
+      return data;
+    });
+  }
 
   // getBan(): Observable<number> {
   //   return this.http.get<number>(`${this.API_URL}/banhang`);
@@ -59,12 +66,17 @@ export class StatisticServiceService {
   }
 
 
-  getAllCustomer(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/customer');
+  getAllCustomer(page: number): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.API + '/list/customer?page=' + page);
   }
 
-  // getFindForPotentialCustomers(cartDateCreate: any): Observable<any> {
-  //   return this.http.get<any>(this.url + '/search/customer?cartDateCreate=' + cartDateCreate);
-  // }
-}
+  getPDF(): Observable<Blob> {
+    // @ts-ignore
+    return this.httpClient.get<Blob>(`${this.API}/pdf-huyen`, {responseType: 'blob'});
+  }
 
+  searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
+    console.log(fromMonth);
+    return this.httpClient.get<string[]>(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
+  }
+}

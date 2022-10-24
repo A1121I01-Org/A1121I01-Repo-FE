@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IEmployee} from '../../model/employee/iemployee';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-detail-employee',
@@ -16,7 +16,8 @@ export class DetailEmployeeComponent implements OnInit {
   idEmployee: number;
 
   constructor(private employeeService: EmployeeServiceService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -30,7 +31,11 @@ export class DetailEmployeeComponent implements OnInit {
     this.employeeService.findEmployeeById(idEmployee).subscribe(
       (data) => {
         this.employeeDetail = data;
-      }
-    );
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.router.navigateByUrl('/error404');
+        }
+      });
   }
 }
