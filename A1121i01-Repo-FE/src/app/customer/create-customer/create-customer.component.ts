@@ -7,6 +7,7 @@ import {ICustomerType} from '../../model/customer/icustomer-type';
 import {formatDate} from '@angular/common';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-create-customer',
@@ -19,6 +20,7 @@ export class CreateCustomerComponent implements OnInit {
               private customerTypeService: CustomerTypeService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
+              private notification: NotifierService,
               @Inject(AngularFireStorage) private storage: AngularFireStorage) {
   }
 
@@ -143,6 +145,7 @@ export class CreateCustomerComponent implements OnInit {
                 },
                 () => {
                   alert('thêm mới khách hàng');
+                  this.notification.notify('success', 'Thêm mới khách hàng thành công');
                   this.upLoadImage = null;
                 },
               );
@@ -195,6 +198,7 @@ export class CreateCustomerComponent implements OnInit {
                   }
                 },
                 () => {
+                  this.notification.notify('success', 'Cập Nhật khách hàng thành công');
                   alert('thêm mới khách hàng');
                   this.upLoadImage = null;
                 },
