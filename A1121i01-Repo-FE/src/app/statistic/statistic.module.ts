@@ -6,6 +6,7 @@ import {MaterialStatisticComponent} from './material-statistic/material-statisti
 import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
 import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
 import {HttpClientModule} from '@angular/common/http';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -13,11 +14,12 @@ import {HttpClientModule} from '@angular/common/http';
   exports: [
     MaterialStatisticComponent
   ],
-  imports: [
-    CommonModule,
-    StatisticRoutingModule,
-    HttpClientModule
-  ]
+    imports: [
+        CommonModule,
+        StatisticRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule
+    ]
 })
 export class StatisticModule {
 }

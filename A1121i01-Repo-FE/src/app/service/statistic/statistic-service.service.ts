@@ -7,18 +7,23 @@ import {IMaterial} from '../../model/material/imaterial';
   providedIn: 'root'
 })
 export class StatisticServiceService {
-  readonly API: string = 'http://localhost:8080/api/statistic/list/material';
-  readonly API1: string = 'http://localhost:8080/api/statistic';
+  readonly API: string = 'http://localhost:8080/api/statistic';
   constructor(private httpClient: HttpClient) { }
   getAll(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API);
+    return this.httpClient.get<string[]>(`${this.API}/list/material1`);
   }
   getPdf(): Observable<Blob> {
     // @ts-ignore
-    return this.httpClient.get<Blob>(`${this.API1}/pdf`, {responseType: 'blob'} );
+    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'} );
   }
-  // searchStatisticMaterial(): Observable<string[]> {
-  //   return this.httpClient.get
-  // }
+  searchStatisticMaterial(fromDate: string, toDate: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate);
+  }
 
+  // test chart material
+  cryptoData() {
+    return this.httpClient.get(`${this.API}/chart`).toPromise().then((data) => {
+      return data;
+    });
+  }
 }
