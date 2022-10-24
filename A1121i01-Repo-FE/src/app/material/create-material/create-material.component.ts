@@ -108,6 +108,7 @@ createMaterial() {
               this.upLoadImage = null;
               this.url = '';
               this.materialForm.reset();
+              this.router.navigateByUrl("/material/list");
             },
           )
         })
@@ -129,6 +130,7 @@ createMaterial() {
         // alert("Thêm mới thành công!")
         this.notification.notify('success', 'Thêm mới vật tư thành công');
         this.materialForm.reset();
+        this.router.navigateByUrl("/material/list");
       }
     );
   }
