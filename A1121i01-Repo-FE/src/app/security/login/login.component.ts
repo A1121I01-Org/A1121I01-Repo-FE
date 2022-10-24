@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         });
         if (this.tokenStorageService.getUser()) {
             this.securityService.isLoggedIn = true;
-            this.role = this.tokenStorageService.getUser().roles[0];
+            this.role = this.tokenStorageService.getUser().roles[0].roleName;
             this.username = this.tokenStorageService.getUser().username;
             this.router.navigate(['']);
 
