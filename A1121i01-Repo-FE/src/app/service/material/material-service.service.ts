@@ -47,7 +47,6 @@ export class MaterialServiceService {
   }
   findById(id: string): Observable<IMaterial> {
     return this.http.get<IMaterial>(this.API_URL + '/getById/' + id);
-    console.log(id);
   }
 
   create(material: IMaterial): Observable<void> {
