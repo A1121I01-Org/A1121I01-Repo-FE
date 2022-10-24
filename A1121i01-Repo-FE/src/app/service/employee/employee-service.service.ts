@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {IEmployee} from '../../model/employee/iemployee';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,14 @@ export class EmployeeServiceService {
     return this.http.get<string[]>(this.API_URL + '/listHasAccount');
   }
 
+  // AnDVH findEmployee by ID
   findEmployeeById(id: number): Observable<IEmployee> {
     return this.http.get<IEmployee>(this.API_URL + '/detail/' + id);
+  }
+
+  // AnDVH find employee by AccountId
+  public findEmployeeByAccountId(accountId: number): Observable<IEmployee> {
+    return this.http.get<IEmployee>(`${this.API_URL}/getEmployeeByAccount/${accountId}`);
   }
 
 // AnDVH update employee
