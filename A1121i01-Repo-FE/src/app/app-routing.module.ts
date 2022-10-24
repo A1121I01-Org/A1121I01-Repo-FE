@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {HomeComponent} from './home/home.component';
+import {ErrorComponent} from "./error/error.component";
 
 const routes: Routes = [{
   path: 'customer',
@@ -36,6 +37,9 @@ const routes: Routes = [{
   },
   {
     path: '', component: HomeComponent,
+  },
+  {
+    path: 'error404', component: ErrorComponent
   }
 ];
 
