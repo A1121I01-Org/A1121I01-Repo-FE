@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {IMaterial} from '../../model/material/imaterial';
 import {HttpClient} from '@angular/common/http';
-
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +13,29 @@ export class StatisticServiceService {
   }
 
   getAll(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/material');
+    return this.httpClient.get<string[]>(`${this.API}/list/material1`);
   }
 
   getPdf(): Observable<Blob> {
     // @ts-ignore
-    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
+    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'} );
+  }
+
+  searchStatisticMaterial(fromDate: string, toDate: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate);
   }
 
   // searchStatisticMaterial(): Observable<string[]> {
   //   return this.httpClient.get
   // }
 
+  // test chart material
+  cryptoData() {
+    return this.httpClient.get(`${this.API}/chart`).toPromise().then((data) => {
+      return data;
+    });
+  }
+}
 
   // getBan(): Observable<number> {
   //   return this.http.get<number>(`${this.API_URL}/banhang`);
