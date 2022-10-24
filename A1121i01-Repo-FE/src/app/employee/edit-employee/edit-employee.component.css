@@ -6,7 +6,7 @@
 /*}*/
 
 .container {
-  margin-top: 100px;
+  margin-top: 150px !important;
   width: 100%;
   background: #f6f6f9;
   display: flex;
