@@ -6,6 +6,7 @@ import {ProvinceCity} from '../../model/cart/provinceCity';
 import {District} from '../../model/cart/district';
 import {Wards} from '../../model/cart/wards';
 import {ICustomer} from '../../model/customer/icustomer';
+import {IMaterial} from '../../model/material/imaterial';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,10 @@ export class CartServiceService {
   getPdf(id: number[]): Observable<Blob> {
     // @ts-ignore
     return this.httpClient.post<Blob>(`${this.URL_API_CART_MATERIAL}/pdf`, id, {responseType: 'blob'} );
+  }
+
+  addMaterialCart(iMaterial: IMaterial): Observable<void> {
+    // @ts-ignore
+    return this.httpClient.post<void>(`${this.URL_API_CART_MATERIAL}/addMaterialCart`, iMaterial);
   }
 }

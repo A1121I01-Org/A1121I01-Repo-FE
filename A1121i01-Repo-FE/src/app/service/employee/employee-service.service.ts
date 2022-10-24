@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {IEmployee} from '../../model/employee/iemployee';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
 import {IPositionEmployee} from '../../model/employee/iposition-employee';
 
 @Injectable({

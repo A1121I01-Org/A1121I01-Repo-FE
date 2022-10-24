@@ -110,8 +110,11 @@
   margin-top: 20px;
 }
 
-.line {
-  padding-left: 50px;
+.text__error {
+  padding-left: 120px;
+}
+.checkbox__line{
+    padding-left: 50px;
 }
 
 .my-checkbox {
@@ -151,4 +154,9 @@
   background-color: #c7defa;
   box-shadow: 0px 8px 15px rgba(81, 125, 214, 0.4);
   color: rgb(23, 20, 58);
+}
+
+.input__text{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }

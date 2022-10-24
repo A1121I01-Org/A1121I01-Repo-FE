@@ -1,8 +1,8 @@
-<div class="container" style="height: 100px">
+<div class="container" style="margin-top: 100px">
   <div style="background-color: white;">
     <form [formGroup]="importForm3" (ngSubmit)="createImport3()" class="p-3">
       <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
-      <div class="row mt-3 ml-3">
+      <div class="row mt-3">
         <div class="col-md-2 input-group" style="align-content: center">
           Loại hàng hoá
           <span style="color: red">(*)</span>
@@ -45,7 +45,7 @@
 
       <br>
 
-      <div class="row ml-3">
+      <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-3"></div>
 
@@ -72,7 +72,7 @@
       </div>
 
 
-      <div class="row mt-3 ml-3">
+      <div class="row mt-3">
         <div class="col-md-2 input-group" style="align-content: center">
           Mã hoá đơn
           <span style="color: red">(*)</span>
@@ -89,7 +89,7 @@
         <div class="col-md-3 input-group"></div>
       </div>
 
-      <div class="row ml-3">
+      <div class="row">
         <div class="col-md-2 input-group" style="align-content: center">
         </div>
         <div class="col-md-3 input-group">
@@ -107,7 +107,7 @@
         </div>
       </div>
 
-      <div class="row mt-3 ml-3">
+      <div class="row mt-3">
         <div class="col-md-2 input-group" style="align-content: center">
           Ngày lập
           <span style="color: red">(*)</span>
@@ -154,6 +154,7 @@
               <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-4 input-group" style="align-content: center">
               Tên:
@@ -167,6 +168,7 @@
               </small>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-4 input-group" style="align-content: center">
               Giá:
@@ -181,6 +183,7 @@
               <span>Đơn vị "VND"</span>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-4 input-group" style="align-content: center">
               Hạn sử dụng:
@@ -194,6 +197,7 @@
               </small>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-4 input-group" style="align-content: center">
               Đơn vị:
@@ -207,6 +211,7 @@
               </small>
             </div>
           </div>
+
           <div class="row">
             <div class="col-md-4 input-group" style="align-content: center">
               Loại Vật tư:
@@ -224,6 +229,26 @@
               </small>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Hình ảnh sản phẩm
+            </div>
+            <div class="col-md-8 input-group">
+              <img [src]="urlMaterial" class="img-thumbnail">
+              <br>
+              <input #avatarMaterial type="file" class="form-control-file" (change)="showPreviewMaterial($event)">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Mô tả sản phẩm:
+            </div>
+            <div class="col-md-8 input-group">
+              <input type="text" formControlName="materialDescribe">
+            </div>
+          </div>
         </div>
 
         <div class="col-md-6" style="border-style: double">
@@ -235,7 +260,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerCode" [(ngModel)]="customerCodeExistCreateSearch" (ngModelChange)="checkCustomerCode()"
+              <input type="text" formControlName="customerCode" [(ngModel)]="customerCodeExistCreateSearch"
+                     (ngModelChange)="checkCustomerCode()"
                      placeholder="vd: MKH-123">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
@@ -276,7 +302,8 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerPhone" [(ngModel)]="phoneCustomerExistCreateSearch" (ngModelChange)="checkPhoneCustomerCode()">
+              <input type="text" formControlName="customerPhone" [(ngModel)]="phoneCustomerExistCreateSearch"
+                     (ngModelChange)="checkPhoneCustomerCode()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerPhone').invalid && (importForm3.get('customerPhone').touched||importForm3.get('customerPhone').dirty)">
                 Sdt nhà cung cấp không được để trống và phải đúng định dạng 03x 076x 08x 09x..., vd: 0905113113
@@ -290,12 +317,24 @@
               <span style="color: red">(*)</span>
             </div>
             <div class="col-md-8 input-group">
-              <input type="text" formControlName="customerEmail" [(ngModel)]="emailCustomerExistCreateSearch" (ngModelChange)="checkEmailCustomer()">
+              <input type="text" formControlName="customerEmail" [(ngModel)]="emailCustomerExistCreateSearch"
+                     (ngModelChange)="checkEmailCustomer()">
               <small class="text-danger mb-0 pb-0"
                      *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
                 Email nhà cung cấp không được để trống và phải đúng định dạng email. vd: thang123@gmail.com
               </small>
               <small class="text-danger mb-0 pb-0">{{emailCustomerExistCreate}}</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4 input-group" style="align-content: center">
+              Hình ảnh nhà cung cấp
+            </div>
+            <div class="col-md-8 input-group">
+              <img [src]="urlCustomer" class="img-thumbnail">
+              <br>
+              <input #avatarCustomer type="file" class="form-control-file" (change)="showPreviewCustomer($event)">
             </div>
           </div>
         </div>
@@ -307,23 +346,23 @@
       <br>
       <form [formGroup]="importSearchForm" (ngSubmit)="searchImport()" class="mb-3">
         <div class="row">
-          <div class="input-group col-md-2 pr-0">
+          <div class="input-group col-md-2">
             <span class="input-group-text ml-1">code</span>
             <input type="text" class="form-control" formControlName="codeSearch">
           </div>
 
           <div class="input-group col-md-4">
-            <span class="input-group-text">ngày bắt đầu</span>
+            <span class="input-group-text ml-1">bắt đầu</span>
             <input type="date" class="form-control" formControlName="startDateSearch">
           </div>
 
           <div class="input-group col-md-4">
-            <span class="input-group-text">ngày kết thúc</span>
+            <span class="input-group-text ml-1">kết thúc</span>
             <input type="date" class="form-control" formControlName="endDateSearch">
           </div>
 
-          <div class="col-md-2">
-            <button class="btn__delete mt-2" type="submit">Search</button>
+          <div class="input-group col-md-2">
+            <button class="btn__delete mt-2 ml-1" type="submit">Search</button>
           </div>
         </div>
       </form>
@@ -350,7 +389,8 @@
               <td>
                 <div *ngIf="checkFormEdit == true && importIdTemp == importTable.importId">
                   <input style="width: 80%" type="text" value=" {{importTable.importCode}}"
-                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch" (ngModelChange)="checkImportCodeUpdate()">
+                         formControlName="importCodeUpdate" [(ngModel)]="importExistUpdateSearch"
+                         (ngModelChange)="checkImportCodeUpdate()">
                   <small class="text-danger mb-0 pb-0"
                          *ngIf="importUpdateForm.get('importCodeUpdate').invalid && (importUpdateForm.get('importCodeUpdate').touched||importUpdateForm.get('importCodeUpdate').dirty)">
                     không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
