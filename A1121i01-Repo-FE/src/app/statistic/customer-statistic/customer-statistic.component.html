@@ -91,25 +91,44 @@
     </table>
   </div>
 <!--</selector>-->
-<!--<footer>-->
+<footer>
 <!--  <div *ngIf="totalItems > 5">-->
-<!--    <pagination-controls (pageChange)="getAllCustomer($event)"></pagination-controls>-->
-<!--  </div>-->
-<!--  <div class = "button">-->
-<!--    <button class="btn__primary" (click)="exportPDF()">In</button>-->
-<!--    <button class="bt btn__cancel">Trở về</button>-->
-<!--  </div>-->
-  <br><br><br>
-  <div class="row button__container text-center">
-    <div class="col-md-3">
-      <button style="margin-left: 550px" class="bt btn__delete" (click)="exportPDF()">In</button>
-    </div>
-    <div class="col-md-3">
-      <button style="margin-left: 450px" class="bt btn__cancel">Trở về</button>
-    </div>
-    <div class="col-md-2"></div>
+  <!--    <pagination-controls (pageChange)="getAllCustomer($event)"></pagination-controls>-->
+  <!--  </div>-->
+  <div class = "button">
+    <button type="button" (click)="chartCustomer()" class="btn__primary" data-toggle="modal" data-target="#modalChart">Xem</button>
+    <button class="bt btn__delete" (click)="exportPDF()">In</button>
+    <button style = "margin-left: 160px" class="bt btn__cancel">Trở về</button>
   </div>
-<!--</footer>-->
+<!--  <br><br><br>-->
+<!--  <div class="row button__container text-center">-->
+<!--    <div class="col-md-3">-->
+<!--      <button style="margin-left: 550px" class="bt btn__delete" (click)="exportPDF()">In</button>-->
+<!--    </div>-->
+<!--    <div class="col-md-3">-->
+<!--      <button style="margin-left: 450px" class="bt btn__cancel">Trở về</button>-->
+<!--    </div>-->
+<!--    <div class="col-md-2"></div>-->
+<!--  </div>-->
+</footer>
+
+<!-- Modal -->
+<div class="modal fade" id="modalChart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 150%; transform: translate(-15%);">
+      <div class="modal-header">
+        <h2 class="modal-title text-primary" id="exampleModalLabel">Biểu đồ thống kê vật tư</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <canvas id="canvas">{{chart}}</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

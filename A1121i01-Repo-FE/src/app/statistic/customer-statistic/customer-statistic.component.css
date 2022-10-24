@@ -121,7 +121,8 @@ footer .page {
 
 footer .button {
   float: left;
-  margin-left: 1200px;
+  margin-top: 20px;
+  margin-left: 500px;
 }
 
 .btn__primary {
