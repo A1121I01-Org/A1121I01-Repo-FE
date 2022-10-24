@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ICustomer} from '../../../model/customer/icustomer';
 import {IEmployee} from '../../../model/employee/iemployee';
@@ -10,6 +10,9 @@ import {ImportServiceService} from '../../../service/import/import-service.servi
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
 import {Router} from '@angular/router';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {finalize} from 'rxjs/operators';
+import {ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-import-material-form',
@@ -37,8 +40,6 @@ export class ImportMaterialFormComponent implements OnInit {
   checkFormEdit = false;
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
-  materialList: IMaterial[] = [];
-  customerId: ICustomer = {};
   materialTypeList: IMaterialType[] = [];
   importList: IImport[] = [];
   importDelete: IImport = {};
@@ -62,15 +63,19 @@ export class ImportMaterialFormComponent implements OnInit {
   size: number;
   totalItems: number;
 
+  upLoadImageMaterial = null;
+  urlMaterial: any;
+  @ViewChild('avatarMaterial')
+  myInputVariableMaterial: ElementRef;
+
   constructor(private importService: ImportServiceService,
               private notification: NotifierService,
-              private router: Router) {
+              private router: Router,
+              private storage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
-    this.getAllMaterialString();
-    this.getAllImportString();
     this.getCustomerList();
     this.getEmployeeList();
     this.getImportList(this.page);
@@ -92,6 +97,8 @@ export class ImportMaterialFormComponent implements OnInit {
       materialExpiridate: new FormControl('', [Validators.required]),
       materialUnit: new FormControl('', [Validators.required]),
       materialTypeId: new FormControl('', [Validators.required]),
+      materialImage: new FormControl(''),
+      materialDescribe: new FormControl(''),
       materialCustomerId: new FormControl('', [Validators.required])
     });
 
@@ -110,19 +117,6 @@ export class ImportMaterialFormComponent implements OnInit {
   getCustomerList() {
     this.importService.findAllCustomerImport().subscribe((data: ICustomer[]) => {
       this.customerList = data;
-      this.customerId = data[0];
-    });
-  }
-
-  getAllImportString() {
-    this.importService.findAllImportString().subscribe(data => {
-      this.importListString = data;
-    });
-  }
-
-  getAllMaterialString() {
-    this.importService.findAllMaterialString().subscribe(data => {
-      this.materialListString = data;
     });
   }
 
@@ -152,17 +146,6 @@ export class ImportMaterialFormComponent implements OnInit {
     });
   }
 
-  getMaterialImportListByCustomerId() {
-    this.importService.findAllMaterialImport(this.customerId.customerId).subscribe((data: IMaterial[]) => {
-      this.materialList = data;
-    });
-  }
-
-  showMaterialList(customerId: any) {
-    this.customerId = customerId;
-    this.getMaterialImportListByCustomerId();
-  }
-
   // +++++++++++++xoá++++++++++++++
   showInfoImportDelete(importTable: IImport) {
     this.importDelete = importTable;
@@ -185,41 +168,113 @@ export class ImportMaterialFormComponent implements OnInit {
 
 // +++++++++thêm mới__________
   createImport2() {
-    this.materialCreate = {
-      materialCode: this.importForm2.get('materialCode').value,
-      materialName: this.importForm2.get('materialName').value,
-      materialQuantity: 0,
-      materialPrice: this.importForm2.get('materialPrice').value,
-      materialExpiridate: this.importForm2.get('materialExpiridate').value,
-      materialUnit: this.importForm2.get('materialUnit').value,
-      materialTypeId: this.importForm2.get('materialTypeId').value,
-      materialCustomerId: this.importForm2.get('materialCustomerId').value
-    };
+    if (this.upLoadImageMaterial !== null) {
+      const avatarNameMaterial = this.getCurrentDateTime() + this.upLoadImageMaterial.name;
+      const fileRefMaterial = this.storage.ref(avatarNameMaterial);
+      this.storage.upload(avatarNameMaterial, this.upLoadImageMaterial).snapshotChanges().pipe(
+        finalize(() => {
+          fileRefMaterial.getDownloadURL().subscribe(url => {
+            // cập nhật lại đường dẫn url
+            this.importForm2.patchValue({materialImage: url});
 
-    this.importCreate = {
-      importCode: this.importForm2.get('importCode').value,
-      importStartDate: this.importForm2.get('importStartDate').value,
-      importQuantity: this.importForm2.get('importQuantity').value,
-      importAccountId: this.importForm2.get('importAccountId').value.employeeAccountId,
-      importMaterialId: this.materialCreate
-    };
+            this.materialCreate = {
+              materialCode: this.importForm2.get('materialCode').value,
+              materialName: this.importForm2.get('materialName').value,
+              materialQuantity: 0,
+              materialPrice: this.importForm2.get('materialPrice').value,
+              materialExpiridate: this.importForm2.get('materialExpiridate').value,
+              materialUnit: this.importForm2.get('materialUnit').value,
+              materialTypeId: this.importForm2.get('materialTypeId').value,
+              materialCustomerId: this.importForm2.get('materialCustomerId').value,
+              materialImage: this.importForm2.get('materialImage').value,
+              materialDescribe: this.importForm2.get('materialDescribe').value
+            };
 
+            this.importCreate = {
+              importCode: this.importForm2.get('importCode').value,
+              importStartDate: this.importForm2.get('importStartDate').value,
+              importQuantity: this.importForm2.get('importQuantity').value,
+              importAccountId: this.importForm2.get('importAccountId').value.employeeAccountId,
+              importMaterialId: this.materialCreate
+            };
 
-    this.importService.createImport(this.importCreate).subscribe(
-      () => {
-      },
-      (error) => {
-        if (error.status === 500) {
-          this.router.navigateByUrl('/auth/access-denied');
+            // //delete old img from firebase
+            // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+            this.importService.createImport(this.importCreate).subscribe(
+              () => {
+              },
+              (error) => {
+                if (error.status === 500) {
+                  this.router.navigateByUrl('/auth/access-denied');
+                }
+              },
+              () => {
+                this.myInputVariableMaterial.nativeElement.value = '';
+                this.upLoadImageMaterial = null;
+                this.urlMaterial = null;
+                this.importForm2.reset();
+                this.page = 1;
+                this.getImportList(this.page);
+                this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
+              }
+            );
+          });
+        })
+      ).subscribe();
+    } else {
+      this.materialCreate = {
+        materialCode: this.importForm2.get('materialCode').value,
+        materialName: this.importForm2.get('materialName').value,
+        materialQuantity: 0,
+        materialPrice: this.importForm2.get('materialPrice').value,
+        materialExpiridate: this.importForm2.get('materialExpiridate').value,
+        materialUnit: this.importForm2.get('materialUnit').value,
+        materialTypeId: this.importForm2.get('materialTypeId').value,
+        materialCustomerId: this.importForm2.get('materialCustomerId').value,
+        materialImage: this.importForm2.get('materialImage').value,
+        materialDescribe: this.importForm2.get('materialDescribe').value
+      };
+
+      this.importCreate = {
+        importCode: this.importForm2.get('importCode').value,
+        importStartDate: this.importForm2.get('importStartDate').value,
+        importQuantity: this.importForm2.get('importQuantity').value,
+        importAccountId: this.importForm2.get('importAccountId').value.employeeAccountId,
+        importMaterialId: this.materialCreate
+      };
+      this.importService.createImport(this.importCreate).subscribe(
+        () => {
+        },
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
+        },
+        () => {
+          this.importForm2.reset();
+          this.page = 1;
+          this.getImportList(this.page);
+          this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
         }
-      },
-      () => {
-        this.importForm2.reset();
-        this.page = 1;
-        this.getImportList(this.page);
-        this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
-      }
-    );
+      );
+    }
+  }
+
+  // +++++firebase++++
+  showPreviewMaterial(e: any) {
+    this.upLoadImageMaterial = e.target.files[0];
+    if (e.target.files) {
+      // để lấy url truyền lên image
+      const reader = new FileReader();
+      reader.readAsDataURL(this.upLoadImageMaterial);
+      reader.onload = (event: any) => {
+        this.urlMaterial = event.target.result;
+      };
+    }
+  }
+
+  getCurrentDateTime() {
+    return formatDate(new Date(), 'dd-MM-yyyyhhmmssa', 'en-US');
   }
 
   // ++++++++++++++PDF++++++++++++
@@ -332,37 +387,75 @@ export class ImportMaterialFormComponent implements OnInit {
 
   // +++++++++check code tồn tại+++++++++++
   checkImportCode() {
-    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
-      this.importExistCreate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistCreate = '';
-    }
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importForm2.get('importCode').valid) {
+          if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+            this.importExistCreate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistCreate = '';
+          }
+        } else {
+          this.importExistCreate = '';
+        }
+      });
   }
 
   checkImportCodeUpdate() {
-    // tslint:disable-next-line:max-line-length
-    if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
-      this.importExistUpdate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistUpdate = '';
-    }
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importUpdateForm.get('importCodeUpdate').valid) {
+          // tslint:disable-next-line:max-line-length
+          if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
+            this.importExistUpdate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistUpdate = '';
+          }
+        } else {
+          this.importExistUpdate = '';
+        }
+      });
   }
 
   checkMaterialCode() {
-    if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
-      this.materialExistCreate = 'Mã Vật tư đã tồn tại';
-    } else {
-      this.materialExistCreate = '';
-    }
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
+    }, () => {
+    }, () => {
+      if (this.importForm2.get('materialCode').valid) {
+        if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
+          this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+        } else {
+          this.materialExistCreate = '';
+        }
+      } else {
+        this.materialExistCreate = '';
+      }
+    });
   }
 
   checkMaterialCodeUpdate() {
-    // tslint:disable-next-line:max-line-length
-    if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
-      this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
-    } else {
-      this.materialExistUpdate = '';
-    }
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
+    }, () => {
+    }, () => {
+      if (this.importUpdateForm.get('importMaterialCodeUpdate').valid) {
+        // tslint:disable-next-line:max-line-length
+        if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
+          this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
+        } else {
+          this.materialExistUpdate = '';
+        }
+      } else {
+        this.materialExistUpdate = '';
+      }
+    });
   }
 
   // +++search+++++

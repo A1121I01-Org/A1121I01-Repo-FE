@@ -15,7 +15,7 @@ import {NotifierService} from 'angular-notifier';
   styleUrls: ['./infor-material.component.css']
 })
 export class InforMaterialComponent implements OnInit {
-  cartList: ICartMaterial[] = [];
+  quantityCart: number;
   materialList: IMaterial[] = [];
   materials: IMaterial = {};
   id: number;
@@ -40,7 +40,11 @@ export class InforMaterialComponent implements OnInit {
   }
   getListCart() {
     this.cartService.getAllCart().subscribe(data => {
-      this.cartList = data;
+      if (data == null) {
+        this.quantityCart = 0;
+      } else {
+        this.quantityCart = data.length;
+      }
     });
   }
   getListMaterial1() {
