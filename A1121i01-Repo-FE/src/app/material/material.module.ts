@@ -12,6 +12,7 @@ import {RouterModule} from '@angular/router';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {HttpClientModule} from '@angular/common/http';
+import {NotifierModule} from "angular-notifier";
 
 
 @NgModule({
@@ -22,15 +23,15 @@ import {HttpClientModule} from '@angular/common/http';
     EditMaterialComponent,
     ListMaterialComponent
   ],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    NgbModule,
-    MaterialRoutingModule, HttpClientModule,
-    RouterModule, FormsModule, ReactiveFormsModule,
-  ]})
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        NgbModule,
+        MaterialRoutingModule, HttpClientModule,
+        RouterModule, FormsModule, ReactiveFormsModule, NotifierModule,
+    ]})
 
 export class MaterialModule { }

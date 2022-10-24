@@ -7,6 +7,8 @@ import {IMaterialType} from "../../model/material/imaterial-type";
 import {ICustomer} from "../../model/customer/icustomer";
 import {finalize} from "rxjs/operators";
 import {AngularFireStorage} from "@angular/fire/storage";
+import {formatDate} from "@angular/common";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-create-material',
@@ -20,10 +22,12 @@ export class CreateMaterialComponent implements OnInit {
   upLoadImage= null;
   oldAvatarLink: string;
   url:any;
+  date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
   constructor(
     private materialService: MaterialServiceService,
     private router: Router,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private notification: NotifierService
   ) { }
 
   ngOnInit(): void {
@@ -33,13 +37,13 @@ export class CreateMaterialComponent implements OnInit {
       materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
       materialName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
       materialPrice: new FormControl('', [Validators.required, Validators.min(1)]),
-      materialQuantity: new FormControl('', [Validators.required, Validators.min(1)]),
-      materialExpiridate: new FormControl('', [Validators.required]),
+      materialQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
+      materialExpiridate: new FormControl(this.date1, [Validators.required]),
       materialDescribe: new FormControl('', [Validators.required]),
       materialUnit: new FormControl('', [Validators.required]),
       materialTypeId: new FormControl('', [Validators.required]),
       materialCustomerId: new FormControl('', [Validators.required]),
-      materialImage:  new FormControl('', [Validators.required])
+      materialImage:  new FormControl('')
     });
   }
 
@@ -58,8 +62,24 @@ export class CreateMaterialComponent implements OnInit {
     })
   }
 
-
+checkCreate = false;
 createMaterial() {
+  this.checkCreate = false;
+  this.materialForm.markAllAsTouched();
+  this.materialForm.markAsDirty();
+  console.log(this.materialForm.invalid);
+  if (this.materialForm.invalid) {
+    Object.values(this.materialForm.controls).forEach((control) => {
+      if (control.invalid) {
+        control.markAsDirty();
+        control.updateValueAndValidity({onlySelf: true});
+        console.log(control);
+      }
+
+    });
+    this.checkCreate = true;
+    return;
+  }
   if(this.upLoadImage !== null){
     const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
     const fileRef = this.storage.ref(avatarName);
@@ -75,6 +95,7 @@ createMaterial() {
           console.log(this.materialForm.value);
           this.materialService.create(this.materialForm.value).subscribe(
             () => {
+              console.log(this.materialForm.value);
             },
             (error) => {
               if (error.status === 500) {
@@ -82,25 +103,32 @@ createMaterial() {
               }
             },
             () => {
-              alert("thêm mới vật tư")
+              // alert("Thêm mới thành công!")
+              this.notification.notify('success', 'Thêm mới vật tư thành công');
               this.upLoadImage = null;
+              this.url = '';
+              this.materialForm.reset();
             },
           )
         })
       })
-    ).subscribe();
+    ).subscribe()
+    console.log(1);
   } else{
-    console.log(this.materialForm.value)
+    console.log(2);
+    // console.log(this.materialForm.value)
     this.materialService.create(this.materialForm.value).subscribe(
       () => {
       },
       (error) => {
-        if (error.status === 500) {
-          this.router.navigateByUrl('/auth/access-denied');
-        }
+        // if (error.status === 500) {
+        //   this.router.navigateByUrl('/auth/access-denied');
+        // }
       },
       () => {
-        alert("thêm mới vật tư")
+        // alert("Thêm mới thành công!")
+        this.notification.notify('success', 'Thêm mới vật tư thành công');
+        this.materialForm.reset();
       }
     );
   }

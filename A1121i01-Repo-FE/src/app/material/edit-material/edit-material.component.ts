@@ -7,6 +7,7 @@ import {MaterialServiceService} from '../../service/material/material-service.se
 import {ICustomer} from '../../model/customer/icustomer';
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
+import {NotifierService} from "angular-notifier";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class EditMaterialComponent implements OnInit {
     private materialService: MaterialServiceService,
     private formBuilder: FormBuilder,
     private storage: AngularFireStorage,
+    private notification: NotifierService,
     private router: Router
   ) {
   }
@@ -77,7 +79,7 @@ export class EditMaterialComponent implements OnInit {
       materialCode: new FormControl(data?data.materialCode:[],[Validators.required,Validators.pattern('MVT-\\d{3}')]),
       materialName: new FormControl(data?data.materialName:[],[Validators.required]),
       materialPrice: new FormControl (data?data.materialPrice:[],[Validators.required,Validators.min(1)]),
-      materialQuantity: new FormControl(data?data.materialQuantity:[],[Validators.required,Validators.min(1)]),
+      materialQuantity: new FormControl(data?data.materialQuantity:[],[Validators.required,Validators.min(0)]),
       materialExpiridate: new FormControl(data?data.materialExpiridate:[],[Validators.required]),
       materialUnit: new FormControl(data?data.materialUnit:[],[Validators.required]),
       materialImage: new FormControl(data?data.materialImage:['']),
@@ -109,7 +111,24 @@ export class EditMaterialComponent implements OnInit {
   compareFn1(c1: ICustomer, c2: ICustomer): boolean {
     return c1 && c2 ? c1.customerId === c2.customerId : c1 === c2;
   }
+  checkEdit = false;
   onSubmit() {
+    this.checkEdit = false;
+    this.formEdit.markAllAsTouched();
+    this.formEdit.markAsDirty();
+    console.log(this.formEdit.invalid);
+    if (this.formEdit.invalid) {
+      Object.values(this.formEdit.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({onlySelf: true});
+          console.log(control);
+        }
+
+      });
+      this.checkEdit = true;
+      return;
+    }
     if (this.upLoadImage !== null) {
       const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
       const fileRef = this.storage.ref(avatarName);
@@ -125,7 +144,8 @@ export class EditMaterialComponent implements OnInit {
             console.log(this.formEdit.value);
             this.materialService.update(this.formEdit.value).subscribe(
               () => {
-                alert("chỉnh sửa thành công")
+                // alert("Chỉnh sửa thành công!")
+                this.notification.notify('success', 'Chỉnh sửa vật tư thành công');
                 this.upLoadImage = null;
               }
             );
@@ -135,7 +155,8 @@ export class EditMaterialComponent implements OnInit {
     } else {
       this.materialService.update(this.formEdit.value).subscribe(
         () => {
-          alert('chỉnh sửa thành công');
+          // alert('Chỉnh sửa thành công!');
+          this.notification.notify('success', 'Chỉnh sửa vật tư thành công');
         },
         (error) => {
           if (error.status === 500) {
@@ -158,7 +179,9 @@ export class EditMaterialComponent implements OnInit {
       reader.readAsDataURL(this.upLoadImage);
       reader.onload = (event: any) => {
         this.url = event.target.result;
+        this.formEdit.controls.materialImage.setValue(reader.result as String);
       };
+
     }
   }
 }
