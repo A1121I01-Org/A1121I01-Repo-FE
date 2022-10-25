@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ICustomer} from '../../model/customer/icustomer';
 import {CustomerServiceService} from '../../service/customer/customer-service.service';
 
@@ -15,7 +15,8 @@ export class DetailCustomerComponent implements OnInit {
   idCustomer: number;
 
   constructor(private customerService: CustomerServiceService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -29,6 +30,11 @@ export class DetailCustomerComponent implements OnInit {
     this.customerService.findCustomerById(idEmployee).subscribe(
       (data) => {
         this.customerDetail = data;
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.router.navigateByUrl('/error404');
+        }
       }
     );
   }

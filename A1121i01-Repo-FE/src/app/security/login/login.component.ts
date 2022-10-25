@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
                     this.tokenStorageService.saveTokenSession(data.jwtToken);
                     // this.username = this.loginFrom.controls.username.value;
                 }
+
                 this.isLoggedIn = true;
                 this.username = this.tokenStorageService.getUser().account.username;
                 this.role = this.tokenStorageService.getUser().account.roles.roleName;
@@ -91,10 +92,10 @@ export class LoginComponent implements OnInit {
                 this.isLoggedIn = false;
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
-          () => {
-         window.location.assign('');
-         this.router.navigateByUrl('');
-          });
+            () => {
+                window.location.assign('');
+                this.router.navigateByUrl('');
+            });
     }
     private loadRememberInfo() {
         if (this.tokenStorageService.getUser()) {

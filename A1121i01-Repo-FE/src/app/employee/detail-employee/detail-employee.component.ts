@@ -34,7 +34,7 @@ export class DetailEmployeeComponent implements OnInit {
       },
       (error) => {
         if (error.status === 404) {
-          this.router.navigateByUrl('/error');
+          this.router.navigateByUrl('/error404');
         }
       });
   }

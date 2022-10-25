@@ -113,8 +113,9 @@
                   <input type="checkbox" (change)="checkCartPayment()" value="{{cart?.cartMaterialId}}" [(ngModel)]="cartList[i].checked">
                   <div class="product d-flex align-items-center">
                     <img class="img-fuild mx-1 "
-                         src="
-                                            https://salt.tikicdn.com/cache/w78/ts/product/a3/6c/0c/636b4243f96d4d52e2ca1f524c0edda8.jpg.webp"
+                         [src]="
+                        cart?.materialId.materialImage
+                        "
                          alt="" style="width: 80px; height: 80px;">
                     <div class="product__content px-2">
                       <a>{{cart.materialId.materialName}}</a>
