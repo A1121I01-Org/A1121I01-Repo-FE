@@ -81,32 +81,52 @@
         </div>
       </div>
 
-      <div class="input-box form-field" style="margin-top: 8px">
-        <input name="avatar" id="avatar" type="text" class="form-input" placeholder=" "
-               formControlName="customerAvatar">
-        <label for="avatar" class="form-label">Avatar <span style="color: red">(*)</span></label>
-        <div *ngFor="let validation of validationMessages.customerAvatar">
-          <div
-            *ngIf="this.form.get('customerAvatar').hasError(validation.type) && (this.form.get('customerAvatar').touched || f.submitted)"
-            class="text-danger">{{validation.message}}
+<!--      <div class="input-box form-field" style="margin-top: 8px">-->
+<!--        <input name="avatar" id="avatar" type="text" class="form-input" placeholder=" "-->
+<!--               formControlName="customerAvatar">-->
+<!--        <label for="avatar" class="form-label">Avatar <span style="color: red">(*)</span></label>-->
+<!--        <div *ngFor="let validation of validationMessages.customerAvatar">-->
+<!--          <div-->
+<!--            *ngIf="this.form.get('customerAvatar').hasError(validation.type) && (this.form.get('customerAvatar').touched || f.submitted)"-->
+<!--            class="text-danger">{{validation.message}}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="content-left content-group" *ngIf="customerId > 0">-->
+<!--        &lt;!&ndash;      image&ndash;&gt;-->
+<!--        <img [src]="form.controls.customerAvatar.value"   class="content-image"> <br>-->
+<!--        <input id="img-material" type="file" class="form-control-file" (change)="showPreview($event)">-->
+<!--      </div>-->
+
+      <div class="container1" *ngIf="customerId > 0">
+        <div class="wrapper">
+          <div class="image">
+            <img [src]="form.controls.customerAvatar.value"  *ngIf="setAvatar == 0" alt="">
+            <img [src]="url"  *ngIf="setAvatar == 1" alt="">
           </div>
+          <div class="content">
+            <div class="text">No file choosen, yet!</div>
+          </div>
+          <div class="file-name">File name here</div>
         </div>
+        <input  (change)="onSelectFile($event)" type="file" id="default-btn1" style="margin-left: 240px; margin-top: 90px" #fileInput>
+        <!--        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>-->
       </div>
 
-
-      <!--      <div class="container1" >-->
-      <!--        <div class="wrapper">-->
-      <!--          <div class="image">-->
-      <!--            <img [src]="url"  alt="">-->
-      <!--          </div>-->
-      <!--          <div class="content">-->
-      <!--            <div class="text">No file choosen, yet!</div>-->
-      <!--          </div>-->
-      <!--          <div class="file-name">File name here</div>-->
-      <!--        </div>-->
-      <!--        <input  (change)="onSelectFile($event)" type="file" id="default-btn" style="margin-left: 240px; margin-top: 90px" #fileInput>-->
-      <!--        &lt;!&ndash;        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>&ndash;&gt;-->
-      <!--      </div>-->
+            <div class="container1" *ngIf="customerId === 0">
+              <div class="wrapper">
+                <div class="image">
+                  <img [src]="url"  alt="">
+                </div>
+                <div class="content">
+                  <div class="text">No file choosen, yet!</div>
+                </div>
+                <div class="file-name">File name here</div>
+              </div>
+              <input  (change)="onSelectFile($event)" type="file" id="default-btn" style="margin-left: 240px; margin-top: 90px" #fileInput>
+              <!--        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>-->
+            </div>
 
     </div>
     <div class="button" style="margin-left: 230px; margin-top: 60px">
@@ -116,4 +136,5 @@
   </form>
 </div>
 </body>
+<notifier-container></notifier-container>
 <!--<h1>Hello</h1>-->

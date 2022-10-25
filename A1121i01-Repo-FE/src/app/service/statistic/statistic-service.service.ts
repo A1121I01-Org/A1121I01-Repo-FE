@@ -30,7 +30,13 @@ export class StatisticServiceService {
   // }
 
   // test chart material
-  cryptoData() {
+  cryptoData(fromDate: string, toDate: string) {
+    return this.httpClient.get(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate).toPromise().then((data) => {
+      return data;
+    });
+  }
+
+  cryptoData1() {
     return this.httpClient.get(`${this.API}/chart`).toPromise().then((data) => {
       return data;
     });
