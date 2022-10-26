@@ -26,6 +26,8 @@ import {authInterceptorProviders} from './helpers/auth.interceptor';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {APP_BASE_HREF} from '@angular/common';
 import {NotifierModule} from 'angular-notifier';
+// import {NgxPaginationModule} from 'ngx-pagination';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {NotifierModule} from 'angular-notifier';
     StatisticModule,
     HttpClientModule,
     RouterModule,
-    NotifierModule
+    NotifierModule,
+    // NgxPaginationModule,
+    BrowserAnimationsModule
   ],
   providers: [ authInterceptorProviders,
     JwtHelperService,

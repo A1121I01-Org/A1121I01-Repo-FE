@@ -41,7 +41,6 @@
           <th scope="col">Số thứ tự nhân viên</th>
           <th scope="col">Mã nhân viên</th>
           <th scope="col">Họ tên</th>
-          <th scope="col">Avatar</th>
           <th scope="col">Ngày sinh</th>
           <th scope="col">Giới tính</th>
           <th scope="col">Tên tài khoản</th>
@@ -57,7 +56,6 @@
           <th scope="row">{{emp.employeeId}}</th>
           <td>{{emp.employeeCode}}</td>
           <td>{{emp.employeeName}}</td>
-          <td>{{emp.employeeAvatar}}</td>
           <td>{{emp.employeeDateOfBirth}}</td>
           <td>{{emp.employeeGender}}</td>
           <td>{{emp.employeeAccountId.username}}</td>
@@ -87,6 +85,11 @@
 
 <div class="container" style="margin: 18px 30% 18px; border-radius: 10px">
   <div class="pagination">
+
+<!--    <div *ngIf="totalItems > 5" style="margin-top: 15px">-->
+<!--      <pagination-controls (pageChange)="getEmployeeList($event)"></pagination-controls>-->
+<!--    </div>-->
+
     <a href="#" (click)="previous($event)">Previous</a>
     <div *ngFor="let p of totalPagination; let i = index">
       <a class="active" *ngIf="page <= 25 && i <= 5" href="" (click)="setPage(i,$event)" [ngClass]="{'active':i*5 == page}">{{i+1}}</a>

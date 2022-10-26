@@ -17,7 +17,10 @@ export class ListEmployeeComponent implements OnInit {
   positionEmployees: IPositionEmployee[];
   positionEmployee: IPositionEmployee;
   totalPagination: Array<any>;
-  page = 0;
+  totalItems: number;
+  page = 1;
+  size: number;
+  pageCurrent: any;
   indexCurrent: any;
   name: any;
   code: any;
@@ -33,6 +36,7 @@ export class ListEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEmployeeWithPagination();
     this.getAllEmployee();
+    // this.getEmployeeList(this.page);
     this.searchNameForm = new FormGroup({
       name: new FormControl('')
     });
@@ -132,4 +136,19 @@ export class ListEmployeeComponent implements OnInit {
         });
     }
   }
+
+  // getEmployeeList(page: number) {
+  //   this.page = page;
+  //   this.employeeService.findAllEmployee(this.page - 1).subscribe((data: any) => {
+  //       this.listEmployee = data.content;
+  //       this.size = data.size;
+  //       this.totalItems = data.totalElements;
+  //       console.log(this.totalItems);
+  //     },
+  //     () => {
+  //       this.page--;
+  //       this.getEmployeeList(this.page);
+  //     }
+  //   );
+  // }
 }

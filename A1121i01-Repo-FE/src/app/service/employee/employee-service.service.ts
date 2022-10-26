@@ -80,5 +80,9 @@ export class EmployeeServiceService {
   adminUpdateEmployee(employee: IEmployee): Observable<IEmployee> {
     return this.http.patch<IEmployee>(this.API_URL + '/update/' + employee.employeeId, employee);
   }
+
+  findAllEmployee(page: number): Observable<IEmployee[]> {
+    return this.http.get<IEmployee[]>(this.API_URL + '/employee-list?page=' + page);
+  }
 }
 
