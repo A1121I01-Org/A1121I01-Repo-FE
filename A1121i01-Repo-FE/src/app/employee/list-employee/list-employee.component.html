@@ -10,7 +10,7 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-lg-6">
-          <button class="btn__create" routerLink="/product/create">
+          <button class="btn__create" routerLink="/employee/create">
             Thêm mới nhân viên
           </button>
         </div>
@@ -41,13 +41,9 @@
           <th scope="col">Số thứ tự nhân viên</th>
           <th scope="col">Mã nhân viên</th>
           <th scope="col">Họ tên</th>
-          <th scope="col">Avatar nhân viên</th>
+          <th scope="col">Avatar</th>
           <th scope="col">Ngày sinh</th>
           <th scope="col">Giới tính</th>
-          <th scope="col">Địa chỉ</th>
-          <th scope="col">Số điện thoại</th>
-          <th scope="col">Lương nhân viên</th>
-          <!--          <th scope="col">Nhân viên Flag</th>-->
           <th scope="col">Tên tài khoản</th>
           <th scope="col">Chức vụ</th>
           <th scope="col">Chi tiết</th>
@@ -64,10 +60,6 @@
           <td>{{emp.employeeAvatar}}</td>
           <td>{{emp.employeeDateOfBirth}}</td>
           <td>{{emp.employeeGender}}</td>
-          <td>{{emp.employeeAddress}}</td>
-          <td>{{emp.employeePhone}}</td>
-          <td>{{emp.employeeSalary}}</td>
-          <!--          <td>{{emp.employeeFlag}}</td>-->
           <td>{{emp.employeeAccountId.username}}</td>
           <td>{{emp.employeePositionId.positionName}}</td>
           <td>
@@ -75,12 +67,12 @@
                style=" cursor: pointer">Chi tiết</a>
           </td>
           <td>
-            <a class="btn btn-primary btn__edit" [routerLink]="['/product/edit',emp.employeeId]"
+            <a class="btn btn-primary btn__edit" [routerLink]="['/employee/edit',emp.employeeId]"
                style=" cursor: pointer">Chỉnh sửa</a>
           </td>
           <td>
             <button class="btn btn-primary btn__delete"  data-toggle="modal" data-target="#exampleModal"
-                    type="button" (click)="sendEmployeeToDelete(emp.employeeCode, emp.employeeName)">Xóa
+                    type="button" (click)="sendEmployeeToDelete(emp.employeeId, emp.employeeName)">Xóa
             </button>
           </td>
         </tr>
@@ -93,7 +85,7 @@
   </div>
 </div>
 
-<div class="container" style="margin-bottom: 10px">
+<div class="container" style="margin: 18px 30% 18px; border-radius: 10px">
   <div class="pagination">
     <a href="#" (click)="previous($event)">Previous</a>
     <div *ngFor="let p of totalPagination; let i = index">
@@ -105,8 +97,8 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-4">
-    <div style="text-align:right">
+  <div>
+    <div>
       <button type="button" class="btn__primary"> Trở về</button>
     </div>
   </div>
@@ -125,14 +117,14 @@
       </div>
       <div class="modal-body">
         <span>Bạn có muốn xóa nhân viên,  <span style="color: #0f57b3; font-weight: bolder">{{name}}</span>
-              có mã nhân viên là <span style="color: #0f57b3; font-weight: bolder">{{id}}</span> không ?
+              có mã nhân viên là <span style="color: #0f57b3; font-weight: bolder">{{code}}</span> không ?
         </span>
       </div>
       <div class="modal-footer">
         <button style="background:white; color:#0f57b3 " type="button" class="btn btn-secondary"
                 data-dismiss="modal">Quay lại
         </button>
-        <button style="background:#0f57b3; color: white" type="button" class="btn btn-primary"data-dismiss="modal" (click)="deleteEmployeeById(id)">Xóa</button>
+        <button style="background:#0f57b3; color: white" type="button" class="btn btn-primary"data-dismiss="modal" (click)="deleteEmployeeById(code)">Xóa</button>
       </div>
     </div>
   </div>

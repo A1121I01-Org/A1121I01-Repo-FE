@@ -1,3 +1,5 @@
+@import "~bootstrap/dist/css/bootstrap.css";
+
 body {
   color: #566787;
   background: #f5f5f5;
@@ -274,4 +276,14 @@ table th {
   background-color: #85abdc;
   box-shadow: 0px 8px 15px rgba(88, 129, 211, 0.4);
   color: rgb(23, 20, 58);
+}
+
+div.all .pagination a.active {
+  /*background-color: #270082;*/
+  background: #0f57b3;
+  color: white;
+}
+
+div.all .pagination a:hover:not(.active) {
+  background-color: #ddd;
 }

@@ -47,7 +47,7 @@ export class EmployeeServiceService {
 
 
   deleteEmployeeById(id: number): Observable<IEmployee> {
-    console.log('ID de xoa: ' + id);
+    console.log('Code de xoa: ' + id);
     return this.http.delete<IEmployee>(this.API_URL + '/employee-delete/' + id);
   }
 
@@ -56,7 +56,7 @@ export class EmployeeServiceService {
   // }
 
   searchEmployeeByName(value: string): Observable<IEmployee[]> {
-    return this.http.get<IEmployee[]>(this.API_URL + `/customer-search?name=${value}}`);
+    return this.http.get<IEmployee[]>(this.API_URL + `/employee-search?name=${value}`);
   }
 
   // NhiVP lay danh sach ma nhan vien chua co tai khoan theo list string

@@ -14,16 +14,14 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class ListEmployeeComponent implements OnInit {
 
-  // employees: IEmployee[];
-  // employee: IEmployee;
   positionEmployees: IPositionEmployee[];
   positionEmployee: IPositionEmployee;
   totalPagination: Array<any>;
   page = 0;
-  pageCurrent: any;
   indexCurrent: any;
   name: any;
-  id: any;
+  code: any;
+  message = '';
   listEmployeeNotPagination: IEmployee[] = [];
   listEmployee: IEmployee[] = [];
   searchNameForm: FormGroup;
@@ -78,9 +76,9 @@ export class ListEmployeeComponent implements OnInit {
     this.getAllEmployeeWithPagination();
   }
 
-  sendEmployeeToDelete(employeeCode: string, employeeName: string) {
+  sendEmployeeToDelete(employeeId: number, employeeName: string) {
     this.name = employeeName;
-    this.id = employeeCode;
+    this.code = employeeId;
   }
 
   deleteEmployeeById(id: number) {
@@ -89,6 +87,7 @@ export class ListEmployeeComponent implements OnInit {
       },
       () => {},
       () => {
+        alert('Xóa nhân viên ' + this.name + ' thành công');
         this.getAllEmployeeWithPagination();
       }
     );
@@ -114,7 +113,8 @@ export class ListEmployeeComponent implements OnInit {
       this.employeeService.searchEmployeeByName(this.searchNameForm.get('name').value).subscribe(
         (data) => {
           this.listEmployee = data;
-          this.totalPagination = new Array((Math.round(this.listEmployeeNotPagination.length / this.listEmployeeNotPagination.length)  )  );
+          this.message = '';
+          this.totalPagination = new Array((Math.round(this.listEmployeeNotPagination.length / this.listEmployeeNotPagination.length)));
           console.log(this.totalPagination.length);
         },
         (error) => {
@@ -123,6 +123,12 @@ export class ListEmployeeComponent implements OnInit {
           }
         },
         () => {
+          if (this.listEmployee.length === 0) {
+            this.page = 0;
+            this.message = 'Nhân viên đã xóa hoặc không tồn tại';
+            this.getAllEmployee();
+            this.getAllEmployeeWithPagination();
+          }
         });
     }
   }
