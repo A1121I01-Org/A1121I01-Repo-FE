@@ -7,7 +7,7 @@ import {ICustomerType} from '../../model/customer/icustomer-type';
 import {formatDate} from '@angular/common';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
-import {NotifierService} from "angular-notifier";
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-create-customer',
@@ -32,7 +32,10 @@ export class CreateCustomerComponent implements OnInit {
   // url: any;
   upLoadImage = null;
   oldAvatarLink: string;
-  url: any;
+  url = 'https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg';
+  customerExistCreate = '';
+  customerListString: string[] = [];
+  customerCodeExistCreateSearch = '';
   validationMessages = {
     customerName: [
       {type: 'required', message: 'Tên không được để trống'},
@@ -144,8 +147,8 @@ export class CreateCustomerComponent implements OnInit {
                   }
                 },
                 () => {
-                  alert('thêm mới khách hàng');
                   this.notification.notify('success', 'Thêm mới khách hàng thành công');
+                  this.form.reset();
                   this.upLoadImage = null;
                 },
               );
@@ -177,49 +180,64 @@ export class CreateCustomerComponent implements OnInit {
         //   })
         // ).subscribe();
       } else {
-        const avatarNameUpdate = this.getCurrentDateTime() + this.upLoadImage.name;
-        const fileRef = this.storage.ref(avatarNameUpdate);
-        this.storage.upload(avatarNameUpdate, this.upLoadImage).snapshotChanges().pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(url => {
-              this.form.patchValue({customerAvatar: url});
+        if (this.upLoadImage != null) {
+          const avatarNameUpdate = this.getCurrentDateTime() + this.upLoadImage.name;
+          const fileRef = this.storage.ref(avatarNameUpdate);
+          this.storage.upload(avatarNameUpdate, this.upLoadImage).snapshotChanges().pipe(
+            finalize(() => {
+              fileRef.getDownloadURL().subscribe(url => {
+                this.form.patchValue({customerAvatar: url});
 
-              // //delete old img from firebase
-              // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+                // //delete old img from firebase
+                // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
 
-              // Update employee
-              console.log(this.form.value);
-              this.customerService.update(this.form.value).subscribe(
-                () => {
-                },
-                (error) => {
-                  if (error.status === 500) {
-                    this.router.navigateByUrl('/auth/access-denied');
-                  }
-                },
-                () => {
-                  this.notification.notify('success', 'Cập Nhật khách hàng thành công');
-                  alert('thêm mới khách hàng');
-                  this.upLoadImage = null;
-                },
-              );
-            });
-          })
-        ).subscribe();
-        //   this.customerService.update(this.form.value).subscribe(
-        //     () => {
-        //     },
-        //     (error) => {
-        //       if (error.status === 500) {
-        //         this.router.navigateByUrl('/auth/access-denied');
-        //       }
-        //     },
-        //     () => {
-        //       alert('update khách hàng');
-        //       this.router.navigateByUrl('customer/list');
-        //     }
-        //   );
-        // }
+                // Update employee
+                console.log(this.form.value);
+                this.customerService.update(this.form.value).subscribe(
+                  () => {
+                  },
+                  (error) => {
+                    if (error.status === 500) {
+                      this.router.navigateByUrl('/auth/access-denied');
+                    }
+                  },
+                  () => {
+                    this.notification.notify('success', 'Cập Nhật khách hàng thành công');
+                    this.upLoadImage = null;
+                  },
+                );
+              });
+            })
+          ).subscribe();
+          //   this.customerService.update(this.form.value).subscribe(
+          //     () => {
+          //     },
+          //     (error) => {
+          //       if (error.status === 500) {
+          //         this.router.navigateByUrl('/auth/access-denied');
+          //       }
+          //     },
+          //     () => {
+          //       alert('update khách hàng');
+          //       this.router.navigateByUrl('customer/list');
+          //     }
+          //   );
+          // }
+        } else {
+          this.customerService.update(this.form.value).subscribe(
+            () => {
+            },
+            (error) => {
+              if (error.status === 500) {
+                this.router.navigateByUrl('/auth/access-denied');
+              }
+            },
+            () => {
+              this.notification.notify('success', 'Cập Nhật khách hàng thành công');
+              this.upLoadImage = null;
+            },
+          );
+        }
       }
     }
   }
@@ -242,5 +260,22 @@ export class CreateCustomerComponent implements OnInit {
     }
     console.log(this.url);
     // this.url = e.target.files[0];
+  }
+
+  checkCustomerCode() {
+    this.customerService.findAllCustomerString().subscribe(data => {
+      this.customerListString = data;
+    }, () => {
+    }, () => {
+      if (this.form.get('customerCode').valid) {
+        if (this.customerListString.indexOf(this.customerCodeExistCreateSearch) > -1) {
+          this.customerExistCreate = 'Mã khach hang đã tồn tại';
+        } else {
+          this.customerExistCreate = '';
+        }
+      } else {
+        this.customerExistCreate = '';
+      }
+    });
   }
 }

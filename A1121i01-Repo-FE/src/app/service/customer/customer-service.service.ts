@@ -39,9 +39,9 @@ export class CustomerServiceService {
   searchCustomerByNameAndPhone(value1: string, value2: string): Observable<ICustomer[]> {
     return this.http.get<ICustomer[]>(this.API_URL + `/search-customer?name=${value1}&phone=${value2}`);
   }
-  // searchCustomerById(value1: string, value2: string): Observable<ICustomer[]> {
-  //   return this.http.get<ICustomer[]>(this.API_URL + `/search-customer?name=${value1}&phone=${value2}`);
-  // }
+  findAllCustomerString(): Observable<string[]> {
+    return this.http.get<string[]>(URL_API + '/customer-list-string');
+  }
 
   create(customer: ICustomer): Observable<ICustomer> {
     return this.http.post<ICustomer>(URL_API + '/customer-create', customer);
