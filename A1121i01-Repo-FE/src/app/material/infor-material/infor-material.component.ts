@@ -24,6 +24,12 @@ export class InforMaterialComponent implements OnInit {
   theTotalElements: number;
   itemPerPage = 1;
   keywordSearch: undefined;
+
+  // cat chuoi hinh anh
+
+    imageArray: string[];
+    imageArray1: string[];
+    imageArray2: string[];
   // tslint:disable-next-line:max-line-length
   constructor(private materialService: MaterialServiceService, private notifier: NotifierService, private activatedRoute: ActivatedRoute, private cartService: CartServiceService) {
   }
