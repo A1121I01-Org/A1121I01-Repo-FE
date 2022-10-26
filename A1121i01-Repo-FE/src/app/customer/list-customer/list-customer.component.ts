@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ICustomer} from '../../model/customer/icustomer';
 import {CustomerServiceService} from '../../service/customer/customer-service.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-list-customer',
@@ -14,7 +15,9 @@ export class ListCustomerComponent implements OnInit {
   listDeleteCustomer: number[] = [];
   listCustomerNotPagination: ICustomer[] = [];
   totalPagination: Array<any>;
-  page = 0;
+  page = 1;
+  size: number;
+  totalItems: number;
   pageCurrent: any;
   indexCurrent: any;
   name: any;
@@ -24,7 +27,8 @@ export class ListCustomerComponent implements OnInit {
   message = '';
 
   constructor(private customerService: CustomerServiceService,
-              private router: Router) { }
+              private router: Router,
+              private notification: NotifierService, ) { }
     // HieuNT setPage for pagination
   setPage(i, event: any) {
     event.preventDefault();
@@ -33,8 +37,9 @@ export class ListCustomerComponent implements OnInit {
     this.getAllCustomerWithPagination();
   }
   ngOnInit(): void {
-    this.getAllCustomer();
-    this.getAllCustomerWithPagination();
+    // this.getAllCustomer();
+    this.getCustomerList(this.page);
+    // this.getAllCustomerWithPagination();
     this.searchNameAndPhoneForm = new FormGroup({
       name: new FormControl(''),
       phone: new FormControl('')
@@ -49,8 +54,11 @@ export class ListCustomerComponent implements OnInit {
         this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         if ((this.listCustomerNotPagination.length % 5) !== 0) {
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5)  )  );
+          this.totalItems = this.listCustomerNotPagination.length;
+          console.log('total items' + this.totalItems);
         } else {
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1 )  );
+          this.totalItems = this.listCustomerNotPagination.length;
         }
       });
   }
@@ -96,7 +104,8 @@ export class ListCustomerComponent implements OnInit {
       },
       () => {},
       () => {
-        alert('Xóa khách hàng ' + this.name + ' thành công');
+        // alert('Xóa khách hàng ' + this.name + ' thành công');
+        this.notification.notify('success', 'Xoá khách hàng thành công');
         this.getAllCustomerWithPagination();
       }
     );
@@ -109,18 +118,22 @@ export class ListCustomerComponent implements OnInit {
 
   send() {
     if (this.searchNameAndPhoneForm.get('name').value == '' && this.searchNameAndPhoneForm.get('phone').value == '') {
-      this.page = 0;
+      // this.page = 0;
       this.message = '';
-      this.getAllCustomerWithPagination();
-      this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
+      // this.getAllCustomerWithPagination();
+      // this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
+      // this.totalItems = this.listCustomerNotPagination.length;
+      this.getCustomerList(0);
     } else {
       this.customerService.searchCustomerByNameAndPhone(this.searchNameAndPhoneForm.get('name').value,
-        this.searchNameAndPhoneForm.get('phone').value ).subscribe(
-        (data) => {
-          this.listCustomer = data;
+        this.searchNameAndPhoneForm.get('phone').value, 0).subscribe(
+        (data: any) => {
+          this.listCustomer = data.content;
+          this.size = data.size;
+          this.totalItems = data.totalElements;
           this.message = '';
-          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / this.listCustomerNotPagination.length)  )  );
-          console.log(this.totalPagination.length);
+          this.totalItems = 1;
+          console.log('total items: ' + this.totalItems);
         },
         (error) => {
           if (error.status === 500) {
@@ -128,14 +141,31 @@ export class ListCustomerComponent implements OnInit {
           }
         },
         () => {
-          if (this.listCustomer.length === 0) {
-            this.page = 0;
-            this.message = 'Khách hàng đã xóa hoặc không tồn tại';
-            this.getAllCustomer();
-            this.getAllCustomerWithPagination();
+            console.log('total items: ' + this.totalItems);
+          if (this.totalItems == 0) {
+            // this.page = 0;
+              console.log('khi length la 0 ');
+              this.message = 'Khách hàng đã xóa hoặc không tồn tại';
+            // this.getAllCustomer();
+            // this.getAllCustomerWithPagination();
+              this.getCustomerList(0);
           }
         });
     }
   }
 
+    getCustomerList(page: number) {
+        this.page = page;
+        this.customerService.findAllCustomer(this.page - 1).subscribe((data: any) => {
+                this.listCustomer = data.content;
+                this.size = data.size;
+                this.totalItems = data.totalElements;
+                console.log(this.totalItems);
+            },
+            () => {
+                this.page--;
+                this.getCustomerList(this.page);
+            }
+        );
+    }
 }

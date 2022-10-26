@@ -28,6 +28,7 @@ import {APP_BASE_HREF} from '@angular/common';
 import {NotifierModule} from 'angular-notifier';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 import { ActivitiesComponent } from './activities/activities.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -57,7 +58,7 @@ import { ActivitiesComponent } from './activities/activities.component';
     HttpClientModule,
     RouterModule,
     NotifierModule,
-    LoadingBarRouterModule
+    LoadingBarRouterModule, NgxPaginationModule
   ],
   providers: [ authInterceptorProviders,
     JwtHelperService,
