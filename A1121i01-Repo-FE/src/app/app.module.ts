@@ -14,7 +14,6 @@ import { ErrorComponent } from './error/error.component';
 import {HttpClientModule} from '@angular/common/http';
 import {StatisticModule} from './statistic/statistic.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

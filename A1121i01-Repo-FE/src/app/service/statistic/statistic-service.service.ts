@@ -13,31 +13,23 @@ export class StatisticServiceService {
 
   constructor(private http: HttpClient) { }
 
-  // getBan(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/banhang`);
-  // }
-  //
-  // getTra(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/trahang`);
-  // }
-  //
-  // getHuy(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/huyhang`);
-  // }
-  //
-  // getLuong(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/luongNV`);
-  // }
-  //
-  // getNhap(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/nhaphang`);
-  // }
-
   search(month: string , year: string): Observable<string[]> {
     return this.http.get<string[]>(`${this.API_URL}/search?` + `month=${month}&year=${year}`);
   }
   getPdf(search: string[]): Observable<Blob> {
     // @ts-ignore
     return this.http.post<Blob>(`${this.API_URL}/pdf2`, search, {responseType: 'blob'} );
+  }
+
+  // test chart material
+  // cryptoData(): Promise<number> {
+  //   return this.http.get<number>(`${this.API_URL}/huyhang`).toPromise().then((data) => {
+  //     return data;
+  //   });
+  // }
+  cryptoData() {
+    return this.http.get(`${this.API_URL}/huyhang`).toPromise().then((data) => {
+      return data;
+    });
   }
 }
