@@ -115,7 +115,7 @@ export class CustomerStatisticComponent implements OnInit {
 
           // show Chart data
           this.chart = new Chart('canvas', {
-            type: 'bar',
+            type: 'line',
             data: {
               labels: this.labels,
               datasets: [
@@ -150,7 +150,7 @@ export class CustomerStatisticComponent implements OnInit {
 
           // show Chart data
           this.chart = new Chart('canvas', {
-            type: 'bar',
+            type: 'line',
             data: {
               labels: this.labels,
               datasets: [
