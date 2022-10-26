@@ -47,6 +47,8 @@ export class ListCustomerComponent implements OnInit {
         this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         if ((this.listCustomerNotPagination.length % 5) !== 0) {
           this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
+        } else {
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1)  );
         }
       });
   }
