@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {StatisticServiceService} from '../../service/statistic/statistic-service.service';
-import {ICart} from '../../model/cart/icart';
-import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/output_ast';
+import {Chart} from 'chart.js';
 
 @Component({
   selector: 'app-financial-statistic',
@@ -10,48 +9,30 @@ import {applySourceSpanToExpressionIfNeeded} from '@angular/compiler/src/output/
 })
 export class FinancialStatisticComponent implements OnInit {
   // KimPBH -Thong ke tai chinh
-  ban: number;
-  tra: number;
-  huy: number;
-  nhap: number;
+  ban: any;
+  tra: any;
+  huy: any;
+  nhap: any;
   tongthu = 0;
   tongchi = 0;
   doanhthu = 0;
   search1: string[] = [];
   month = '';
   year = '';
+
+  chart: Chart;
+  labels: any;
+
   constructor(private statisticService: StatisticServiceService) { }
 
   ngOnInit(): void {
     // @ts-ignore
     this.search(undefined);
   }
-  // getStatic() {
-  //   this.statisticService.getBan().subscribe(
-  //     (res) => {
-  //       this.ban = res;
-  //       this.tongthu = this.tongthu + this.ban;
-  //     });
-  //   this.statisticService.getTra().subscribe(
-  //     (res) => {
-  //       this.tra = res;
-  //       this.tongthu = this.tongthu + this.tra;
-  //     });
-  //   this.statisticService.getHuy().subscribe(
-  //     (res) => {
-  //       this.huy = res;
-  //       this.tongthu = this.tongthu + this.huy;
-  //     });
-  //   this.statisticService.getNhap().subscribe(
-  //     (res) => {
-  //       this.nhap = res;
-  //       this.tongchi = this.tongchi + this.nhap;
-  //       this.doanhthu = this.tongthu - this.tongchi;
-  //     });
-  // }
+
   exportPDF(): void {
     console.log(this.search1);
-    this.statisticService.getPdf2(this.search1).subscribe(x => {
+    this.statisticService.getPdf(this.search1).subscribe(x => {
       const blob = new Blob([x], {type: 'application/pdf'});
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(blob);
@@ -60,7 +41,7 @@ export class FinancialStatisticComponent implements OnInit {
       const data1 = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = data1;
-      link.download = 'invoice.pdf';
+      link.download = 'financial-statistic.pdf';
       link.dispatchEvent(new MouseEvent('click' , {bubbles: true, cancelable: true, view: window}));
       // tslint:disable-next-line:only-arrow-functions
       setTimeout(function() {
@@ -120,5 +101,55 @@ export class FinancialStatisticComponent implements OnInit {
         this.doanhthu = this.tongthu - this.tongchi;
       });
     }
+  }
+
+  // test chart financial
+  chartFinancial() {
+    this.month = '';
+    this.year = '';
+    this.statisticService.cryptoData().then((data) => {
+      console.log(this.ban);
+      this.chart = new Chart('canvas', {
+          type: 'bar',
+          data: {
+            labels: this.labels,
+            datasets: [
+              {
+                label: 'Bán hàng',
+                data: [this.ban],
+                borderWidth: 3,
+                fill: false,
+                backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                borderColor: 'yellow'
+              },
+              {
+                label: 'Hủy hàng',
+                data: [this.huy],
+                borderWidth: 3,
+                fill: false,
+                backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                borderColor: 'red'
+              },
+              {
+                label: 'Nhập hàng',
+                data: [this.nhap],
+                borderWidth: 3,
+                fill: false,
+                backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                borderColor: 'blue'
+              },
+              {
+                label: 'Trả hàng',
+                data: [this.tra],
+                borderWidth: 3,
+                fill: false,
+                backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                borderColor: 'dark'
+              },
+            ]
+          },
+        });
+      }
+    );
   }
 }

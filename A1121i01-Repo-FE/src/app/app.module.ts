@@ -29,7 +29,6 @@ import {NotifierModule} from 'angular-notifier';
 import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
 import { ActivitiesComponent } from './activities/activities.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
