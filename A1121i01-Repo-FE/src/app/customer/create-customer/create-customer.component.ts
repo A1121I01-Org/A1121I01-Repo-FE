@@ -121,125 +121,126 @@ export class CreateCustomerComponent implements OnInit {
   }
 
   submit() {
-    console.log(1);
-    if (this.form.valid) {
-      console.log(2);
-      if (this.customerId === 0) {
-        console.log(3);
-        const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
-        const fileRef = this.storage.ref(avatarName);
-        this.storage.upload(avatarName, this.upLoadImage).snapshotChanges().pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(url => {
-              this.form.patchValue({customerAvatar: url});
+      console.log(1);
+      if (this.form.valid) {
+          console.log(2);
+          if (this.customerId === 0) {
+              console.log(3);
+              const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
+              const fileRef = this.storage.ref(avatarName);
+              this.storage.upload(avatarName, this.upLoadImage).snapshotChanges().pipe(
+                  finalize(() => {
+                      fileRef.getDownloadURL().subscribe(url => {
+                          this.form.patchValue({customerAvatar: url});
 
-              // //delete old img from firebase
-              // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+                          // //delete old img from firebase
+                          // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
 
-              // Update employee
-              console.log(this.form.value);
-              this.customerService.create(this.form.value).subscribe(
-                () => {
-                },
-                (error) => {
-                  if (error.status === 500) {
-                    this.router.navigateByUrl('/auth/access-denied');
-                  }
-                },
-                () => {
-                  this.notification.notify('success', 'Thêm mới khách hàng thành công');
-                  this.form.reset();
-                  this.upLoadImage = null;
-                },
-              );
-            });
-          })
-        ).subscribe();
-        // const nameImg = this.getCurrentDateTime() + this.selectedImage;
-        // console.log(nameImg);
-        // const fileRef = this.storage.ref(nameImg);
-        // this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
-        //   finalize(() => {
-        //     fileRef.getDownloadURL().subscribe((url) => {
-        //       this.form.patchValue({customerAvatar: url});
-        // this.customerService.create(this.form.value).subscribe(
-        //   () => {
-        //   },
-        //   (error) => {
-        //     if (error.status === 500) {
-        //       this.router.navigateByUrl('/auth/access-denied');
-        //     }
-        //   },
-        //   () => {
-        //     alert('thêm mới khách hàng');
-        //     this.router.navigateByUrl('customer/list');
-        //   }
-        // );
-        //
-        //     });
-        //   })
-        // ).subscribe();
-      } else {
-        if (this.upLoadImage != null) {
-          const avatarNameUpdate = this.getCurrentDateTime() + this.upLoadImage.name;
-          const fileRef = this.storage.ref(avatarNameUpdate);
-          this.storage.upload(avatarNameUpdate, this.upLoadImage).snapshotChanges().pipe(
-            finalize(() => {
-              fileRef.getDownloadURL().subscribe(url => {
-                this.form.patchValue({customerAvatar: url});
+                          // Update employee
+                          console.log(this.form.value);
+                          this.customerService.create(this.form.value).subscribe(
+                              () => {
+                              },
+                              (error) => {
+                                  if (error.status === 500) {
+                                      this.router.navigateByUrl('/auth/access-denied');
+                                  }
+                              },
+                              () => {
+                                  this.notification.notify('success', 'Thêm mới khách hàng thành công');
+                                  this.form.reset();
+                                  this.upLoadImage = null;
+                              },
+                          );
+                      });
+                  })
+              ).subscribe();
+              // const nameImg = this.getCurrentDateTime() + this.selectedImage;
+              // console.log(nameImg);
+              // const fileRef = this.storage.ref(nameImg);
+              // this.storage.upload(nameImg, this.selectedImage).snapshotChanges().pipe(
+              //   finalize(() => {
+              //     fileRef.getDownloadURL().subscribe((url) => {
+              //       this.form.patchValue({customerAvatar: url});
+              // this.customerService.create(this.form.value).subscribe(
+              //   () => {
+              //   },
+              //   (error) => {
+              //     if (error.status === 500) {
+              //       this.router.navigateByUrl('/auth/access-denied');
+              //     }
+              //   },
+              //   () => {
+              //     alert('thêm mới khách hàng');
+              //     this.router.navigateByUrl('customer/list');
+              //   }
+              // );
+              //
+              //     });
+              //   })
+              // ).subscribe();
+          } else {
+              if (this.upLoadImage != null) {
+                  const avatarNameUpdate = this.getCurrentDateTime() + this.upLoadImage.name;
+                  const fileRef = this.storage.ref(avatarNameUpdate);
+                  this.storage.upload(avatarNameUpdate, this.upLoadImage).snapshotChanges().pipe(
+                      finalize(() => {
+                          fileRef.getDownloadURL().subscribe(url => {
+                              this.form.patchValue({customerAvatar: url});
 
-                // //delete old img from firebase
-                // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
+                              // //delete old img from firebase
+                              // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
 
-                // Update employee
-                console.log(this.form.value);
-                this.customerService.update(this.form.value).subscribe(
-                  () => {
-                  },
-                  (error) => {
-                    if (error.status === 500) {
-                      this.router.navigateByUrl('/auth/access-denied');
-                    }
-                  },
-                  () => {
-                    this.notification.notify('success', 'Cập Nhật khách hàng thành công');
-                    this.upLoadImage = null;
-                  },
-                );
-              });
-            })
-          ).subscribe();
-          //   this.customerService.update(this.form.value).subscribe(
-          //     () => {
-          //     },
-          //     (error) => {
-          //       if (error.status === 500) {
-          //         this.router.navigateByUrl('/auth/access-denied');
-          //       }
-          //     },
-          //     () => {
-          //       alert('update khách hàng');
-          //       this.router.navigateByUrl('customer/list');
-          //     }
-          //   );
-          // }
-        } else {
-          this.customerService.update(this.form.value).subscribe(
-            () => {
-            },
-            (error) => {
-              if (error.status === 500) {
-                this.router.navigateByUrl('/auth/access-denied');
+
+                              // Update employee
+                              console.log(this.form.value);
+                              this.customerService.update(this.form.value).subscribe(
+                                  () => {
+                                  },
+                                  (error) => {
+                                      if (error.status === 500) {
+                                          this.router.navigateByUrl('/auth/access-denied');
+                                      }
+                                  },
+                                  () => {
+                                      this.notification.notify('success', 'Cập Nhật khách hàng thành công');
+                                      this.upLoadImage = null;
+                                  },
+                              );
+                          });
+                      })
+                  ).subscribe();
+                  //   this.customerService.update(this.form.value).subscribe(
+                  //     () => {
+                  //     },
+                  //     (error) => {
+                  //       if (error.status === 500) {
+                  //         this.router.navigateByUrl('/auth/access-denied');
+                  //       }
+                  //     },
+                  //     () => {
+                  //       alert('update khách hàng');
+                  //       this.router.navigateByUrl('customer/list');
+                  //     }
+                  //   );
+                  // }
+              } else {
+                  this.customerService.update(this.form.value).subscribe(
+                      () => {
+                      },
+                      (error) => {
+                          if (error.status === 500) {
+                              this.router.navigateByUrl('/auth/access-denied');
+                          }
+                      },
+                      () => {
+                          this.notification.notify('success', 'Cập Nhật khách hàng thành công');
+                          this.upLoadImage = null;
+                      },
+                  );
               }
-            },
-            () => {
-              this.notification.notify('success', 'Cập Nhật khách hàng thành công');
-              this.upLoadImage = null;
-            },
-          );
-        }
+          }
       }
-    }
   }
 
 

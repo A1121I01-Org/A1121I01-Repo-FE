@@ -10,6 +10,7 @@ import {AdminEditEmployeeComponent} from './admin-edit-employee/admin-edit-emplo
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AccountModule} from '../account/account.module';
+import {NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -22,13 +23,14 @@ import {AccountModule} from '../account/account.module';
     AdminEditEmployeeComponent,
     EditEmployeeComponent
   ],
-  imports: [
-    CommonModule,
-    EmployeeRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    AccountModule
-  ]
+    imports: [
+        CommonModule,
+        EmployeeRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        AccountModule,
+        NgbTooltipModule
+    ]
 })
 export class EmployeeModule {
 }

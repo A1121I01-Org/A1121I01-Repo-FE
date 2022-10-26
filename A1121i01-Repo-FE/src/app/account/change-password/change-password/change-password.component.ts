@@ -3,6 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} f
 import {ActivatedRoute, Router} from '@angular/router';
 import {Password} from '../../../model/classDTO/password';
 import {AccountServiceService} from '../../../service/account/account-service.service';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
 
 @Component({
   selector: 'app-change-password',
@@ -17,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
   updatePassword: Password = {};
   error = false;
 
-  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {

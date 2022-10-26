@@ -10,7 +10,7 @@ const routes: Routes = [
     component: CreateAccountComponent
   },
   {
-    path: 'update/password/:id',
+    path: 'update/password',
     component: ChangePasswordComponent
   }
 ];

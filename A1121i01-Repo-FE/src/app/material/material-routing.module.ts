@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {InforMaterialComponent} from './infor-material/infor-material.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -10,12 +10,10 @@ import {DetailMaterialComponent} from './detail-material/detail-material.compone
 import {ListMaterialComponent} from './list-material/list-material.component';
 
 
-
-
 const routes: Routes = [
   {
 
-path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}
+    path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}
   },
   {
     path: 'list', component: ListMaterialComponent
@@ -26,9 +24,10 @@ path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}
 
   },
   {
-    path: 'material/edit/:id', component: EditMaterialComponent},
+    path: 'material/edit/:id', component: EditMaterialComponent
+  },
   {
-  path: 'infor', component: InforMaterialComponent
+    path: 'infor', component: InforMaterialComponent
   }
 ];
 
@@ -36,4 +35,5 @@ path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MaterialRoutingModule { }
+export class MaterialRoutingModule {
+}
