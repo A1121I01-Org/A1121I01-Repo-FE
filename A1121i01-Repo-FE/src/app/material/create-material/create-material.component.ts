@@ -17,7 +17,7 @@ import {checkHSD} from "../../validate/customvalidator.validator";
   styleUrls: ['./create-material.component.css']
 })
 export class CreateMaterialComponent implements OnInit {
-  loading = false;
+  loading = true;
   materialForm: FormGroup;
   listDataCus:ICustomer[] =[];
   listDataType: IMaterialType[] =[];
@@ -98,7 +98,6 @@ createMaterial() {
           console.log(this.materialForm.value);
           this.materialService.create(this.materialForm.value).subscribe(
             () => {
-              this.loading =true;
               console.log(this.materialForm.value);
             },
             (error) => {
@@ -127,7 +126,6 @@ createMaterial() {
     // console.log(this.materialForm.value)
     this.materialService.create(this.materialForm.value).subscribe(
       () => {
-        this.loading =true;
       },
       (error) => {
         if (error.status === 400) {
