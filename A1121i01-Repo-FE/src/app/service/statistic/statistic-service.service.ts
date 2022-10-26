@@ -46,9 +46,7 @@ export class StatisticServiceService {
         return this.httpClient.get<string[]>(this.API + '/list/customer');
     }
 
-  // KimPBH-Thong ke tai chinh
-
-  readonly API_URL = 'http://localhost:8080/api/statistic';
+    // KimPBH-Thong ke tai chinh
     // getBan(): Observable<number> {
     //   return this.http.get<number>(`${this.API_URL}/banhang`);
     // }
@@ -73,14 +71,7 @@ export class StatisticServiceService {
         return this.httpClient.get<string[]>(`${this.API}/search?` + `month=${month}&year=${year}`);
     }
 
-  search(month: string , year: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.API_URL}/search?` + `month=${month}&year=${year}`);
-  }
-  getPdf(search: string[]): Observable<Blob> {
-    // @ts-ignore
-    return this.http.post<Blob>(`${this.API_URL}/pdf2`, search, {responseType: 'blob'} );
-  }
-    getPdf2(search: string[]): Observable<Blob> {
+    getPdfKim(search: string[]): Observable<Blob> {
         // @ts-ignore
         return this.httpClient.post<Blob>(`${this.API}/pdf2`, search, {responseType: 'blob'});
     }
@@ -107,10 +98,11 @@ export class StatisticServiceService {
             return data;
         });
     }
-  // test chart financial
-  cryptoData() {
-    return this.http.get(`${this.API_URL}/huyhang`).toPromise().then((data) => {
-      return data;
-    });
-  }
+
+    // test chart financial
+    cryptoDataKim() {
+        return this.httpClient.get(`${this.API}/huyhang`).toPromise().then((data) => {
+            return data;
+        });
+    }
 }
