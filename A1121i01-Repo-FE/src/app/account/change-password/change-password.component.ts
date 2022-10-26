@@ -3,6 +3,8 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators} f
 import {AccountServiceService} from '../../service/account/account-service.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Password} from '../../model/classDTO/password';
+import {NotifierService} from 'angular-notifier';
+import {TokenStorageService} from "../../service/security/token-storage.service";
 
 @Component({
   selector: 'app-change-password',
@@ -16,8 +18,10 @@ export class ChangePasswordComponent implements OnInit {
   accountId: number;
   updatePassword: Password = {};
   error = false;
+  notifier: NotifierService;
 
-  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private noti: NotifierService, private tokenStorageService: TokenStorageService) {
+    this.notifier = noti;
   }
 
   ngOnInit(): void {
@@ -36,26 +40,29 @@ export class ChangePasswordComponent implements OnInit {
     this.updatePassword.newPassword = formValue.passwordGroup.newPassword;
     this.updatePassword.confirmPassword = formValue.passwordGroup.confirmPassword;
 
-    this.activatedRoute.paramMap.subscribe(paramMap => {
-      this.accountId = Number(paramMap.get('id'));
-      this.accountService.updatePassword(this.accountId, this.updatePassword).subscribe(
-        () => {
-        },
-        (error) => {
-          if (error.status === 500) {
-            this.router.navigateByUrl('/auth/access-denied');
-          }
-          if (error.status === 400) {
-            this.error = true;
-            window.alert("Vui lòng kiểm tra lại thông tin");
-          }
-        },
-        () => {
-          this.router.navigateByUrl('');
-          console.log('success');
+    this.accountId = this.tokenStorageService.getUser().accountId;
+    this.accountService.updatePassword(this.accountId, this.updatePassword).subscribe(
+      () => {
+      },
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
         }
-      );
-    });
+        if (error.status === 400) {
+          this.error = true;
+          window.alert('Vui lòng kiểm tra lại thông tin');
+        }
+        if (error.status === 404) {
+          this.error = true;
+          window.alert('Dữ liệu không tồn tại');
+        }
+      },
+      () => {
+        // this.router.navigateByUrl('');
+        this.passwordForm.reset();
+        this.notifier.notify('success', 'Cập nhật mật khẩu thành công!');
+      }
+    );
   }
 
   comparePassword(control: AbstractControl): ValidationErrors | null {

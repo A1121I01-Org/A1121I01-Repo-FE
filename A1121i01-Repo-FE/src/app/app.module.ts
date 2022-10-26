@@ -53,7 +53,9 @@ import {NotifierModule} from 'angular-notifier';
     StatisticModule,
     HttpClientModule,
     RouterModule,
-    NotifierModule
+    NotifierModule.withConfig({
+      theme: 'material'
+    })
   ],
   providers: [ authInterceptorProviders,
     JwtHelperService,
