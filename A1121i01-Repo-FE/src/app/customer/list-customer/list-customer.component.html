@@ -41,7 +41,7 @@
       </thead>
       <tbody >
       <tr *ngFor="let c of listCustomer; let i = index">
-        <td><input type="checkbox" (change)="checkListCustomer()" class="checkbox1" name="check[]" [(ngModel)]="listCustomer[i].checked " ></td>
+        <td><input type="checkbox" class="checkbox1" name="check[]" [(ngModel)]="listCustomer[i].checked " ></td>
         <td scope="row">{{i+1}}</td>
         <td scope="row">{{c.customerCode}}</td>
         <td class="name"  >

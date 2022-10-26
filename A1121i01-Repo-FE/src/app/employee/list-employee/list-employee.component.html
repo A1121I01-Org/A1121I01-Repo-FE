@@ -75,7 +75,7 @@
                style=" cursor: pointer">Chi tiết</a>
           </td>
           <td>
-            <a class="btn btn-primary btn__edit" [routerLink]="['/employee/edit',emp.employeeId]"
+            <a class="btn btn-primary btn__edit" [routerLink]="['/employee-admin/edit/',emp.employeeId]"
                style=" cursor: pointer">Chỉnh sửa</a>
           </td>
           <td>
@@ -107,7 +107,7 @@
 <div class="row">
   <div class="col-lg-4">
     <div style="text-align:right">
-      <button type="button" class="btn__primary"> Trở về</button>
+      <button type="button" class="btn__primary" routerLink=""> Trở về</button>
     </div>
   </div>
 </div>
