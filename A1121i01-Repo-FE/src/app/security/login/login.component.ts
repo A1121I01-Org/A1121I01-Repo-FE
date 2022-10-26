@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
                 console.log('username: ' + this.tokenStorageService.getUser().account.username);
                 console.log('role: ' + this.tokenStorageService.getUser().account.roles[0].roleName);
                 console.log('token: ' + this.tokenStorageService.getUser().jwtToken);
+                console.log('token: ' + this.tokenStorageService.getUser().account.accountId);
 
                 // this.loginForm.reset();
                 // if (this.role.indexOf('ROLE_ADMIN') !== -1) {
