@@ -22,10 +22,6 @@ export class ImportServiceService {
     return this.httpClient.get<IImport[]>(this.URI + '/import-list?page=' + page);
   }
 
-  findAllImportNotPagination(): Observable<IImport[]> {
-    return this.httpClient.get<IImport[]>(this.URI + '/import-list-not-pagination');
-  }
-
   findImportById(id: number): Observable<IImport> {
     return this.httpClient.get<IImport>(this.URI + '/import-detail/' + id);
   }
@@ -72,6 +68,14 @@ export class ImportServiceService {
 
   findAllPhoneCustomerString(): Observable<string[]> {
     return this.httpClient.get<string[]>(this.URI + '/import-phone-customer-list-string');
+  }
+
+  findAllEmailCustomerString(): Observable<string[]> {
+    return this.httpClient.get<string[]>(this.URI + '/import-email-customer-list-string');
+  }
+
+  searchImport(code: string, startDate: string, endDate: string, page: number): Observable<IImport[]> {
+    return this.httpClient.get<IImport[]>(this.URI + '/import-search?code=' + code + '&startDate=' + startDate + '&endDate=' + endDate + '&page=' + page);
   }
 
   getPdfImport(import1: IImport): Observable<Blob> {

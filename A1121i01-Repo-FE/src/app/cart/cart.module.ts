@@ -8,6 +8,8 @@ import {SellExportComponent} from './sell-export/sell-export.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotifierModule} from 'angular-notifier';
+import {LoadingBarRouterModule} from '@ngx-loading-bar/router';
+import {LoadingBarModule} from '@ngx-loading-bar/core';
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import {NotifierModule} from 'angular-notifier';
     ReactiveFormsModule,
     FormsModule,
     NotifierModule,
+    LoadingBarRouterModule,
+    LoadingBarModule
   ]
 })
 export class CartModule {

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {ICustomer} from '../../model/customer/icustomer';
 import {ImportServiceService} from '../../service/import/import-service.service';
 import {IImport} from '../../model/iimport';
@@ -9,7 +9,7 @@ import {IMaterial} from '../../model/material/imaterial';
 import {IAccount} from '../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-import-manager',
@@ -17,6 +17,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./import-manager.component.css']
 })
 export class ImportManagerComponent implements OnInit {
+  importSearchForm: FormGroup;
   importForm: FormGroup;
   importUpdateForm: FormGroup;
   checkQuantityMaterial = 0;
@@ -24,9 +25,13 @@ export class ImportManagerComponent implements OnInit {
   checkFormEdit = false;
   importListString: string[] = [];
   importExistCreate = '';
+  importExistCreateSearch = '';
   importExistUpdate = '';
+  importExistUpdateSearch = '';
   materialListString: string[] = [];
   materialExistUpdate = '';
+  materialExistUpdateSearch = '';
+
   customerList: ICustomer[] = [];
   employeeList: IEmployee[] = [];
   materialList: IMaterial[] = [];
@@ -46,10 +51,9 @@ export class ImportManagerComponent implements OnInit {
   importIdTemp: number;
   importCreate: IImport = null;
 
-  totalPageList: number[] = [];
-
   page = 1;
-  totalPages: number;
+  size: number;
+  totalItems: number;
 
   constructor(
     private importService: ImportServiceService,
@@ -60,30 +64,33 @@ export class ImportManagerComponent implements OnInit {
 
   ngOnInit(): void {
     this.notification.notify('default', 'Vui nhập thông tin nhập kho');
-    this.getAllImportString();
-    this.getAllMaterialString();
     this.getCustomerList();
     this.getEmployeeList();
-    this.getImportList();
-    this.getImportListNotPagination();
+    this.getImportList(this.page);
     this.getMaterialTypeImportList();
+    this.importSearchForm = new FormGroup({
+      codeSearch: new FormControl(''),
+      startDateSearch: new FormControl(''),
+      endDateSearch: new FormControl('')
+    });
+
     this.importForm = new FormGroup({
-      importCode: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+      importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
       importStartDate: new FormControl(this.date1, [Validators.required]),
-      importQuantity: new FormControl(null, [Validators.required, Validators.min(0)]),
-      importAccountId: new FormControl(null, [Validators.required]),
-      importMaterialId: new FormControl(null, [Validators.required]),
-      materialCustomerId: new FormControl(null, [Validators.required])
+      importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
+      importAccountId: new FormControl('', [Validators.required]),
+      importMaterialId: new FormControl('', [Validators.required]),
+      materialCustomerId: new FormControl('', [Validators.required])
     });
 
     this.importUpdateForm = new FormGroup({
-      importCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-      importStartDateUpdate: new FormControl(null, [Validators.required]),
-      importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
-      importAccountIdUpdate: new FormControl(null, [Validators.required]),
-      importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-      importMaterialNameUpdate: new FormControl(null, [Validators.required]),
-      importMaterialUnitUpdate: new FormControl(null, [Validators.required])
+      importCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+      importStartDateUpdate: new FormControl('', [Validators.required]),
+      importQuantityUpdate: new FormControl('', [Validators.required, Validators.min(0)]),
+      importAccountIdUpdate: new FormControl('', [Validators.required]),
+      importMaterialCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+      importMaterialNameUpdate: new FormControl('', [Validators.required]),
+      importMaterialUnitUpdate: new FormControl('', [Validators.required])
     });
   }
 
@@ -95,28 +102,24 @@ export class ImportManagerComponent implements OnInit {
     });
   }
 
-  getAllImportString() {
-    this.importService.findAllImportString().subscribe(data => {
-      this.importListString = data;
-    });
-  }
-
-  getAllMaterialString() {
-    this.importService.findAllMaterialString().subscribe(data => {
-      this.materialListString = data;
-    });
-  }
-
   getEmployeeList() {
     this.importService.findAllEmployeeImport().subscribe((data: IEmployee[]) => {
       this.employeeList = data;
     });
   }
 
-  getImportList() {
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
+  getImportList(page: number) {
+    this.page = page;
+    this.importService.findAllImport(this.page - 1).subscribe((data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalItems = data.totalElements;
+      },
+      () => {
+        this.page--;
+        this.getImportList(this.page);
+      }
+    );
   }
 
   getMaterialTypeImportList() {
@@ -136,56 +139,6 @@ export class ImportManagerComponent implements OnInit {
     this.getMaterialImportListByCustomerId();
   }
 
-  // ++++++++++++phân trang+++++++++++
-  getImportListNotPagination() {
-    this.importService.findAllImportNotPagination().subscribe((data: IImport[]) => {
-        this.totalPages = (Math.ceil(data.length / 5) + 1);
-
-        this.totalPageList = [];
-        for (let i = 1; i < this.totalPages; i++) {
-          this.totalPageList.push(i);
-        }
-      }, () => {
-      },
-      () => {
-        if (this.page >= this.totalPages) {
-          this.page--;
-        }
-        this.getImportList();
-      });
-  }
-
-
-  getPreviousPage() {
-    this.page--;
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
-  getNextPage() {
-    this.page++;
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
-  getNumberPage(pageNumber: number) {
-    if (this.page >= this.totalPages) {
-      this.page--;
-    }
-    this.page = pageNumber;
-    this.importService.findAllImport((this.page * 5) - 5).subscribe((data: IImport[]) => {
-      this.importList = data;
-    });
-  }
-
   // +++++++++++++xoá++++++++++++++
   showInfoImportDelete(importTable: IImport) {
     this.importDelete = importTable;
@@ -195,11 +148,14 @@ export class ImportManagerComponent implements OnInit {
     this.importService.deleteImport(importId).subscribe(
       () => {
       },
-      () => {
+      (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
       },
       () => {
-        this.getImportList();
-        this.getImportListNotPagination();
+        this.getImportList(this.page);
+        // this.getImportListNotPagination();
         this.notification.notify('success', 'Xoá lịch sử nhập kho thành công');
       });
   }
@@ -225,8 +181,7 @@ export class ImportManagerComponent implements OnInit {
       () => {
         this.importForm.reset();
         this.page = 1;
-        this.getImportList();
-        this.getImportListNotPagination();
+        this.getImportList(this.page);
         this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
       }
     );
@@ -272,6 +227,7 @@ export class ImportManagerComponent implements OnInit {
           importStartDateUpdate: new FormControl(data.importStartDate, [Validators.required]),
           importQuantityUpdate: new FormControl(data.importQuantity, [Validators.required, Validators.min(0)]),
           importAccountIdUpdate: new FormControl(data.importAccountId, [Validators.required]),
+          // tslint:disable-next-line:max-line-length
           importMaterialCodeUpdate: new FormControl(data.importMaterialId.materialCode, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
           importMaterialNameUpdate: new FormControl(data.importMaterialId.materialName, [Validators.required]),
           importMaterialUnitUpdate: new FormControl(data.importMaterialId.materialUnit, [Validators.required])
@@ -325,39 +281,91 @@ export class ImportManagerComponent implements OnInit {
           this.checkQuantityMaterial = 0;
           this.importForm.reset();
           this.importUpdateForm.reset();
-          this.getImportList();
+          this.getImportList(this.page);
           this.notification.notify('success', 'cập nhật đơn hàng nhập kho thành công');
         }
       );
     } else {
+      // tslint:disable-next-line:max-line-length
       this.notification.notify('error', 'Số lượng vật tư hiện tại nhỏ hơn 0 sau khi cập nhật, vui lòng kiểm tra lại số lượng nhập kho');
       this.checkFormEdit = false;
     }
   }
 
-
   // ++check code import tồn tại++
-  checkImportCode(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1) {
-      this.importExistCreate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistCreate = '';
-    }
+  checkImportCode() {
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importForm.get('importCode').valid) {
+          if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+            this.importExistCreate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistCreate = '';
+          }
+        } else {
+          this.importExistCreate = '';
+        }
+      });
   }
 
-  checkImportCodeUpdate(importString: any) {
-    if (this.importListString.indexOf(importString.value) > -1 && importString.value !== this.importBeforeUpdate.importCode) {
-      this.importExistUpdate = 'Mã nhập kho đã tồn tại';
-    } else {
-      this.importExistUpdate = '';
-    }
+  checkImportCodeUpdate() {
+    this.importService.findAllImportString().subscribe(data => {
+        this.importListString = data;
+      }, () => {
+      },
+      () => {
+        if (this.importUpdateForm.get('importCodeUpdate').valid) {
+          // tslint:disable-next-line:max-line-length
+          if (this.importListString.indexOf(this.importExistUpdateSearch) > -1 && this.importExistUpdateSearch !== this.importBeforeUpdate.importCode) {
+            this.importExistUpdate = 'Mã nhập kho đã tồn tại';
+          } else {
+            this.importExistUpdate = '';
+          }
+        } else {
+          this.importExistUpdate = '';
+        }
+      });
   }
 
-  checkMaterialCodeUpdate(materialString: any) {
-    if (this.materialListString.indexOf(materialString.value) > -1 && materialString.value !== this.importBeforeUpdate.importMaterialId.materialCode) {
-      this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
-    } else {
-      this.materialExistUpdate = '';
-    }
+  checkMaterialCodeUpdate() {
+    this.importService.findAllMaterialString().subscribe(data => {
+      this.materialListString = data;
+    }, () => {
+    }, () => {
+      if (this.importUpdateForm.get('importMaterialCodeUpdate').valid) {
+        // tslint:disable-next-line:max-line-length
+        if (this.materialListString.indexOf(this.materialExistUpdateSearch) > -1 && this.materialExistUpdateSearch !== this.importBeforeUpdate.importMaterialId.materialCode) {
+          this.materialExistUpdate = 'Mã Vật tư đã tồn tại';
+        } else {
+          this.materialExistUpdate = '';
+        }
+      } else {
+        this.materialExistUpdate = '';
+      }
+    });
+  }
+
+// +++search+++++
+  searchImport() {
+    this.importService.searchImport(
+      this.importSearchForm.get('codeSearch').value,
+      this.importSearchForm.get('startDateSearch').value,
+      this.importSearchForm.get('endDateSearch').value,
+      0
+    ).subscribe(
+      (data: any) => {
+        this.importList = data.content;
+        this.size = data.size;
+        this.totalItems = data.totalElements;
+        this.page = 1;
+      }, (error) => {
+        if (error.status === 500) {
+          this.router.navigateByUrl('/auth/access-denied');
+        }
+      }
+    );
   }
 }

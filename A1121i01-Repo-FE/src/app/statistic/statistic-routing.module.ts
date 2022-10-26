@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
 import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
 import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
@@ -7,13 +7,13 @@ import {CustomerStatisticComponent} from './customer-statistic/customer-statisti
 
 const routes: Routes = [
   {
-    path: 'material', component: MaterialStatisticComponent
+    path: 'statistic/material', component: MaterialStatisticComponent
   },
   {
-    path: 'financial', component: FinancialStatisticComponent
+    path: 'statistic/financial', component: FinancialStatisticComponent
   },
   {
-    path: 'customer', component: CustomerStatisticComponent
+    path: 'statistic/customer', component: CustomerStatisticComponent
   }
 ];
 

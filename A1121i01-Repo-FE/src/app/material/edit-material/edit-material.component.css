@@ -110,12 +110,31 @@
 .container{
   border: 1px solid #2869ff;
   border-radius: 8px;
+  overflow: auto;
 }
 .content-image{
-  width: 85%;
-  height: 80%;
+  width: 350px;
+  height: 450px;
   /*border: 1px solid #1a2131;*/
 }
 .text-danger{
   margin-left: 185px;
+}
+.cl-red{
+  color: red;
+}
+.container{
+  margin-top: 100px !important;
+}
+.btn-image{
+  display: flex;
+  margin-top: 20px;
+  border: 1px solid;
+  border-radius: 4px;
+  height: 35px;
+  align-items: center;
+  font-size: 16px;
+}
+.form-control-file{
+  display: none;
 }

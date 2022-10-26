@@ -34,7 +34,7 @@ export class ListMaterialComponent implements OnInit {
   delete() {
     this.materialService.delete(this.materialDelete.materialId).subscribe(
       next => {
-        this.findAll(0, '');
+        this.findAll(this.indexPage, '');
       }
     );
   }
