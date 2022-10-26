@@ -17,7 +17,7 @@ import {checkHSD} from "../../validate/customvalidator.validator";
   styleUrls: ['./create-material.component.css']
 })
 export class CreateMaterialComponent implements OnInit {
-  loading = true;
+  loading = false;
   materialForm: FormGroup;
   listDataCus:ICustomer[] =[];
   listDataType: IMaterialType[] =[];
