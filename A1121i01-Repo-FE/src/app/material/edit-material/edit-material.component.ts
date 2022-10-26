@@ -8,6 +8,8 @@ import {ICustomer} from '../../model/customer/icustomer';
 import {AngularFireStorage} from "@angular/fire/storage";
 import {finalize} from "rxjs/operators";
 import {NotifierService} from "angular-notifier";
+import {checkHSD} from "../../validate/customvalidator.validator";
+import {formatDate} from "@angular/common";
 
 
 @Component({
@@ -16,6 +18,7 @@ import {NotifierService} from "angular-notifier";
   styleUrls: ['./edit-material.component.css']
 })
 export class EditMaterialComponent implements OnInit {
+  loading = false;
   formEdit = new FormGroup({});
   material: IMaterial;
   listDataCus:ICustomer[] =[];
@@ -24,6 +27,7 @@ export class EditMaterialComponent implements OnInit {
   upLoadImage= null;
   oldAvatarLink: string;
   url: any;
+  materialErr: IMaterial;
   constructor(
     private activatedRoute: ActivatedRoute,
     private materialService: MaterialServiceService,
@@ -129,6 +133,7 @@ export class EditMaterialComponent implements OnInit {
       this.checkEdit = true;
       return;
     }
+    this.loading = true;
     if (this.upLoadImage !== null) {
       const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
       const fileRef = this.storage.ref(avatarName);
@@ -145,8 +150,21 @@ export class EditMaterialComponent implements OnInit {
             this.materialService.update(this.formEdit.value).subscribe(
               () => {
                 // alert("Chỉnh sửa thành công!")
+                this.loading =true;
+              },
+              (error) => {
+                if (error.status === 500) {
+                  this.router.navigateByUrl('/auth/access-denied');
+                }
+                if (error.status === 400) {
+                  this.materialErr = error.error
+                }
+              },
+              () => {
                 this.notification.notify('success', 'Chỉnh sửa vật tư thành công');
                 this.upLoadImage = null;
+                this.loading = false;
+                // this.router.navigateByUrl("/material/list");
               }
             );
           })
@@ -156,13 +174,23 @@ export class EditMaterialComponent implements OnInit {
       this.materialService.update(this.formEdit.value).subscribe(
         () => {
           // alert('Chỉnh sửa thành công!');
-          this.notification.notify('success', 'Chỉnh sửa vật tư thành công');
+          this.loading =true;
+
         },
         (error) => {
           if (error.status === 500) {
             this.router.navigateByUrl('/auth/access-denied');
+            if (error.status === 400) {
+              this.materialErr = error.error
+            }
           }
-        }
+        },
+      () => {
+        this.notification.notify('success', 'Chỉnh sửa vật tư thành công');
+        this.upLoadImage = null;
+        this.loading =false;
+        // this.router.navigateByUrl("/material/list");
+      }
       );
     }
   }

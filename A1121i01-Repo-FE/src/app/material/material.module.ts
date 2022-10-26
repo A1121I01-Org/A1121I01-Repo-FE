@@ -14,7 +14,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
 import {NotifierModule} from "angular-notifier";
 
-
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
   exports: [
@@ -31,7 +30,8 @@ import {NotifierModule} from "angular-notifier";
         RouterModule,
         NgbModule,
         MaterialRoutingModule, HttpClientModule,
-        RouterModule, FormsModule, ReactiveFormsModule, NotifierModule,
+        RouterModule, FormsModule, ReactiveFormsModule, NotifierModule
+
     ]})
 
 export class MaterialModule { }

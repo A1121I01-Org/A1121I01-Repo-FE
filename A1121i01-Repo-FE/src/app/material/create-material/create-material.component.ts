@@ -9,6 +9,7 @@ import {finalize} from "rxjs/operators";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {formatDate} from "@angular/common";
 import {NotifierService} from "angular-notifier";
+import {checkHSD} from "../../validate/customvalidator.validator";
 
 @Component({
   selector: 'app-create-material',
@@ -16,6 +17,7 @@ import {NotifierService} from "angular-notifier";
   styleUrls: ['./create-material.component.css']
 })
 export class CreateMaterialComponent implements OnInit {
+  loading = false;
   materialForm: FormGroup;
   listDataCus:ICustomer[] =[];
   listDataType: IMaterialType[] =[];
@@ -23,6 +25,7 @@ export class CreateMaterialComponent implements OnInit {
   oldAvatarLink: string;
   url:any;
   date1 = formatDate(new Date(), 'yyyy-MM-dd', 'en_US');
+  materialErr: IMaterial;
   constructor(
     private materialService: MaterialServiceService,
     private router: Router,
@@ -38,13 +41,13 @@ export class CreateMaterialComponent implements OnInit {
       materialName: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(25)]),
       materialPrice: new FormControl('', [Validators.required, Validators.min(1)]),
       materialQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
-      materialExpiridate: new FormControl(this.date1, [Validators.required]),
+      materialExpiridate: new FormControl(null, [Validators.required]),
       materialDescribe: new FormControl('', [Validators.required]),
       materialUnit: new FormControl('', [Validators.required]),
       materialTypeId: new FormControl('', [Validators.required]),
       materialCustomerId: new FormControl('', [Validators.required]),
       materialImage:  new FormControl('')
-    });
+    }, checkHSD);
   }
 
   getListType(){
@@ -75,11 +78,11 @@ createMaterial() {
         control.updateValueAndValidity({onlySelf: true});
         console.log(control);
       }
-
     });
     this.checkCreate = true;
     return;
   }
+  this.loading = true;
   if(this.upLoadImage !== null){
     const avatarName = this.getCurrentDateTime() + this.upLoadImage.name;
     const fileRef = this.storage.ref(avatarName);
@@ -95,11 +98,15 @@ createMaterial() {
           console.log(this.materialForm.value);
           this.materialService.create(this.materialForm.value).subscribe(
             () => {
+              this.loading =true;
               console.log(this.materialForm.value);
             },
             (error) => {
               if (error.status === 500) {
                 this.router.navigateByUrl('/auth/access-denied');
+              }
+              if (error.status === 400) {
+                this.materialErr = error.error
               }
             },
             () => {
@@ -108,6 +115,7 @@ createMaterial() {
               this.upLoadImage = null;
               this.url = '';
               this.materialForm.reset();
+              this.loading = false;
             },
           )
         })
@@ -119,8 +127,12 @@ createMaterial() {
     // console.log(this.materialForm.value)
     this.materialService.create(this.materialForm.value).subscribe(
       () => {
+        this.loading =true;
       },
       (error) => {
+        if (error.status === 400) {
+          this.materialErr = error.error
+        }
         // if (error.status === 500) {
         //   this.router.navigateByUrl('/auth/access-denied');
         // }
@@ -129,6 +141,7 @@ createMaterial() {
         // alert("Thêm mới thành công!")
         this.notification.notify('success', 'Thêm mới vật tư thành công');
         this.materialForm.reset();
+        this.loading = false;
       }
     );
   }
