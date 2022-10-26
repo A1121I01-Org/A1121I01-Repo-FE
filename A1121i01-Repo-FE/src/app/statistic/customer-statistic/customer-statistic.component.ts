@@ -1,7 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ICustomer} from '../../model/customer/icustomer';
+import {Component, OnInit} from '@angular/core';
 import {StatisticServiceService} from '../../service/statistic/statistic-service.service';
-import {ICart} from '../../model/cart/icart';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Chart} from 'chart.js';
 
@@ -95,7 +93,7 @@ export class CustomerStatisticComponent implements OnInit {
     if (this.formSearch.get('fromMonth').value !== '' &&
       this.formSearch.get('toMonth').value !== '' &&
       this.formSearch.get('year').value) {
-      this.statisticService.cryptoData(
+      this.statisticService.cryptoDataHuyen(
         this.formSearch.get('fromMonth').value,
         this.formSearch.get('toMonth').value,
         this.formSearch.get('year').value).then((res) => {
