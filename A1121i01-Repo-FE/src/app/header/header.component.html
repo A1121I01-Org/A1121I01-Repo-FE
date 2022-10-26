@@ -36,13 +36,21 @@
             <i class="fa-solid fa-bars"></i>
         </div>
         <div class="header-logo" >
-            <a [routerLink]=" " ><img alt="logo"  src="assets/images/infor-material/logo1.png" width="30px" height="30px"></a>
-        </div>
+            <a routerLink="" ><img alt="logo"  src="assets/images/infor-material/logo1.png" width="30px" height="30px"></a>
+    </div>
         <div class="header-categories">
+<!--            Chưa login-->
             <ul class="ul-base" *ngIf="!isLoggedIn">
-
             </ul>
+<!--            Đã loagin -->
             <ul class="ul-base" *ngIf="isLoggedIn">
+                <li class="dropdown" *ngIf="showAdminBoard">
+                    <a class="dropdown-toggle" href="#"><span>Hệ thống</span> <i class="material-icons"></i></a>
+                    <ul class="dropdown-menu ul-base">
+                        <li><a routerLink="/account/create">Tạo tài khoản</a></li>
+                        <!--            <li><a >Thay đổi mật khẩu</a></li>-->
+                    </ul>
+                </li>
                 <li class="dropdown" *ngIf="showAdminBoard || showAccountantBoard">
                     <a class="dropdown-toggle" ><span>Quản lí kho</span> <i class="material-icons"></i></a>
                     <ul class="dropdown-menu ul-base">
