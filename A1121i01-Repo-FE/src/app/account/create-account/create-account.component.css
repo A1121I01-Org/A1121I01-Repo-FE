@@ -213,3 +213,6 @@ button[disabled] {
     align-items: flex-start;
   }
 }
+.container__text{
+    height: 60px;
+}

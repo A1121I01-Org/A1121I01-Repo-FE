@@ -39,10 +39,10 @@
             <a [routerLink]=" " ><img alt="logo"  src="assets/images/infor-material/logo1.png" width="30px" height="30px"></a>
         </div>
         <div class="header-categories">
-<!--            Chưa login-->
+            <!--            Chưa login-->
             <ul class="ul-base" *ngIf="!isLoggedIn">
             </ul>
-<!--            Đã loagin -->
+            <!--            Đã loagin -->
             <ul class="ul-base" *ngIf="isLoggedIn">
                 <li class="dropdown" *ngIf="showAdminBoard">
                     <a class="dropdown-toggle" href="#"><span>Hệ thống</span> <i class="material-icons"></i></a>
@@ -59,11 +59,11 @@
                     </ul>
                 </li>
                 <li class="dropdown" *ngIf="showSellBoard">
-<!--                    <a class="dropdown-toggle" ><span>Quản lí kho</span> <i class="material-icons"></i></a>-->
-<!--                    <ul class="dropdown-menu ul-base">-->
-<!--                        <li><a routerLink="/import">Nhập kho</a></li>-->
-<!--                        <li><a>Xuất kho</a></li>-->
-<!--                    </ul>-->
+                    <!--                    <a class="dropdown-toggle" ><span>Quản lí kho</span> <i class="material-icons"></i></a>-->
+                    <!--                    <ul class="dropdown-menu ul-base">-->
+                    <!--                        <li><a routerLink="/import">Nhập kho</a></li>-->
+                    <!--                        <li><a>Xuất kho</a></li>-->
+                    <!--                    </ul>-->
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle"><span>Quản lí thông tin</span> <i class="material-icons"></i></a>
@@ -92,7 +92,13 @@
                 <li><a routerLink="/login">Sign in</a></li>
             </ul>
             <ul class="ul-base" *ngIf="isLoggedIn">
-                <li><a>{{userName}}</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle"><span>{{userName}}</span><i class="material-icons"></i></a>
+                    <ul class="dropdown-menu ul-base">
+                        <li><a >Thông tin</a></li>
+                        <li><a routerLink="/account/update/password">Đổi mật khẩu</a></li>
+                    </ul>
+                </li>
                 <li><a (click)="logout()">Logout</a></li>
             </ul>
         </div>
