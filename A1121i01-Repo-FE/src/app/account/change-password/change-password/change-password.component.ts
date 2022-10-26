@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Password} from '../../../model/classDTO/password';
 import {AccountServiceService} from '../../../service/account/account-service.service';
 import {TokenStorageService} from '../../../service/security/token-storage.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-change-password',
@@ -17,15 +18,17 @@ export class ChangePasswordComponent implements OnInit {
   accountId: number;
   updatePassword: Password = {};
   error = false;
+  noti: NotifierService;
 
-  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private router: Router, private activatedRoute: ActivatedRoute, private tokenStorageService: TokenStorageService) {
+  constructor(private accountService: AccountServiceService, private fb: FormBuilder, private notifierService: NotifierService, private router: Router, private tokenStorageService: TokenStorageService,private activatedRoute: ActivatedRoute) {
+  this.noti = notifierService;
   }
 
   ngOnInit(): void {
     this.passwordForm = this.fb.group({
       oldPassword: ['', [Validators.required]],
       passwordGroup: this.fb.group({
-        newPassword: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$')]],
+        newPassword: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$')]],
         confirmPassword: ['', [Validators.required]]
       }, {validator: this.comparePassword}),
     });
@@ -36,8 +39,7 @@ export class ChangePasswordComponent implements OnInit {
     this.updatePassword.newPassword = formValue.passwordGroup.newPassword;
     this.updatePassword.confirmPassword = formValue.passwordGroup.confirmPassword;
 
-    this.activatedRoute.paramMap.subscribe(paramMap => {
-      this.accountId = Number(paramMap.get('id'));
+        this.accountId = this.tokenStorageService.getUser().account.accountId;
       this.accountService.updatePassword(this.accountId, this.updatePassword).subscribe(
         () => {
         },
@@ -51,11 +53,11 @@ export class ChangePasswordComponent implements OnInit {
           }
         },
         () => {
-          this.router.navigateByUrl('');
+          this.passwordForm.reset();
+          this.noti.notify('success', 'Cập nhật mật khẩu thành công');
           console.log('success');
         }
       );
-    });
   }
 
   comparePassword(control: AbstractControl): ValidationErrors | null {
