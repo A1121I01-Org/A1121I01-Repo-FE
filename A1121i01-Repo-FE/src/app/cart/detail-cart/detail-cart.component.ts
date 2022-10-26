@@ -63,6 +63,7 @@ export class DetailCartComponent implements OnInit {
     this.cartService.getAllProvinceCity().subscribe(
       data => {
         this.apiListProvinceCity = data;
+        console.log(data);
       },
       (error: HttpErrorResponse) => {
         console.log(error);
