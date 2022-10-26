@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {HomeComponent} from './home/home.component';
-import {ActivitiesComponent} from "./activities/activities.component";
+import {ActivitiesComponent} from './activities/activities.component';
 
 const routes: Routes = [{
   path: 'customer',

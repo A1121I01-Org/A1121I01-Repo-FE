@@ -11,6 +11,7 @@ import {CustomerServiceService} from '../../service/customer/customer-service.se
 })
 export class ListCustomerComponent implements OnInit {
   listCustomer: ICustomer[] = [];
+  listDeleteCustomer: number[] = [];
   listCustomerNotPagination: ICustomer[] = [];
   totalPagination: Array<any>;
   page = 0;
@@ -47,9 +48,9 @@ export class ListCustomerComponent implements OnInit {
         console.log(Math.round(this.listCustomerNotPagination.length / 5));
         this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
         if ((this.listCustomerNotPagination.length % 5) !== 0) {
-          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1 )  );
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5)  )  );
         } else {
-          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
+          this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) + 1 )  );
         }
       });
   }
@@ -109,6 +110,7 @@ export class ListCustomerComponent implements OnInit {
   send() {
     if (this.searchNameAndPhoneForm.get('name').value == '' && this.searchNameAndPhoneForm.get('phone').value == '') {
       this.page = 0;
+      this.message = '';
       this.getAllCustomerWithPagination();
       this.totalPagination = new Array((Math.round(this.listCustomerNotPagination.length / 5) )  );
     } else {
@@ -126,7 +128,7 @@ export class ListCustomerComponent implements OnInit {
           }
         },
         () => {
-          if (this.listCustomer.length == 0) {
+          if (this.listCustomer.length === 0) {
             this.page = 0;
             this.message = 'Khách hàng đã xóa hoặc không tồn tại';
             this.getAllCustomer();
@@ -135,6 +137,5 @@ export class ListCustomerComponent implements OnInit {
         });
     }
   }
-
 
 }
