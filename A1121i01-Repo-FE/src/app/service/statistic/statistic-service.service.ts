@@ -21,12 +21,7 @@ export class StatisticServiceService {
     return this.http.post<Blob>(`${this.API_URL}/pdf2`, search, {responseType: 'blob'} );
   }
 
-  // test chart material
-  // cryptoData(): Promise<number> {
-  //   return this.http.get<number>(`${this.API_URL}/huyhang`).toPromise().then((data) => {
-  //     return data;
-  //   });
-  // }
+  // test chart financial
   cryptoData() {
     return this.http.get(`${this.API_URL}/huyhang`).toPromise().then((data) => {
       return data;

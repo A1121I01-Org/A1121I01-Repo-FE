@@ -21,14 +21,7 @@ export class FinancialStatisticComponent implements OnInit {
   year = '';
 
   chart: Chart;
-  chartFinancial1: any;
   labels: any;
-  dataNhap: any;
-  dataBan: any;
-  dataHuy: any;
-  dataTra: any;
-  dataDoanhthu: any;
-  result: any;
 
   constructor(private statisticService: StatisticServiceService) { }
 
@@ -115,16 +108,6 @@ export class FinancialStatisticComponent implements OnInit {
     this.month = '';
     this.year = '';
     this.statisticService.cryptoData().then((data) => {
-      // tslint:disable-next-line:radix
-      // this.dataBan  = this.chartFinancial1.parseInt((statistic: any) => statistic[0]);
-      // tslint:disable-next-line:radix
-      // this.dataNhap  = this.chartFinancial1.parseInt((statistic: any) => statistic[1]);
-      // // tslint:disable-next-line:radix
-      // this.dataHuy  = this.chartFinancial1.parseInt((statistic: any) => statistic[2]);
-      // // tslint:disable-next-line:radix
-      // this.dataTra  = this.chartFinancial1.parseInt((statistic: any) => statistic[3]);
-
-        // show Chart data
       console.log(this.ban);
       this.chart = new Chart('canvas', {
           type: 'bar',
