@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
+import {AdminEditEmployeeComponent} from './admin-edit-employee/admin-edit-employee.component';
+import {CreateEmployeeComponent} from './create-employee/create-employee.component';
 import {DetailEmployeeComponent} from './detail-employee/detail-employee.component';
 import {ListEmployeeComponent} from './list-employee/list-employee.component';
 import {EditEmployeeComponent} from './edit-employee/edit-employee.component';
@@ -14,7 +16,9 @@ const routes: Routes = [
   },
   {
     path: 'employee/edit/:id', component: EditEmployeeComponent
-  }
+  },
+  {path: 'product/create', component: CreateEmployeeComponent},
+  {path: 'product/edit/:id', component: AdminEditEmployeeComponent}
 ];
 
 @NgModule({
