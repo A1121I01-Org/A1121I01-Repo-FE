@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {ViewChild} from '@angular/core';
+import {checkHSD} from "../../../validate/customvalidator.validator";
 
 @Component({
     selector: 'app-import-material-form',
@@ -96,13 +97,13 @@ export class ImportMaterialFormComponent implements OnInit {
             materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
             materialName: new FormControl('', [Validators.required]),
             materialPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-            materialExpiridate: new FormControl('', [Validators.required]),
+            materialExpiridate: new FormControl(null, [Validators.required]),
             materialUnit: new FormControl('', [Validators.required]),
             materialTypeId: new FormControl('', [Validators.required]),
             materialImage: new FormControl(''),
             materialDescribe: new FormControl(''),
             materialCustomerId: new FormControl('', [Validators.required])
-        });
+        }, checkHSD);
 
         this.importUpdateForm = new FormGroup({
             importCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),

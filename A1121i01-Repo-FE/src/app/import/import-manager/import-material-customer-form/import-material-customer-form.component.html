@@ -205,6 +205,10 @@
                                    *ngIf="importForm3.get('materialExpiridate').invalid && (importForm3.get('materialExpiridate').touched||importForm3.get('materialExpiridate').dirty)">
                                 Hạn sử dụng không được để trống
                             </small>
+                            <small class="text-danger mb-0 pb-0"
+                                   *ngIf="(importForm3.get('materialExpiridate').valid) && importForm3.hasError('dateError')">
+                                Hạn sử dụng phải lớn hơn hoặc bằng ngày hiện tại!
+                            </small>
                         </div>
                     </div>
 

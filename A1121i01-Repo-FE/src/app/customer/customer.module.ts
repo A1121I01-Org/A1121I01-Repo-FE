@@ -8,7 +8,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ListCustomerComponent} from './list-customer/list-customer.component';
 import {CreateCustomerComponent} from './create-customer/create-customer.component';
 import {DetailCustomerComponent} from './detail-customer/detail-customer.component';
-import {NotifierModule} from "angular-notifier";
+import {NotifierModule} from 'angular-notifier';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {NotifierModule} from "angular-notifier";
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
-        NotifierModule
+        NotifierModule,
+        NgxPaginationModule
     ]
 })
 export class CustomerModule {

@@ -214,6 +214,10 @@
                                    *ngIf="importForm2.get('materialExpiridate').invalid && (importForm2.get('materialExpiridate').touched||importForm2.get('materialExpiridate').dirty)">
                                 Hạn sử dụng không được để trống
                             </small>
+                            <small class="text-danger mb-0 pb-0"
+                                   *ngIf="(importForm2.get('materialExpiridate').valid) && importForm2.hasError('dateError')">
+                                Hạn sử dụng phải lớn hơn hoặc bằng ngày hiện tại!
+                            </small>
                         </div>
                     </div>
                     <div class="row">

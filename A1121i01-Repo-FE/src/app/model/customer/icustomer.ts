@@ -10,4 +10,5 @@ export interface ICustomer {
   customerEmail?: string;
   customerFlag?: boolean;
   customerTypeId?: ICustomerType;
+  checked?: boolean;
 }

@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {ViewChild} from '@angular/core';
+import {checkHSD} from "../../../validate/customvalidator.validator";
 
 @Component({
     selector: 'app-import-material-customer-form',
@@ -117,7 +118,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
             materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
             materialName: new FormControl('', [Validators.required]),
             materialPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-            materialExpiridate: new FormControl('', [Validators.required]),
+            materialExpiridate: new FormControl(null, [Validators.required]),
             materialUnit: new FormControl('', [Validators.required]),
             materialImage: new FormControl(''),
             materialDescribe: new FormControl(''),
@@ -129,7 +130,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
             customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
             customerEmail: new FormControl('', [Validators.required, Validators.email]),
             customerAvatar: new FormControl('')
-        });
+        }, checkHSD);
 
         this.importUpdateForm = new FormGroup({
             importCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
