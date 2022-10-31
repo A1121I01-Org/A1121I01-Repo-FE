@@ -48,9 +48,9 @@ export class EmployeeServiceService {
         return this.http.get<IEmployee[]>(this.API_URL);
     }
 
-    getAllEmployeeWithPagination(page: number): Observable<IEmployee[]> {
-        return this.http.get<IEmployee[]>(this.API_URL + '/employee-pagination/' + page);
-    }
+    findAllEmployee(page: number): Observable<IEmployee[]> {
+        return this.http.get<IEmployee[]>(this.API_URL + '/employee/list?page=' + page);
+      }
 
 
     deleteEmployeeById(id: number): Observable<IEmployee> {
@@ -58,8 +58,8 @@ export class EmployeeServiceService {
         return this.http.delete<IEmployee>(this.API_URL + '/employee-delete/' + id);
     }
 
-    // findEmployeeById(code: string): Observable<IEmployee> {
-    //   return this.http.get<IEmployee>(`${this.API_URL}/${code}`);
+    // deleteEmployee(id: number): Observable<void> {
+    //     return this.http.delete<void>(this.API_URL + '/employee-delete/' + id);
     // }
 
     searchEmployeeByName(value: string): Observable<IEmployee[]> {
@@ -77,15 +77,15 @@ export class EmployeeServiceService {
     }
 
     saveEmployee(employee: IEmployee): Observable<void> {
-        return this.http.post<void>(this.API_URL + '/create', employee);
+        return this.http.post<void>( `${this.API_URL}/admin_create`, employee);
     }
 
     getListPosition(): Observable<any> {
         return this.http.get(this.API_URL + '/position/list');
     }
 
-    adminUpdateEmployee(employee: IEmployee): Observable<IEmployee> {
-        return this.http.patch<IEmployee>(this.API_URL + '/update/' + employee.employeeId, employee);
+    adminUpdateEmployee(id: number, employee: IEmployee): Observable<IEmployee> {
+        return this.http.patch<IEmployee>(`${this.API_URL}/admin_update/${id}`, employee);
     }
 }
 

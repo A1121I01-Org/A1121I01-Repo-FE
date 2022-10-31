@@ -7,10 +7,14 @@ import {ListEmployeeComponent} from './list-employee/list-employee.component';
 import {CreateEmployeeComponent} from './create-employee/create-employee.component';
 import {DetailEmployeeComponent} from './detail-employee/detail-employee.component';
 import {AdminEditEmployeeComponent} from './admin-edit-employee/admin-edit-employee.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule , ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AccountModule} from '../account/account.module';
-import {NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import {RouterModule} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgxPaginationModule} from "ngx-pagination";
+import {NotifierModule} from "angular-notifier";
 
 
 @NgModule({
@@ -26,10 +30,15 @@ import {NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
     imports: [
         CommonModule,
         EmployeeRoutingModule,
+        FormsModule,
+        NgbModule,
+        RouterModule,
         HttpClientModule,
         ReactiveFormsModule,
         AccountModule,
-        NgbTooltipModule
+        NgbTooltipModule,
+        NgxPaginationModule,
+        NotifierModule
     ]
 })
 export class EmployeeModule {

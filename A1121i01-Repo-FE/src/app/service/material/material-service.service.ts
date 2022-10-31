@@ -15,8 +15,8 @@ export class MaterialServiceService {
   constructor(private http: HttpClient) {
   }
 
-  getAllMaterial(thePage: number, thePageSize: number): Observable<GetResponseMaterial> {
-    const url = `${this.API_URL}/list?` + `&page=${thePage}&size=${thePageSize}`;
+  getAllMaterial(thePage: number): Observable<GetResponseMaterial> {
+    const url = `${this.API_URL}/list?` + `&page=${thePage}`;
     return this.http.get<GetResponseMaterial>(url);
   }
 

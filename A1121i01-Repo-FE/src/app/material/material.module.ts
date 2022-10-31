@@ -13,6 +13,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {HttpClientModule} from '@angular/common/http';
 import {NotifierModule} from "angular-notifier";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [CreateMaterialComponent, EditMaterialComponent, DetailMaterialComponent, ListMaterialComponent, InforMaterialComponent],
@@ -30,7 +31,7 @@ import {NotifierModule} from "angular-notifier";
         RouterModule,
         NgbModule,
         MaterialRoutingModule, HttpClientModule,
-        RouterModule, FormsModule, ReactiveFormsModule, NotifierModule
+        RouterModule, FormsModule, ReactiveFormsModule, NotifierModule, NgxPaginationModule
 
     ]})
 
