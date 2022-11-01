@@ -27,6 +27,11 @@ export class CreateAccountComponent implements OnInit {
   employeeHasAccountList: string[] = [];
   employeeDontHasAccountList: string[] = [];
   phoneList: string[] = [];
+  existCode: string;
+  existUsername: string;
+  existPhone: string;
+  date: string;
+  checkBirth: string;
   private readonly notifier: NotifierService;
 
   constructor(private accountService: AccountServiceService, private employeeService: EmployeeServiceService,
@@ -42,7 +47,7 @@ export class CreateAccountComponent implements OnInit {
         employeeDateOfBirth: ['', [Validators.required, checkAge]],
         employeeGender: ['', [Validators.required]],
         employeeAddress: ['', [Validators.required, Validators.maxLength(59), Validators.minLength(5)]],
-        employeePhone: ['', [Validators.required, Validators.maxLength(19), Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]],
+        employeePhone: ['', [Validators.required, Validators.maxLength(19),  Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]],
         employeePositionId: ['', [Validators.required]]
       }),
       account: this.formBuilder.group({
@@ -58,6 +63,7 @@ export class CreateAccountComponent implements OnInit {
     this.getAllPhone();
     // @ts-ignore
     this.createForm.setValidators(this.passValidator(this.createForm.get('account').get('password'), this.createForm.get('account').get('confirmPassword')));
+    this.focusInput();
   }
 
   submit() {
@@ -65,19 +71,28 @@ export class CreateAccountComponent implements OnInit {
     this.accountService.createAccount(employeeAccount).subscribe(
       () => {
       }, (error) => {
-        if (error.status === 403 || error.status === 500) {
+        if (error.status === 403) {
           this.router.navigateByUrl('/auth/access-denied');
+        } else if (this.confirmPassCheck !== '') {
+          this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
+        } else {
+          this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
         }
       }, () => {
         // alert('Thêm mới thành công.');
         this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
         this.router.navigateByUrl('/account/create');
         this.createForm.reset();
+        this.focusInput();
         this.removeDisableInput();
         this.disableButton();
       });
   }
-
+  focusInput() {
+    const usernameInput = document.getElementById('username') as HTMLInputElement;
+    usernameInput.focus();
+    usernameInput.select();
+  }
   backToHome() {
     this.router.navigate(['']);
   }
@@ -165,24 +180,34 @@ export class CreateAccountComponent implements OnInit {
     this.createForm.get('employee').get('employeePhone').reset();
   }
 
-  checkCode(code: string) {
-    if (this.employeeHasAccountList.indexOf(code) > -1) {
+  checkCode() {
+    if (this.employeeHasAccountList.indexOf(this.existCode) > -1) {
       this.errorMessageAccountAndEmployeeExist = 'Mã nhân viên đã tồn tại và đã có tài khoản.';
+      const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+      button?.setAttribute('disabled', '');
     } else {
       this.errorMessageAccountAndEmployeeExist = '';
-      if (this.employeeDontHasAccountList.indexOf(code) > -1) {
+      if (this.employeeDontHasAccountList.indexOf(this.existCode) > -1) {
         this.errorMessageEmployeeExist = 'Mã nhân viên đã tồn tại.';
         this.resetInput();
-        this.getEmployee(code);
+        this.getEmployee(this.existCode);
         this.disableInput();
         this.removeDisableButton();
       } else {
         this.errorMessageEmployeeExist = '';
+        const button = document.getElementById('btnAdd') as HTMLButtonElement | null;
+        button?.setAttribute('disabled', '');
         this.removeDisableInput();
       }
     }
   }
-
+  // isFutureDate(idate) {
+  //   const today = new Date().getTime();
+  //   idate = idate.split('-');
+  //
+  //   idate = new Date(idate[0], idate[1] - 1, idate[2]).getTime();
+  //   return (today - idate) < 0 ? true : false;
+  // }
   passValidator(control: AbstractControl, controlTwo: AbstractControl): () => (string | null) {
     return () => {
       if (control.value !== controlTwo.value) {
@@ -192,16 +217,16 @@ export class CreateAccountComponent implements OnInit {
     };
   }
 
-  checkUsername(username: string) {
-    if (this.usernameList.indexOf(username) > -1) {
+  checkUsername() {
+    if (this.usernameList.indexOf(this.existUsername) > -1) {
       this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
     } else {
       this.usernameAlreadyExist = '';
     }
   }
 
-  checkPhone(phone: string) {
-    if (this.phoneList.indexOf(phone) > -1) {
+  checkPhone() {
+    if (this.phoneList.indexOf(this.existPhone) > -1) {
       this.phoneAlreadyExist = 'Số điện thoại đã tồn tại.';
     } else {
       this.phoneAlreadyExist = '';

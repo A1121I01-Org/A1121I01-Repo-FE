@@ -15,7 +15,10 @@ export class DetailMaterialComponent implements OnInit {
   desArray: string[];
   desArray1: string[];
   desArray2: string[];
-  imageArray: string[];
+
+    imageArray: string[];
+    imageArray1: string[];
+    imageArray2: string[];
 
 
 
@@ -45,7 +48,26 @@ export class DetailMaterialComponent implements OnInit {
         this.desArray2 = this.desArray1.slice(3, 4);
         console.log(this.desArray2);
 
-      });
+              // cat chuoi hinh anh
+
+        let image = this.materials.materialImage;
+
+        this.imageArray = image.split('@', (1));
+
+// let image=this.materials.materialImage;
+// this.imageArray=image.split("@")
+        let image1 = this.materials.materialImage;
+
+        this.imageArray1 = image1.split('@');
+        this.imageArray2 = this.imageArray1.slice(1, 2);
+
+      }
+        ,
+        (error) => {
+          if (error.status === 404) {
+            this.router.navigateByUrl('/error404');
+          }
+          });
     });
 
     this.getTopMaterial();

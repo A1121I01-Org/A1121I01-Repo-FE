@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {CreateAccountComponent} from './create-account/create-account.component';
-import {ChangePasswordComponent} from './change-password/change-password.component';
+import {ChangePasswordComponent} from './change-password/change-password/change-password.component';
 
 const routes: Routes = [
 
@@ -10,7 +10,7 @@ const routes: Routes = [
     component: CreateAccountComponent
   },
   {
-    path: 'update/password/:id',
+    path: 'update/password',
     component: ChangePasswordComponent
   }
 ];

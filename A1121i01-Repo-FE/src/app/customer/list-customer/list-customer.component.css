@@ -4,6 +4,9 @@
 /*  margin: 0;*/
 /*  padding: 0;*/
 /*}*/
+*{
+    font-family: "Segoe UI", sans-serif;
+}
 a{
   text-decoration: none;
 }
@@ -15,7 +18,7 @@ body, input, button, textarea, select{
   outline: none;
   font-size: 12px;
   line-height: 1.5;
-  font-family: MONTSERAT, "SEGOE ui", serif;
+  /*font-family: MONTSERAT, "SEGOE ui", serif;*/
 }
 input{
   line-height: normal;
@@ -25,7 +28,7 @@ button{
 }
 body{
   padding: 20px;
-  font-family: MONTSERAT, "SEGOE ui", serif;
+  /*font-family: MONTSERAT, "SEGOE ui", serif;*/
   background-color: #f6f6f9;
   box-sizing: border-box;
   display: flex;
@@ -47,7 +50,7 @@ table th, table td{
 table th{
   color: #F0F4F8;
   font-weight: 600;
-  background: #0f57b3;
+  background: #270082
 }
 table td{
   background: white;
@@ -131,7 +134,18 @@ div.all .input-group{
   border-radius: 10px;
   float: left;
   color: #504f4f;
-  font-family: MONTSERAT, "SEGOE ui", sans-serif ;
+  /*font-family: MONTSERAT, "SEGOE ui", sans-serif ;*/
+}
+div.all .info-search form .btn-primary{
+    border: none;
+    box-shadow: 0px 8px 15px rgba(120,
+    158,
+    233,
+    0.4);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    font-weight: bold;
 }
 
 /*button add new customer*/
@@ -149,6 +163,8 @@ div.all .input-group{
   font-weight: 400;
   padding: 4px;
   transition: all 1.5s;
+
+
 }
 .add-product:hover{
   background: #0f57b3;
@@ -171,16 +187,22 @@ div.all .input-group{
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  /*font-weight: 500;*/
   color: rgb(221, 221, 221);
   background-color: #0f57b3;
   border: none;
   border-radius: 8px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);*/
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  font-family: MONTSERAT, "SEGOE ui", serif;
+  /*font-family: MONTSERAT, "SEGOE ui", serif;*/
+
+    box-shadow: 0 8px 15px rgba(120,
+    158,
+    233,
+    0.4);
+    font-weight: bold;
 
 
 }
@@ -195,16 +217,22 @@ div.all .input-group{
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  /*font-weight: 500;*/
   color: rgb(29, 25, 145);
   background-color: #cce2fe;
   border: none;
   border-radius: 8px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);*/
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  font-family: MONTSERAT, "SEGOE ui", serif;
+  /*font-family: MONTSERAT, "SEGOE ui", serif;*/
+
+    box-shadow: 0 8px 15px rgba(120,
+    158,
+    233,
+    0.4);
+    font-weight: bold;
 
 }
 
@@ -220,16 +248,22 @@ div.all .input-group{
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  /*font-weight: 500;*/
   color: rgb(29, 25, 145);
   background-color: #ffffff;
   border: none;
   border-radius: 8px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);*/
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  font-family: MONTSERAT, "SEGOE ui", serif;
+  /*font-family: MONTSERAT, "SEGOE ui", serif;*/
+
+    box-shadow: 0 8px 15px rgba(120,
+    158,
+    233,
+    0.4);
+    font-weight: bold;
 
 }
 
@@ -243,7 +277,7 @@ div.all .input-group{
 /*sticky scroll doc*/
 .my-custom-scrollbar {
   position: relative;
-  height: 300px;
+  height: 500px;
   overflow: auto;
   width: 97%;
   border-top: 2px solid #F0F4F8;

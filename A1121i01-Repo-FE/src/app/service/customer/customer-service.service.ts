@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {ICustomer} from '../../model/customer/icustomer';
 import {Observable} from 'rxjs';
+import {IImport} from '../../model/iimport';
 
 const URL_API = `${environment.apiUrl}` + 'customer';
 @Injectable({
@@ -29,6 +30,9 @@ export class CustomerServiceService {
   getAllCustomerWithPagination(page: number): Observable<ICustomer[]> {
     return this.http.get<ICustomer[]>(this.API_URL + '/customer-pagination/' + page);
   }
+  findAllCustomer(page: number): Observable<ICustomer[]> {
+      return this.http.get<ICustomer[]>(this.API_URL + '/customer-list?page=' + page);
+  }
 
   // HieuNT delete customer by id
   deleteCustomerById(id: number): Observable<ICustomer> {
@@ -36,8 +40,11 @@ export class CustomerServiceService {
     return this.http.delete<ICustomer>(this.API_URL + '/customer-delete/' + id);
   }
 
-  searchCustomerByNameAndPhone(value1: string, value2: string): Observable<ICustomer[]> {
-    return this.http.get<ICustomer[]>(this.API_URL + `/customer-search?name=${value1}&phone=${value2}`);
+  searchCustomerByNameAndPhone(value1: string, value2: string, value3: number): Observable<ICustomer[]> {
+    return this.http.get<ICustomer[]>(this.API_URL + `/customer-search?name=${value1}&phone=${value2}&page=${value3}`);
+  }
+  findAllCustomerString(): Observable<string[]> {
+    return this.http.get<string[]>(URL_API + '/customer-list-string');
   }
 
   create(customer: ICustomer): Observable<ICustomer> {

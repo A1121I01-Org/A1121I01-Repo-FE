@@ -1,70 +1,108 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {IMaterial} from '../../model/material/imaterial';
-import {ICustomer} from '../../model/customer/icustomer';
-
-
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class StatisticServiceService {
-  readonly API: string = 'http://localhost:8080/api/statistic';
+    readonly API: string = 'http://localhost:8080/api/statistic';
 
-  constructor(private httpClient: HttpClient) {
-  }
+    constructor(private httpClient: HttpClient) {
+    }
 
-  getAll(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/material');
-  }
+    getAll(): Observable<string[]> {
+        return this.httpClient.get<string[]>(`${this.API}/list/material1`);
+    }
 
-  getPdf(): Observable<Blob> {
-    // @ts-ignore
-    return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
-  }
+    getPdf(): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.get<Blob>(`${this.API}/pdf`, {responseType: 'blob'});
+    }
 
-  // searchStatisticMaterial(): Observable<string[]> {
-  //   return this.httpClient.get
-  // }
+    searchStatisticMaterial(fromDate: string, toDate: string): Observable<string[]> {
+        return this.httpClient.get<string[]>(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate);
+    }
 
+    // searchStatisticMaterial(): Observable<string[]> {
+    //   return this.httpClient.get
+    // }
 
-  // getBan(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/banhang`);
-  // }
-  //
-  // getTra(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/trahang`);
-  // }
-  //
-  // getHuy(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/huyhang`);
-  // }
-  //
-  // getLuong(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/luongNV`);
-  // }
-  //
-  // getNhap(): Observable<number> {
-  //   return this.http.get<number>(`${this.API_URL}/nhaphang`);
-  // }
+    // test chart material
+    cryptoData(fromDate: string, toDate: string) {
+        // tslint:disable-next-line:max-line-length
+        return this.httpClient.get(`${this.API}/search/material` + '?fromDate=' + fromDate + '&toDate=' + toDate).toPromise().then((data) => {
+            return data;
+        });
+    }
 
-  search(month: string, year: string): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.API}/search?` + `month=${month}&year=${year}`);
-  }
+    cryptoData1() {
+        return this.httpClient.get(`${this.API}/chart`).toPromise().then((data) => {
+            return data;
+        });
+    }
 
-  getPdf2(search: string[]): Observable<Blob> {
-    // @ts-ignore
-    return this.httpClient.post<Blob>(`${this.API}/pdf2`, search, {responseType: 'blob'});
-  }
+    getAllCustomer(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.API + '/list/customer');
+    }
 
+    // KimPBH-Thong ke tai chinh
+    // getBan(): Observable<number> {
+    //   return this.http.get<number>(`${this.API_URL}/banhang`);
+    // }
+    //
+    // getTra(): Observable<number> {
+    //   return this.http.get<number>(`${this.API_URL}/trahang`);
+    // }
+    //
+    // getHuy(): Observable<number> {
+    //   return this.http.get<number>(`${this.API_URL}/huyhang`);
+    // }
+    //
+    // getLuong(): Observable<number> {
+    //   return this.http.get<number>(`${this.API_URL}/luongNV`);
+    // }
+    //
+    // getNhap(): Observable<number> {
+    //   return this.http.get<number>(`${this.API_URL}/nhaphang`);
+    // }
 
-  getAllCustomer(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.API + '/list/customer');
-  }
+    search(month: string, year: string): Observable<string[]> {
+        return this.httpClient.get<string[]>(`${this.API}/search?` + `month=${month}&year=${year}`);
+    }
 
-  // getFindForPotentialCustomers(cartDateCreate: any): Observable<any> {
-  //   return this.http.get<any>(this.url + '/search/customer?cartDateCreate=' + cartDateCreate);
-  // }
+    getPdfKim(search: string[]): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.post<Blob>(`${this.API}/pdf2`, search, {responseType: 'blob'});
+    }
+
+    getPDF(): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.get<Blob>(`${this.API}/pdf-huyen`, {responseType: 'blob'});
+    }
+
+    searchStatisticCustomer(fromMonth: string, toMonth: string, year: string): Observable<string[]> {
+        // tslint:disable-next-line:max-line-length
+        return this.httpClient.get<string[]>(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year);
+    }
+
+    cryptoDataHuyen(fromMonth: string, toMonth: string, year: string) {
+        // tslint:disable-next-line:max-line-length
+        return this.httpClient.get(`${this.API}/search/customer` + '?fromMonth=' + fromMonth + '&toMonth=' + toMonth + '&year=' + year).toPromise().then((data) => {
+            return data;
+        });
+    }
+
+    cryptoDataCustomer() {
+        return this.httpClient.get(`${this.API}/list/customer`).toPromise().then((data) => {
+            return data;
+        });
+    }
+
+    // test chart financial
+    cryptoDataKim() {
+        return this.httpClient.get(`${this.API}/huyhang`).toPromise().then((data) => {
+            return data;
+        });
+    }
 }
-
