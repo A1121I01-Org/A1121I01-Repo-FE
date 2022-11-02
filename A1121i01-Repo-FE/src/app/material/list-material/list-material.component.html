@@ -9,24 +9,26 @@
             <div class="navbar-nav">
             </div>
         </div>
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchVal">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+               [(ngModel)]="searchVal">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Tìm kiếm</button>
     </nav>
     <table class="table table-hover table-css">
         <thead style="background-color: #270082; color: #e6ebf1; overflow: hidden; white-space: nowrap;">
         <tr>
-            <th scope="col">Mã VT </th>
-            <th scope="col">Tên vật tư </th>
+            <th scope="col">Mã VT</th>
+            <th scope="col">Tên vật tư</th>
             <th scope="col">Loại vật tư</th>
-            <th scope="col">Giá thành </th>
-            <th scope="col">Hạn sử dụng </th>
-            <th scope="col">Nhà cung cấp </th>
-            <th scope="col">Sửa </th>
+            <th scope="col">Giá thành</th>
+            <th scope="col">Hạn sử dụng</th>
+            <th scope="col">Nhà cung cấp</th>
+            <th scope="col">Sửa</th>
             <th scope="col">Xoá</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let material of materialList" class="wrapper rounded bg-white " style="margin-top: 12px">
+        <tr *ngFor="let material of materialList | paginate: {itemsPerPage: size, currentPage: page, totalItems: totalItems}"
+            class="wrapper rounded bg-white " style="margin-top: 12px">
             <td scope="col">{{material?.materialCode}}</td>
             <td scope="col">{{material?.materialName}}</td>
             <td scope="col">{{material?.materialTypeId.materialTypeName}}</td>
@@ -34,27 +36,31 @@
             <td scope="col">{{material?.materialExpiridate | date: "dd-MM-yyyy"}}</td>
             <td scope="col">{{material?.materialCustomerId.customerName}}</td>
             <td scope="col">
-                <button class="team-css btn__primary" >Sửa</button>
+                <button class="team-css btn__primary">Sửa</button>
             </td>
             <td scope="col">
-                <button class=" team-css"  data-toggle="modal" data-target="#modalDelete" (click)="findMaterialDelete(material.materialId)">Xoá</button>
+                <button class=" team-css" data-toggle="modal" data-target="#modalDelete"
+                        (click)="findMaterialDelete(material.materialId)">Xoá
+                </button>
             </td>
         </tr>
 
         </tbody>
     </table>
 
-    <div style="margin-left: 40%">
-        <button [disabled]="indexPage == 0" (click)="previousPage()">Previous</button>
-        {{indexPage+1}}/{{totalPages}}
-        <button [disabled]="indexPage + 1 == totalPages" (click)="nextPage()">Next</button>
+
+    <div *ngIf="totalItems > 5" style="display: flex; justify-content: center; align-items: center;">
+        <pagination-controls (pageChange)="findAll($event, searchVal)"></pagination-controls>
     </div>
 
-    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-danger" id="exampleModalLabel"><b>Bạn có muốn xoá vật tư này không?</b></h5>
+                    <h5 class="modal-title text-danger" id="exampleModalLabel"><b>Bạn có muốn xoá vật tư này không?</b>
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -66,7 +72,8 @@
                 <p class="text-danger"><b>Lưu ý: Nội dung này không thể hoàn tác </b></p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete()">Xác nhận</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete()">Xác nhận
+                    </button>
                 </div>
             </div>
         </div>

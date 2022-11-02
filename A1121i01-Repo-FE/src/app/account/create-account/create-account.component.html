@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div>
-                            <small class="form-text mess">{{usernameAlreadyExist}}</small>
+                            <small class="form-text mess" *ngIf="createForm.errors?.usernameExisted">Tên tài khoản đã tồn tại.</small>
                         </div>
                     </div>
 
@@ -281,7 +281,7 @@
             </div>
         </div>
         <div class="button__container">
-            <button type="button" id="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || usernameAlreadyExist !== '' || errorMessageAccountAndEmployeeExist !== '' || phoneAlreadyExist != ''">Thêm</button>
+            <button type="button" id="btnAdd" class="btn__primary" (click)="submit()" [disabled]="!createForm.valid || errorMessageAccountAndEmployeeExist !== '' || phoneAlreadyExist != ''">Thêm</button>
             <button class="bt btn__cancel" (click)="backToHome()">Trở về</button>
         </div>
     </form>

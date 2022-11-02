@@ -335,7 +335,6 @@ a {
 a:hover {
   box-shadow: 0 15px 20px rgba(0, 215, 255, 0.4);
   cursor: default;
-  font-size: 18px;
   background-size: 0 3px, 100% 3px;
 }
 

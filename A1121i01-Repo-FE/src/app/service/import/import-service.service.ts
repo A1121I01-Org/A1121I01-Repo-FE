@@ -8,78 +8,86 @@ import {IMaterial} from '../../model/material/imaterial';
 import {IMaterialType} from '../../model/material/imaterial-type';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ImportServiceService {
-  readonly URI: string = 'http://localhost:8080/api/import';
+    readonly URI: string = 'http://localhost:8080/api/import';
 
-  constructor(
-    private httpClient: HttpClient
-  ) {
-  }
+    constructor(
+        private httpClient: HttpClient
+    ) {
+    }
 
-  findAllImport(page: number): Observable<IImport[]> {
-    return this.httpClient.get<IImport[]>(this.URI + '/import-list?page=' + page);
-  }
+    findAllImport(page: number): Observable<IImport[]> {
+        return this.httpClient.get<IImport[]>(this.URI + '/import-list?page=' + page);
+    }
 
-  findImportById(id: number): Observable<IImport> {
-    return this.httpClient.get<IImport>(this.URI + '/import-detail/' + id);
-  }
+    findImportById(id: number): Observable<IImport> {
+        return this.httpClient.get<IImport>(this.URI + '/import-detail/' + id);
+    }
 
-  createImport(importCreate: IImport): Observable<void> {
-    return this.httpClient.post<void>(this.URI + '/import-create', importCreate);
-  }
+    // createImport(importCreate: IImport): Observable<void> {
+    //   return this.httpClient.post<void>(this.URI + '/import-create', importCreate);
+    // }
 
-  deleteImport(id: number): Observable<void> {
-    return this.httpClient.delete<void>(this.URI + '/import-delete/' + id);
-  }
+    createImport(importCreate: IImport): Observable<any> {
+        return this.httpClient.post<any>(this.URI + '/import-create', importCreate);
+    }
 
-  updateImport(id: number, importUpdate: IImport): Observable<void> {
-    return this.httpClient.put<void>(this.URI + '/import-update/' + id, importUpdate);
-  }
+    deleteImport(id: number): Observable<void> {
+        return this.httpClient.delete<void>(this.URI + '/import-delete/' + id);
+    }
 
-  findAllCustomerImport(): Observable<ICustomer[]> {
-    return this.httpClient.get<ICustomer[]>(this.URI + '/customer-list');
-  }
+    updateImport(id: number, importUpdate: IImport): Observable<void> {
+        return this.httpClient.put<void>(this.URI + '/import-update/' + id, importUpdate);
+    }
 
-  findAllEmployeeImport(): Observable<IEmployee[]> {
-    return this.httpClient.get<IEmployee[]>(this.URI + '/employee-list');
-  }
+    findAllCustomerImport(): Observable<ICustomer[]> {
+        return this.httpClient.get<ICustomer[]>(this.URI + '/customer-list');
+    }
 
-  findAllMaterialImport(id: number): Observable<IMaterial[]> {
-    return this.httpClient.get<IMaterial[]>(this.URI + '/material-list/' + id);
-  }
+    findAllEmployeeImport(): Observable<IEmployee[]> {
+        return this.httpClient.get<IEmployee[]>(this.URI + '/employee-list');
+    }
 
-  findAllMaterialTypeImport(): Observable<IMaterialType[]> {
-    return this.httpClient.get<IMaterialType[]>(this.URI + '/material-type-list');
-  }
+    findAllMaterialImport(id: number): Observable<IMaterial[]> {
+        return this.httpClient.get<IMaterial[]>(this.URI + '/material-list/' + id);
+    }
 
-  findAllImportString(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.URI + '/import-list-string');
-  }
+    findAllMaterialTypeImport(): Observable<IMaterialType[]> {
+        return this.httpClient.get<IMaterialType[]>(this.URI + '/material-type-list');
+    }
 
-  findAllMaterialString(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.URI + '/import-material-list-string');
-  }
+    findAllImportString(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.URI + '/import-list-string');
+    }
 
-  findAllCustomerString(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.URI + '/import-customer-list-string');
-  }
+    findAllMaterialString(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.URI + '/import-material-list-string');
+    }
 
-  findAllPhoneCustomerString(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.URI + '/import-phone-customer-list-string');
-  }
+    findAllCustomerString(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.URI + '/import-customer-list-string');
+    }
 
-  findAllEmailCustomerString(): Observable<string[]> {
-    return this.httpClient.get<string[]>(this.URI + '/import-email-customer-list-string');
-  }
+    findAllPhoneCustomerString(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.URI + '/import-phone-customer-list-string');
+    }
 
-  searchImport(code: string, startDate: string, endDate: string, page: number): Observable<IImport[]> {
-    return this.httpClient.get<IImport[]>(this.URI + '/import-search?code=' + code + '&startDate=' + startDate + '&endDate=' + endDate + '&page=' + page);
-  }
+    findAllEmailCustomerString(): Observable<string[]> {
+        return this.httpClient.get<string[]>(this.URI + '/import-email-customer-list-string');
+    }
 
-  getPdfImport(import1: IImport): Observable<Blob> {
-    // @ts-ignore
-    return this.httpClient.post<Blob>(this.URI + '/import-pdf', import1, {responseType: 'blob'});
-  }
+    searchImport(code: string, startDate: string, endDate: string, page: number): Observable<IImport[]> {
+        return this.httpClient.get<IImport[]>(this.URI + '/import-search?code=' + code + '&startDate=' + startDate + '&endDate=' + endDate + '&page=' + page);
+    }
+
+    getPdfImport(import1: IImport): Observable<Blob> {
+        // @ts-ignore
+        return this.httpClient.post<Blob>(this.URI + '/import-pdf', import1, {responseType: 'blob'});
+    }
+
+    public findEmployeeByAccountId(accountId: number): Observable<IEmployee> {
+        return this.httpClient.get<IEmployee>(`http://localhost:8080/api/employee/getEmployeeByAccount/${accountId}`);
+    }
 }

@@ -66,28 +66,34 @@ export class CreateAccountComponent implements OnInit {
     this.focusInput();
   }
 
-  submit() {
-    const employeeAccount = this.createForm.value;
-    this.accountService.createAccount(employeeAccount).subscribe(
-      () => {
-      }, (error) => {
-        if (error.status === 403) {
-          this.router.navigateByUrl('/auth/access-denied');
-        } else if (this.confirmPassCheck !== '') {
-          this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
-        } else {
-          this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
-        }
-      }, () => {
-        // alert('Thêm mới thành công.');
-        this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
-        this.router.navigateByUrl('/account/create');
-        this.createForm.reset();
-        this.focusInput();
-        this.removeDisableInput();
-        this.disableButton();
-      });
-  }
+    submit() {
+        const employeeAccount = this.createForm.value;
+        this.accountService.createAccount(employeeAccount).subscribe(
+            () => {
+            }, (error) => {
+                if (error.status === 403) {
+                    this.router.navigateByUrl('/auth/access-denied');
+                } else if (error.status === 400) {
+                    this.createForm.setErrors({ usernameExisted: true });
+                    this.notifier.notify('error', 'Vui lòng kiểm tra lại thông tin!');
+                } else if (this.confirmPassCheck !== '') {
+                    this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
+
+                    // } else if (error.error.includes('username')) {
+                    //     this.usernameAlreadyExist = 'Tên tài khoản đã tồn tại.';
+                    //     window.alert('loi');
+                } else {
+                    this.notifier.notify('error', 'Thêm mới tài khoản không thành công!');
+                }
+            }, () => {
+                this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
+                this.router.navigateByUrl('/account/create');
+                this.createForm.reset();
+                this.focusInput();
+                this.removeDisableInput();
+                this.disableButton();
+            });
+    }
   focusInput() {
     const usernameInput = document.getElementById('username') as HTMLInputElement;
     usernameInput.focus();

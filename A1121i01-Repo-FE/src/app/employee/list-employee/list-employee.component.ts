@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {EmployeeServiceService} from '../../service/employee/employee-service.service';
 import {FormControl, FormGroup} from '@angular/forms';
 import {NotifierService} from 'angular-notifier';
+import {TokenStorageService} from "../../service/security/token-storage.service";
 
 
 
@@ -14,6 +15,12 @@ import {NotifierService} from 'angular-notifier';
     styleUrls: ['./list-employee.component.css']
 })
 export class ListEmployeeComponent implements OnInit {
+    private roles: string[];
+    isLoggedIn = false;
+    showAdminBoard = false;
+    showAccountantBoard = false;
+    showSellBoard = false;
+    userName: string;
 
     positionEmployees: IPositionEmployee[];
     positionEmployee: IPositionEmployee;
@@ -31,7 +38,8 @@ export class ListEmployeeComponent implements OnInit {
 
     constructor(private router: Router,
                 private employeeService: EmployeeServiceService,
-                private notification: NotifierService) { }
+                private notification: NotifierService,
+                private tokenStorageService: TokenStorageService) { }
 
     ngOnInit(): void {
         // this.getAllEmployeeWithPagination();
@@ -40,6 +48,17 @@ export class ListEmployeeComponent implements OnInit {
         this.searchNameForm = new FormGroup({
             name: new FormControl('')
         });
+
+        this.isLoggedIn = !!this.tokenStorageService.getToken();
+        if (this.isLoggedIn) {
+            this.userName = this.tokenStorageService.getUser().account.username;
+            this.roles = this.tokenStorageService.getUser().account.roles[0].roleName;
+            this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+            this.showAccountantBoard = this.roles.includes('ROLE_ACCOUNTANT');
+            this.showSellBoard = this.roles.includes('ROLE_SELL');
+
+            console.log('roles: ' + this.roles);
+        }
     }
 
     // getAllEmployeeWithPagination() {

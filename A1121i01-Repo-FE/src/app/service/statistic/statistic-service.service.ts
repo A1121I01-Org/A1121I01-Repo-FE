@@ -46,6 +46,10 @@ export class StatisticServiceService {
         return this.httpClient.get<string[]>(this.API + '/list/customer');
     }
 
+    getYearSearch(): Observable<string[]> {
+        return this.httpClient.get<string[]>(`${this.API}/yearSearch`);
+    }
+
     // KimPBH-Thong ke tai chinh
     // getBan(): Observable<number> {
     //   return this.http.get<number>(`${this.API_URL}/banhang`);
@@ -76,6 +80,16 @@ export class StatisticServiceService {
         return this.httpClient.post<Blob>(`${this.API}/pdf2`, search, {responseType: 'blob'});
     }
 
+    cryptoDataKim(month: string, year: string) {
+        return this.httpClient.get(`${this.API}/search` + `?month=${month}&year=${year}`).toPromise().then((data) => {
+            return data;
+        });
+    }
+
+    getYear(): Observable<string[]> {
+        return this.httpClient.get<string[]>(`${this.API}/getYear`);
+    }
+
     getPDF(): Observable<Blob> {
         // @ts-ignore
         return this.httpClient.get<Blob>(`${this.API}/pdf-huyen`, {responseType: 'blob'});
@@ -100,9 +114,9 @@ export class StatisticServiceService {
     }
 
     // test chart financial
-    cryptoDataKim() {
-        return this.httpClient.get(`${this.API}/huyhang`).toPromise().then((data) => {
-            return data;
-        });
-    }
+    // cryptoDataKim() {
+    //     return this.httpClient.get(`${this.API}/huyhang`).toPromise().then((data) => {
+    //         return data;
+    //     });
+    // }
 }

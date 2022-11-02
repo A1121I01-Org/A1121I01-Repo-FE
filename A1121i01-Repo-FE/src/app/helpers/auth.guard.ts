@@ -7,6 +7,7 @@ import {TokenStorageService} from '../service/security/token-storage.service';
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+    private roles: string[];
     constructor(private router: Router,
                 private tokenStorageService: TokenStorageService
     ) {
@@ -15,20 +16,21 @@ export class AuthGuard implements CanActivate {
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const user = this.tokenStorageService.getUser();
-        const user1 = this.tokenStorageService.getUser().roles[0];
-        console.log(user1);
+        const user = this.tokenStorageService.getUser().account;
+        this.roles = this.tokenStorageService.getUser().account.roles[0].roleName;
+        console.log('user: ' + this.roles);
         console.log(route.data);
+        // this.tokenStorageService.getUser().account.roles[0].roleId !== 1
         if (user !== null) {
-            const role = user.roles[0];
-            if (!this.tokenStorageService.isAuthenticated() || route.data.expectedRole.indexOf(role) === -1) {
-                this.router.navigate(['/auth/access-denied']);
+            const role = this.tokenStorageService.getUser().account.roles[0];
+            console.log(role);
+            if (!this.tokenStorageService.isAuthenticated()) {
+                this.router.navigate(['/login']);
                 return false;
             }
             return true;
         }
-        this.router.navigate(['/auth/access-denied']);
+        this.router.navigate(['/login']);
         return false;
-
     }
 }

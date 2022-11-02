@@ -1,6 +1,6 @@
 <body style="background-color:  #f6f6f9; margin-top: 100px">
 <header>
-    <h1 style="margin-top: 20px; color:#270082; ">Thống kê khách hàng tiềm năng</h1>
+    <h2 class="text-center" style="margin-top: 20px; color:#270082; ">Thống kê khách hàng tiềm năng</h2>
 </header>
 <!--<selector>-->
 <div class="combobox">
@@ -52,12 +52,9 @@
             <span>Năm</span>
             <div class="select3">
                 <!--      <input type="search" name="year" formControlName="year">-->
-                <select class="form-select" aria-label="Default select example" name="year" formControlName="year">
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
+                <select class="form-select" aria-label="Default select example" name="year" formControlName="year" (click)="getYearSearch()">
+                    <option value="" disabled>Chọn năm</option>
+                    <option *ngFor="let year of yearListSearch">{{year}}</option>
                 </select>
             </div>
         </div>

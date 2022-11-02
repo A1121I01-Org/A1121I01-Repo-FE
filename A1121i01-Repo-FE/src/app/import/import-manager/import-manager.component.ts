@@ -10,6 +10,7 @@ import {IAccount} from '../../model/account/iaccount';
 import {NotifierService} from 'angular-notifier';
 import {formatDate} from '@angular/common';
 import {Router} from '@angular/router';
+import {TokenStorageService} from '../../service/security/token-storage.service';
 
 @Component({
     selector: 'app-import-manager',
@@ -57,15 +58,44 @@ export class ImportManagerComponent implements OnInit {
 
     loading = false;
 
+    accountId: number;
+    employee: IEmployee;
+
+    message = '';
+
 
     constructor(
         private importService: ImportServiceService,
         private notification: NotifierService,
-        private router: Router
+        private router: Router,
+        private tokenStorageService: TokenStorageService
     ) {
     }
 
     ngOnInit(): void {
+        this.accountId = this.tokenStorageService.getUser().account.accountId;
+        this.importService.findEmployeeByAccountId(this.accountId).subscribe(employee => {
+            this.employee = employee;
+            this.importForm = new FormGroup({
+                importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+                importStartDate: new FormControl(this.date1, [Validators.required]),
+                importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
+                importAccountId: new FormControl(this.employee.employeeAccountId, [Validators.required]),
+                importMaterialId: new FormControl('', [Validators.required]),
+                materialCustomerId: new FormControl('', [Validators.required])
+            });
+
+            this.importUpdateForm = new FormGroup({
+                importCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+                importStartDateUpdate: new FormControl('', [Validators.required]),
+                importQuantityUpdate: new FormControl('', [Validators.required, Validators.min(0)]),
+                importAccountIdUpdate: new FormControl('', [Validators.required]),
+                importMaterialCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+                importMaterialNameUpdate: new FormControl('', [Validators.required]),
+                importMaterialUnitUpdate: new FormControl('', [Validators.required])
+            });
+        });
+
         this.notification.notify('default', 'Vui nhập thông tin nhập kho');
         this.getCustomerList();
         this.getEmployeeList();
@@ -75,25 +105,6 @@ export class ImportManagerComponent implements OnInit {
             codeSearch: new FormControl(''),
             startDateSearch: new FormControl(''),
             endDateSearch: new FormControl('')
-        });
-
-        this.importForm = new FormGroup({
-            importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-            importStartDate: new FormControl(this.date1, [Validators.required]),
-            importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
-            importAccountId: new FormControl('', [Validators.required]),
-            importMaterialId: new FormControl('', [Validators.required]),
-            materialCustomerId: new FormControl('', [Validators.required])
-        });
-
-        this.importUpdateForm = new FormGroup({
-            importCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-            importStartDateUpdate: new FormControl('', [Validators.required]),
-            importQuantityUpdate: new FormControl('', [Validators.required, Validators.min(0)]),
-            importAccountIdUpdate: new FormControl('', [Validators.required]),
-            importMaterialCodeUpdate: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-            importMaterialNameUpdate: new FormControl('', [Validators.required]),
-            importMaterialUnitUpdate: new FormControl('', [Validators.required])
         });
     }
 
@@ -170,12 +181,14 @@ export class ImportManagerComponent implements OnInit {
             importCode: this.importForm.get('importCode').value,
             importStartDate: this.importForm.get('importStartDate').value,
             importQuantity: this.importForm.get('importQuantity').value,
-            importAccountId: this.importForm.get('importAccountId').value.employeeAccountId,
+            importAccountId: this.importForm.get('importAccountId').value,
             importMaterialId: this.importForm.get('importMaterialId').value
         };
 
         this.importService.createImport(this.importCreate).subscribe(
-            () => {
+            (data: any) => {
+                this.message = data;
+                console.log(data);
             },
             (error) => {
                 if (error.status === 500) {
@@ -184,10 +197,12 @@ export class ImportManagerComponent implements OnInit {
             },
             () => {
                 this.loading = false;
-                this.importForm.reset();
-                this.page = 1;
-                this.getImportList(this.page);
-                this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
+                if (this.message !== '') {
+                    this.importForm.reset();
+                    this.page = 1;
+                    this.getImportList(this.page);
+                    this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
+                }
             }
         );
     }
@@ -298,23 +313,23 @@ export class ImportManagerComponent implements OnInit {
     }
 
     // ++check code import tồn tại++
-    checkImportCode() {
-        this.importService.findAllImportString().subscribe(data => {
-                this.importListString = data;
-            }, () => {
-            },
-            () => {
-                if (this.importForm.get('importCode').valid) {
-                    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
-                        this.importExistCreate = 'Mã nhập kho đã tồn tại';
-                    } else {
-                        this.importExistCreate = '';
-                    }
-                } else {
-                    this.importExistCreate = '';
-                }
-            });
-    }
+    // checkImportCode() {
+    //     this.importService.findAllImportString().subscribe(data => {
+    //             this.importListString = data;
+    //         }, () => {
+    //         },
+    //         () => {
+    //             if (this.importForm.get('importCode').valid) {
+    //                 if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+    //                     this.importExistCreate = 'Mã nhập kho đã tồn tại';
+    //                 } else {
+    //                     this.importExistCreate = '';
+    //                 }
+    //             } else {
+    //                 this.importExistCreate = '';
+    //             }
+    //         });
+    // }
 
     checkImportCodeUpdate() {
         this.importService.findAllImportString().subscribe(data => {
