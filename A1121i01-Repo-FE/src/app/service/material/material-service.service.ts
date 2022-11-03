@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IMaterial} from '../../model/material/imaterial';
 import {PageMaterial} from '../../model/material/page-material';
+
 
 
 @Injectable({
@@ -14,15 +15,10 @@ export class MaterialServiceService {
     constructor(private http: HttpClient) {
     }
 
-    getAllMaterial(thePage: number): Observable<GetResponseMaterial> {
-        const url = `${this.API_URL}/list?` + `&page=${thePage}`;
+    getAllMaterial(thePage: number, thePageSize: number): Observable<GetResponseMaterial> {
+        const url = `${this.API_URL}/list?` + `&page=${thePage}&size=${thePageSize}`;
         return this.http.get<GetResponseMaterial>(url);
     }
-
-    // getAllMaterial1(thePage: number): Observable<GetResponseMaterial> {
-    //     const url = `${this.API_URL}/list-material?` + `&page=${thePage}`;
-    //     return this.http.get<GetResponseMaterial>(url);
-    // }
 
     getAllMaterialSearch(thePage: number, thePageSize: number, search: string): Observable<void> {
         const url = `${this.API_URL}/search?` + `page=${thePage}&size=${thePageSize}&search=${search}`;
@@ -34,8 +30,8 @@ export class MaterialServiceService {
 
     }
 
-    getAll(page: number, search: string): Observable<IMaterial[]> {
-        return this.http.get<IMaterial[]>(this.API_URL + '/list-material?page=' + page + '&&search=' + search);
+    getAll(page: number, search: string): Observable<PageMaterial> {
+        return this.http.get<PageMaterial>(this.API_URL + '?page=' + page + '&&search=' + search);
     }
 
     delete(id: number): Observable<IMaterial> {
@@ -49,7 +45,6 @@ export class MaterialServiceService {
     findMaterialById(id: number): Observable<IMaterial> {
         return this.http.get<IMaterial>(`${this.API_URL}/detail/${id}`);
     }
-
     findById(id: string): Observable<IMaterial> {
         return this.http.get<IMaterial>(this.API_URL + '/getById/' + id);
     }
@@ -70,6 +65,7 @@ export class MaterialServiceService {
         return this.http.patch<IMaterial>(this.API_URL + '/update', material);
     }
 }
+
 
 
 interface GetResponseMaterial {
