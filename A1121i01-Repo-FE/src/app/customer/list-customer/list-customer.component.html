@@ -1,14 +1,15 @@
-<div class="all" style="margin-top: 100px">
-  <div class="info-search " style="margin-top:10px ; color: #0f57b3 ;">
-    <h3 style="color:#270082;" > Thông tin khách hàng</h3>
-    <div style="margin-left: 9px" >
+<h3 style="color:#270082; position: absolute; left: 37%; top: 88px; font-size: 33px; font-weight: 500" >Danh sách thông tin khách hàng</h3>
+<div class="all" style="position: absolute; top: 70px">
+  <div class="info-search " style="margin-top:10px ; color: #0f57b3 ; position: relative ">
+<!--    <h3 style="color:#270082;" > Thông tin khách hàng</h3>-->
+
 <!--      <div >-->
 <!--        <span class="fa-solid fa-plus"></span>-->
 <!--        <h6 routerLink="/customer/create">Thêm mới</h6>-->
-          <button routerLink="/customer/create" type="button" class="btn__delete">Thêm mới</button>
+          <button style="position: relative;right: 45%;" routerLink="/customer/create" type="button" class="btn__delete">Thêm mới</button>
 <!--      </div>-->
-    </div>
-    <form [formGroup]="searchNameAndPhoneForm" (ngSubmit)="send()">
+
+    <form [formGroup]="searchNameAndPhoneForm" (ngSubmit)="send()" style="position: absolute; right: 3%"  >
       <div class="input-group info-search"
            style="margin: 8px 8px 8px 6%; text-align: center; vertical-align: middle">
         <div class="form-outline form-field " style="margin-right: 5px" >
@@ -27,7 +28,7 @@
     </form>
 
   </div>
-  <div class="table-sticky table-wrapper-scroll-y my-custom-scrollbar">
+  <div class="table-sticky table-wrapper-scroll-y my-custom-scrollbar" style="margin-top: 30px;">
     <table >
       <thead>
       <tr >
@@ -54,9 +55,9 @@
         <td >{{c.customerAddress}}</td>
         <td>{{c.customerPhone}}</td>
         <td id="button-function">
-          <button class="btn btn-primary btn__primary" [routerLink]="['/customer/detail/',c.customerId]" type="button">Xem</button>
-          <button class="btn btn-primary btn__cancel " [routerLink]="['/customer/edit',c.customerId]" type="button">Sửa</button>
-          <button class="btn btn-primary btn__delete" data-toggle="modal" data-target="#exampleModal"
+          <button class="btn  btn__primary" [routerLink]="['/customer/detail/',c.customerId]" type="button">Chi tiết</button>
+          <button class="btn  btn__primary " [routerLink]="['/customer/edit',c.customerId]" type="button">Chỉnh sửa</button>
+          <button class="btn  btn__delete" data-toggle="modal" data-target="#exampleModal"
                   type="button" (click)="sendCustomerToDelete(c.customerId, c.customerName)">Xóa
           </button>
         </td>
@@ -64,8 +65,14 @@
       </tbody>
     </table>
   </div>
-  <div class="container" style="margin: 18px 30% 18px; border-radius: 10px">
-    <div class="pagination" >
+    <div *ngIf="totalItems > 5" style="display: flex; justify-content: center; align-items: center; margin-top: 26px">
+        <pagination-controls (pageChange)="getCustomerList ($event)"></pagination-controls>
+    </div>
+<!--    <div *ngFor="let s of mangString">-->
+<!--        <a>- {{s}}</a>-->
+<!--    </div>-->
+<!--  <div class="container" style="margin: 18px 30% 18px; border-radius: 10px">-->
+<!--    <div class="pagination"  >-->
 <!--      <a href="#" (click)="previous($event)">&laquo;</a>-->
 <!--&lt;!&ndash;      <a  *ngIf="page >= 15"  href="" (click)="setPage(0,$event)" >1</a>&ndash;&gt;-->
 <!--&lt;!&ndash;      <a  *ngIf="page >= 15"  href="" (click)="setPage(0,$event)" >...</a>&ndash;&gt;-->
@@ -75,12 +82,10 @@
 <!--      </div>-->
 <!--      <a href="#" (click)="next($event)">&raquo;</a>-->
 
-        <div *ngIf="totalItems > 5" style="margin-top: 15px">
-            <pagination-controls (pageChange)="getCustomerList ($event)"></pagination-controls>
-        </div>
-    </div>
 
-  </div>
+<!--    </div>-->
+
+<!--  </div>-->
 </div>
 
 
@@ -90,20 +95,20 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title text-danger" id="exampleModalLabel" style="font-weight: 500">Xác nhận xóa khách hàng</h2>
+          <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung
+              này không hoàn tác</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body" style="margin-top: 5px">
-        <span>Bạn có muốn xóa khách hàng <span style="color: red; font-weight: bold">{{name}}</span>  không ?</span>
-        <p class="text-danger"><b>Lưu ý: Nội dung này không hoàn tác </b></p>
+        <span>Bạn có muốn xóa khách hàng <span style="color: #0f57b3; font-weight: bolder">{{name}}</span>  không ?</span>
       </div>
       <div class="modal-footer">
-        <button style="background:white; color:#0f57b3 " type="button" class="btn__cancel"
+        <button type="button" class="btn__cancel"
                 data-dismiss="modal">Quay lại
         </button>
-        <button style="background:#c82333; color: white" type="button" class="btn__delete" data-dismiss="modal" (click)="deleteCustomerById(id)">Xóa</button>
+        <button  type="button" class="btn__delete" data-dismiss="modal" (click)="deleteCustomerById(id)">Xóa</button>
       </div>
     </div>
   </div>

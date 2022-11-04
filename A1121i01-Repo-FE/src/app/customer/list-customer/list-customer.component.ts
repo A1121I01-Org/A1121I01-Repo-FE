@@ -13,6 +13,8 @@ import {NotifierService} from 'angular-notifier';
 export class ListCustomerComponent implements OnInit {
   listCustomer: ICustomer[] = [];
   listDeleteCustomer: number[] = [];
+  mang = '';
+  mangString: Array<string> = [];
   listCustomerNotPagination: ICustomer[] = [];
   totalPagination: Array<any>;
   page = 1;
@@ -28,7 +30,7 @@ export class ListCustomerComponent implements OnInit {
 
   constructor(private customerService: CustomerServiceService,
               private router: Router,
-              private notification: NotifierService, ) { }
+              private notification: NotifierService ) { }
     // HieuNT setPage for pagination
   setPage(i, event: any) {
     event.preventDefault();
@@ -39,6 +41,9 @@ export class ListCustomerComponent implements OnInit {
   ngOnInit(): void {
     // this.getAllCustomer();
     this.getCustomerList(this.page);
+
+    // this.mangString =  this.mang.split(' ' );
+    // console.log(this.mangString);
     // this.getAllCustomerWithPagination();
     this.searchNameAndPhoneForm = new FormGroup({
       name: new FormControl(''),
@@ -106,7 +111,8 @@ export class ListCustomerComponent implements OnInit {
       () => {
         // alert('Xóa khách hàng ' + this.name + ' thành công');
         this.notification.notify('success', 'Xoá khách hàng thành công');
-        this.getAllCustomerWithPagination();
+        // this.getAllCustomerWithPagination();
+          this.getCustomerList(this.page);
       }
     );
   }
