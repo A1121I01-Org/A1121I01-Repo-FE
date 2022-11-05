@@ -101,7 +101,7 @@ export class InforMaterialComponent implements OnInit {
 
     getMaterialList(page: number) {
         this.page = page;
-        this.materialService.getAllMaterial(this.page - 1).subscribe((data: any) => {
+        this.materialService.getAllMaterial1(this.page - 1).subscribe((data: any) => {
                 this.materialList = data.content;
                 this.size = data.size;
                 this.totalItems = data.totalElements;

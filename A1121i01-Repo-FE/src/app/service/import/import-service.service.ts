@@ -30,8 +30,16 @@ export class ImportServiceService {
     //   return this.httpClient.post<void>(this.URI + '/import-create', importCreate);
     // }
 
-    createImport(importCreate: IImport): Observable<any> {
-        return this.httpClient.post<any>(this.URI + '/import-create', importCreate);
+    createImport(importCreate: IImport): Observable<void> {
+        return this.httpClient.post<void>(this.URI + '/import-create', importCreate);
+    }
+
+    createImport2(importCreate: IImport): Observable<void> {
+        return this.httpClient.post<void>(this.URI + '/import-material-create', importCreate);
+    }
+
+    createImport3(importCreate: IImport): Observable<void> {
+        return this.httpClient.post<void>(this.URI + '/import-material-customer-create', importCreate);
     }
 
     deleteImport(id: number): Observable<void> {

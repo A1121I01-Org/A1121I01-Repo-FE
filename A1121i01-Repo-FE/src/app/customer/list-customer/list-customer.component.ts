@@ -4,7 +4,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {ICustomer} from '../../model/customer/icustomer';
 import {CustomerServiceService} from '../../service/customer/customer-service.service';
 import {NotifierService} from 'angular-notifier';
-import {TokenStorageService} from "../../service/security/token-storage.service";
+import {TokenStorageService} from '../../service/security/token-storage.service';
 
 @Component({
     selector: 'app-list-customer',
@@ -14,6 +14,8 @@ import {TokenStorageService} from "../../service/security/token-storage.service"
 export class ListCustomerComponent implements OnInit {
     listCustomer: ICustomer[] = [];
     listDeleteCustomer: number[] = [];
+    mang = '';
+    mangString: Array<string> = [];
     listCustomerNotPagination: ICustomer[] = [];
     totalPagination: Array<any>;
     page = 1;
@@ -42,10 +44,20 @@ export class ListCustomerComponent implements OnInit {
     setPage(i, event: any) {
         event.preventDefault();
         this.page = i * 5;
-
         this.getAllCustomerWithPagination();
     }
     ngOnInit(): void {
+        // // this.getAllCustomer();
+        // this.getCustomerList(this.page);
+        //
+        // // this.mangString =  this.mang.split(' ' );
+        // // console.log(this.mangString);
+        // // this.getAllCustomerWithPagination();
+        // this.searchNameAndPhoneForm = new FormGroup({
+        //   name: new FormControl(''),
+        //   phone: new FormControl('')
+        // });
+
         // this.getAllCustomer();
         this.getCustomerList(this.page);
         // this.getAllCustomerWithPagination();
@@ -60,7 +72,6 @@ export class ListCustomerComponent implements OnInit {
             this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
             this.showAccountantBoard = this.roles.includes('ROLE_ACCOUNTANT');
             this.showSellBoard = this.roles.includes('ROLE_SELL');
-
             console.log('roles: ' + this.roles);
         }
     }

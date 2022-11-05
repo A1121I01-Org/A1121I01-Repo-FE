@@ -36,6 +36,7 @@ export class ListEmployeeComponent implements OnInit {
     searchNameForm: FormGroup;
 
 
+
     constructor(private router: Router,
                 private employeeService: EmployeeServiceService,
                 private notification: NotifierService,
@@ -43,8 +44,13 @@ export class ListEmployeeComponent implements OnInit {
 
     ngOnInit(): void {
         // this.getAllEmployeeWithPagination();
-        this.getEmployeeList(this.page);
         // this.getEmployeeList(this.page);
+        // // this.getEmployeeList(this.page);
+        // this.searchNameForm = new FormGroup({
+        //     name: new FormControl('')
+        // });
+
+        this.getEmployeeList(this.page);
         this.searchNameForm = new FormGroup({
             name: new FormControl('')
         });
@@ -178,6 +184,24 @@ export class ListEmployeeComponent implements OnInit {
     //             });
     //     }
     // }
+
+    searchEmployeeByName() {
+        this.employeeService.searchEmployeeByName(
+            this.searchNameForm.get('name').value,
+            0
+        ).subscribe(
+            (data: any) => {
+                this.listEmployee = data.content;
+                this.size = data.size;
+                this.totalItems = data.totalElements;
+                this.page = 0;
+            }, (error) => {
+                if (error.status === 500) {
+                    this.router.navigateByUrl('/auth/access-denied');
+                }
+            }
+        );
+    }
 
     getEmployeeList(page: number) {
       this.page = page;

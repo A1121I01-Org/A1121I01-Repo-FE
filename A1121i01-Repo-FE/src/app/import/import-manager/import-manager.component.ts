@@ -26,7 +26,7 @@ export class ImportManagerComponent implements OnInit {
     checkFormEdit = false;
     importListString: string[] = [];
     importExistCreate = '';
-    importExistCreateSearch = '';
+    // importExistCreateSearch = '';
     importExistUpdate = '';
     importExistUpdateSearch = '';
     materialListString: string[] = [];
@@ -99,7 +99,7 @@ export class ImportManagerComponent implements OnInit {
         this.notification.notify('default', 'Vui nhập thông tin nhập kho');
         this.getCustomerList();
         this.getEmployeeList();
-        this.getImportList(this.page);
+        this.getImportList(1);
         this.getMaterialTypeImportList();
         this.importSearchForm = new FormGroup({
             codeSearch: new FormControl(''),
@@ -186,23 +186,22 @@ export class ImportManagerComponent implements OnInit {
         };
 
         this.importService.createImport(this.importCreate).subscribe(
-            (data: any) => {
-                this.message = data;
-                console.log(data);
+            () => {
             },
             (error) => {
+                this.loading = false;
+                this.message = error.error;
+                this.notification.notify('error', 'Thêm mới số lượng vật tư nhập kho thất bại');
                 if (error.status === 500) {
                     this.router.navigateByUrl('/auth/access-denied');
                 }
             },
             () => {
+                this.message = '';
                 this.loading = false;
-                if (this.message !== '') {
-                    this.importForm.reset();
-                    this.page = 1;
-                    this.getImportList(this.page);
-                    this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
-                }
+                this.importForm.reset();
+                this.ngOnInit();
+                this.notification.notify('success', 'Thêm mới số lượng vật tư nhập kho thành công');
             }
         );
     }

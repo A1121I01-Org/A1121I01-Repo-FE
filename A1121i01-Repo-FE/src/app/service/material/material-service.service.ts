@@ -20,6 +20,11 @@ export class MaterialServiceService {
         return this.http.get<GetResponseMaterial>(url);
     }
 
+    getAllMaterial1(thePage: number): Observable<GetResponseMaterial> {
+        const url = `${this.API_URL}/list?` + `&page=${thePage}`;
+        return this.http.get<GetResponseMaterial>(url);
+    }
+
     getAllMaterialSearch(thePage: number, thePageSize: number, search: string): Observable<void> {
         const url = `${this.API_URL}/search?` + `page=${thePage}&size=${thePageSize}&search=${search}`;
         return this.http.get<void>(url);

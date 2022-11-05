@@ -62,8 +62,12 @@ export class EmployeeServiceService {
     //     return this.http.delete<void>(this.API_URL + '/employee-delete/' + id);
     // }
 
-    searchEmployeeByName(value: string): Observable<IEmployee[]> {
-        return this.http.get<IEmployee[]>(this.API_URL + `/customer-search?name=${value}}`);
+    // searchEmployeeByName(value: string): Observable<IEmployee[]> {
+    //     return this.http.get<IEmployee[]>(this.API_URL + `/customer-search?name=${value}}`);
+    // }
+
+    searchEmployeeByName(value1: string, value3: number): Observable<IEmployee[]> {
+        return this.http.get<IEmployee[]>(this.API_URL + `/employee-search?name=${value1}&page=${value3}`);
     }
 
     // NhiVP lay danh sach ma nhan vien chua co tai khoan theo list string

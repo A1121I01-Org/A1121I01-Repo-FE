@@ -95,6 +95,8 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     accountId: number;
     employee: IEmployee;
 
+    message = '';
+
 
     constructor(private importService: ImportServiceService,
                 private notification: NotifierService,
@@ -143,7 +145,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
         this.notification.notify('default', 'Vui nhập thông tin nhập kho');
         this.getCustomerList();
         this.getEmployeeList();
-        this.getImportList(this.page);
+        this.getImportList(1);
         this.getMaterialTypeImportList();
         this.importSearchForm = new FormGroup({
             codeSearch: new FormControl(''),
@@ -211,15 +213,19 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                             };
 
 
-                            this.importService.createImport(this.importCreate).subscribe(
+                            this.importService.createImport3(this.importCreate).subscribe(
                                 () => {
                                 },
                                 (error) => {
+                                    this.loading = false;
+                                    this.message = error.error;
+                                    this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                                     if (error.status === 500) {
                                         this.router.navigateByUrl('/auth/access-denied');
                                     }
                                 },
                                 () => {
+                                    this.message = '';
                                     this.loading = false;
                                     this.myInputVariableMaterial.nativeElement.value = '';
                                     this.upLoadImageMaterial = null;
@@ -228,8 +234,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                                     this.upLoadImageCustomer = null;
                                     this.urlCustomer = null;
                                     this.importForm3.reset();
-                                    this.page = 1;
-                                    this.getImportList(this.page);
+                                    this.ngOnInit();
                                     this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                                 }
                             );
@@ -282,10 +287,14 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                         };
 
 
-                        this.importService.createImport(this.importCreate).subscribe(
+                        this.importService.createImport3(this.importCreate).subscribe(
                             () => {
                             },
                             (error) => {
+                                this.message = '';
+                                this.loading = false;
+                                this.message = error.error;
+                                this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                                 if (error.status === 500) {
                                     this.router.navigateByUrl('/auth/access-denied');
                                 }
@@ -296,8 +305,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                                 this.upLoadImageMaterial = null;
                                 this.urlMaterial = null;
                                 this.importForm3.reset();
-                                this.page = 1;
-                                this.getImportList(this.page);
+                                this.ngOnInit();
                                 this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                             }
                         );
@@ -348,10 +356,14 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                         };
 
 
-                        this.importService.createImport(this.importCreate).subscribe(
+                        this.importService.createImport3(this.importCreate).subscribe(
                             () => {
                             },
                             (error) => {
+                                this.message = '';
+                                this.loading = false;
+                                this.message = error.error;
+                                this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                                 if (error.status === 500) {
                                     this.router.navigateByUrl('/auth/access-denied');
                                 }
@@ -362,8 +374,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                                 this.upLoadImageCustomer = null;
                                 this.urlCustomer = null;
                                 this.importForm3.reset();
-                                this.page = 1;
-                                this.getImportList(this.page);
+                                this.ngOnInit();
                                 this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                             }
                         );
@@ -407,10 +418,14 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
             };
 
 
-            this.importService.createImport(this.importCreate).subscribe(
+            this.importService.createImport3(this.importCreate).subscribe(
                 () => {
                 },
                 (error) => {
+                    this.message = '';
+                    this.loading = false;
+                    this.message = error.error;
+                    this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                     if (error.status === 500) {
                         this.router.navigateByUrl('/auth/access-denied');
                     }
@@ -418,8 +433,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                 () => {
                     this.loading = false;
                     this.importForm3.reset();
-                    this.page = 1;
-                    this.getImportList(this.page);
+                    this.ngOnInit();
                     this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                 }
             );
@@ -617,23 +631,23 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
     }
 
     // ++check code import tồn tại++
-    checkImportCode() {
-        this.importService.findAllImportString().subscribe(data => {
-                this.importListString = data;
-            }, () => {
-            },
-            () => {
-                if (this.importForm3.get('importCode').valid) {
-                    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
-                        this.importExistCreate = 'Mã nhập kho đã tồn tại';
-                    } else {
-                        this.importExistCreate = '';
-                    }
-                } else {
-                    this.importExistCreate = '';
-                }
-            });
-    }
+    // checkImportCode() {
+    //     this.importService.findAllImportString().subscribe(data => {
+    //             this.importListString = data;
+    //         }, () => {
+    //         },
+    //         () => {
+    //             if (this.importForm3.get('importCode').valid) {
+    //                 if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+    //                     this.importExistCreate = 'Mã nhập kho đã tồn tại';
+    //                 } else {
+    //                     this.importExistCreate = '';
+    //                 }
+    //             } else {
+    //                 this.importExistCreate = '';
+    //             }
+    //         });
+    // }
 
     checkImportCodeUpdate() {
         this.importService.findAllImportString().subscribe(data => {
@@ -654,22 +668,22 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
             });
     }
 
-    checkMaterialCode() {
-        this.importService.findAllMaterialString().subscribe(data => {
-            this.materialListString = data;
-        }, () => {
-        }, () => {
-            if (this.importForm3.get('materialCode').valid) {
-                if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
-                    this.materialExistCreate = 'Mã Vật tư đã tồn tại';
-                } else {
-                    this.materialExistCreate = '';
-                }
-            } else {
-                this.materialExistCreate = '';
-            }
-        });
-    }
+    // checkMaterialCode() {
+    //     this.importService.findAllMaterialString().subscribe(data => {
+    //         this.materialListString = data;
+    //     }, () => {
+    //     }, () => {
+    //         if (this.importForm3.get('materialCode').valid) {
+    //             if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
+    //                 this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+    //             } else {
+    //                 this.materialExistCreate = '';
+    //             }
+    //         } else {
+    //             this.materialExistCreate = '';
+    //         }
+    //     });
+    // }
 
     checkMaterialCodeUpdate() {
         this.importService.findAllMaterialString().subscribe(data => {
@@ -689,56 +703,56 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
         });
     }
 
-    checkCustomerCode() {
-        this.importService.findAllCustomerString().subscribe(data => {
-            this.customerListString = data;
-        }, () => {
-        }, () => {
-            if (this.importForm3.get('customerCode').valid) {
-                if (this.customerListString.indexOf(this.customerCodeExistCreateSearch) > -1) {
-                    this.customerExistCreate = 'Mã nhà cung cấp đã tồn tại';
-                } else {
-                    this.customerExistCreate = '';
-                }
-            } else {
-                this.customerExistCreate = '';
-            }
-        });
-    }
-
-    checkPhoneCustomerCode() {
-        this.importService.findAllPhoneCustomerString().subscribe(data => {
-            this.phoneCustomerListString = data;
-        }, () => {
-        }, () => {
-            if (this.importForm3.get('customerPhone').valid) {
-                if (this.phoneCustomerListString.indexOf(this.phoneCustomerExistCreateSearch) > -1) {
-                    this.phoneCustomerExistCreate = 'Số điện thoại nhà cung cấp đã tồn tại';
-                } else {
-                    this.phoneCustomerExistCreate = '';
-                }
-            } else {
-                this.phoneCustomerExistCreate = '';
-            }
-        });
-    }
-
-    checkEmailCustomer() {
-        this.importService.findAllEmailCustomerString().subscribe(data => {
-            this.emailCustomerListString = data;
-        }, () => {
-        }, () => {
-            if (this.importForm3.get('customerEmail').valid) {
-                if (this.emailCustomerListString.indexOf(this.emailCustomerExistCreateSearch) > -1) {
-                    this.emailCustomerExistCreate = 'Email nhà cung cấp đã tồn tại';
-                } else {
-                    this.emailCustomerExistCreate = '';
-                }
-            } else {
-                this.emailCustomerExistCreate = '';
-            }
-        });
-    }
+    // checkCustomerCode() {
+    //     this.importService.findAllCustomerString().subscribe(data => {
+    //         this.customerListString = data;
+    //     }, () => {
+    //     }, () => {
+    //         if (this.importForm3.get('customerCode').valid) {
+    //             if (this.customerListString.indexOf(this.customerCodeExistCreateSearch) > -1) {
+    //                 this.customerExistCreate = 'Mã nhà cung cấp đã tồn tại';
+    //             } else {
+    //                 this.customerExistCreate = '';
+    //             }
+    //         } else {
+    //             this.customerExistCreate = '';
+    //         }
+    //     });
+    // }
+    //
+    // checkPhoneCustomerCode() {
+    //     this.importService.findAllPhoneCustomerString().subscribe(data => {
+    //         this.phoneCustomerListString = data;
+    //     }, () => {
+    //     }, () => {
+    //         if (this.importForm3.get('customerPhone').valid) {
+    //             if (this.phoneCustomerListString.indexOf(this.phoneCustomerExistCreateSearch) > -1) {
+    //                 this.phoneCustomerExistCreate = 'Số điện thoại nhà cung cấp đã tồn tại';
+    //             } else {
+    //                 this.phoneCustomerExistCreate = '';
+    //             }
+    //         } else {
+    //             this.phoneCustomerExistCreate = '';
+    //         }
+    //     });
+    // }
+    //
+    // checkEmailCustomer() {
+    //     this.importService.findAllEmailCustomerString().subscribe(data => {
+    //         this.emailCustomerListString = data;
+    //     }, () => {
+    //     }, () => {
+    //         if (this.importForm3.get('customerEmail').valid) {
+    //             if (this.emailCustomerListString.indexOf(this.emailCustomerExistCreateSearch) > -1) {
+    //                 this.emailCustomerExistCreate = 'Email nhà cung cấp đã tồn tại';
+    //             } else {
+    //                 this.emailCustomerExistCreate = '';
+    //             }
+    //         } else {
+    //             this.emailCustomerExistCreate = '';
+    //         }
+    //     });
+    // }
 
     // +++++++++search++++++
     searchImport() {

@@ -5,6 +5,10 @@
     <div style="background-color: white;">
         <form [formGroup]="importForm3" (ngSubmit)="createImport3()" class="p-3">
             <h2 class="text-center" style="color:#270082;">Nhập kho</h2>
+            <br>
+            <div class="text-center">
+                <h6 class="text-danger mb-0 pb-0">{{message}}</h6>
+            </div>
             <div class="row mt-3" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Loại hàng hoá
@@ -84,9 +88,10 @@
                     <span style="color: red">(*)</span>
                 </div>
                 <div class="col-md-3 input-group">
-                    <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
-                           (ngModelChange)="checkImportCode()"
-                           placeholder="vd: HDN-123">
+<!--                    <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"-->
+<!--                           (ngModelChange)="checkImportCode()"-->
+<!--                           placeholder="vd: HDN-123">-->
+                    <input type="text" formControlName="importCode" placeholder="vd: HDN-123">
                 </div>
 
                 <div class="col-md-2"></div>
@@ -103,7 +108,7 @@
                            *ngIf="importForm3.get('importCode').invalid && (importForm3.get('importCode').touched||importForm3.get('importCode').dirty)">
                         Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
                     </small>
-                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
+<!--                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>-->
                 </div>
 
                 <div class="col-md-2"></div>
@@ -151,13 +156,14 @@
                             <span style="color: red">(*)</span>
                         </div>
                         <div class="col-md-8 input-group" style="height: 60px">
-                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
-                                   [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
+<!--                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"-->
+<!--                                   [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">-->
+                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm3.get('materialCode').invalid && (importForm3.get('materialCode').touched||importForm3.get('materialCode').dirty)">
                                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
                             </small>
-                            <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
+<!--                            <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>-->
                         </div>
                     </div>
 
@@ -271,15 +277,16 @@
                             <span style="color: red">(*)</span>
                         </div>
                         <div class="col-md-8 input-group" style="height: 60px">
-                            <input type="text" formControlName="customerCode"
-                                   [(ngModel)]="customerCodeExistCreateSearch"
-                                   (ngModelChange)="checkCustomerCode()"
-                                   placeholder="vd: MKH-123">
+<!--                            <input type="text" formControlName="customerCode"-->
+<!--                                   [(ngModel)]="customerCodeExistCreateSearch"-->
+<!--                                   (ngModelChange)="checkCustomerCode()"-->
+<!--                                   placeholder="vd: MKH-123">-->
+                            <input type="text" formControlName="customerCode" placeholder="vd: MKH-123">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm3.get('customerCode').invalid && (importForm3.get('customerCode').touched||importForm3.get('customerCode').dirty)">
                                 Mã nhà cung cấp không được để trống và đúng định dạng MKH-XXX. ví dụ MKH-001
                             </small>
-                            <small class="text-danger mb-0 pb-0">{{customerExistCreate}}</small>
+<!--                            <small class="text-danger mb-0 pb-0">{{customerExistCreate}}</small>-->
                         </div>
                     </div>
                     <div class="row">
@@ -314,15 +321,16 @@
                             <span style="color: red">(*)</span>
                         </div>
                         <div class="col-md-8 input-group" style="height: 60px">
-                            <input type="text" formControlName="customerPhone"
-                                   [(ngModel)]="phoneCustomerExistCreateSearch"
-                                   (ngModelChange)="checkPhoneCustomerCode()">
+<!--                            <input type="text" formControlName="customerPhone"-->
+<!--                                   [(ngModel)]="phoneCustomerExistCreateSearch"-->
+<!--                                   (ngModelChange)="checkPhoneCustomerCode()">-->
+                            <input type="text" formControlName="customerPhone">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm3.get('customerPhone').invalid && (importForm3.get('customerPhone').touched||importForm3.get('customerPhone').dirty)">
                                 Sdt nhà cung cấp không được để trống và phải đúng định dạng 03x 076x 08x 09x..., vd:
                                 0905113113
                             </small>
-                            <small class="text-danger mb-0 pb-0">{{phoneCustomerExistCreate}}</small>
+<!--                            <small class="text-danger mb-0 pb-0">{{phoneCustomerExistCreate}}</small>-->
                         </div>
                     </div>
                     <div class="row">
@@ -331,15 +339,16 @@
                             <span style="color: red">(*)</span>
                         </div>
                         <div class="col-md-8 input-group" style="height: 60px">
-                            <input type="text" formControlName="customerEmail"
-                                   [(ngModel)]="emailCustomerExistCreateSearch"
-                                   (ngModelChange)="checkEmailCustomer()">
+<!--                            <input type="text" formControlName="customerEmail"-->
+<!--                                   [(ngModel)]="emailCustomerExistCreateSearch"-->
+<!--                                   (ngModelChange)="checkEmailCustomer()">-->
+                            <input type="text" formControlName="customerEmail">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm3.get('customerEmail').invalid && (importForm3.get('customerEmail').touched||importForm3.get('customerEmail').dirty)">
                                 Email nhà cung cấp không được để trống và phải đúng định dạng email. vd:
                                 thang123@gmail.com
                             </small>
-                            <small class="text-danger mb-0 pb-0">{{emailCustomerExistCreate}}</small>
+<!--                            <small class="text-danger mb-0 pb-0">{{emailCustomerExistCreate}}</small>-->
                         </div>
                     </div>
 
@@ -553,7 +562,8 @@
                 <div class="row">
                     <div class="col-md-4 text-center">
                         <button class="btn__primary" type="submit"
-                                [disabled]="importForm3.invalid || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
+                                [disabled]="importForm3.invalid
+                                // || importExistCreate !== '' || materialExistUpdate !== '' || customerExistCreate !== '' || phoneCustomerExistCreate !== ''">
                             Thêm mới
                         </button>
                     </div>

@@ -6,6 +6,7 @@ import {IPositionEmployee} from '../../model/employee/iposition-employee';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {IEmployee} from '../../model/employee/iemployee';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-admin-edit-employee',
@@ -23,7 +24,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     test: string;
 
 // tslint:disable-next-line:max-line-length
-    constructor(private employeeService: EmployeeServiceService, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage) {
+    constructor(private employeeService: EmployeeServiceService, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage, private notification: NotifierService) {
     }
 
     ngOnInit(): void {
@@ -71,7 +72,6 @@ export class AdminEditEmployeeComponent implements OnInit {
                             this.storage.storage.refFromURL(this.oldAvatarLink).delete();
                         }
                         console.log(this.employeeForm.value);
-                        // @ts-ignore
                         this.employeeService.adminUpdateEmployee(this.id, this.employeeForm.value).subscribe(
                             () => {
                             },
@@ -85,8 +85,8 @@ export class AdminEditEmployeeComponent implements OnInit {
                                 }
                             },
                             () => {
-                                alert('chỉnh sửa thành công');
-                                this.router.navigateByUrl('/employee/list');
+                                this.notification.notify('success', 'Chỉnh sửa thành công');
+                                // this.router.navigateByUrl('/employee/list');
                                 this.uploadedAvatar = null;
                             }
                         );
@@ -94,7 +94,6 @@ export class AdminEditEmployeeComponent implements OnInit {
                 })
             ).subscribe();
         } else {
-            // @ts-ignore
             this.employeeService.adminUpdateEmployee(this.id, this.employeeForm.value).subscribe(
                 () => {
                 },
@@ -107,8 +106,8 @@ export class AdminEditEmployeeComponent implements OnInit {
                     }
                 },
                 () => {
-                    alert('chỉnh sửa thành công');
-                    this.router.navigateByUrl('/employee/list');
+                    this.notification.notify('success', 'Chỉnh sửa thành công');
+                    // this.router.navigateByUrl('/employee/list');
                 }
             );
         }

@@ -6,6 +6,10 @@
     <div style="background-color: white;">
         <form [formGroup]="importForm2" (ngSubmit)="createImport2()" class="p-3">
             <h2 class="text-center" style="color:#270082;">Nhập kho</h2>
+            <br>
+            <div class="text-center">
+                <h6 class="text-danger mb-0 pb-0">{{message}}</h6>
+            </div>
             <div class="row mt-3" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Loại hàng hoá
@@ -82,9 +86,10 @@
                     <span style="color: red">(*)</span>
                 </div>
                 <div class="col-md-3 input-group">
-                    <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
-                           (ngModelChange)="checkImportCode()"
-                           placeholder="vd: HDN-123">
+<!--                    <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"-->
+<!--                           (ngModelChange)="checkImportCode()"-->
+<!--                           placeholder="vd: HDN-123">-->
+                    <input type="text" formControlName="importCode" placeholder="vd: HDN-123">
                 </div>
 
                 <div class="col-md-2"></div>
@@ -110,7 +115,7 @@
                            *ngIf="importForm2.get('importCode').invalid && (importForm2.get('importCode').touched||importForm2.get('importCode').dirty)">
                         Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
                     </small>
-                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
+<!--                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>-->
                 </div>
 
                 <div class="col-md-2"></div>
@@ -163,13 +168,14 @@
                             <span style="color: red">(*)</span>
                         </div>
                         <div class="col-md-8 input-group" style="height: 60px">
-                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
-                                   [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
+<!--                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"-->
+<!--                                   [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">-->
+                            <input type="text" formControlName="materialCode" placeholder="vd: MVT-123">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm2.get('materialCode').invalid && (importForm2.get('materialCode').touched||importForm2.get('materialCode').dirty)">
                                 Mã vật tư không được để trống và có dạng MVT-XXX, ví dụ MVT-123
                             </small>
-                            <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>
+<!--                            <small class="text-danger mb-0 pb-0">{{materialExistCreate}}</small>-->
                         </div>
                     </div>
                     <div class="row">
@@ -471,7 +477,8 @@
                 <div class="row">
                     <div class="col-md-4 text-center">
                         <button class="btn__primary" type="submit"
-                                [disabled]="importForm2.invalid || importExistCreate !== '' || materialExistCreate !== ''">
+                                [disabled]="importForm2.invalid
+                                // || importExistCreate !== '' || materialExistCreate !== ''">
                             Thêm mới
                         </button>
                     </div>

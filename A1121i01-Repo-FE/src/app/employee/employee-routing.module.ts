@@ -19,7 +19,7 @@ const routes: Routes = [
     {
         path: 'employee/edit', component: EditEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]
     },
-    {path: 'employee/create', component: CreateEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]},
+    {path: 'employee-admin/create', component: CreateEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]},
     {path: 'employee-admin/edit/:id', component: AdminEditEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]}
 ];
 

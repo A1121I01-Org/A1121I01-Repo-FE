@@ -5,6 +5,10 @@
     <div style="background-color: white;">
         <form [formGroup]="importForm" (ngSubmit)="createImport1()" class="p-3">
             <h2 class="text-center" style="color:#270082;">Nhập kho</h2>
+            <br>
+            <div class="text-center">
+                <h6 class="text-danger mb-0 pb-0">{{message}}</h6>
+            </div>
             <div class="row mt-3" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Loại hàng hoá
@@ -162,10 +166,6 @@
                         Số lượng không được để trống và lớn hơn 0
                     </small>
                 </div>
-            </div>
-
-            <div class="text-center">
-                <small class="text-danger mb-0 pb-0">{{message}}</small>
             </div>
 
             <br>
@@ -368,8 +368,9 @@
                 <div class="row">
                     <div class="col-md-4 text-center">
                         <button class="btn__primary" type="submit"
-                                [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
-                            mới
+                                [disabled]="importForm.invalid
+                                 // || importExistCreate !== ''"
+                        >Thêm mới
                         </button>
                     </div>
                     <div class="col-md-4 text-center">

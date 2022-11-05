@@ -20,7 +20,7 @@
                 <div>
                     <p class="text-warning" *ngIf="employeeForm?.get('employeeCode').hasError('required') && employeeForm?.get('employeeCode')?.touched">Mã nhân viên không được để trống</p>
                     <p class="text-warning" *ngIf="employeeForm?.get('employeeCode').hasError('pattern') && employeeForm?.get('employeeCode')?.touched">Mã nhân viên chưa đúng định dạng - Ví dụ: MNV-000</p>
-                    <span style="color: red" *ngIf="employeeErr?.employeeCode">{{employeeErr?.employeeCode}}</span>
+                    <!--                    <span style="color: red" *ngIf="employeeErr?.employeeCode">{{employeeErr?.employeeCode}}</span>-->
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                 <input type="text" formControlName="employeeSalary">
                 <div>
                     <p class="text-warnng" *ngIf="employeeForm?.get('employeeSalary').hasError('required') && employeeForm?.get('employeeSalary')?.touched">Lương không được để trống</p>
-                    <span style="color: red" *ngIf="employeeErr?.employeeSalary">{{employeeErr?.employeeSalary}}</span>
+                    <!--                    <span style="color: red" *ngIf="employeeErr?.employeeSalary">{{employeeErr?.employeeSalary}}</span>-->
                 </div>
             </div>
 
@@ -94,3 +94,5 @@
         </div>
     </form>
 </div>
+
+<notifier-container></notifier-container>

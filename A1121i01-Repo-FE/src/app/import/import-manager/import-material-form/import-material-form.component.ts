@@ -75,6 +75,8 @@ export class ImportMaterialFormComponent implements OnInit {
     accountId: number;
     employee: IEmployee;
 
+    message = '';
+
     constructor(private importService: ImportServiceService,
                 private notification: NotifierService,
                 private router: Router,
@@ -116,7 +118,7 @@ export class ImportMaterialFormComponent implements OnInit {
         this.notification.notify('default', 'Vui nhập thông tin nhập kho');
         this.getCustomerList();
         this.getEmployeeList();
-        this.getImportList(this.page);
+        this.getImportList(1);
         this.getMaterialTypeImportList();
         this.importSearchForm = new FormGroup({
             codeSearch: new FormControl(''),
@@ -213,22 +215,25 @@ export class ImportMaterialFormComponent implements OnInit {
 
                         // //delete old img from firebase
                         // this.storage.storage.refFromURL(this.oldAvatarLink).delete();
-                        this.importService.createImport(this.importCreate).subscribe(
+                        this.importService.createImport2(this.importCreate).subscribe(
                             () => {
                             },
                             (error) => {
+                                this.loading = false;
+                                this.message = error.error;
+                                this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                                 if (error.status === 500) {
                                     this.router.navigateByUrl('/auth/access-denied');
                                 }
                             },
                             () => {
+                                this.message = '';
                                 this.loading = false;
                                 this.myInputVariableMaterial.nativeElement.value = '';
                                 this.upLoadImageMaterial = null;
                                 this.urlMaterial = null;
                                 this.importForm2.reset();
-                                this.page = 1;
-                                this.getImportList(this.page);
+                                this.ngOnInit();
                                 this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                             }
                         );
@@ -256,10 +261,14 @@ export class ImportMaterialFormComponent implements OnInit {
                 importAccountId: this.importForm2.get('importAccountId').value,
                 importMaterialId: this.materialCreate
             };
-            this.importService.createImport(this.importCreate).subscribe(
+            this.importService.createImport2(this.importCreate).subscribe(
                 () => {
                 },
                 (error) => {
+                    this.message = '';
+                    this.loading = false;
+                    this.message = error.error;
+                    this.notification.notify('error', 'Thêm mới vật tư nhập kho thất bại');
                     if (error.status === 500) {
                         this.router.navigateByUrl('/auth/access-denied');
                     }
@@ -267,8 +276,7 @@ export class ImportMaterialFormComponent implements OnInit {
                 () => {
                     this.loading = false;
                     this.importForm2.reset();
-                    this.page = 1;
-                    this.getImportList(this.page);
+                    this.ngOnInit();
                     this.notification.notify('success', 'Thêm mới vật tư nhập kho thành công');
                 }
             );
@@ -401,23 +409,23 @@ export class ImportMaterialFormComponent implements OnInit {
     }
 
     // +++++++++check code tồn tại+++++++++++
-    checkImportCode() {
-        this.importService.findAllImportString().subscribe(data => {
-                this.importListString = data;
-            }, () => {
-            },
-            () => {
-                if (this.importForm2.get('importCode').valid) {
-                    if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
-                        this.importExistCreate = 'Mã nhập kho đã tồn tại';
-                    } else {
-                        this.importExistCreate = '';
-                    }
-                } else {
-                    this.importExistCreate = '';
-                }
-            });
-    }
+    // checkImportCode() {
+    //     this.importService.findAllImportString().subscribe(data => {
+    //             this.importListString = data;
+    //         }, () => {
+    //         },
+    //         () => {
+    //             if (this.importForm2.get('importCode').valid) {
+    //                 if (this.importListString.indexOf(this.importExistCreateSearch) > -1) {
+    //                     this.importExistCreate = 'Mã nhập kho đã tồn tại';
+    //                 } else {
+    //                     this.importExistCreate = '';
+    //                 }
+    //             } else {
+    //                 this.importExistCreate = '';
+    //             }
+    //         });
+    // }
 
     checkImportCodeUpdate() {
         this.importService.findAllImportString().subscribe(data => {
@@ -438,22 +446,22 @@ export class ImportMaterialFormComponent implements OnInit {
             });
     }
 
-    checkMaterialCode() {
-        this.importService.findAllMaterialString().subscribe(data => {
-            this.materialListString = data;
-        }, () => {
-        }, () => {
-            if (this.importForm2.get('materialCode').valid) {
-                if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
-                    this.materialExistCreate = 'Mã Vật tư đã tồn tại';
-                } else {
-                    this.materialExistCreate = '';
-                }
-            } else {
-                this.materialExistCreate = '';
-            }
-        });
-    }
+    // checkMaterialCode() {
+    //     this.importService.findAllMaterialString().subscribe(data => {
+    //         this.materialListString = data;
+    //     }, () => {
+    //     }, () => {
+    //         if (this.importForm2.get('materialCode').valid) {
+    //             if (this.materialListString.indexOf(this.materialExistCreateSearch) > -1) {
+    //                 this.materialExistCreate = 'Mã Vật tư đã tồn tại';
+    //             } else {
+    //                 this.materialExistCreate = '';
+    //             }
+    //         } else {
+    //             this.materialExistCreate = '';
+    //         }
+    //     });
+    // }
 
     checkMaterialCodeUpdate() {
         this.importService.findAllMaterialString().subscribe(data => {

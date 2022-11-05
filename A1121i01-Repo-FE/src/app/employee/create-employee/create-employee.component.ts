@@ -82,10 +82,10 @@ export class CreateEmployeeComponent implements OnInit {
                                 }
                             },
                             () => {
-                                alert('Tạo mới thành công');
+                                this.notification.notify('success', 'Thêm mới nhân viên thành công');
                                 this.uploadedAvatar = null;
                                 this.employeeForm.reset();
-                                this.router.navigateByUrl('/employee/list');
+                                // this.router.navigateByUrl('/employee/list');
                             },
                         );
                     });
@@ -94,7 +94,7 @@ export class CreateEmployeeComponent implements OnInit {
         } else {
             console.log(this.employeeForm.value);
             this.employeeService.saveEmployee(this.employeeForm.value).subscribe(
-                () => {
+                () => {this.ngOnInit();
                 },
                 (error) => {
                     if (error.status === 500) {
@@ -105,9 +105,9 @@ export class CreateEmployeeComponent implements OnInit {
                     }
                 },
                 () => {
-                    alert('Tạo mới thành công');
+                    this.notification.notify('success', 'Thêm mới nhân viên thành công');
                     this.employeeForm.reset();
-                    this.router.navigateByUrl('/employee/list' );
+                    // this.router.navigateByUrl('/employee/list' );
                 }
             );
         }
