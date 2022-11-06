@@ -8,26 +8,27 @@ import {EditMaterialComponent} from './edit-material/edit-material.component';
 
 import {DetailMaterialComponent} from './detail-material/detail-material.component';
 import {ListMaterialComponent} from './list-material/list-material.component';
+import {AuthGuard} from "../helpers/auth.guard";
 
 
 const routes: Routes = [
   {
 
-    path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}
+    path: 'detail/:id', component: DetailMaterialComponent, data: {title: 'Detail'}, canActivate: [AuthGuard]
   },
   {
-    path: 'list', component: ListMaterialComponent
+    path: 'list', component: ListMaterialComponent, canActivate: [AuthGuard]
   },
 
   {
-    path: 'material/create', component: CreateMaterialComponent,
+    path: 'material/create', component: CreateMaterialComponent, canActivate: [AuthGuard]
 
   },
   {
-    path: 'material/edit/:id', component: EditMaterialComponent
+    path: 'material/edit/:id', component: EditMaterialComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'infor', component: InforMaterialComponent
+    path: 'infor', component: InforMaterialComponent, canActivate: [AuthGuard]
   }
 ];
 

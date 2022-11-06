@@ -4,8 +4,8 @@
 <div class="container" style="margin-top: 100px">
     <div style="background-color: white;">
         <form [formGroup]="importForm" (ngSubmit)="createImport1()" class="p-3">
-            <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
-            <div class="row mt-3">
+            <h2 class="text-center" style="color:#270082;">Nhập kho</h2>
+            <div class="row mt-3" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Loại hàng hoá
                     <span style="color: red">(*)</span>
@@ -36,11 +36,7 @@
                 </div>
 
                 <div class="col-md-3 input-group">
-                    <select style="height: 100%" formControlName="importAccountId">
-                        <option selected disabled value="">Chọn</option>
-                        <option *ngFor="let employee of employeeList"
-                                [ngValue]="employee">{{employee.employeeName}}</option>
-                    </select>
+                    <input style="height: 100%" placeholder="{{employee.employeeName}}" readonly>
                     <small class="text-danger mb-0 pb-0"
                            *ngIf="importForm.get('importAccountId').invalid && (importForm.get('importAccountId').touched||importForm.get('importAccountId').dirty)">
                         Người thực hiện không được để trống
@@ -50,16 +46,16 @@
 
             <br>
 
-
-            <div class="row mt-3">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Mã hoá đơn
                     <span style="color: red">(*)</span>
                 </div>
                 <div class="col-md-3 input-group">
-                    <input type="text" formControlName="importCode" [(ngModel)]="importExistCreateSearch"
-                           (ngModelChange)="checkImportCode()"
-                           placeholder="vd: HDN-123">
+                    <input type="text" formControlName="importCode" placeholder="vd: HDN-123">
+                    <!--                           [(ngModel)]="importExistCreateSearch"-->
+                    <!--                           (ngModelChange)="checkImportCode()"-->
+
                 </div>
 
                 <div class="col-md-2"></div>
@@ -78,7 +74,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                 </div>
                 <div class="col-md-3 input-group">
@@ -86,7 +82,7 @@
                            *ngIf="importForm.get('importCode').invalid && (importForm.get('importCode').touched||importForm.get('importCode').dirty)">
                         Mã hoá đơn không được để trống và theo định dạng HDN-XXX, với X là số, vd: HDN-123
                     </small>
-                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>
+                    <!--                    <small class="text-danger mb-0 pb-0">{{importExistCreate}}</small>-->
                 </div>
 
                 <div class="col-md-2"></div>
@@ -101,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Ngày lập
                     <span style="color: red">(*)</span>
@@ -125,7 +121,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                 </div>
                 <div class="col-md-3 input-group">
@@ -147,7 +143,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="height: 110px">
                 <div class="col-md-2 input-group" style="align-content: center">
                 </div>
                 <div class="col-md-3 input-group">
@@ -168,11 +164,15 @@
                 </div>
             </div>
 
+            <div class="text-center">
+                <small class="text-danger mb-0 pb-0">{{message}}</small>
+            </div>
+
             <br>
             <br>
             <br>
             <br>
-            <h3 class="text-center font-weight-bolder" style="color:#270082;">Thông tin nhập vật tư</h3>
+            <h3 class="text-center" style="color:#270082;">Thông tin nhập vật tư</h3>
             <br>
 
             <form [formGroup]="importSearchForm" (ngSubmit)="searchImport()" class="mb-3">
@@ -193,7 +193,7 @@
                     </div>
 
                     <div class="input-group col-md-2">
-                        <button class="btn__delete mt-2 ml-1" type="submit">Search</button>
+                        <button class="btn__delete mt-2 ml-1" type="submit">Tìm kiếm</button>
                     </div>
                 </div>
             </form>
@@ -364,23 +364,24 @@
                 <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
             </div>
             <br>
-            <div class="row button__container text-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-3">
-                    <button class="btn__primary" type="submit"
-                            [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
-                        mới
-                    </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <button class="btn__primary" type="submit"
+                                [disabled]="importForm.invalid || importExistCreate !== ''">Thêm
+                            mới
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In
+                            hoá
+                            đơn
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button class="bt btn__cancel" routerLink="">Trở về</button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In hoá
-                        đơn
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <button class="bt btn__cancel" routerLink="">Trở về</button>
-                </div>
-                <div class="col-md-2"></div>
             </div>
         </form>
     </div>
@@ -393,7 +394,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung này không hoàn tác</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung
+                    này không hoàn tác</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -406,7 +408,9 @@
                 <button type="button" class="btn__cancel"
                         data-dismiss="modal">Quay lại
                 </button>
-                <button type="button" class="btn__delete" data-dismiss="modal"  (click)="deleteImport(importDelete.importId)">Xóa</button>
+                <button type="button" class="btn__delete" data-dismiss="modal"
+                        (click)="deleteImport(importDelete.importId)">Xóa
+                </button>
             </div>
         </div>
     </div>

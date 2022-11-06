@@ -3,17 +3,18 @@ import {RouterModule, Routes} from '@angular/router';
 import {FinancialStatisticComponent} from './financial-statistic/financial-statistic.component';
 import {MaterialStatisticComponent} from './material-statistic/material-statistic.component';
 import {CustomerStatisticComponent} from './customer-statistic/customer-statistic.component';
+import {AuthGuard} from '../helpers/auth.guard';
 
 
 const routes: Routes = [
   {
-    path: 'statistic/material', component: MaterialStatisticComponent
+    path: 'statistic/material', component: MaterialStatisticComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'statistic/financial', component: FinancialStatisticComponent
+    path: 'statistic/financial', component: FinancialStatisticComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'statistic/customer', component: CustomerStatisticComponent
+    path: 'statistic/customer', component: CustomerStatisticComponent, canActivate: [AuthGuard]
   }
 ];
 

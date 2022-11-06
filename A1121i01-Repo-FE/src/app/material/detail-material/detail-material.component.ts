@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./detail-material.component.css']
 })
 export class DetailMaterialComponent implements OnInit {
+
   materials: IMaterial = {};
   id: number;
   materials2: IMaterial[] = [];

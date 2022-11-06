@@ -9,10 +9,16 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-6">
-                    <button class="btn__create" routerLink="/employee/create">
+                <div class="col-lg-6" *ngIf="showAdminBoard">
+                    <button  class="btn__primary" routerLink="/employee/create">
                         Thêm mới nhân viên
                     </button>
+                </div>
+
+                <div class="col-lg-6" *ngIf="showAccountantBoard || showSellBoard">
+                    <!--                    <button  class="btn__create" routerLink="/employee/create">-->
+                    <!--                        Thêm mới nhân viên-->
+                    <!--                    </button>-->
                 </div>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-5 d-flex justify-content-end">

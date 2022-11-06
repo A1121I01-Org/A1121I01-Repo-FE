@@ -5,20 +5,22 @@ import {CreateEmployeeComponent} from './create-employee/create-employee.compone
 import {DetailEmployeeComponent} from './detail-employee/detail-employee.component';
 import {ListEmployeeComponent} from './list-employee/list-employee.component';
 import {EditEmployeeComponent} from './edit-employee/edit-employee.component';
+import {AuthGuard} from '../helpers/auth.guard';
+import {AdminAuthGuard} from '../helpers/admin-auth.guard';
 
 
 const routes: Routes = [
-  {
-    path: 'employee/list', component: ListEmployeeComponent
-  },
-  {
-    path: 'employee/detail/:id', component: DetailEmployeeComponent
-  },
-  {
-    path: 'employee/edit', component: EditEmployeeComponent
-  },
-  {path: 'employee/admin_create', component: CreateEmployeeComponent},
-  {path: 'employee-admin/admin_edit/:id', component: AdminEditEmployeeComponent}
+    {
+        path: 'employee/list', component: ListEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+        path: 'employee/detail/:id', component: DetailEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {
+        path: 'employee/edit', component: EditEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]
+    },
+    {path: 'employee/create', component: CreateEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]},
+    {path: 'employee-admin/edit/:id', component: AdminEditEmployeeComponent, canActivate: [AuthGuard, AdminAuthGuard]}
 ];
 
 @NgModule({

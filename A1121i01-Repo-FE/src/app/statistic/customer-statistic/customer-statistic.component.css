@@ -5,6 +5,11 @@ header h1 {
   margin-top: 20px;
 }
 
+.container form{
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
 .combobox button {
   width: 100px;
   margin-left: 10%;

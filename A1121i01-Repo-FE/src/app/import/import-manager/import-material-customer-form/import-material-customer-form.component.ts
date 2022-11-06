@@ -13,7 +13,8 @@ import {Router} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
 import {ViewChild} from '@angular/core';
-import {checkHSD} from "../../../validate/customvalidator.validator";
+import {checkHSD} from '../../../validate/customvalidator.validator';
+import {TokenStorageService} from '../../../service/security/token-storage.service';
 
 @Component({
     selector: 'app-import-material-customer-form',
@@ -91,14 +92,54 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
 
     loading = false;
 
+    accountId: number;
+    employee: IEmployee;
+
 
     constructor(private importService: ImportServiceService,
                 private notification: NotifierService,
                 private router: Router,
-                private storage: AngularFireStorage) {
+                private storage: AngularFireStorage,
+                private tokenStorageService: TokenStorageService) {
     }
 
     ngOnInit(): void {
+        this.accountId = this.tokenStorageService.getUser().account.accountId;
+        this.importService.findEmployeeByAccountId(this.accountId).subscribe(employee => {
+            this.employee = employee;
+            this.importForm3 = new FormGroup({
+                importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+                importStartDate: new FormControl(this.date1, [Validators.required]),
+                importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
+                importAccountId: new FormControl(this.employee.employeeAccountId, [Validators.required]),
+                materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+                materialName: new FormControl('', [Validators.required]),
+                materialPrice: new FormControl('', [Validators.required, Validators.min(0)]),
+                materialExpiridate: new FormControl(null, [Validators.required]),
+                materialUnit: new FormControl('', [Validators.required]),
+                materialImage: new FormControl(''),
+                materialDescribe: new FormControl(''),
+                materialTypeId: new FormControl('', [Validators.required]),
+                customerName: new FormControl('', [Validators.required]),
+                customerCode: new FormControl('', [Validators.required, Validators.pattern('MKH-\\d{3}')]),
+                customerAddress: new FormControl('', [Validators.required]),
+                // tslint:disable-next-line:max-line-length
+                customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+                customerEmail: new FormControl('', [Validators.required, Validators.email]),
+                customerAvatar: new FormControl('')
+            }, checkHSD);
+
+            this.importUpdateForm = new FormGroup({
+                importCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
+                importStartDateUpdate: new FormControl(null, [Validators.required]),
+                importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
+                importAccountIdUpdate: new FormControl(null, [Validators.required]),
+                importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
+                importMaterialNameUpdate: new FormControl(null, [Validators.required]),
+                importMaterialUnitUpdate: new FormControl(null, [Validators.required])
+            });
+        });
+
         this.notification.notify('default', 'Vui nhập thông tin nhập kho');
         this.getCustomerList();
         this.getEmployeeList();
@@ -108,38 +149,6 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
             codeSearch: new FormControl(''),
             startDateSearch: new FormControl(''),
             endDateSearch: new FormControl('')
-        });
-
-        this.importForm3 = new FormGroup({
-            importCode: new FormControl('', [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-            importStartDate: new FormControl(this.date1, [Validators.required]),
-            importQuantity: new FormControl('', [Validators.required, Validators.min(0)]),
-            importAccountId: new FormControl('', [Validators.required]),
-            materialCode: new FormControl('', [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-            materialName: new FormControl('', [Validators.required]),
-            materialPrice: new FormControl('', [Validators.required, Validators.min(0)]),
-            materialExpiridate: new FormControl(null, [Validators.required]),
-            materialUnit: new FormControl('', [Validators.required]),
-            materialImage: new FormControl(''),
-            materialDescribe: new FormControl(''),
-            materialTypeId: new FormControl('', [Validators.required]),
-            customerName: new FormControl('', [Validators.required]),
-            customerCode: new FormControl('', [Validators.required, Validators.pattern('MKH-\\d{3}')]),
-            customerAddress: new FormControl('', [Validators.required]),
-            // tslint:disable-next-line:max-line-length
-            customerPhone: new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
-            customerEmail: new FormControl('', [Validators.required, Validators.email]),
-            customerAvatar: new FormControl('')
-        }, checkHSD);
-
-        this.importUpdateForm = new FormGroup({
-            importCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('HDN-\\d{3}')]),
-            importStartDateUpdate: new FormControl(null, [Validators.required]),
-            importQuantityUpdate: new FormControl(null, [Validators.required, Validators.min(0)]),
-            importAccountIdUpdate: new FormControl(null, [Validators.required]),
-            importMaterialCodeUpdate: new FormControl(null, [Validators.required, Validators.pattern('MVT-\\d{3}')]),
-            importMaterialNameUpdate: new FormControl(null, [Validators.required]),
-            importMaterialUnitUpdate: new FormControl(null, [Validators.required])
         });
     }
 
@@ -197,7 +206,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                                 importCode: this.importForm3.get('importCode').value,
                                 importStartDate: this.importForm3.get('importStartDate').value,
                                 importQuantity: this.importForm3.get('importQuantity').value,
-                                importAccountId: this.importForm3.get('importAccountId').value.employeeAccountId,
+                                importAccountId: this.importForm3.get('importAccountId').value,
                                 importMaterialId: this.materialCreate
                             };
 
@@ -268,7 +277,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                             importCode: this.importForm3.get('importCode').value,
                             importStartDate: this.importForm3.get('importStartDate').value,
                             importQuantity: this.importForm3.get('importQuantity').value,
-                            importAccountId: this.importForm3.get('importAccountId').value.employeeAccountId,
+                            importAccountId: this.importForm3.get('importAccountId').value,
                             importMaterialId: this.materialCreate
                         };
 
@@ -334,7 +343,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                             importCode: this.importForm3.get('importCode').value,
                             importStartDate: this.importForm3.get('importStartDate').value,
                             importQuantity: this.importForm3.get('importQuantity').value,
-                            importAccountId: this.importForm3.get('importAccountId').value.employeeAccountId,
+                            importAccountId: this.importForm3.get('importAccountId').value,
                             importMaterialId: this.materialCreate
                         };
 
@@ -393,7 +402,7 @@ export class ImportMaterialCustomerFormComponent implements OnInit {
                 importCode: this.importForm3.get('importCode').value,
                 importStartDate: this.importForm3.get('importStartDate').value,
                 importQuantity: this.importForm3.get('importQuantity').value,
-                importAccountId: this.importForm3.get('importAccountId').value.employeeAccountId,
+                importAccountId: this.importForm3.get('importAccountId').value,
                 importMaterialId: this.materialCreate
             };
 

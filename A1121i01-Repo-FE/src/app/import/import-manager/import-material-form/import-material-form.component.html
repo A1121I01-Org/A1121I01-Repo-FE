@@ -5,8 +5,8 @@
 <div class="container" style="margin-top: 100px">
     <div style="background-color: white;">
         <form [formGroup]="importForm2" (ngSubmit)="createImport2()" class="p-3">
-            <h1 class="text-center font-weight-bold" style="color:#270082;">Nhập kho</h1>
-            <div class="row mt-3">
+            <h2 class="text-center" style="color:#270082;">Nhập kho</h2>
+            <div class="row mt-3" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Loại hàng hoá
                     <span style="color: red">(*)</span>
@@ -36,11 +36,7 @@
 
                 </div>
                 <div class="col-md-3 input-group">
-                    <select style="height: 100%" formControlName="importAccountId">
-                        <option selected disabled value="">Chọn</option>
-                        <option *ngFor="let employee of employeeList"
-                                [ngValue]="employee">{{employee.employeeName}}</option>
-                    </select>
+                    <input style="height: 100%"  placeholder="{{employee.employeeName}}" readonly>
                     <small class="text-danger mb-0 pb-0"
                            *ngIf="importForm2.get('importAccountId').invalid && (importForm2.get('importAccountId').touched||importForm2.get('importAccountId').dirty)">
                         Người thực hiện không được để trống
@@ -50,7 +46,7 @@
 
             <br>
 
-            <div class="row">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2"></div>
                 <div class="col-md-3"></div>
 
@@ -80,7 +76,7 @@
             </div>
 
 
-            <div class="row mt-3">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Mã hoá đơn
                     <span style="color: red">(*)</span>
@@ -106,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="height: 70px">
                 <div class="col-md-2 input-group" style="align-content: center">
                 </div>
                 <div class="col-md-3 input-group">
@@ -129,12 +125,12 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row">
                 <div class="col-md-2 input-group" style="align-content: center">
                     Ngày lập
                     <span style="color: red">(*)</span>
                 </div>
-                <div class="col-md-3 input-group">
+                <div class="col-md-3 input-group" style="height: 60px">
                     <input type="date" formControlName="importStartDate">
                     <small class="text-danger mb-0 pb-0"
                            *ngIf="importForm2.get('importStartDate').invalid && (importForm2.get('importStartDate').touched||importForm2.get('importStartDate').dirty)">
@@ -148,7 +144,7 @@
                     Số lượng
                     <span style="color: red">(*)</span>
                 </div>
-                <div class="col-md-3 input-group">
+                <div class="col-md-3 input-group" style="height: 60px">
                     <input type="number" formControlName="importQuantity">
                     <small class="text-danger mb-0 pb-0"
                            *ngIf="importForm2.get('importQuantity').invalid && (importForm2.get('importQuantity').touched||importForm2.get('importQuantity').dirty)">
@@ -166,7 +162,7 @@
                             Mã VT:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <input type="text" formControlName="materialCode" placeholder="vd: MVT-123"
                                    [(ngModel)]="materialExistCreateSearch" (ngModelChange)="checkMaterialCode()">
                             <small class="text-danger mb-0 pb-0"
@@ -181,7 +177,7 @@
                             Tên:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <input type="text" formControlName="materialName">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm2.get('materialName').invalid && (importForm2.get('materialName').touched||importForm2.get('materialName').dirty)">
@@ -194,7 +190,7 @@
                             Giá:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <input type="number" formControlName="materialPrice">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm2.get('materialPrice').invalid && (importForm2.get('materialPrice').touched||importForm2.get('materialPrice').dirty)">
@@ -208,7 +204,7 @@
                             Hạn sử dụng:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <input type="date" formControlName="materialExpiridate">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm2.get('materialExpiridate').invalid && (importForm2.get('materialExpiridate').touched||importForm2.get('materialExpiridate').dirty)">
@@ -225,7 +221,7 @@
                             Đơn vị:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <input type="text" formControlName="materialUnit">
                             <small class="text-danger mb-0 pb-0"
                                    *ngIf="importForm2.get('materialUnit').invalid && (importForm2.get('materialUnit').touched||importForm2.get('materialUnit').dirty)">
@@ -238,7 +234,7 @@
                             Loại Vật tư:
                             <span style="color: red">(*)</span>
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 60px">
                             <select style="height: 100%;" formControlName="materialTypeId">
                                 <option selected disabled value='null'>Chọn</option>
                                 <option *ngFor="let materialType of materialTypeList"
@@ -267,7 +263,7 @@
                         <div class="col-md-4 input-group" style="align-content: center">
                             Mô tả sản phẩm:
                         </div>
-                        <div class="col-md-8 input-group">
+                        <div class="col-md-8 input-group" style="height: 40px">
                             <input type="text" formControlName="materialDescribe">
                         </div>
                     </div>
@@ -300,7 +296,7 @@
                     </div>
 
                     <div class="input-group col-md-2">
-                        <button class="btn__delete mt-2 ml-1" type="submit">Search</button>
+                        <button class="btn__delete mt-2 ml-1" type="submit">Tìm kiếm</button>
                     </div>
                 </div>
             </form>
@@ -471,23 +467,24 @@
                 <pagination-controls (pageChange)="getImportList ($event)"></pagination-controls>
             </div>
             <br>
-            <div class="row button__container text-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-3">
-                    <button class="btn__primary" type="submit"
-                            [disabled]="importForm2.invalid || importExistCreate !== '' || materialExistCreate !== ''">
-                        Thêm mới
-                    </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <button class="btn__primary" type="submit"
+                                [disabled]="importForm2.invalid || importExistCreate !== '' || materialExistCreate !== ''">
+                            Thêm mới
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In
+                            hoá
+                            đơn
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button class="bt btn__cancel" routerLink="">Trở về</button>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <button class="bt btn__delete" (click)="pdfImport()" [disabled]="this.importCreate === null">In hoá
-                        đơn
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <button class="bt btn__cancel" routerLink="">Trở về</button>
-                </div>
-                <div class="col-md-2"></div>
             </div>
         </form>
     </div>
@@ -500,7 +497,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung này không hoàn tác</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: crimson">Lưu ý: Nội dung
+                    này không hoàn tác</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -513,7 +511,9 @@
                 <button type="button" class="btn__cancel"
                         data-dismiss="modal">Quay lại
                 </button>
-                <button type="button" class="btn__delete" data-dismiss="modal"  (click)="deleteImport(importDelete.importId)">Xóa</button>
+                <button type="button" class="btn__delete" data-dismiss="modal"
+                        (click)="deleteImport(importDelete.importId)">Xóa
+                </button>
             </div>
         </div>
     </div>
