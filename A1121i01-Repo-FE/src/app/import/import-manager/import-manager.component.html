@@ -178,18 +178,18 @@
             <form [formGroup]="importSearchForm" (ngSubmit)="searchImport()" class="mb-3">
                 <div class="row">
                     <div class="input-group col-md-2">
-                        <span class="input-group-text ml-1">code</span>
-                        <input type="text" class="form-control" formControlName="codeSearch">
+                        <span class="ml-1">Mã: </span>
+                        <input type="text" class="ml-3 form-control" formControlName="codeSearch">
                     </div>
 
                     <div class="input-group col-md-4">
-                        <span class="input-group-text ml-1">bắt đầu</span>
-                        <input type="date" class="form-control" formControlName="startDateSearch">
+                        <span class="ml-1">Ngày bắt đầu: </span>
+                        <input type="date" class="ml-3 form-control" formControlName="startDateSearch">
                     </div>
 
                     <div class="input-group col-md-4">
-                        <span class="input-group-text ml-1">kết thúc</span>
-                        <input type="date" class="form-control" formControlName="endDateSearch">
+                        <span class="ml-1">Ngày kết thúc: </span>
+                        <input type="date" class="ml-3 form-control" formControlName="endDateSearch">
                     </div>
 
                     <div class="input-group col-md-2">

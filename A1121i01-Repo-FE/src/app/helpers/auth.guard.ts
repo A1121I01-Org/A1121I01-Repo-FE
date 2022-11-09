@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
     ) {
     }
 
+    // xác định role vào được những trang nào
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -21,9 +22,11 @@ export class AuthGuard implements CanActivate {
         console.log('user: ' + this.roles);
         console.log(route.data);
         // this.tokenStorageService.getUser().account.roles[0].roleId !== 1
+        // chưa đăng nhập tài khoản
         if (user !== null) {
             const role = this.tokenStorageService.getUser().account.roles[0];
             console.log(role);
+            // nếu đăng nhập thất bại
             if (!this.tokenStorageService.isAuthenticated()) {
                 this.router.navigate(['/login']);
                 return false;

@@ -94,6 +94,7 @@ export class LoginComponent implements OnInit {
                 this.errorMessage = 'Tài khoản hoặc mật khẩu không đúng';
             },
             () => {
+            // load lại trang
                 window.location.assign('');
                 this.router.navigateByUrl('');
             });

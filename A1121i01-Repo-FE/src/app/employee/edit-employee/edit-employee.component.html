@@ -1,3 +1,7 @@
+<div class="loading" *ngIf="loading">
+    <div class="loader">
+    </div>
+</div>
 <div class="container">
   <form [formGroup]="employeeForm" *ngIf="employeeForm" (ngSubmit)="editEmployee()" class="mb-5">
     <div class="ml-2">

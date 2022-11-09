@@ -1,41 +1,47 @@
-<body style="margin-top: 100px" >
-<nav class="navbar navbar-expand-lg navbar-light bg-light" >
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    </div>
-</nav>
-<div class="container">
-    <h3 style="text-align: center; margin: 20px  ">Thông tin vật tư</h3>
+<div class="container" style="margin-top: 100px">
+    <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+    <!--    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
+    <!--    </div>-->
+    <!--</nav>-->
+    <h2 style="text-align: center; margin: 20px; color:#270082;">Thông tin vật tư</h2>
     <div class="d-flex justify-content-between">
-        <button class="btn btn-outline-primary" routerLink="/material/create">Thêm mới vật tư</button>
-        <div class="d-flex">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchVal">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Search</button>
+        <button class="btn__primary" routerLink="/material/create">Thêm mới</button>
+        <div class="d-flex form-custom">
+            <input class="form-control mr-sm-2 my-2" type="search" placeholder="Tìm kiếm" aria-label="Search"
+                   [(ngModel)]="searchVal">
+            <button class="btn__delete mt-1" type="submit" (click)="search()">Tìm kiếm</button>
         </div>
     </div>
-    <table class="table table-hover table-css">
-        <thead>
+    <br>
+    <table class="table table-hover table-css table-responsive">
+        <thead
+            style="background-color: #270082; color: #e6ebf1; overflow: hidden; white-space: nowrap;">
         <tr>
-            <th scope="col">Mã VT </th>
-            <th scope="col">Tên vật tư </th>
+            <th scope="col">Mã VT</th>
+            <th scope="col">Tên vật tư</th>
             <th scope="col">Loại vật tư</th>
-            <th scope="col">Giá thành </th>
-            <th scope="col">Hạn sử dụng </th>
-            <th scope="col">Nhà cung cấp </th>
+            <th scope="col">Giá thành</th>
+            <th scope="col">Hạn sử dụng</th>
+            <th scope="col">Nhà cung cấp</th>
             <th scope="col">Chỉnh sửa</th>
             <th scope="col">Xoá</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let material of materialList">
-            <td scope="col">{{material?.materialCode}}</td>
+            <td style="width: 90px;" scope="col">{{material?.materialCode}}</td>
             <td scope="col">{{material?.materialName}}</td>
             <td scope="col">{{material?.materialTypeId.materialTypeName}}</td>
             <td scope="col">{{material?.materialPrice | currency: "VND"}}</td>
             <td scope="col">{{material?.materialExpiridate | date: "dd-MM-yyyy"}}</td>
             <td scope="col">{{material?.materialCustomerId.customerName}}</td>
-            <td scope="col" ><button class="team-css1"><a [routerLink]="['/material/edit',material.materialId]">Chỉnh sửa</a></button></td>
             <td scope="col">
-                <button class=" team-css"  data-toggle="modal" data-target="#modalDelete" (click)="findMaterialDelete(material.materialId)">Xoá</button>
+                <button class="btn__primary" [routerLink]="['/material/edit',material.materialId]">Chỉnh sửa</button>
+            </td>
+            <td scope="col">
+                <button class="btn__delete" data-toggle="modal" data-target="#modalDelete"
+                        (click)="findMaterialDelete(material.materialId)">Xoá
+                </button>
             </td>
         </tr>
 
@@ -84,13 +90,16 @@
             Next
         </button>
     </div>
+    <br>
 </div>
 
-<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Bạn có muốn xoá vật tư này không?</h5>
+                <h5 class="modal-title" id="exampleModalLabel" style="color: red">Bạn có muốn xoá vật tư này
+                    không?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -101,9 +110,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete()">Xác nhận</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delete()">Xác nhận
+                </button>
             </div>
         </div>
     </div>
-
 </div>

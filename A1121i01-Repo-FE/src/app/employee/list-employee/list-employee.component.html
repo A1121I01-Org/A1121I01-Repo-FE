@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-lg-6" *ngIf="showAdminBoard">
                     <button  class="btn__primary" routerLink="/employee-admin/create">
-                        Thêm mới nhân viên
+                        Thêm mới
                     </button>
                 </div>
 
@@ -24,18 +24,32 @@
                 <div class="col-lg-5 d-flex justify-content-end">
 <!--                    <form>-->
                         <!--                    <form [formGroup]="searchNameForm" (ngSubmit)="send()">-->
-                        <form [formGroup]="searchNameForm" (ngSubmit)="searchEmployeeByName()">
-                        <div class="input-group info-search my-2"
-                             style=" text-align: end; vertical-align: middle">
-                            <div class="form-outline form-field " style="margin-right: 5px">
-                                <input formControlName="name" id="name" type="text" class="form-control rounded"
-                                       placeholder="Tìm kiếm họ tên...">
+<!--                        <form [formGroup]="searchNameForm" (ngSubmit)="searchEmployeeByName()">-->
+<!--                        <div class="input-group info-search my-2"-->
+<!--                             style=" text-align: end; vertical-align: middle">-->
+<!--                            <div class="form-outline form-field " style="margin-right: 5px">-->
+<!--                                <input formControlName="name" id="name" type="text" class="form-control rounded"-->
+<!--                                       placeholder="Tìm kiếm họ tên...">-->
+<!--                            </div>-->
+<!--                            <button type="submit" class="btn__primary" id="search-addon">-->
+<!--                                Search-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </form>-->
+
+                    <form [formGroup]="searchNameForm" (ngSubmit)="searchEmployeeByName()" class="mb-3">
+                        <div class="row my-2">
+                            <div class="input-group col-md-8">
+                                <span class="ml-1">Tên: </span>
+                                <input type="text" class="ml-3 form-control" formControlName="name">
                             </div>
-                            <button type="submit" class="btn__primary" id="search-addon">
-                                Search
-                            </button>
+
+                            <div class="input-group col-md-4">
+                                <button class="btn__delete ml-1" type="submit">Tìm kiếm</button>
+                            </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>

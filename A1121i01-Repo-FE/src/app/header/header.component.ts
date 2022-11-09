@@ -21,10 +21,12 @@ export class HeaderComponent implements OnInit {
                 private router: Router) { }
 
     ngOnInit(): void {
+        // kiểm tra đăng nhập
         this.isLoggedIn = !!this.tokenStorageService.getToken();
         if (this.isLoggedIn) {
             this.userName = this.tokenStorageService.getUser().account.username;
             this.roles = this.tokenStorageService.getUser().account.roles[0].roleName;
+            // kiểm tra role
             this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
             this.showAccountantBoard = this.roles.includes('ROLE_ACCOUNTANT');
             this.showSellBoard = this.roles.includes('ROLE_SELL');

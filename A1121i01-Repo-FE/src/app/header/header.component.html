@@ -99,7 +99,7 @@
         </div>
         <div class="header-menu">
             <ul class="ul-base" *ngIf="!isLoggedIn">
-                <li><a routerLink="/login">Sign in</a></li>
+                <li><a routerLink="/login">Đăng nhập</a></li>
             </ul>
             <ul class="ul-base" *ngIf="isLoggedIn">
                 <li class="dropdown">
@@ -109,7 +109,7 @@
                         <li><a routerLink="/account/update/password">Đổi mật khẩu</a></li>
                     </ul>
                 </li>
-                <li><a (click)="logout()">Logout</a></li>
+                <li><a (click)="logout()">Đăng xuất</a></li>
             </ul>
         </div>
     </div>

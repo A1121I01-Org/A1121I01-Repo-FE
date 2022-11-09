@@ -26,6 +26,9 @@ footer .button {
   height: 45px;
   margin-top: 30px;
 }
+.container {
+    margin-top: 100px !important;
+}
 
 .combobox1 {
   width: 15%;

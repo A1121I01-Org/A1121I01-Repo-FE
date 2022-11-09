@@ -22,6 +22,8 @@ export class AdminEditEmployeeComponent implements OnInit {
     url: any;
     id: number;
     test: string;
+    loading = false;
+
 
 // tslint:disable-next-line:max-line-length
     constructor(private employeeService: EmployeeServiceService, private fb: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router, private storage: AngularFireStorage, private notification: NotifierService) {
@@ -55,6 +57,7 @@ export class AdminEditEmployeeComponent implements OnInit {
     }
 
     adminEditEmployee() {
+        this.loading = true;
         if (this.uploadedAvatar !== null) {
             // Upload img & download url
             const avatarName = this.getCurrentDateTime() + this.uploadedAvatar.name;
@@ -76,6 +79,7 @@ export class AdminEditEmployeeComponent implements OnInit {
                             () => {
                             },
                             (error) => {
+                                this.loading = false;
                                 if (error.status === 500) {
                                     this.router.navigateByUrl('/auth/access-denied');
                                 }
@@ -85,6 +89,7 @@ export class AdminEditEmployeeComponent implements OnInit {
                                 }
                             },
                             () => {
+                                this.loading = false;
                                 this.notification.notify('success', 'Chỉnh sửa thành công');
                                 // this.router.navigateByUrl('/employee/list');
                                 this.uploadedAvatar = null;
@@ -98,6 +103,7 @@ export class AdminEditEmployeeComponent implements OnInit {
                 () => {
                 },
                 (error) => {
+                    this.loading = false;
                     if (error.status === 500) {
                         this.router.navigateByUrl('/auth/access-denied');
                     }
@@ -106,6 +112,7 @@ export class AdminEditEmployeeComponent implements OnInit {
                     }
                 },
                 () => {
+                    this.loading = false;
                     this.notification.notify('success', 'Chỉnh sửa thành công');
                     // this.router.navigateByUrl('/employee/list');
                 }

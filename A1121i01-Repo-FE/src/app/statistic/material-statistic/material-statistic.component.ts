@@ -113,7 +113,7 @@ export class MaterialStatisticComponent implements OnInit {
                   data: this.dataImport,
                   borderWidth: 3,
                   fill: false,
-                  backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                  backgroundColor: 'red',
                   borderColor: 'red'
                 },
                 {
@@ -121,7 +121,7 @@ export class MaterialStatisticComponent implements OnInit {
                   data: this.dataExport,
                   borderWidth: 3,
                   fill: false,
-                  backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                  backgroundColor: 'yellow',
                   borderColor: 'yellow'
                 },
                 {
@@ -129,7 +129,7 @@ export class MaterialStatisticComponent implements OnInit {
                   data: this.dataInventory,
                   borderWidth: 3,
                   fill: false,
-                  backgroundColor: 'rgba(93, 175, 89, 0.1)',
+                  backgroundColor: 'green',
                   borderColor: 'green'
                 }
               ]

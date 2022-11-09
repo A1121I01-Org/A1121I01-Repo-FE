@@ -24,6 +24,8 @@ export class CreateEmployeeComponent implements OnInit {
     url: any;
     checkCreate = false;
     employeeErr: IEmployee;
+    loading = false;
+
 
     ngOnInit(): void {
         console.log(1);
@@ -42,6 +44,7 @@ export class CreateEmployeeComponent implements OnInit {
         });
     }
     createEmployee() {
+        this.loading = true;
         this.checkCreate = false;
         this.employeeForm.markAllAsTouched();
         this.employeeForm.markAsDirty();
@@ -74,6 +77,7 @@ export class CreateEmployeeComponent implements OnInit {
                             () => {
                             },
                             (error) => {
+                                this.loading = false;
                                 if (error.status === 500) {
                                     this.router.navigateByUrl('/auth/access-denied');
                                 }
@@ -82,6 +86,7 @@ export class CreateEmployeeComponent implements OnInit {
                                 }
                             },
                             () => {
+                                this.loading = false;
                                 this.notification.notify('success', 'Thêm mới nhân viên thành công');
                                 this.uploadedAvatar = null;
                                 this.employeeForm.reset();
@@ -97,6 +102,7 @@ export class CreateEmployeeComponent implements OnInit {
                 () => {this.ngOnInit();
                 },
                 (error) => {
+                    this.loading = false;
                     if (error.status === 500) {
                         this.router.navigateByUrl('/auth/access-denied');
                     }
@@ -105,6 +111,7 @@ export class CreateEmployeeComponent implements OnInit {
                     }
                 },
                 () => {
+                    this.loading = false;
                     this.notification.notify('success', 'Thêm mới nhân viên thành công');
                     this.employeeForm.reset();
                     // this.router.navigateByUrl('/employee/list' );
