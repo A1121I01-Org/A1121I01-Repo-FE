@@ -3,6 +3,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 
 const USER_KEY = 'auth-user';
 const TOKEN_KEY = 'auth-token';
+const BOOK_KEY = 'bookNameToSearch';
+const BOOK_KEY1 = 'bookName';
 const AUTHORITIES_KEY = 'AuthAuthorities';
 @Injectable({
   providedIn: 'root'
@@ -64,5 +66,18 @@ export class TokenStorageService {
   saveUserSession(data: any) {
     sessionStorage.removeItem(USER_KEY);
     sessionStorage.setItem(USER_KEY, JSON.stringify(data));
+  }
+  saveBookNameToSearch(data: any) {
+    sessionStorage.removeItem(BOOK_KEY);
+    sessionStorage.setItem(BOOK_KEY, JSON.stringify(data));
+  }
+  removeBookToSearch() {
+    sessionStorage.removeItem(BOOK_KEY);
+  }
+  saveBookNameToSear(data: any) {
+    sessionStorage.setItem(BOOK_KEY1, data);
+  }
+  getBookNameToSearch() {
+    return sessionStorage.getItem(BOOK_KEY1);
   }
 }

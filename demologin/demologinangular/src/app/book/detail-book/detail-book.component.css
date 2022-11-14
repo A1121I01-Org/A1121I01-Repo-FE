@@ -1,0 +1,20 @@
+@import "~css-details-book/bootstrap.min.css";
+@import "~css-details-book/ui.css";
+@import "~css-details-book/responsive.css";
+@import "~css-details-book/all.min.css";
+
+/*@import "~assets/css-details-book/bootstrap.min.css";*/
+/*@import "~assets/css-details-book/ui.css";*/
+/*@import "~assets/css-details-book/responsive.css";*/
+/*@import "~assets/css-details-book/all.min.css";*/
+
+.empty{
+  height: 70vh;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+   margin-right: 17%;
+  margin-left: 9%;
+}
+
