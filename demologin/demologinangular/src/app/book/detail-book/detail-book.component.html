@@ -1,4 +1,4 @@
-<section class="section-pagetop bg">
+<section style="margin-top:  3%" class="section-pagetop bg">
   <div class="container">
     <h2 class="title-page">Shopping cart</h2>
   </div> <!-- container //  -->
@@ -11,111 +11,73 @@
 
     <div class="row">
 
-      <div class="empty" *ngIf="items.length < 1" >
+      <div class="empty" *ngIf="items?.length < 1 && !showUserBoard" >
         <div class="infor">
             <h4>Ban chua co san pham nao trong gio hang</h4>
           <a routerLink="" class="btn btn-success"> Quay lai de mua sam </a>
         </div>
       </div>
 
+      <div class="empty" *ngIf="itemsCart?.length < 1 && showUserBoard" >
+        <div class="infor">
+          <h4>Ban chua co san pham nao trong gio hang</h4>
+          <a routerLink="" class="btn btn-success"> Quay lai de mua sam </a>
+        </div>
+      </div>
 
 
-      <main class="col-md-9" *ngIf="items.length > 0">
+
+
+      <main class="col-md-9" *ngIf="items?.length > 0 && !showUserBoard">
         <div class="card">
 
           <table class="table table-borderless table-shopping-cart">
             <thead class="text-muted">
             <tr class="small text-uppercase">
-              <th><input [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)" class="align-middle" style="height: 18px;width: 18px" type="checkbox">
+              <th hidden><input [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)" class="align-middle" style="height: 18px;width: 18px" type="checkbox">
               </th>
               <th scope="col">Product</th>
               <th scope="col" width="120">Quantity</th>
               <th scope="col" width="120">Price</th>
-              <th scope="col" class="text-right" width="200"> </th>
+              <th scope="col" class="text-right" width="200">Tất cả {{items?.length}} sản phẩm </th>
             </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of items; let  index = i">
 
-                <td><input (change)="checkCartPayment()" value="{{item?.bookId}}" [(ngModel)]="item[index].checked" id="selectAll" name="check[]"
-                           class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>
+              <tr *ngFor="let item of items; let  i = index">
+
+                <td hidden><input (change)="checkCartPayment()" value="{{item?.bookId}}" [(ngModel)]="items[i].checked" id="selectAll" name="check[]"
+                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>
 
                 <td>
                   <figure class="itemside">
                     <div class="aside"><img src="/assets/img/book-4.png" class="img-sm"></div>
                     <figcaption class="info">
                       <a href="#" class="title text-dark">{{item.bookName}}</a>
-                      <p class="text-muted small">{{item.bookAuthor}} <br> {{item.bookPublisher}}</p>
+                      <p class="text-muted small">{{ item.bookAuthor}} <br> {{item.bookPublisher}}</p>
+                      <p style="font-weight: 400; font-size: 15px; color: #262525" ><b>Sale off {{item.bookPromotionId.promotionPercent}}%  </b>  </p>
                     </figcaption>
                   </figure>
                 </td>
                 <td>
-                  <input class="form-control" (blur)="validateInput($event,index)"  [value]="item.bookQuantity"   type="number" min="1">
+                  <input class="form-control" (change)="item.bookQuantityBuy" [(ngModel)]="item.bookQuantityBuy" (blur)="validateInput($event,i)"  [value]="item.bookQuantityBuy"   type="number" min="1">
 
                 </td>
                 <td>
                   <div class="price-wrap">
-                    <var class="price">{{item.bookPrice*item.bookQuantity | currency:"VND":"symbol"}}</var>
+                    <var style="text-decoration: line-through" *ngIf="item.bookPromotionId.promotionPercent >= 0"  class="price">{{item.bookPrice*item.bookQuantityBuy | currency:"VND":"symbol"}}</var>
+                    <var  *ngIf="item.bookPromotionId.promotionPercent <= 0"  class="price">{{item.bookPrice*item.bookQuantityBuy | currency:"VND":"symbol"}}</var>
+
+                    <var *ngIf="item.bookPromotionId.promotionPercent >= 0" class="price">{{item.bookPrice*item.bookQuantityBuy - (item.bookPrice*item.bookQuantityBuy * item.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</var>
+
                     <small  class="text-muted"> {{item.bookPrice | currency:"VND":"symbol"}} each </small>
                   </div> <!-- price-wrap .// -->
                 </td>
                 <td class="text-right">
                   <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light mr-2" data-toggle="tooltip"> <i style="color:red;" class="fa fa-heart"></i></a>
-                  <a (click)="onDelete(index)"  class="btn btn-light"> Remove</a>
+                  <a (click)="onDelete(i)"  class="btn btn-light"> <i class="fa fa-trash"></i></a>
                 </td>
               </tr>
-
-
-<!--              <tr>-->
-<!--                <td><input name="check[]" class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>-->
-<!--                <td>-->
-<!--                  <figure class="itemside">-->
-<!--                    <div class="aside"><img src="/assets/img/book-5.png" class="img-sm"></div>-->
-<!--                    <figcaption class="info">-->
-<!--                      <a href="#" class="title text-dark">Product name  goes here nice</a>-->
-<!--                      <p class="text-muted small">Size: XL, Color: blue, <br> Brand: Gucci</p>-->
-<!--                    </figcaption>-->
-<!--                  </figure>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                  <input class="form-control" value="1"  type="number" min="1">-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                  <div class="price-wrap">-->
-<!--                    <var class="price">$149.97</var>-->
-<!--                    <small  class="text-muted"> $75.00 each </small>-->
-<!--                  </div> &lt;!&ndash; price-wrap .// &ndash;&gt;-->
-<!--                </td>-->
-<!--                <td class="text-right">-->
-<!--                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light mr-2" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>-->
-<!--                  <a href="" class="btn btn-light btn-round"> Remove</a>-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--              <tr>-->
-<!--                <td><input name="check[]" class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>-->
-<!--                <td>-->
-<!--                  <figure class="itemside">-->
-<!--                    <div class="aside"><img src="/assets/img/book-6.png" class="img-sm"></div>-->
-<!--                    <figcaption class="info">-->
-<!--                      <a href="#" class="title text-dark">Another name of some product goes just here</a>-->
-<!--                      <p class="small text-muted">Size: XL, Color: blue,  Brand: Tissot</p>-->
-<!--                    </figcaption>-->
-<!--                  </figure>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                  <input class="form-control" value="1"  type="number" min="1">-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                  <div class="price-wrap">-->
-<!--                    <var class="price">$98.00</var>-->
-<!--                    <small class="text-muted"> $578.00 each</small>-->
-<!--                  </div> &lt;!&ndash; price-wrap .// &ndash;&gt;-->
-<!--                </td>-->
-<!--                <td class="text-right">-->
-<!--                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light mr-2" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>-->
-<!--                  <a href="" class="btn btn-light btn-round"> Remove</a>-->
-<!--                </td>-->
-<!--              </tr>-->
             </tbody>
           </table>
 
@@ -130,6 +92,78 @@
         </div>
 
       </main> <!-- col.// -->
+
+
+
+
+      <main class="col-md-9" *ngIf="itemsCart?.length > 0 && showUserBoard">
+        <div class="card">
+
+          <table class="table table-borderless table-shopping-cart">
+            <thead class="text-muted">
+            <tr class="small text-uppercase">
+<!--              <th hidden><input [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)" class="align-middle" style="height: 18px;width: 18px" type="checkbox">-->
+<!--              </th>-->
+              <th scope="col">Product</th>
+              <th scope="col" width="120">Quantity</th>
+              <th scope="col" width="120">Price</th>
+              <th scope="col" class="text-right" width="200">Tất cả {{itemsCart?.length}} sản phẩm </th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of itemsCart; let  i = index">
+
+                <td hidden><input (change)="checkCartPayment()" value="{{item?.cartId}}" [(ngModel)]="itemsCart[i].checked" id="selectAll2" name="check[]"
+                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>
+
+                <td>
+                  <figure class="itemside">
+                    <div class="aside"><img src="/assets/img/book-4.png" class="img-sm"></div>
+                    <figcaption class="info">
+                      <a href="#" class="title text-dark">{{item.bookName}}</a>
+                      <p class="text-muted small">{{ item.bookTranslator}} <br> {{item.bookPublisher}}</p>
+<!--                      <p style="font-weight: 400; font-size: 15px; color: #262525" ><b>Sale off {{item.bookPromotionPercent}}%  </b>  </p>-->
+                    </figcaption>
+                  </figure>
+                </td>
+                <td>
+                  <input class="form-control" (change)="item.cartQuantity" [(ngModel)]="item.cartQuantity" (blur)="validateInput($event,i)"  [value]="item.cartQuantity"   type="number" min="1">
+
+                </td>
+                <td>
+                  <div class="price-wrap">
+                    <var  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>
+
+                    <!--                    <var style="text-decoration: line-through" *ngIf="item.bookPromotionPercent >= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>-->
+<!--                    <var  *ngIf="item.bookPromotionPercent <= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>-->
+
+<!--                    <var *ngIf="item.bookPromotionPercent >= 0" class="price">{{item.bookPrice*item.cartQuantity - (item.bookPrice*item.cartQuantity * item.bookPromotionPercent/100) | currency:"VND":"symbol"}}</var>-->
+
+                    <small  class="text-muted"> {{item.bookPrice | currency:"VND":"symbol"}} each </small>
+                  </div> <!-- price-wrap .// -->
+                </td>
+                <td class="text-right">
+                  <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light mr-2" data-toggle="tooltip"> <i style="color:red;" class="fa fa-heart"></i></a>
+                  <a (click)="onDeleteInDB(item)"  class="btn btn-light"> <i class="fa fa-trash"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="card-body border-top">
+            <a style="background:#219150;" href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
+            <a routerLink="" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+          </div>
+        </div> <!-- card.// -->
+
+        <div class="alert alert-success mt-3">
+          <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+        </div>
+
+      </main> <!-- col.// -->
+
+
+
 
 
       <aside class="col-md-3">
@@ -152,15 +186,15 @@
           <div class="card-body">
             <dl class="dlist-align">
               <dt>Total price:</dt>
-              <dd class="text-right">{{totalMoney | currency:"VND":"symbol"}}</dd>
+              <dd class="text-right"  >{{total | currency:"VND":"symbol"}}</dd>
             </dl>
             <dl class="dlist-align">
               <dt>Discount:</dt>
-              <dd class="text-right">10% ({{totalMoney*0.01 | currency:"VND":"symbol"}})</dd>
+              <dd hidden class="text-right">10% ({{total*0.01 | currency:"VND":"symbol"}})</dd>
             </dl>
             <dl class="dlist-align">
               <dt>Total:</dt>
-              <dd class="text-right  h5"><strong>{{totalMoney - totalMoney*0.01 | currency:"VND":"symbol"}}</strong></dd>
+              <dd class="text-right  h5"><strong>{{total| currency:"VND":"symbol"}}</strong></dd>
             </dl>
             <hr>
             <p class="text-center mb-3">

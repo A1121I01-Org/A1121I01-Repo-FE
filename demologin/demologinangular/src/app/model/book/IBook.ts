@@ -1,5 +1,6 @@
 import {ICategory} from './ICategory';
 import {IPromotion} from './IPromotion';
+import {ICustomer} from '../customer/ICustomer';
 
 export interface IBook {
   bookId?: number;
@@ -13,10 +14,12 @@ export interface IBook {
   bookWeight?: string;
   bookPublishDate?: string;
   bookQuantity?: number;
+  bookQuantityBuy?: number;
   bookFlag?: boolean;
   bookPublisher?: string;
   bookAuthor?: string;
   bookCategoryId?: ICategory;
   bookPromotionId?: IPromotion;
+  bookCustomerId?: ICustomer;
   checked?: boolean;
 }

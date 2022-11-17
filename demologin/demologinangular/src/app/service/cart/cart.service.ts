@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import {IBook} from '../../model/book/IBook';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {ICart} from '../../model/cart/ICart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  private readonly URL_API_CART_BOOK = 'http://localhost:8080/api/cart';
   // cartItem = [];
   placeholder = [];
   cartItem = new BehaviorSubject([]);
+  listCartToSumMoney  = [];
   itemInCart: number;
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     // const ls = JSON.parse(localStorage.getItem('cart'));
     const ls = this.getCartData();
     if (ls) this.cartItem.next(ls);
@@ -28,7 +32,8 @@ export class CartService {
     }
     if (exist) {
       // tslint:disable-next-line:no-unused-expression
-      exist.bookQuantity++;
+      exist.bookQuantityBuy = 0;
+      exist.bookQuantityBuy++;
       this.setCartData(ls);
       // localStorage.setItem('cart', JSON.stringify(ls));
     } else {
@@ -58,14 +63,29 @@ export class CartService {
     return JSON.parse(localStorage.getItem('cart'));
   }
 
-  findCartByid(id: number) {
+  findCartById(id: number[]) {
     const ls = this.getCartData();
-    let exist: IBook;
-
-    if (ls) {
-      exist = ls.find((item) => {
-        return item.bookId === id;
-      });
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0 ; i < ls.length ; i++) {
+        if (id[i] == ls[i].bookId ) {
+          this.listCartToSumMoney.push(ls[i]);
+        }
     }
+    return this.listCartToSumMoney;
   }
+
+  addBookIntoCart(iBook: IBook, id: number): Observable<void> {
+    // @ts-ignore
+    return this.httpClient.post<void>(`${this.URL_API_CART_BOOK}/addBookIntoCart/${id}`, iBook);
+  }
+
+  getAllCartWithUser(id: number): Observable<ICart[]> {
+    return this.httpClient.get<ICart[]>(`${this.URL_API_CART_BOOK}/list/${id}`);
+  }
+
+  deleteCartByAccountId(idCart: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.URL_API_CART_BOOK}/delete/${idCart}`);
+  }
+
+
 }

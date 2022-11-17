@@ -15,7 +15,7 @@
             <ul class="top_nav_menu">
 
               <li *ngIf="isLoggedIn" class="language" style="left: 110%">
-                <a href="#">
+                <a routerLink="">
                   Xin chào {{userName}} !!
 
                 </a>
@@ -28,7 +28,7 @@
                   <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="account_selection" >
-                  <li><a (click)="logout()"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
+                  <li><a style="cursor: pointer" (click)="logout()"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng xuất</a></li>
                   <li><a routerLink="customer/detail"><i class="fa fa-user" aria-hidden="true"></i>Thông tin</a></li>
                 </ul>
               </li>
@@ -36,10 +36,10 @@
               <li *ngIf="!isLoggedIn" class="account" style="left: 110%">
                 <a style="position: relative" href="#">
                    <i style="position:absolute;right: 50%; top: 30%" class="fa fa-user" aria-hidden="true"></i>
-                  <span style="padding: 0 40px 0 45px"></span>
+                  <span style="padding: 0 80px 0 40px"></span>
                 </a>
                 <ul class="account_selection" >
-                  <li><a routerLink="login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                  <li style="padding-left: 20px"><a routerLink="login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
                   <li><a  routerLink="login"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng kí</a></li>
                   <li><a routerLink="customer/list"><i class="fa fa-user" aria-hidden="true"></i>Thông tin</a></li>
                 </ul>

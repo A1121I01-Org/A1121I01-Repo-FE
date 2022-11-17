@@ -9,14 +9,18 @@ import { DetailBookComponent } from './detail-book/detail-book.component';
 import { DescriptionDetailBookComponent } from './description-detail-book/description-detail-book.component';
 import {AppModule} from '../app.module';
 import {FormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
   declarations: [ListBookComponent, CreateBookComponent, EditBookComponent, DetailBookComponent, DescriptionDetailBookComponent],
-    imports: [
-        CommonModule,
-        BookRoutingModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    BookRoutingModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule
+  ]
 })
 export class BookModule { }

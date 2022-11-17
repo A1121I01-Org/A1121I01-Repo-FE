@@ -31,7 +31,6 @@ import {NgxPaginationModule} from 'ngx-pagination';
         HeaderComponent,
         FooterComponent,
         SidebarComponent,
-        HeaderComponent,
         HomeComponent
     ],
     imports: [

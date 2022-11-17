@@ -46,32 +46,38 @@
           </a>
         </div>
       </form>
-      <form action="#" class="sign-up-form">
+      <form [formGroup]="createForm" class="sign-up-form" (ngSubmit)="submitCreate()">
         <h2 class="title">Đăng ký</h2>
-        <div class="input-field">
-          <i class="fas fa-user"></i>
-          <input type="text" placeholder="Nhập tên đăng nhập" />
+        <div formGroupName="account">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input  formControlName="username" type="text" placeholder="Nhập tên đăng nhập" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input  formControlName="password" type="password" placeholder="Nhập mật khẩu" />
+          </div>
         </div>
-        <div class="input-field">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Nhập mật khẩu" />
+
+        <div formGroupName="customer">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input formControlName="customerName" type="text" placeholder="Nhập họ tên" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-phone"></i>
+            <input  formControlName="customerPhone" type="text" placeholder="Nhập số điện thoại" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-envelope"></i>
+            <input  formControlName="customerEmail" type="text" placeholder="Nhập email" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-address-book"></i>
+            <input  formControlName="customerAddress" type="text" placeholder="Nhập địa chỉ" />
+          </div>
         </div>
-        <div class="input-field">
-          <i class="fas fa-user"></i>
-          <input type="name" placeholder="Nhập họ tên" />
-        </div>
-        <div class="input-field">
-          <i class="fas fa-phone"></i>
-          <input type="text" placeholder="Nhập số điện thoại" />
-        </div>
-        <div class="input-field">
-          <i class="fas fa-envelope"></i>
-          <input type="email" placeholder="Nhập email" />
-        </div>
-        <div class="input-field">
-          <i class="fas fa-address-book"></i>
-          <input type="text" placeholder="Nhập địa chỉ" />
-        </div>
+
 
         <div style="display: flex">
           <input style="margin-right: 5px" type="submit" class="btn" value="Đăng ký" />

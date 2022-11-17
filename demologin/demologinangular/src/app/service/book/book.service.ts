@@ -24,4 +24,12 @@ export class BookService {
   searchBookByName(value1: string, value2: number): Observable<IBook[]> {
     return this.http.get<IBook[]>(this.API_URL + `/book-search?name=${value1}&page=${value2}`);
   }
+
+  checkBookCartPayment(id: number[]): Observable<IBook[]> {
+    return this.http.post<IBook[]>(this.API_URL + `/checkBook`, id );
+  }
+
+  findBookById(id: number): Observable<IBook> {
+    return this.http.get<IBook>(`${this.API_URL}/detail/${id}`);
+  }
 }

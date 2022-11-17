@@ -14,9 +14,17 @@
                 <ul >
                   <li routerLink=""> <i  class="fa fa-home" aria-hidden="true"></i></li>
                   <li >Sales </li>
-                  <li>Danh mục
+                  <li *ngIf="!showAdminBoard" >Danh mục
                     <ul class="dropdown">
                       <li>Service1</li>
+                      <li>Service2</li>
+                      <li>Service2</li>
+                      <li>Service2</li>
+                    </ul>
+                  </li>
+                  <li *ngIf="showAdminBoard">Quản lí sách
+                    <ul class="dropdown">
+                      <li>Danh sách</li>
                       <li>Service2</li>
                       <li>Service2</li>
                       <li>Service2</li>
@@ -27,6 +35,7 @@
                 <!--                 </div>-->
               </a>
             </li>
+
 
             <!--                <li>-->
             <!--                  <a routerLink="">home</a>-->
@@ -72,9 +81,9 @@
   </div>
 </div>
 </header>
-
-
 <!--<app-header></app-header>-->
+
+
 <!--deal section start-->
 <section class="deal" style="margin-top: 10% ;padding:4rem 7%;">
 
@@ -127,8 +136,8 @@
         <div  style="width: 86%; height: 86%" class="single-product">
           <div class="product-img">
             <img class="img-fluid w-100" src="/assets/img/book-4.png" alt="" />
-            <div class="p_icon">
-              <a routerLink="book/des">
+            <div *ngIf="showUserBoard || !showAdminBoard" class="p_icon">
+              <a [routerLink]="['book/des',b?.bookId]">
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </a>
               <a href="#">
@@ -137,6 +146,17 @@
               <a  (click)="addBookCart(b)">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               </a>
+            </div>
+
+            <div *ngIf="showAdminBoard" class="p_icon">
+
+              <a routerLink="admin/edit">
+                <i class="fa fa-edit" aria-hidden="true"></i>
+              </a>
+              <a href="#">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a>
+
             </div>
           </div>
           <div class="product-btm">
@@ -163,7 +183,7 @@
 
 
 <!--================ New Product Area =================-->
-<section class="new_product_area section_gap_top section_gap_bottom_custom">
+<section *ngIf="showUserBoard || !showAdminBoard" class="new_product_area section_gap_top section_gap_bottom_custom">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-12">
@@ -182,7 +202,11 @@
           <div class="product-img">
             <img class="img-fluid" src="/assets/img/book-7.png" alt="" />
           </div>
-          <h4>$120.70</h4>
+          <h4 *ngIf="b.bookPromotionId.promotionPercent >= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}
+            <span style="text-decoration: line-through" *ngIf="b.bookPromotionId.promotionPercent >= 0" >{{b.bookPrice | currency:"VND":"symbol"}}</span>
+          </h4>
+          <h4 *ngIf="b.bookPromotionId.promotionPercent <= 0" class="mr-4">{{b.bookPrice | currency:"VND":"symbol"}}</h4>
+
           <a href="#" class="main_btn">Add to cart</a>
         </div>
       </div>
@@ -194,13 +218,13 @@
               <div class="product-img">
                 <img class="img-fluid w-100" src="/assets/img/book-7.png" alt="" />
                 <div class="p_icon">
-                  <a href="#">
+                  <a [routerLink]="['book/des',b?.bookId]">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
                   <a href="#">
                     <i class="fa fa-heart" aria-hidden="true"></i>
                   </a>
-                  <a href="#">
+                  <a (click)="addBookCart(b)">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                   </a>
                 </div>
@@ -210,8 +234,10 @@
                   <h4>{{b.bookName}}</h4>
                 </a>
                 <div class="mt-3">
-                  <span class="mr-4">$25.00</span>
-                  <del>$35.00</del>
+                  <span *ngIf="b.bookPromotionId.promotionPercent >= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</span>
+                  <span style="text-decoration: line-through" *ngIf="b.bookPromotionId.promotionPercent <= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</span>
+
+                  <del *ngIf="b.bookPromotionId.promotionPercent >= 0" >{{b.bookPrice | currency:"VND":"symbol"}}</del>
                 </div>
               </div>
             </div>
@@ -227,7 +253,7 @@
 <!--================ End New Product Area =================-->
 
 <!-- Product related -->
-<div class="product-area most-popular related-product section">
+<div *ngIf="showUserBoard || !showAdminBoard" class="product-area most-popular related-product section">
   <div class="container">
     <div class="row">
       <div class="col-12">
@@ -238,9 +264,9 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="owl-carousel popular-slider">
+        <div class="owl-carousel popular-slider" >
           <!-- Start Single Product -->
-          <div class="single-product">
+          <div *ngFor="let b of listBook"  class="single-product" >
             <div class="product-img">
               <a href="#">
                 <img class="default-img" src="/assets/img/book-5.png" alt="#">
@@ -251,7 +277,7 @@
                 <div class="product-action">
                   <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
                   <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
+                  <a title="Compare"  > <i (click)="addBookCart(b)" class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
                 </div>
                 <div class="product-action-2">
                   <a title="Add to cart" href="#">Add to cart</a>
@@ -259,93 +285,95 @@
               </div>
             </div>
             <div class="product-content">
-              <h3><a href="#">Black Sunglass For Women</a></h3>
+              <h3><a href="#">{{b.bookName}}</a></h3>
               <div class="product-price">
-                <span class="old">$60.00</span>
-                <span>$50.00</span>
+                <span *ngIf="b.bookPromotionId.promotionPercent >= 0" class="old">{{b.bookPrice | currency:"VND":"symbol"}}</span>
+                <span *ngIf="b.bookPromotionId.promotionPercent <= 0"> {{b.bookPrice | currency:"VND":"symbol"}} </span>
+
+                <span *ngIf="b.bookPromotionId.promotionPercent >= 0"> {{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}} </span>
               </div>
             </div>
           </div>
           <!-- End Single Product -->
           <!-- Start Single Product -->
-          <div class="single-product">
-            <div class="product-img">
-              <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
-              </a>
-              <div class="button-head">
-                <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
-                </div>
-                <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <h3><a href="#">Women Hot Collection</a></h3>
-              <div class="product-price">
-                <span>$50.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- End Single Product -->
-          <!-- Start Single Product -->
-          <div class="single-product">
-            <div class="product-img">
-              <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
-                <span class="new">New</span>
-              </a>
-              <div class="button-head">
-                <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
-                </div>
-                <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <h3><a href="#">Awesome Pink Show</a></h3>
-              <div class="product-price">
-                <span>$50.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- End Single Product -->
-          <!-- Start Single Product -->
-          <div class="single-product">
-            <div class="product-img">
-              <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
-              </a>
-              <div class="button-head">
-                <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
-                </div>
-                <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <h3><a href="#">Awesome Bags Collection</a></h3>
-              <div class="product-price">
-                <span>$50.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- End Single Product -->
+<!--          <div class="single-product">-->
+<!--            <div class="product-img">-->
+<!--              <a href="#">-->
+<!--                <img class="default-img" src="/assets/img/book-5.png" alt="#">-->
+<!--                <img class="hover-img" src="/assets/img/book-5.png" alt="#">-->
+<!--              </a>-->
+<!--              <div class="button-head">-->
+<!--                <div class="product-action">-->
+<!--                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>-->
+<!--                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>-->
+<!--                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Cart</span></a>-->
+<!--                </div>-->
+<!--                <div class="product-action-2">-->
+<!--                  <a title="Add to cart" href="#">Add to cart</a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="product-content">-->
+<!--              <h3><a href="#">Women Hot Collection</a></h3>-->
+<!--              <div class="product-price">-->
+<!--                <span>$50.00</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; End Single Product &ndash;&gt;-->
+<!--          &lt;!&ndash; Start Single Product &ndash;&gt;-->
+<!--          <div class="single-product">-->
+<!--            <div class="product-img">-->
+<!--              <a href="#">-->
+<!--                <img class="default-img" src="/assets/img/book-5.png" alt="#">-->
+<!--                <img class="hover-img" src="/assets/img/book-5.png" alt="#">-->
+<!--                <span class="new">New</span>-->
+<!--              </a>-->
+<!--              <div class="button-head">-->
+<!--                <div class="product-action">-->
+<!--                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>-->
+<!--                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>-->
+<!--                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>-->
+<!--                </div>-->
+<!--                <div class="product-action-2">-->
+<!--                  <a title="Add to cart" href="#">Add to cart</a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="product-content">-->
+<!--              <h3><a href="#">Awesome Pink Show</a></h3>-->
+<!--              <div class="product-price">-->
+<!--                <span>$50.00</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          &lt;!&ndash; End Single Product &ndash;&gt;-->
+<!--          &lt;!&ndash; Start Single Product &ndash;&gt;-->
+<!--          <div class="single-product">-->
+<!--            <div class="product-img">-->
+<!--              <a href="#">-->
+<!--                <img class="default-img" src="/assets/img/book-5.png" alt="#">-->
+<!--                <img class="hover-img" src="/assets/img/book-5.png" alt="#">-->
+<!--              </a>-->
+<!--              <div class="button-head">-->
+<!--                <div class="product-action">-->
+<!--                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>-->
+<!--                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>-->
+<!--                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>-->
+<!--                </div>-->
+<!--                <div class="product-action-2">-->
+<!--                  <a title="Add to cart" href="#">Add to cart</a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="product-content">-->
+<!--              <h3><a href="#">Awesome Bags Collection</a></h3>-->
+<!--              <div class="product-price">-->
+<!--                <span>$50.00</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--           End Single Product-->
         </div>
       </div>
     </div>
@@ -355,7 +383,7 @@
 
 <!-- deal section starts  -->
 
-<section class="deal" style="display: flex; position: relative;padding:4rem 7%;">
+<section *ngIf="showUserBoard || !showAdminBoard" class="deal" style="display: flex; position: relative;padding:4rem 7%;">
 
   <div class="content">
 
