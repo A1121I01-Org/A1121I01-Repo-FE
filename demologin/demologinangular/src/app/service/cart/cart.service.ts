@@ -32,8 +32,9 @@ export class CartService {
     }
     if (exist) {
       // tslint:disable-next-line:no-unused-expression
-      exist.bookQuantityBuy = 0;
-      exist.bookQuantityBuy++;
+      // exist.bookQuantityBuy = 0;
+      ++exist.bookQuantityBuy;
+      console.log('so luong: '+exist.bookQuantityBuy);
       this.setCartData(ls);
       // localStorage.setItem('cart', JSON.stringify(ls));
     } else {
@@ -77,6 +78,10 @@ export class CartService {
   addBookIntoCart(iBook: IBook, id: number): Observable<void> {
     // @ts-ignore
     return this.httpClient.post<void>(`${this.URL_API_CART_BOOK}/addBookIntoCart/${id}`, iBook);
+  }
+  changeQuantityCart(quantity: number, money: number, id: number): Observable<void> {
+    // @ts-ignore
+    return this.httpClient.post<void>(`${this.URL_API_CART_BOOK}/changeQuantityCart?quantity=${quantity}&money=${money}&id=${id}`, );
   }
 
   getAllCartWithUser(id: number): Observable<ICart[]> {

@@ -1,0 +1,105 @@
+<header hidden  class="header trans_300" >
+  <div  class="main_nav_container" >
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-right">
+          <div class="logo_container">
+            <a href="#">book<span>help</span></a>
+          </div>
+          <nav class="navbar">
+            <ul  class="navbar_menu" style="margin-right: 180px" >
+
+              <li  *ngIf="!showAdminBoard" style="position: absolute; left: -24%; top: -10%">
+                <a routerLink="">
+                  <div class="wrapper">
+                    <nav>
+                      <ul>
+                        <li hidden><a href="#">Home</a></li>
+                        <li hidden><a href="#">About</a></li>
+                        <li style="position: relative" class="dropdown">
+                          <a href="#"><i class="fa fa-list" aria-hidden="true"></i></a>
+                          <ul class="menu-area" style="position: absolute; right: -90%">
+                            <ul>
+                              <h4>Sale off 20%</h4>
+                              <img  src="/assets/img/book-7.png" alt="error">
+                            </ul>
+                            <ul>
+                              <h4 >Danh mục </h4>
+                              <li *ngFor="let c of listCategory">
+                                <a [routerLink]="['category/list',c?.categoryId]">{{c.categoryName}}</a>
+                              </li>
+                              <!--                            <li><a href="#">boewas</a></li>-->
+                              <!--                            <li><a href="#">template</a></li>-->
+                              <!--                            <li><a href="#">card design</a></li>-->
+                            </ul>
+                            <!--                          <ul>-->
+                            <!--                            <h4>Web design</h4>-->
+                            <!--                            <li><a href="#">html</a></li>-->
+                            <!--                            <li><a href="#">css</a></li>-->
+                            <!--                            <li><a href="#">js</a></li>-->
+                            <!--                            <li><a href="#">scss</a></li>-->
+                            <!--                          </ul>-->
+                            <!--                          <ul>-->
+                            <!--                            <h4>Photto graphy</h4>-->
+                            <!--                            <li><a href="#">html</a></li>-->
+                            <!--                            <li><a href="#">css</a></li>-->
+                            <!--                            <li><a href="#">js</a></li>-->
+                            <!--                            <li><a href="#">scss</a></li>-->
+                            <!--                          </ul>-->
+                          </ul>
+                        </li>
+                        <!--                      <li hidden><a href="#">Sales</a></li>-->
+                        <!--                      <li hidden><a href="#">Contact</a></li>-->
+                      </ul>
+                    </nav>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a routerLink="">home</a>
+              </li>
+              <li>
+                <a href="#">shop</a>
+              </li>
+              <li>
+                <a href="#">promotion
+                </a>
+              </li>
+              <li><a href="#">pages</a></li>
+              <li><a href="#">blog</a></li>
+              <li><a href="contact.html">contact</a></li>
+
+            </ul>
+            <ul *ngIf="showAdminBoard" class="navbar_user">
+              <li>
+                <div style="position: absolute; left: 40%; top: 25%" >
+                  <button class="btn__primary" routerLink="admin/add-book">
+                    Thêm sách
+                  </button>
+                </div>
+              </li>
+            </ul>
+            <ul id="usser" class="navbar_user" *ngIf="!showAdminBoard">
+              <li>
+                <!--                <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>-->
+                <!--              <form style="" action="" id="search-box">-->
+                <!--                <input [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()" type="text" id="search-text" required style="border: 1px solid black; border-radius: 5px">-->
+                <!--                <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>-->
+                <!--              </form>-->
+              </li>
+              <li class="checkout" >
+                <a  id="cd-cart-trigger" routerLink="/book/detail">
+                  <i  class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  <span id="checkout_items" class="checkout_items">{{itemInCart}}</span>
+                </a>
+              </li>
+            </ul>
+            <div class="hamburger_container">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

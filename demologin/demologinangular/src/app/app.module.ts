@@ -22,16 +22,26 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import {SecurityModule} from './security/security.module';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import { AddBookComponent } from './admin/add-book/add-book.component';
+import {ToastrModule} from 'ngx-toastr';
+import { ErrorComponent } from './error/error.component';
+import { NavmenuComponent } from './navmenu/navmenu.component';
+
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
+        // LoginComponent,
         HeaderComponent,
         FooterComponent,
         SidebarComponent,
-        HomeComponent
+        HomeComponent,
+        AddBookComponent,
+        ErrorComponent,
+        NavmenuComponent
     ],
     imports: [
         BrowserModule,
@@ -45,6 +55,14 @@ import {NgxPaginationModule} from 'ngx-pagination';
         CartModule,
         AccountModule,
         SecurityModule,
+        ToastrModule.forRoot({
+        positionClass: 'toast-top-right',
+        progressBar: true,
+        progressAnimation: 'decreasing',
+        timeOut: 2000,
+        extendedTimeOut: 1000
+      }),
+        AngularFireModule.initializeApp(environment.firebaseConfig),
         NgxPaginationModule
 
     ],

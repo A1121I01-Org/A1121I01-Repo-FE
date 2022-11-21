@@ -22,9 +22,9 @@
 
               </li>
               <!--  My Account -->
-              <li *ngIf="isLoggedIn" class="account" style="left: 110%">
+              <li  *ngIf="isLoggedIn" class="account" style="left: 110%">
                 <a href="#" >
-                  My Account
+                  Tài khoản <i class="fa fa-user" aria-hidden="true"></i>
                   <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="account_selection" >
@@ -41,7 +41,7 @@
                 <ul class="account_selection" >
                   <li style="padding-left: 20px"><a routerLink="login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
                   <li><a  routerLink="login"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng kí</a></li>
-                  <li><a routerLink="customer/list"><i class="fa fa-user" aria-hidden="true"></i>Thông tin</a></li>
+                  <li *ngIf="isLoggedIn"><a routerLink="customer/list"><i class="fa fa-user" aria-hidden="true"></i>Thông tin</a></li>
                 </ul>
               </li>
 
@@ -72,7 +72,7 @@
                      <li >Sales </li>
                      <li>Danh mục
                        <ul class="dropdown">
-                         <li>Service1</li>
+                         <li></li>
                          <li>Service2</li>
                          <li>Service2</li>
                          <li>Service2</li>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {IBook} from '../../model/book/IBook';
+import {ICategory} from '../../model/book/ICategory';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,9 @@ export class BookService {
   findBookById(id: number): Observable<IBook> {
     return this.http.get<IBook>(`${this.API_URL}/detail/${id}`);
   }
+
+  findListBookByCategory(id: number): Observable<IBook[]> {
+    return this.http.get<IBook[]>(`${this.API_URL}/findAllByBookCategoryId/list/${id}`);
+  }
+
 }

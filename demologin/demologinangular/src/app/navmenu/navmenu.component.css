@@ -1,0 +1,182 @@
+.header
+{
+  position: fixed;
+  top: 7%;
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  z-index: 10;
+}
+.top_nav
+{
+  width: 100%;
+  height: 50px;
+  background: #1e1e27;
+}
+.top_nav_left
+{
+  height: 50px;
+  line-height: 50px;
+  font-size: 13px;
+  color: #b5aec4;
+  text-transform: uppercase;
+}
+.trans_300
+{
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -ms-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
+
+
+
+
+
+/*mega navigation menu start*/
+.navbar_menu li a div.wrapper{
+  width: 170px;
+  margin: 10px auto;
+}
+.navbar_menu li a div.wrapper nav{
+  position: absolute;
+  background: #262626;
+  background: white;
+  font-size: 16px;
+}
+.navbar_menu li a div.wrapper nav > .navbar_menu li a div.wrapper ul {
+  position: relative;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
+  width: 170px;
+  margin: 0 auto;
+  padding: 0;
+}
+.navbar_menu li a div.wrapper nav a{
+  display: block;
+  color: #262626;
+  text-decoration: none;
+  text-transform: uppercase;
+
+}
+.navbar_menu li a div.wrapper nav ul li {
+  color: #fff;
+  list-style: none;
+  transition: .5s;
+
+}
+.navbar_menu li a div.wrapper nav ul li ul ul img {
+  width: 85%;
+}
+.navbar_menu li a div.wrapper nav > ul > li > a {
+  padding: 15px 25px;
+}
+
+.navbar_menu li a div.wrapper nav ul > li.dropdown > a:after{
+  position: relative;
+  float: right;
+  content: '';
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.navbar_menu li a div.wrapper nav > ul > li:hover{
+  /*background: #219150;*/
+
+}
+
+.navbar_menu li a div.wrapper nav ul.menu-area{
+  padding: 40px 40px 0 40px;
+  background: #fff;
+  text-align: left;
+  border-top: 5px solid #164c82;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  position: absolute;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  flex-wrap: wrap;
+  width: 1170px;
+  top: -9999px;
+  left: -190%;
+
+}
+.navbar_menu li a div.wrapper nav ul li:hover ul.menu-area{
+  top: 100%;
+
+}
+.navbar_menu li a div.wrapper nav ul.menu-area ul {
+  width: 25%;
+  margin-bottom: 40px;
+  color: #262626;
+
+}
+
+.navbar_menu li a div.wrapper nav ul.menu-area h4 {
+
+  margin-bottom: 15px;
+  text-transform: uppercase;
+
+}
+
+.navbar_menu li a div.wrapper nav ul.menu-area ul li{
+  display: block;
+
+}
+.navbar_menu li a div.wrapper nav ul.menu-area ul li a{
+  margin-top: 10px;
+  color: #000;
+  text-transform: none;
+}
+.navbar_menu li a div.wrapper nav ul.menu-area ul li a:hover{
+  color: #164c82;
+}
+
+/*mega navigation menu end*/
+
+/*search box starrt*/
+
+#search-box{
+  position: absolute;
+  background-color: #164c82;
+  border-radius: 30px;
+  /*top: 23px;*/
+  /*right: 65px;*/
+  /*top: 60%;*/
+  z-index: 50;
+  top: 10%;
+  right: 11%;
+  position: fixed;
+}
+#search-box #search-text{
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 18px;
+  width: 0;
+  padding: 0;
+  transition: all 0.25s ease-in-out;
+}
+#search-box:hover #search-text, #search-box #search-text:valid{
+  width: 150px;
+  padding: 10px 0px 10px 15px;
+
+}
+#search-box #search-btn{
+  background: #164c82;
+  cursor: pointer;
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  font-size: 15px;
+}
+/*search box end*/

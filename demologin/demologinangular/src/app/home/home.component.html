@@ -1,4 +1,4 @@
-<header class="header trans_300" >
+<header  class="header trans_300" >
 <div  class="main_nav_container" >
   <div class="container">
     <div class="row">
@@ -7,64 +7,87 @@
           <a href="#">book<span>help</span></a>
         </div>
         <nav class="navbar">
-          <ul  class="navbar_menu" style="margin-right: 200px">
-            <li>
-              <a style="z-index: 10" class=" menu-area">
-                <!--                 <div style="z-index: 10" class=" menu-area">-->
-                <ul >
-                  <li routerLink=""> <i  class="fa fa-home" aria-hidden="true"></i></li>
-                  <li >Sales </li>
-                  <li *ngIf="!showAdminBoard" >Danh mục
-                    <ul class="dropdown">
-                      <li>Service1</li>
-                      <li>Service2</li>
-                      <li>Service2</li>
-                      <li>Service2</li>
+          <ul  class="navbar_menu" style="margin-right: 180px" >
+
+            <li  *ngIf="!showAdminBoard" style="position: absolute; left: -24%; top: -10%">
+              <a routerLink="">
+                <div class="wrapper">
+                  <nav>
+                    <ul>
+                      <li hidden><a href="#">Home</a></li>
+                      <li hidden><a href="#">About</a></li>
+                      <li style="position: relative" class="dropdown">
+                        <a href="#"><i class="fa fa-list" aria-hidden="true"></i></a>
+                        <ul class="menu-area" style="position: absolute; right: -90%">
+                          <ul>
+                            <h4>Sale off 20%</h4>
+                            <img  src="/assets/img/book-7.png" alt="error">
+                          </ul>
+                          <ul>
+                            <h4 >Danh mục </h4>
+                            <li *ngFor="let c of listCategory">
+<!--                              <a [routerLink]="['category/list',c?.categoryId]">{{c.categoryName}}</a>-->
+                              <a routerLink="category/list/{{c?.categoryId}}" routerLinkActive="active-link">{{c.categoryName}}</a>
+                            </li>
+<!--                            <li><a href="#">boewas</a></li>-->
+<!--                            <li><a href="#">template</a></li>-->
+<!--                            <li><a href="#">card design</a></li>-->
+                          </ul>
+<!--                          <ul>-->
+<!--                            <h4>Web design</h4>-->
+<!--                            <li><a href="#">html</a></li>-->
+<!--                            <li><a href="#">css</a></li>-->
+<!--                            <li><a href="#">js</a></li>-->
+<!--                            <li><a href="#">scss</a></li>-->
+<!--                          </ul>-->
+<!--                          <ul>-->
+<!--                            <h4>Photto graphy</h4>-->
+<!--                            <li><a href="#">html</a></li>-->
+<!--                            <li><a href="#">css</a></li>-->
+<!--                            <li><a href="#">js</a></li>-->
+<!--                            <li><a href="#">scss</a></li>-->
+<!--                          </ul>-->
+                        </ul>
+                      </li>
+<!--                      <li hidden><a href="#">Sales</a></li>-->
+<!--                      <li hidden><a href="#">Contact</a></li>-->
                     </ul>
-                  </li>
-                  <li *ngIf="showAdminBoard">Quản lí sách
-                    <ul class="dropdown">
-                      <li>Danh sách</li>
-                      <li>Service2</li>
-                      <li>Service2</li>
-                      <li>Service2</li>
-                    </ul>
-                  </li>
-                  <li>Contact</li>
-                </ul>
-                <!--                 </div>-->
+                  </nav>
+                </div>
               </a>
             </li>
-
-
-            <!--                <li>-->
-            <!--                  <a routerLink="">home</a>-->
-            <!--                </li>-->
-            <!--                <li>-->
-            <!--                  <a href="#">shop</a>-->
-            <!--                </li>-->
-            <!--                <li>-->
-            <!--                  <a href="#">promotion-->
-            <!--                  </a>-->
-            <!--                </li>-->
-            <!--                <li><a href="#">pages</a></li>-->
-            <!--                <li><a href="#">blog</a></li>-->
-            <!--                <li><a href="contact.html">contact</a></li>-->
+                            <li>
+                              <a routerLink="">home</a>
+                            </li>
+                            <li>
+                              <a href="#">shop</a>
+                            </li>
+                            <li>
+                              <a href="#">promotion
+                              </a>
+                            </li>
+                            <li><a href="#">pages</a></li>
+                            <li><a href="#">blog</a></li>
+                            <li><a href="contact.html">contact</a></li>
 
           </ul>
-          <ul class="navbar_user" >
+          <ul *ngIf="showAdminBoard" class="navbar_user">
+            <li>
+              <div style="position: absolute; left: 40%; top: 25%" >
+                <button class="btn__primary" routerLink="admin/add-book">
+                  Thêm sách
+                </button>
+              </div>
+            </li>
+          </ul>
+          <ul id="usser" class="navbar_user" *ngIf="!showAdminBoard">
             <li>
               <!--                <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>-->
-              <form style="" action="" id="search-box">
-                <input [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()" type="text" id="search-text" required style="border: 1px solid black; border-radius: 5px">
-                <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>
-              </form>
+<!--              <form style="" action="" id="search-box">-->
+<!--                <input [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()" type="text" id="search-text" required style="border: 1px solid black; border-radius: 5px">-->
+<!--                <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>-->
+<!--              </form>-->
             </li>
-
-
-            <!--              <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>-->
-
-
             <li class="checkout" >
               <a  id="cd-cart-trigger" routerLink="/book/detail">
                 <i  class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -85,12 +108,12 @@
 
 
 <!--deal section start-->
-<section class="deal" style="margin-top: 10% ;padding:4rem 7%;">
+<section *ngIf="showUserBoard || !showAdminBoard" class="deal" style="margin-top: 10% ;padding:4rem 7%;">
 
   <div class="content">
     <h1>upto 50% off</h1>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.<br> Unde perspiciatis in atque dolore tempora quaerat at <br> fuga dolorum natus velit.</p>
-    <a href="#" class="btn">shop now</a>
+    <p>Mage sale năm 2022<br>Bùng nổ cuối năm <br> Mua sắm liền tay trúng ngay quà khủng</p>
+    <a routerLink="" class="btn">Mua sắm ngay</a>
   </div>
 
 </section>
@@ -101,7 +124,7 @@
 
 
 <!--slider product-->
-<div class="slider">
+<div *ngIf="showUserBoard || !showAdminBoard" class="slider">
   <div class="container1">
     <div class="slide x"></div>
     <div class="slide y"></div>
@@ -113,29 +136,38 @@
 
 
 
+  <form style="" action="" id="search-box">
+    <input [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()" type="text" id="search-text" required style=" border-radius: 5px">
+    <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>
+  </form>
+
 
 
 
 <!--================ Feature Product Area =================-->
-<section style="margin-top: 5%" class="feature_product_area section_gap_bottom_custom">
-  <div class="container2">
-    <div class="row1 justify-content-center1">
+<section style="margin-top: 10%"   class="feature_product_area section_gap_bottom_custom">
+  <div  class="container2">
+
+
+    <div *ngIf="showUserBoard" class="row1 justify-content-center1">
       <div class="col-lg-12" style="position: relative">
         <div class="main_title">
 
-          <h2><span>Featured product</span></h2>
-          <p>Bring called seed first of third give itself now ment</p>
+          <h2><span>Sản phẩm nổi bật</span></h2>
+          <p>Mang lại cho bạn những trải nghiệm đáng giá</p>
 <!--          <input style="position:absolute;margin-left: 20%" placeholder="Ban muon tim gi?" [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()"-->
 <!--                 type="text" id="search-text" required>-->
         </div>
       </div>
     </div>
 
-    <div  class="row1" >
+
+
+    <div class="row1" >
       <div   class="col-lg-3 col-md-3" *ngFor="let b of listBook | paginate: {itemsPerPage: size, currentPage: page, totalItems: totalItems}">
         <div  style="width: 86%; height: 86%" class="single-product">
           <div class="product-img">
-            <img class="img-fluid w-100" src="/assets/img/book-4.png" alt="" />
+            <img style="width: 60%; height: 80%" class="img-fluid w-100" src="{{b.bookImage}}" alt="" />
             <div *ngIf="showUserBoard || !showAdminBoard" class="p_icon">
               <a [routerLink]="['book/des',b?.bookId]">
                 <i class="fa fa-eye" aria-hidden="true"></i>
@@ -150,7 +182,7 @@
 
             <div *ngIf="showAdminBoard" class="p_icon">
 
-              <a routerLink="admin/edit">
+              <a routerLink="admin/eit-book-admin">
                 <i class="fa fa-edit" aria-hidden="true"></i>
               </a>
               <a href="#">
@@ -164,8 +196,10 @@
               <h4>{{b.bookName}}</h4>
             </a>
             <div class="mt-3">
-              <span class="mr-4">$25.00</span>
-              <del>$35.00</del>
+              <span *ngIf="b.bookPromotionId.promotionPercent >= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</span>
+              <span style="text-decoration: line-through" *ngIf="b.bookPromotionId.promotionPercent <= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</span>
+              <del *ngIf="b.bookPromotionId.promotionPercent >= 0" >{{b.bookPrice | currency:"VND":"symbol"}}</del>
+
             </div>
           </div>
         </div>
@@ -188,8 +222,8 @@
     <div class="row justify-content-center">
       <div class="col-lg-12">
         <div class="main_title">
-          <h2><span>new products</span></h2>
-          <p>Bring called seed first of third give itself now ment</p>
+          <h2><span>Sản phẩm mới</span></h2>
+          <p>Đây có phải là những quyển sách bạn mong chờ ?</p>
         </div>
       </div>
     </div>
@@ -197,17 +231,17 @@
     <div class="row">
       <div class="col-lg-6" *ngFor="let b of listBookNew" >
         <div class="new_product">
-          <h5 class="text-uppercase">collection of 2019</h5>
+          <h5 class="text-uppercase">Bộ sưu tập của 2019</h5>
           <h3 class="text-uppercase">{{b.bookName}}</h3>
           <div class="product-img">
-            <img class="img-fluid" src="/assets/img/book-7.png" alt="" />
+            <img class="img-fluid" src="{{b.bookImage}}" alt="" />
           </div>
           <h4 *ngIf="b.bookPromotionId.promotionPercent >= 0" class="mr-4">{{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}
             <span style="text-decoration: line-through" *ngIf="b.bookPromotionId.promotionPercent >= 0" >{{b.bookPrice | currency:"VND":"symbol"}}</span>
           </h4>
           <h4 *ngIf="b.bookPromotionId.promotionPercent <= 0" class="mr-4">{{b.bookPrice | currency:"VND":"symbol"}}</h4>
 
-          <a href="#" class="main_btn">Add to cart</a>
+          <a href="#" class="main_btn">Thêm vào giỏ</a>
         </div>
       </div>
 
@@ -216,7 +250,7 @@
           <div class="col-lg-6 col-md-6" *ngFor="let b of listBookNew1">
             <div class="single-product">
               <div class="product-img">
-                <img class="img-fluid w-100" src="/assets/img/book-7.png" alt="" />
+                <img class="img-fluid w-100" src="{{b.bookImage}}" alt="" />
                 <div class="p_icon">
                   <a [routerLink]="['book/des',b?.bookId]">
                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -258,42 +292,45 @@
     <div class="row">
       <div class="col-12">
         <div class="section-title">
-          <h2>Related Products</h2>
+          <h2>Các sản phẩm liên quan</h2>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <div class="owl-carousel popular-slider" >
+        <div  class="owl-carousel popular-slider" *ngFor="let b of listBook" >
           <!-- Start Single Product -->
-          <div *ngFor="let b of listBook"  class="single-product" >
-            <div class="product-img">
-              <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
-                <span class="out-of-stock">Hot</span>
-              </a>
-              <div class="button-head">
-                <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare"  > <i (click)="addBookCart(b)" class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
-                </div>
-                <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
-                </div>
-              </div>
-            </div>
-            <div class="product-content">
-              <h3><a href="#">{{b.bookName}}</a></h3>
-              <div class="product-price">
-                <span *ngIf="b.bookPromotionId.promotionPercent >= 0" class="old">{{b.bookPrice | currency:"VND":"symbol"}}</span>
-                <span *ngIf="b.bookPromotionId.promotionPercent <= 0"> {{b.bookPrice | currency:"VND":"symbol"}} </span>
 
-                <span *ngIf="b.bookPromotionId.promotionPercent >= 0"> {{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}} </span>
+            <div class="single-product"  >
+              <div  class="product-img">
+                <a href="#" >
+                  <img class="default-img" src="{{b.bookImage}}" alt="#">
+                  <img class="hover-img" src="{{b.bookImage}}" alt="#">
+                  <span class="out-of-stock">Hot</span>
+                </a>
+                <div class="button-head">
+                  <div class="product-action">
+                    <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Vào shop</span></a>
+                    <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Yêu thích</span></a>
+                    <a title="Compare"  > <i (click)="addBookCart(b)" class="fa fa-shopping-cart" aria-hidden="true"></i><span>Thêm vào giỏ</span></a>
+                  </div>
+                  <div class="product-action-2">
+                    <a title="Add to cart" href="#">Thêm vào giỏ</a>
+                  </div>
+                </div>
+              </div>
+              <div class="product-content">
+                <h3><a href="#">{{b.bookName}}</a></h3>
+                <div class="product-price">
+                  <span *ngIf="b.bookPromotionId.promotionPercent >= 0" class="old">{{b.bookPrice | currency:"VND":"symbol"}}</span>
+                  <span *ngIf="b.bookPromotionId.promotionPercent <= 0"> {{b.bookPrice | currency:"VND":"symbol"}} </span>
+
+                  <span *ngIf="b.bookPromotionId.promotionPercent >= 0"> {{b.bookPrice - (b.bookPrice * b.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}} </span>
+                </div>
               </div>
             </div>
-          </div>
+
+
           <!-- End Single Product -->
           <!-- Start Single Product -->
 <!--          <div class="single-product">-->
@@ -388,18 +425,17 @@
   <div class="content">
 
     <h1>upto 50% off</h1>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.<br>
-      Unde perspiciatis in atque dolore tempora quaerat at <br>
-      fuga dolorum natus velit.</p>
-    <a href="#" class="btn">shop now</a>
+    <p>Siêu sale từng bừng<br>Mừng lễ thầy cô</p>
+    <a routerLink="" class="btn">Mua sắm ngay</a>
   </div>
 
   <div class="image" style="position: absolute; left: 60%">
-    <img src="/assets/img/book-5.png" alt="">
+    <img src="/assets/tieuthuyet/mat-biec.jpg" alt="">
   </div>
 
 </section>
 
 <!-- deal section ends -->
+
 
 

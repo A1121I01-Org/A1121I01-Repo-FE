@@ -46,44 +46,140 @@
           </a>
         </div>
       </form>
-      <form [formGroup]="createForm" class="sign-up-form" (ngSubmit)="submitCreate()">
+      <form [formGroup]="createForm" class="sign-up-form" #f="ngForm" (ngSubmit)="submitCreate()">
         <h2 class="title">Đăng ký</h2>
+
+<!--        THONG TIN TAI KHOAN KHACH HANG-->
+
         <div formGroupName="account">
-          <div class="input-field">
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field">
             <i class="fas fa-user"></i>
             <input  formControlName="username" type="text" placeholder="Nhập tên đăng nhập" />
+            <div
+              *ngIf="createForm.get('account').get('username')?.invalid && (createForm.get('account').get('username')?.touched||createForm.get('account').get('username')?.dirty)">
+              <div [hidden]="!createForm.get('account').get('username').errors.required">
+                <p style="width: 410px" class="text-warning">
+                  Tên tài khoản không được để trống.</p>
+              </div>
+            </div>
+            <div *ngIf="createForm.get('account').get('username')?.invalid && (createForm.get('account').get('username')?.touched||createForm.get('account').get('username')?.dirty)">
+              <div [hidden]="!createForm.get('account').get('username').hasError('maxlength')&&!createForm.get('account').get('username').hasError('minlength')">
+                <p style="width: 410px" class="text-warning">
+                  Độ dài cho phép 5-20 kí tự.</p>
+              </div>
+            </div>
+
+            <div
+              *ngIf="createForm.get('account').get('username')?.invalid && (createForm.get('account').get('username')?.touched||createForm.get('account').get('username')?.dirty)">
+              <div [hidden]="!createForm.get('account').get('username').errors.pattern">
+                <p style="width: 410px" class="text-warning">
+                  Không chứa tí tự đặc biệt và ghi có dấu</p>
+              </div>
+            </div>
+<!--            <div>-->
+<!--              <p *ngIf="createForm.errors?.usernameExisted" style="width: 410px" class="text-warning">-->
+<!--                Tên tài khoản đã tồn tại.</p>-->
+<!--            </div>-->
           </div>
-          <div class="input-field">
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field">
             <i class="fas fa-lock"></i>
             <input  formControlName="password" type="password" placeholder="Nhập mật khẩu" />
+            <div *ngIf="createForm.get('account').get('password')?.invalid && (createForm.get('account').get('password')?.touched||createForm.get('account').get('password')?.dirty)">
+              <div [hidden]="!createForm.get('account').get('password').errors.required">
+                <p style="width: 410px" class="text-warning">
+                  Mật khẩu không được để trống.</p>
+              </div>
+            </div>
+            <div
+              *ngIf="createForm.get('account').get('password')?.invalid && (createForm.get('account').get('password')?.touched||createForm.get('account').get('password')?.dirty)">
+              <div [hidden]="!createForm.get('account').get('password').errors.pattern&&
+                            !createForm.get('account').get('password').hasError('maxlength')&&!createForm.get('account').get('password').hasError('minlength')">
+                <p style="width: 410px" class="text-warning">
+                  Mật khẩu chứa (8-19 kí tự) ít nhất một kí tự hoa, một kí tự thường, một kí tự số và một kí tự đặc biệt</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div formGroupName="customer">
-          <div class="input-field">
+
+<!--      THONG TIN KHACH HANG-->
+        <div formGroupName="customer" >
+<!--          name-->
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field" >
             <i class="fas fa-user"></i>
-            <input formControlName="customerName" type="text" placeholder="Nhập họ tên" />
+            <input formControlName="customerName" name="customerName" type="text" placeholder="Nhập họ tên" />
+
+            <div
+              *ngIf="createForm.get('customer').get('customerName')?.invalid && (createForm.get('customer').get('customerName')?.touched||createForm.get('customer').get('customerName')?.dirty)">
+              <div [hidden]="!createForm.get('customer').get('customerName').errors.required">
+                <p style="width: 410px" class="text-warning">
+                  Họ và tên không được để trống.</p>
+              </div>
+            </div>
+
+            <div
+              *ngIf="createForm.get('customer').get('customerName')?.invalid && (createForm.get('customer').get('customerName')?.touched||createForm.get('customer').get('customerName')?.dirty)">
+              <div [hidden]="!createForm.get('customer').get('customerName').errors.pattern && !createForm.get('customer').get('customerName').hasError('minlength')&&
+                            !createForm.get('customer').get('customerName').hasError('maxlength')">
+                <p style="width: 410px" class="text-warning">
+                  Viết hoa kí tự đầu. Độ dài tối đa là 8-50 kí tự</p>
+              </div>
+            </div>
           </div>
-          <div class="input-field">
+
+<!--phone number-->
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field">
             <i class="fas fa-phone"></i>
             <input  formControlName="customerPhone" type="text" placeholder="Nhập số điện thoại" />
+            <div *ngFor="let validation of validationMessages.customerPhone">
+              <div
+                *ngIf="this.createForm.get('customer').get('customerPhone').hasError(validation.type) && (this.createForm.get('customer').get('customerPhone').touched || f.submitted)"
+                class="text-danger">
+                <p style="width: 410px" class="text-warning">{{validation.message}}</p>
+              </div>
+            </div>
           </div>
-          <div class="input-field">
+
+<!--          email customer-->
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field">
             <i class="fas fa-envelope"></i>
             <input  formControlName="customerEmail" type="text" placeholder="Nhập email" />
+            <div *ngFor="let validation of validationMessages.customerEmail">
+              <div
+                *ngIf="this.createForm.get('customer').get('customerEmail').hasError(validation.type) && (this.createForm.get('customer').get('customerEmail').touched || f.submitted)"
+                class="text-danger">
+                <p style="width: 410px" class="text-warning">{{validation.message}}</p>
+              </div>
+            </div>
           </div>
-          <div class="input-field">
+
+<!--          address customer-->
+          <div style="position: relative; margin-bottom: 40px;width: 410px" class="input-field">
             <i class="fas fa-address-book"></i>
             <input  formControlName="customerAddress" type="text" placeholder="Nhập địa chỉ" />
+            <div *ngIf="createForm.get('customer').get('customerAddress')?.invalid && (createForm.get('customer').get('customerAddress')?.touched||createForm.get('customer').get('customerAddress')?.dirty)">
+              <div [hidden]="!createForm.get('customer').get('customerAddress').errors.required">
+                <p style="width: 310px" class="text-warning">
+                  Địa chỉ không được để trống.</p>
+              </div>
+            </div>
+            <div *ngIf="createForm.get('customer').get('customerAddress')?.invalid && (createForm.get('customer').get('customerAddress')?.touched||createForm.get('customer').get('customerAddress')?.dirty)">
+              <div [hidden]="!createForm.get('customer').get('customerAddress').hasError('maxlength') && !createForm.get('customer').get('customerAddress').hasError('minlength')">
+                <p style="width: 310px" class="text-warning">
+                  Địa chỉ chỉ chứa tối thiểu 10 kí tự.</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
 
         <div style="display: flex">
-          <input style="margin-right: 5px" type="submit" class="btn" value="Đăng ký" />
+          <input style="margin-right: 5px" [disabled]="!createForm.valid" type="submit" class="btn" value="Đăng ký" />
           <input type="button" routerLink="" value="Trang chủ" class="btn solid" />
         </div>
 
+<!--        DANG KY QUA CAC SOCIAL MEDIA-->
         <p hidden class="social-text">Hoặc đăng ký qua</p>
         <div hidden class="social-media">
           <a href="#" class="social-icon">
@@ -136,8 +232,8 @@
 </div>
 
 <!--the div loader-->
-<div *ngIf="loader" class="loader-container">
-<img style="width: 49%; height: 62%" src="assets/img/b04afeffccf07f4ad8ea8c8438f2bd40.gif" alt="khong co anh">
+<div *ngIf="loading" class="loader-container">
+  <img src="/assets/img/loader-img.gif" alt="">
 </div>
 
 </body>

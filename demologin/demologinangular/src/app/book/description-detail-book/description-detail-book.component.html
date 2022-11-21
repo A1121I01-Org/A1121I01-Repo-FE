@@ -4,32 +4,89 @@
       <div class="row">
         <div class="col-lg-12 text-right">
           <div class="logo_container">
-            <a style="color: #1e1e27; text-decoration: none" routerLink="">book<span>help</span></a>
+            <a style="text-decoration: none;color: #0b0b0b" href="#">book<span>help</span></a>
           </div>
           <nav class="navbar">
-            <ul  class="navbar_menu" style="margin-right: 200px">
-              <li>
-                <a style="z-index: 10" class=" menu-area">
-                  <!--                 <div style="z-index: 10" class=" menu-area">-->
-                  <ul >
-                    <li routerLink=""> <i  class="fa fa-home" aria-hidden="true"></i></li>
-                    <li >Sales </li>
-                    <li  >Danh mục
-                      <ul class="dropdown">
-                        <li>Service1</li>
-                        <li>Service2</li>
-                        <li>Service2</li>
-                        <li>Service2</li>
-                      </ul>
-                    </li>
+            <ul  class="navbar_menu" style="margin-right: 180px" >
 
-                    <li>Contact</li>
-                  </ul>
+              <li  *ngIf="!showAdminBoard" style="position: absolute; left: -24%; top: -10%">
+                <a routerLink="">
+                  <div class="wrapper">
+                    <nav>
+                      <ul>
+                        <li hidden><a href="#">Home</a></li>
+                        <li hidden><a href="#">About</a></li>
+                        <li style="position: relative" class="dropdown">
+                          <a href="#"><i class="fa fa-list" aria-hidden="true"></i></a>
+                          <ul class="menu-area" style="position: absolute; right: -90%">
+                            <ul>
+                              <h4>Sale off 20%</h4>
+                              <img  src="/assets/img/book-7.png" alt="error">
+                            </ul>
+                            <ul>
+                              <h4 >Danh mục </h4>
+                              <li *ngFor="let c of listCategory">
+                                <a href="#">{{c.categoryName}}</a>
+                              </li>
+                              <!--                            <li><a href="#">boewas</a></li>-->
+                              <!--                            <li><a href="#">template</a></li>-->
+                              <!--                            <li><a href="#">card design</a></li>-->
+                            </ul>
+                            <!--                          <ul>-->
+                            <!--                            <h4>Web design</h4>-->
+                            <!--                            <li><a href="#">html</a></li>-->
+                            <!--                            <li><a href="#">css</a></li>-->
+                            <!--                            <li><a href="#">js</a></li>-->
+                            <!--                            <li><a href="#">scss</a></li>-->
+                            <!--                          </ul>-->
+                            <!--                          <ul>-->
+                            <!--                            <h4>Photto graphy</h4>-->
+                            <!--                            <li><a href="#">html</a></li>-->
+                            <!--                            <li><a href="#">css</a></li>-->
+                            <!--                            <li><a href="#">js</a></li>-->
+                            <!--                            <li><a href="#">scss</a></li>-->
+                            <!--                          </ul>-->
+                          </ul>
+                        </li>
+                        <!--                      <li hidden><a href="#">Sales</a></li>-->
+                        <!--                      <li hidden><a href="#">Contact</a></li>-->
+                      </ul>
+                    </nav>
+                  </div>
                 </a>
               </li>
+              <li>
+                <a routerLink="">home</a>
+              </li>
+              <li>
+                <a href="#">shop</a>
+              </li>
+              <li>
+                <a href="#">promotion
+                </a>
+              </li>
+              <li><a href="#">pages</a></li>
+              <li><a href="#">blog</a></li>
+              <li><a href="contact.html">contact</a></li>
+
             </ul>
-            <ul class="navbar_user" >
-              <!--              <li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>-->
+            <ul *ngIf="showAdminBoard" class="navbar_user">
+              <li>
+                <div style="position: absolute; left: 40%; top: 25%" >
+                  <button class="btn__primary" routerLink="admin/add-book">
+                    Thêm sách
+                  </button>
+                </div>
+              </li>
+            </ul>
+            <ul id="usser" class="navbar_user" *ngIf="!showAdminBoard">
+<!--              <li>-->
+<!--                &lt;!&ndash;                <a href="#"><i class="fa fa-search" aria-hidden="true"></i></a>&ndash;&gt;-->
+<!--                <form style="" action="" id="search-box">-->
+<!--                  <input [(ngModel)]="nameToSearch" name="name" (ngModelChange)="search()" type="text" id="search-text" required style="border: 1px solid black; border-radius: 5px">-->
+<!--                  <button id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>-->
+<!--                </form>-->
+<!--              </li>-->
               <li class="checkout" >
                 <a  id="cd-cart-trigger" routerLink="/book/detail">
                   <i  class="fa fa-shopping-cart" aria-hidden="true"></i>
@@ -61,14 +118,14 @@
         <div class="preview col-md-6">
 
           <div class="preview-pic tab-content">
-            <div class="tab-pane active" id="pic-1"><img  style="width: 50%; height: 50%" src="/assets/img/book-4.png" /></div>
+            <div class="tab-pane active" id="pic-1"><img  style="width: 50%; height: 50%" src="{{books.bookImage}}" /></div>
 <!--            <div class="tab-pane" id="pic-2"><img  style="width: 50%; height: 50%" src="/assets/img/book-4.png" /></div>-->
 <!--            <div class="tab-pane" id="pic-3"><img style="width: 50%; height: 50%" src="/assets/img/book-5.png" /></div>-->
 <!--            <div class="tab-pane" id="pic-4"><img style="width: 50%; height: 50%" src="/assets/img/book-6.png" /></div>-->
 <!--            <div class="tab-pane" id="pic-5"><img style="width: 50%; height: 50%" src="/assets/img/book-7.png" /></div>-->
           </div>
           <ul class="preview-thumbnail nav nav-tabs">
-            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img style="width: 70%; height: 80%" src="/assets/img/book-4.png" /></a></li>
+            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img style="width: 70%; height: 80%" src="{{books.bookImage}}" /></a></li>
 <!--            <li><a data-target="#pic-2" data-toggle="tab"><img style="width: 70%; height: 80%" src="/assets/img/book-4.png" /></a></li>-->
 <!--            <li><a data-target="#pic-3" data-toggle="tab"><img style="width: 70%; height: 80%" src="/assets/img/book-5.png" /></a></li>-->
 <!--            <li><a data-target="#pic-4" data-toggle="tab"><img style="width: 70%; height: 80%" src="/assets/img/book-6.png" /></a></li>-->
@@ -88,14 +145,14 @@
             </div>
             <span class="review-no">41 reviews</span>
           </div>
-          <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
-          <h4 class="price">current price:
+          <p class="product-description">{{books.bookContent}}</p>
+          <h4 class="price">Giá hiện tại:
             <span style="text-decoration: line-through; margin-right: 7px" *ngIf="books.bookPromotionId.promotionPercent >= 0" >{{books.bookPrice | currency:"VND":"symbol"}}</span>
             <span  *ngIf="books.bookPromotionId.promotionPercent <= 0" >{{books.bookPrice*books.bookQuantityBuy | currency:"VND":"symbol"}}</span>
 
             <span   *ngIf="books.bookPromotionId.promotionPercent >= 0" >{{books.bookPrice*books.bookQuantityBuy - (books.bookPrice*books.bookQuantityBuy * books.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</span>
           </h4>
-          <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+          <p class="vote"><strong>91%</strong> lượt mua cho sản phẩm này <strong>(87 votes)</strong></p>
 <!--          <h5 class="sizes">sizes:-->
 <!--            <span class="size" data-toggle="tooltip" title="small">s</span>-->
 <!--            <span class="size" data-toggle="tooltip" title="medium">m</span>-->
@@ -108,7 +165,7 @@
 <!--            <span class="color blue"></span>-->
 <!--          </h5>-->
           <div class="action">
-            <button (click)="addBookCart(books)" class="add-to-cart btn btn-default" type="button">add to cart</button>
+            <button (click)="addBookCart(books)" class="add-to-cart btn btn-default" type="button">Thêm vào giỏ</button>
             <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
 
             <button routerLink="" style="margin-left: 10px;" class="add-to-cart btn btn-default" type="button">Quay lại</button>
@@ -122,6 +179,66 @@
 
 <!--description product end-->
 
+<div class="card">
+  <div class="container-fluid">
+    <h3>Thông tin chi tiết về Sản phẩm</h3>
+    <div class="row">
+      <div class="col">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 20% ;font-size: 16px"> Tên sách : </th>
+              <th></th>
+              <td> {{books.bookName}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px"> Tác giả : </th>
+              <th></th>
+              <td> {{books.bookAuthor}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px"> NXB : </th>
+              <th></th>
+              <td> {{books.bookPublisher}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px"> Nhà biên soạn : </th>
+              <th></th>
+              <td> {{books.bookTranslator}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px"> Giá hiện tại : </th>
+              <th></th>
+              <td> {{books.bookPrice - (books.bookPrice * books.bookPromotionId.promotionPercent/100) | currency:"VND":"symbol"}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px">Ngày xuất bản : </th>
+              <th></th>
+              <td> {{books.bookPublishDate | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px">Trọng lượng : </th>
+              <th></th>
+              <td> {{books.bookWeight}}</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px">Tình trạng : </th>
+              <th></th>
+              <td style="font-size: 15px; font-weight: 600" class="text-success" *ngIf="!books.bookStatus "> Còn hàng</td>
+              <td style="font-size: 15px; font-weight: 600" class="text-danger" *ngIf="books.bookStatus "> Hết hàng</td>
+            </tr>
+            <tr>
+              <th style="font-size: 16px">Mô tả : </th>
+              <th></th>
+              <td style="font-size: 18px"> {{books.bookContent}}</td>
+            </tr>
+          </thead>
+        </table>
+<!--        {{books.bookContent}}-->
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
@@ -133,7 +250,7 @@
     <div class="row">
       <div class="col-12">
         <div class="section-title">
-          <h2>Related Products</h2>
+          <h2>Sản phẩm liên quan</h2>
         </div>
       </div>
     </div>
@@ -144,23 +261,23 @@
           <div class="single-product">
             <div class="product-img">
               <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
+                <img class="default-img" src="/assets/tieuthuyet/cuoc-doi-cua-pi.jpg" alt="#">
+                <img class="hover-img" src="/assets/tieuthuyet/cuoc-doi-cua-pi.jpg" alt="#">
                 <span class="out-of-stock">Hot</span>
               </a>
               <div class="button-head">
                 <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
+                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Mua sắm</span></a>
+                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Yêu thích</span></a>
+                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Thêm vào giỏ</span></a>
                 </div>
                 <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
+                  <a title="Add to cart" href="#">Thêm vào giỏ</a>
                 </div>
               </div>
             </div>
             <div class="product-content">
-              <h3><a href="#">Black Sunglass For Women</a></h3>
+              <h3><a href="#">Cuộc đời của pi</a></h3>
               <div class="product-price">
                 <span class="old">$60.00</span>
                 <span>$50.00</span>
@@ -172,22 +289,22 @@
           <div class="single-product">
             <div class="product-img">
               <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
+                <img class="default-img" src="/assets/tieuthuyet/mat-biec.jpg" alt="#">
+                <img class="hover-img" src="/assets/tieuthuyet/mat-biec.jpg" alt="#">
               </a>
               <div class="button-head">
                 <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
+                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Mua sắm</span></a>
+                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Yêu thích</span></a>
+                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Thêm vào giỏ</span></a>
                 </div>
                 <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
+                  <a title="Add to cart" href="#">Thêm vào giỏ</a>
                 </div>
               </div>
             </div>
             <div class="product-content">
-              <h3><a href="#">Women Hot Collection</a></h3>
+              <h3><a href="#">Mắt biếc</a></h3>
               <div class="product-price">
                 <span>$50.00</span>
               </div>
@@ -198,23 +315,23 @@
           <div class="single-product">
             <div class="product-img">
               <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
+                <img class="default-img" src="/assets/tieuthuyet/nha-gia-kim.jpg" alt="#">
+                <img class="hover-img" src="/assets/tieuthuyet/nha-gia-kim.jpg" alt="#">
                 <span class="new">New</span>
               </a>
               <div class="button-head">
                 <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
+                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Mua sắm</span></a>
+                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Yêu thích</span></a>
+                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Thêm vào giỏ</span></a>
                 </div>
                 <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
+                  <a title="Add to cart" href="#">Thêm vào giỏ</a>
                 </div>
               </div>
             </div>
             <div class="product-content">
-              <h3><a href="#">Awesome Pink Show</a></h3>
+              <h3><a href="#">Nhà giả kim</a></h3>
               <div class="product-price">
                 <span>$50.00</span>
               </div>
@@ -225,22 +342,22 @@
           <div class="single-product">
             <div class="product-img">
               <a href="#">
-                <img class="default-img" src="/assets/img/book-5.png" alt="#">
-                <img class="hover-img" src="/assets/img/book-5.png" alt="#">
+                <img class="default-img" src="/assets/truyenngan/bia_chuyen-ke-rang-co-nang-va-toi_final.jpg" alt="#">
+                <img class="hover-img" src="/assets/truyenngan/bia_chuyen-ke-rang-co-nang-va-toi_final.jpg" alt="#">
               </a>
               <div class="button-head">
                 <div class="product-action">
-                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Quick Shop</span></a>
-                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Add to Wishlist</span></a>
-                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Add to Compare</span></a>
+                  <a data-toggle="modal" data-target="#exampleModal" title="Quick View" href="#"> <i class="fa fa-eye" aria-hidden="true"></i><span>Mua sắm</span></a>
+                  <a title="Wishlist" href="#"><i class="fa fa-heart" aria-hidden="true"></i><span>Yêu thích</span></a>
+                  <a title="Compare" href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i><span>Thêm vào giỏ</span></a>
                 </div>
                 <div class="product-action-2">
-                  <a title="Add to cart" href="#">Add to cart</a>
+                  <a title="Add to cart" href="#">Thêm vào giỏ</a>
                 </div>
               </div>
             </div>
             <div class="product-content">
-              <h3><a href="#">Awesome Bags Collection</a></h3>
+              <h3><a href="#">Chuyện Kể Rằng Có Nàng Và Tôi</a></h3>
               <div class="product-price">
                 <span>$50.00</span>
               </div>
@@ -252,3 +369,6 @@
     </div>
   </div>
 </div>
+
+
+

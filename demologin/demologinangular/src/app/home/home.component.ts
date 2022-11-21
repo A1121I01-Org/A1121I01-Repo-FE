@@ -4,6 +4,9 @@ import {BookService} from '../service/book/book.service';
 import {TokenStorageService} from '../service/security/token-storage.service';
 import {BehaviorSubject} from 'rxjs';
 import {CartService} from '../service/cart/cart.service';
+import {ICategory} from '../model/book/ICategory';
+import {CategoryService} from '../service/category/category.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +17,11 @@ export class HomeComponent implements OnInit {
   listBook: IBook[] = [];
   listBookNew1: IBook[] = [];
   listBookNew: IBook[] = [];
+  listCategory: ICategory[] = [];
   totalBookCart = [];
   // numOfItem = new BehaviorSubject([]);
-  itemInCart :number;
-
+  itemInCart: number;
+  name = '';
   page = 1;
   size: number;
   totalItems: number;
@@ -29,9 +33,12 @@ export class HomeComponent implements OnInit {
   private roles: string[];
   constructor(private bookService: BookService,
               private tokenStorageService: TokenStorageService,
-              private cartService: CartService) { }
+              private cartService: CartService,
+              private categoryService: CategoryService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.name = this.tokenStorageService.getBookNameToSearch();
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       this.idToTakeListCart = this.tokenStorageService.getUser().account.accountId;
@@ -46,6 +53,7 @@ export class HomeComponent implements OnInit {
     // this.search();
     // this.nameToSearch =  sessionStorage.getItem('bookName');
     // console.log(this.nameToSearch );
+    this.getListCategory();
     this.getBookListWithPagination(this.page);
     if (this.showUserBoard) {
       console.log('chua co');
@@ -109,6 +117,14 @@ export class HomeComponent implements OnInit {
   getItem() {
     return  sessionStorage.getItem('bookName');
   }
+  getListCategory() {
+    this.categoryService.getListCategory().subscribe(
+      (data ) => {
+        this.listCategory = data;
+        console.log('cate:');
+        console.log(this.listCategory);
+      });
+  }
 
 
   addBookCart(b: IBook) {
@@ -116,17 +132,25 @@ export class HomeComponent implements OnInit {
     // console.log(b.bookCustomerId.customerAccountId.accountId);
     // console.log(b.bookCustomerId.customerAccountId.username);
     console.log(b.bookName);
-    console.log(b);
-    console.log(this.tokenStorageService.getUser().account.accountId);
+    // console.log(b);
+    // console.log(this.tokenStorageService.getUser().account.accountId);
+
     if (this.showUserBoard && !this.showAdminBoard) {
       console.log('account id :' + this.tokenStorageService.getUser().account.accountId);
       this.cartService.addBookIntoCart(b, this.idToTakeListCart).subscribe(data => {
-        alert('them thanh cong');
         this.getListCartWithUser();
         this.getBookListWithPagination(this.page);
-      });
+      },
+        error => {
+          console.log(error);
+          this.toastr.error('Số lượng không đủ trong kho!', 'Thông báo ');
+        },
+        () => {
+          this.toastr.success('Thêm vào giỏ thành công!', 'Thông báo ');
+        });
     } else {
       this.cartService.addItem(b);
+      this.toastr.success('Thêm vào giỏ thành công!', 'Thông báo ');
     }
   }
 

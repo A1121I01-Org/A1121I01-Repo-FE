@@ -8,35 +8,9 @@
 /**{*/
 /*  box-sizing: border-box;*/
 /*}*/
-#search-box{
-  position: absolute;
-  background-color: #fff;
-  border-radius: 30px;
-  top: 23px;
-  right: 65px;
-}
-#search-box #search-text{
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 18px;
-  width: 0;
-  padding: 0;
-  transition: all 0.25s ease-in-out;
-}
-#search-box:hover #search-text, #search-box #search-text:valid{
-  width: 150px;
-  padding: 10px 0px 10px 15px;
 
-}
-#search-box #search-btn{
-  background: #fff;
-  cursor: pointer;
-  border: none;
-  padding: 15px;
-  border-radius: 50%;
-  font-size: 15px;
-}
+
+
 
 
 

@@ -11,6 +11,7 @@ import {AccountService} from '../../service/account/account.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loading = false;
   form: FormGroup;
   createForm: FormGroup;
   username: string;
@@ -23,7 +24,16 @@ export class LoginComponent implements OnInit {
   urlImg: string;
   role: string;
   idEmployee: any;
-  loader =  false;
+  validationMessages = {
+    customerPhone: [
+      {type: 'required', message: 'Không được để trống'},
+      {type: 'pattern', message: 'Số điện thoại 9-10 số. 09-xx, 03-xxx'}
+    ],
+    customerEmail: [
+      {type: 'required', message: 'Email không được để trống'},
+      {type: 'pattern', message: 'Ex: abc@gmail.com'}
+    ]
+  };
   constructor(private formBuilder: FormBuilder,
               private tokenStorageService: TokenStorageService,
               private securityService: SecurityServiceService,
@@ -41,15 +51,15 @@ export class LoginComponent implements OnInit {
 
     this.createForm = this.formBuilder.group({
       customer: this.formBuilder.group({
-        customerName: ['', [Validators.required ]],
-        customerPhone: ['', [Validators.required ]],
-        customerEmail: ['', [Validators.required ]],
-        customerAddress: ['', [Validators.required ]]
+        customerName: new FormControl('', [Validators.required, Validators.maxLength(49), Validators.minLength(8), Validators.pattern('^[A-ZÀ|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ|È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ|Ì|Í|Ị|Ỉ|Ĩ|Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ|Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ|Ỳ|Ý|Ỵ|Ỷ|Ỹ|Đ][a-zà|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ|è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ|ì|í|ị|ỉ|ĩ|ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ|ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ|ỳ|ý|ỵ|ỷ|ỹ]*([ ][A-ZÀ|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ|È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ|Ì|Í|Ị|Ỉ|Ĩ|Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ|Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ|Ỳ|Ý|Ỵ|Ỷ|Ỹ|Đ][a-zà|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ|è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ|ì|í|ị|ỉ|ĩ|ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ|ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ|ỳ|ý|ỵ|ỷ|ỹ]*)*$')]),
+        customerPhone:  new FormControl('', [Validators.required, Validators.pattern('^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$')]),
+        customerEmail:  new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z0-9]+@gmail.com$')]),
+        customerAddress:  new FormControl('', [Validators.required, Validators.maxLength(390), Validators.minLength(10)])
 
       }),
       account: this.formBuilder.group({
-        username: ['', [Validators.required ]],
-        password: ['', [Validators.required ]]
+        username: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(5), Validators.pattern('^[a-z]|[0-9]{8,20}$') ]],
+        password: ['', [Validators.required, Validators.maxLength(19), Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$') ]]
       })
     });
     if (this.tokenStorageService.getUser()) {
@@ -64,7 +74,7 @@ export class LoginComponent implements OnInit {
   submit() {
     console.log(this.form.value);
     this.securityService.login(this.form.value).subscribe((data) => {
-      this.loader = true;
+      this.loading = true;
       console.log(data);
       if (this.form.value.remember_me === true) {
         this.tokenStorageService.saveUserLocal(data);
@@ -88,7 +98,7 @@ export class LoginComponent implements OnInit {
       },
         () => {},
         () => {
-          this.loader = false;
+          this.loading = false;
           window.location.assign('');
           this.router.navigateByUrl('');
         }
@@ -112,7 +122,9 @@ export class LoginComponent implements OnInit {
     const customerAccount = this.createForm.value;
     console.log(customerAccount);
     this.accountService.createAccount(customerAccount).subscribe(
-      () => {},
+      () => {
+        this.loading = true;
+      },
       (error) => {
         // if (error.status === 403) {
         //   this.router.navigateByUrl('/auth/access-denied');
@@ -132,6 +144,7 @@ export class LoginComponent implements OnInit {
       },
       () => {
         // this.notifier.notify('success', 'Thêm mới tài khoản thành công!');
+        this.loading = true;
         alert('them moi thanh cong');
         this.router.navigateByUrl('login');
         // this.createForm.reset();

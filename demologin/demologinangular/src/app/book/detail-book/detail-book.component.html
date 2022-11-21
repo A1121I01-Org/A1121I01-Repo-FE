@@ -1,6 +1,6 @@
 <section style="margin-top:  3%" class="section-pagetop bg">
   <div class="container">
-    <h2 class="title-page">Shopping cart</h2>
+    <h2 class="title-page">Giỏ hàng mua sắm</h2>
   </div> <!-- container //  -->
 </section>
 <!-- ========================= SECTION INTRO END// ========================= -->
@@ -13,15 +13,15 @@
 
       <div class="empty" *ngIf="items?.length < 1 && !showUserBoard" >
         <div class="infor">
-            <h4>Ban chua co san pham nao trong gio hang</h4>
-          <a routerLink="" class="btn btn-success"> Quay lai de mua sam </a>
+            <h4>Bạn chưa có sản phẩm nào trpng giỏ hàng</h4>
+          <a routerLink="" class="btn btn-success"> Quay lại để mua sắm </a>
         </div>
       </div>
 
       <div class="empty" *ngIf="itemsCart?.length < 1 && showUserBoard" >
         <div class="infor">
-          <h4>Ban chua co san pham nao trong gio hang</h4>
-          <a routerLink="" class="btn btn-success"> Quay lai de mua sam </a>
+          <h4>Bạn chưa có sản phẩm nào trpng giỏ hàng</h4>
+          <a routerLink="" class="btn btn-success"> Quay lại để mua sắm</a>
         </div>
       </div>
 
@@ -46,8 +46,8 @@
 
               <tr *ngFor="let item of items; let  i = index">
 
-                <td hidden><input (change)="checkCartPayment()" value="{{item?.bookId}}" [(ngModel)]="items[i].checked" id="selectAll" name="check[]"
-                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>
+<!--                <td hidden><input (change)="checkCartPayment()" value="{{item?.bookId}}" [(ngModel)]="items[i].checked" id="selectAll" name="check[]"-->
+<!--                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>-->
 
                 <td>
                   <figure class="itemside">
@@ -60,7 +60,7 @@
                   </figure>
                 </td>
                 <td>
-                  <input class="form-control" (change)="item.bookQuantityBuy" [(ngModel)]="item.bookQuantityBuy" (blur)="validateInput($event,i)"  [value]="item.bookQuantityBuy"   type="number" min="1">
+                  <input class="form-control"  [(ngModel)]="item.bookQuantityBuy" (blur)="validateInput($event,i)"  value="{{item.bookQuantityBuy}}"   type="number" min="1">
 
                 </td>
                 <td>
@@ -104,42 +104,42 @@
             <tr class="small text-uppercase">
 <!--              <th hidden><input [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)" class="align-middle" style="height: 18px;width: 18px" type="checkbox">-->
 <!--              </th>-->
-              <th scope="col">Product</th>
-              <th scope="col" width="120">Quantity</th>
-              <th scope="col" width="120">Price</th>
-              <th scope="col" class="text-right" width="200">Tất cả {{itemsCart?.length}} sản phẩm </th>
+              <th scope="col">Sản phẩm</th>
+              <th scope="col" width="120">Số lượng</th>
+              <th scope="col" width="120">Giá</th>
+              <th scope="col" class="text-right" width="200">Tất cả <span style="font-size: 15px ; color: black; font-weight: bold; margin-left: 3px; margin-right: 3px"> {{itemsCart?.length}}</span> sản phẩm </th>
             </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of itemsCart; let  i = index">
 
-                <td hidden><input (change)="checkCartPayment()" value="{{item?.cartId}}" [(ngModel)]="itemsCart[i].checked" id="selectAll2" name="check[]"
-                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>
+<!--                <td hidden><input (change)="checkCartPayment()" value="{{item?.cartId}}" [(ngModel)]="itemsCart[i].checked" id="selectAll2" name="check[]"-->
+<!--                                  class="align-middle checkbox1" style="height: 18px;width: 18px" type="checkbox"></td>-->
 
                 <td>
                   <figure class="itemside">
-                    <div class="aside"><img src="/assets/img/book-4.png" class="img-sm"></div>
+                    <div class="aside"><img src="{{item.bookImage}}" class="img-sm"></div>
                     <figcaption class="info">
                       <a href="#" class="title text-dark">{{item.bookName}}</a>
                       <p class="text-muted small">{{ item.bookTranslator}} <br> {{item.bookPublisher}}</p>
-<!--                      <p style="font-weight: 400; font-size: 15px; color: #262525" ><b>Sale off {{item.bookPromotionPercent}}%  </b>  </p>-->
+                      <p style="font-weight: 400; font-size: 15px; color: #262525" ><b>Sale off {{item.bookPromotionPercent}}%  </b>  </p>
                     </figcaption>
                   </figure>
                 </td>
                 <td>
-                  <input class="form-control" (change)="item.cartQuantity" [(ngModel)]="item.cartQuantity" (blur)="validateInput($event,i)"  [value]="item.cartQuantity"   type="number" min="1">
+                  <input class="form-control" (change)="item.cartQuantity" [(ngModel)]="item.cartQuantity" (blur)="validateInputCart($event,i,item)"  [value]="item.cartQuantity"   type="number" min="1">
 
                 </td>
                 <td>
                   <div class="price-wrap">
-                    <var  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>
+<!--                    <var  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>-->
 
-                    <!--                    <var style="text-decoration: line-through" *ngIf="item.bookPromotionPercent >= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>-->
-<!--                    <var  *ngIf="item.bookPromotionPercent <= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>-->
+                    <var style="text-decoration: line-through" *ngIf="item.bookPromotionPercent >= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>
+                    <var  *ngIf="item.bookPromotionPercent <= 0"  class="price">{{item.bookPrice*item.cartQuantity | currency:"VND":"symbol"}}</var>
 
-<!--                    <var *ngIf="item.bookPromotionPercent >= 0" class="price">{{item.bookPrice*item.cartQuantity - (item.bookPrice*item.cartQuantity * item.bookPromotionPercent/100) | currency:"VND":"symbol"}}</var>-->
+                    <var *ngIf="item.bookPromotionPercent >= 0" class="price">{{item.bookPrice*item.cartQuantity - (item.bookPrice*item.cartQuantity * item.bookPromotionPercent/100) | currency:"VND":"symbol"}}</var>
 
-                    <small  class="text-muted"> {{item.bookPrice | currency:"VND":"symbol"}} each </small>
+<!--                    <small  class="text-muted"> {{item.bookPrice | currency:"VND":"symbol"}} mỗi quyển </small>-->
                   </div> <!-- price-wrap .// -->
                 </td>
                 <td class="text-right">
@@ -151,13 +151,13 @@
           </table>
 
           <div class="card-body border-top">
-            <a style="background:#219150;" href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
-            <a routerLink="" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+            <a style="background:#219150;" href="#" class="btn btn-primary float-md-right"> Thanh toán <i class="fa fa-chevron-right"></i> </a>
+            <a routerLink="" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Tiếp tục mua  </a>
           </div>
         </div> <!-- card.// -->
 
         <div class="alert alert-success mt-3">
-          <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+          <p class="icontext"><i class="icon text-success fa fa-truck"></i> Giao hàng miễn phí trong vòng 1-2 tuần</p>
         </div>
 
       </main> <!-- col.// -->
@@ -171,11 +171,11 @@
           <div class="card-body">
             <form>
               <div class="form-group">
-                <label>Have coupon?</label>
+                <label>Bạn có phiếu giảm giá chưa?</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" name="" placeholder="Coupon code">
+                  <input type="text" class="form-control" name="" placeholder="Mã giảm giá">
                   <span class="input-group-append">
-                                <button style="background:#219150; color: white" class="btn ">Apply</button>
+                                <button style="background:#219150; color: white" class="btn ">Áp dụng</button>
                             </span>
                 </div>
               </div>
@@ -185,15 +185,15 @@
         <div class="card">
           <div class="card-body">
             <dl class="dlist-align">
-              <dt>Total price:</dt>
+              <dt>Tạm tính: </dt>
               <dd class="text-right"  >{{total | currency:"VND":"symbol"}}</dd>
             </dl>
             <dl class="dlist-align">
-              <dt>Discount:</dt>
+              <dt>Chiết khấu: </dt>
               <dd hidden class="text-right">10% ({{total*0.01 | currency:"VND":"symbol"}})</dd>
             </dl>
             <dl class="dlist-align">
-              <dt>Total:</dt>
+              <dt>Tổng tiền:</dt>
               <dd class="text-right  h5"><strong>{{total| currency:"VND":"symbol"}}</strong></dd>
             </dl>
             <hr>
@@ -213,19 +213,11 @@
 <!-- ========================= SECTION  ========================= -->
 <section class="section-name bg padding-y">
   <div class="container">
-    <h6>Payment and refund policy</h6>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <h6>Chính sách thanh toán và hoàn tiền</h6>
+    <p>Theo các điều khoản và điều kiện được quy định trong Chính sách Trả hàng và Hoàn tiền này và tạo thành một phần của Điều khoản dịch vụ, BookHelp đảm bảo quyền lợi của Người mua bằng cách cho phép gửi yêu cầu hoàn trả sản phẩm và/hoặc hoàn tiền trước khi hết hạn. Thời hạn BookHelp Đảm Bảo đã được quy định trong Điều khoản Dịch vụ.
+
+      BookHelp Đảm bảo thực hiện bởi BookHelp, theo yêu cầu của Người dùng, để hỗ trợ Người dùng trong việc giải quyết các xung đột có thể phát sinh trong quá trình giao dịch. Người dùng có thể liên hệ với nhau để thỏa thuận về việc giải quyết tranh chấp của họ hoặc báo cáo lên BookHelp hoặc cơ quan nhà nước có thẩm quyền để được hỗ trợ trong việc giải quyết bất kỳ tranh chấp xảy ra trước, trong hoặc sau khi sử dụng BookHelp Đảm bảo.</p>
+    <p>Người mua có thể gửi yêu cầu trả hàng/hoàn tiền trong vòng 07 (bảy) ngày (đối với các sản phẩm thuộc BookHelp Mall) và 03 (ba) ngày (đối với các sản phẩm không thuộc BookHelp Mall) kể từ lúc đơn hàng được cập nhật giao hàng thành công. Riêng đối với các sản phẩm thực phẩm tươi sống và đông lạnh (trừ trường hợp chưa nhận được hàng), Người mua cần gửi yêu cầu trả hàng/hoàn tiền trong vòng 24 giờ kể từ lúc đơn hàng được cập nhật giao hàng thành công.</p>
 
   </div><!-- container // -->
 </section>
@@ -238,7 +230,7 @@
       &copy; Copyright 2021 All rights reserved
     </p>
     <p>
-      <a href="#">Terms and conditions</a>
+      <a href="#">Các điều khoản và điều kiện</a>
     </p>
   </div><!-- //container -->
 </footer>

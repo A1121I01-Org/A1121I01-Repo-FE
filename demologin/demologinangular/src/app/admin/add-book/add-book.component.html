@@ -1,0 +1,104 @@
+<div class="container3">
+  <div class="title">Thêm Mới Sách</div>
+  <form class="col-md-12" >
+    <div  class="user-details">
+      <div class="input-box form-field">
+        <select  id="type"
+                 class="form-input">
+          <option >Chọn loại sách</option>
+          <option >VĂN HỌC</option>
+          <option >KINH TẾ</option>
+          <option >TÂM LÝ HỌC - KỸ NĂNG SỐNG</option>
+          <option >NUÔI DẠY CON</option>
+          <option >KỸ NĂNG SỐNG</option>
+        </select>
+        <label for="type" class="form-label">Loại sách <span style="color: red">(*)</span></label>
+      </div>
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="code" name="code" type="text" class="form-input" placeholder=" ">
+        <label for="code" class="form-label">Mã sách <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="name" name="name" type="text" class="form-input" placeholder=" ">
+        <label for="name" class="form-label">Tên sách <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="price" name="price" type="text" class="form-input" placeholder=" ">
+        <label for="price" class="form-label">Giá bán <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+
+      <div class="input-box form-field">
+        <select  id="sale" name="sale" class="form-input">
+          <option >Khong co</option>
+          <option >10%</option>
+          <option >15%</option>
+          <option >20%</option>
+          <option >25%</option>
+          <option >30%</option>
+          <option >35%</option>
+        </select>
+        <label for="sale" class="form-label">Giảm giá</label>
+      </div>
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="weight" name="weight" type="text" class="form-input" placeholder=" ">
+        <label for="weight" class="form-label">Trọng lượng </label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="date" name="date" type="date" class="form-input" placeholder=" ">
+        <label for="date" class="form-label">Ngày phát hành <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+      <div style="position: relative; margin-bottom: 50px" class="form-field input-box">
+        <input id="quantity" name="quantity" type="text" class="form-input" placeholder=" ">
+        <label for="quantity" class="form-label">Số lượng <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+      <div style="position: relative; margin-left: 25% " class="form-field input-box">
+        <input id="publisher" name="publisher" type="text" class="form-input" placeholder=" ">
+        <label for="publisher" class="form-label">Nhà xuất bản <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+      <div style="position: relative; margin-right: 25%;  " class="form-field input-box">
+        <input id="author" name="author" type="text" class="form-input" placeholder=" ">
+        <label  for="author" class="form-label">Tác giả <sup style="color: red">(*)</sup></label>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+
+      <div style="position: relative; margin-top: 30px" class="form-field input-box1">
+        <textarea cols="45" rows="45" name="description" id="description" type="text" class="form-input1" placeholder="Mô tả sản phẩm"></textarea>
+        <p style="position: absolute">co loi o day</p>
+      </div>
+
+
+      <div  class=" container1" >
+        <div class="wrapper">
+          <div class="image">
+            <img [src]="url"  alt="">
+          </div>
+          <div style="top: 50px" class="content">
+            <div class="text">No file choosen, yet!</div>
+          </div>
+          <div class="file-name">File name here</div>
+        </div>
+        <input  (change)="onSelectFile($event)" type="file" id="default-btn1" style="margin-left: 240px; margin-top: 90px" #fileInput>
+        <!--        <button (click)="fileInput.click()" id="custom-btn">Choose a file</button>-->
+      </div>
+    </div>
+    <div class="button" style="margin-left: 430px;" >
+      <input class="btn__primary"  type="submit" value="Lưu">
+      <input routerLink="" class="btn__cancel" type="button" value="Hủy">
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
