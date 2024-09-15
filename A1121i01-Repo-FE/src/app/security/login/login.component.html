@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="container">
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+<!--        <i class="fas fa-paper-plane"></i>-->
+        <div class="login_text">
+            <h2>Đăng nhập</h2>
+        </div>
+        <div class="input-group">
+            <label>Tài khoản</label>
+            <input type="text" placeholder="Tài khoản" formControlName="username" name="username" id="username" maxlength="40">
+        </div>
+        <p class="fs-6"
+           style="color: red"
+           *ngIf="loginForm.get('username').errors?.required && (loginForm.get('username').dirty ||loginForm.get('username').touched)">
+            Tên đăng nhập không được để trống
+        </p>
+        <div class="input-group">
+            <label>Mật khẩu</label>
+            <input type="password" placeholder="Mật khẩu" formControlName="password" name="password" id="password" maxlength="40">
+        </div>
+        <p class="fs-6" style="color: red"
+           *ngIf="loginForm.get('password').errors?.required && (loginForm.get('password').dirty ||loginForm.get('password').touched)">
+            Mật khẩu không được để trống
+
+        </p>
+        <div class="line">
+            <input type="checkbox" class="my-checkbox" value="1" formControlName="remember_me"/>
+            Ghi nhớ tài khoản
+        </div>
+        <p class="fs-6" class="error" *ngIf="errorMessage">Tên Đăng nhập hoặc mật khẩu không đúng</p>
+        <div class="button__container">
+            <button class="btn__login" type="submit" value="Login">Đăng nhập</button>
+            <button class="btn__back">Trở về</button>
+        </div>
+
+    </form>
+
+</div>

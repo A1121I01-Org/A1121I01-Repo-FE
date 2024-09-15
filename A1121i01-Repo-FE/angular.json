@@ -24,9 +24,12 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": [ "node_modules/jquery/dist/jquery.min.js" ]
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -66,7 +69,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "A1121i01-Repo-FE:build:production"
+              "browserTarget": "A1121i01-Repo-FE:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             }
           }
         },

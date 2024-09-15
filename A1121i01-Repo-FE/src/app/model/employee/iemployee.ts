@@ -10,7 +10,7 @@ export interface IEmployee {
   employeeGender?: string;
   employeeAddress?: string;
   employeePhone?: string;
-  employeeSalary?: string;
+  employeeSalary?: number;
   employeeFlag?: boolean;
   employeeAccountId?: IAccount;
   employeePositionId?: IPositionEmployee;

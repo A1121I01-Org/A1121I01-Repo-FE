@@ -66,7 +66,10 @@ export class EditEmployeeComponent implements OnInit {
             this.employeeService.updateEmployee(this.id, this.employeeForm.value).subscribe(
               () => {
               },
-              () => {
+              (error) => {
+                if (error.status === 500) {
+                  this.router.navigateByUrl('/auth/access-denied');
+                }
               },
               () => {
                 console.log('Success!');
@@ -81,7 +84,10 @@ export class EditEmployeeComponent implements OnInit {
       this.employeeService.updateEmployee(this.id, this.employeeForm.value).subscribe(
         () => {
         },
-        () => {
+        (error) => {
+          if (error.status === 500) {
+            this.router.navigateByUrl('/auth/access-denied');
+          }
         },
         () => {
           console.log('success');

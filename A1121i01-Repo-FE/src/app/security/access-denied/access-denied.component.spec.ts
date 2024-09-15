@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FinancialStatisticComponent } from './financial-statistic.component';
+import { AccessDeniedComponent } from './access-denied.component';
 
-describe('FinancialStatisticComponent', () => {
-  let component: FinancialStatisticComponent;
-  let fixture: ComponentFixture<FinancialStatisticComponent>;
+describe('AccessDeniedComponent', () => {
+  let component: AccessDeniedComponent;
+  let fixture: ComponentFixture<AccessDeniedComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FinancialStatisticComponent ]
+      declarations: [ AccessDeniedComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FinancialStatisticComponent);
+    fixture = TestBed.createComponent(AccessDeniedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
